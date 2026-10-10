@@ -1,11 +1,12 @@
+import { AppProvider } from '@/app/provider';
+import { AppRoutes } from '@/app/routes';
+
 function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <h1 className="text-3xl font-bold text-blue-600">
-        Rentify Frontend
-      </h1>
-    </div>
-  )
+    <AppProvider>
+      <AppRoutes />
+    </AppProvider>
+  );
 }
 
-export default App
+export default App;
