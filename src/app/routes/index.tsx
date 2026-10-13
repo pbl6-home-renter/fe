@@ -193,6 +193,10 @@ export const routes: RouteObject[] = [
     path: '/',
     element: <Navigate to="/tenant" replace />,
   },
+  {
+    path: '/dashboard',
+    element: <Navigate to="/tenant" replace />,
+  },
 
   // 4. Error Pages
   {
