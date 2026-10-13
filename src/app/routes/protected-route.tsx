@@ -1,27 +1,35 @@
 import type { ReactNode } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuthStore } from '@/stores/auth-store';
+import { useAuth } from '@/hooks/use-auth';
 import type { Role } from '@/types/user';
 
-interface ProtectedRouteProps {
-  roles?: Role[];
+export interface ProtectedRouteProps {
+  allowedRoles?: Role[];
+  roles?: Role[]; // backward compatibility
   children?: ReactNode;
 }
 
-export const ProtectedRoute = ({ roles, children }: ProtectedRouteProps) => {
-  const { user, isAuthenticated } = useAuthStore();
+export const ProtectedRoute = ({
+  allowedRoles,
+  roles,
+  children,
+}: ProtectedRouteProps) => {
+  const { user, isAuthenticated } = useAuth();
   const location = useLocation();
 
+  const requiredRoles = allowedRoles || roles;
+
+  // 1. Check authentication
   if (!isAuthenticated || !user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (roles && !roles.includes(user.role)) {
-    return <Navigate to="/forbidden" replace />;
+  // 2. Check role authorization
+  if (requiredRoles && !requiredRoles.includes(user.role)) {
+    return <Navigate to="/403" replace />;
   }
 
   return children ? <>{children}</> : <Outlet />;
 };
 
 export default ProtectedRoute;
-

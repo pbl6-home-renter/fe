@@ -6,6 +6,22 @@
   "delete": "Xóa",
   "confirm": "Xác nhận",
   "success": "Thành công",
-  "error": "Đã xảy ra lỗi"
+  "error": "Đã xảy ra lỗi",
+  "retry": "Thử lại",
+  "back": "Quay lại",
+  "backHome": "Về trang chủ",
+  "emptyData": "Không có dữ liệu",
+  "emptyDataDesc": "Hiện tại chưa có dữ liệu nào để hiển thị.",
+  "errorUnknown": "Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.",
+  "search": "Tìm kiếm...",
+  "actions": "Thao tác",
+  "navigation": {
+    "home": "Trang chủ",
+    "rooms": "Phòng trọ",
+    "buildings": "Tòa nhà",
+    "contracts": "Hợp đồng",
+    "invoices": "Hóa đơn",
+    "issues": "Sự cố",
+    "settings": "Cài đặt"
+  }
 }
-

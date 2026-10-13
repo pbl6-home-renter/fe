@@ -17,12 +17,16 @@
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-query": "^5.104.1",
     "axios": "^1.20.0",
+    "clsx": "^2.1.1",
     "i18next": "^26.4.3",
+    "lucide-react": "^1.55.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.89.0",
     "react-i18next": "^17.0.16",
     "react-router-dom": "^7.18.4",
+    "sonner": "^2.0.8",
+    "tailwind-merge": "^3.7.0",
     "tailwindcss": "^4.3.3",
     "zod": "^4.6.5",
     "zustand": "^5.0.15"
@@ -47,8 +51,7 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --fix"
     ]
   }
 }

@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuthStore } from '@/stores/auth-store';
+import { useAuth } from '@/hooks/use-auth';
 import { getHomePathByRole } from '@/app/routes/route-utils';
 
-interface PublicRouteProps {
+export interface PublicRouteProps {
   children?: ReactNode;
 }
 
 export const PublicRoute = ({ children }: PublicRouteProps) => {
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated } = useAuth();
 
   if (isAuthenticated && user) {
     return <Navigate to={getHomePathByRole(user.role)} replace />;
@@ -18,4 +18,3 @@ export const PublicRoute = ({ children }: PublicRouteProps) => {
 };
 
 export default PublicRoute;
-

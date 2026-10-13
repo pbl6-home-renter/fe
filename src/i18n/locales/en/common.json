@@ -6,6 +6,22 @@
   "delete": "Delete",
   "confirm": "Confirm",
   "success": "Success",
-  "error": "An error occurred"
+  "error": "An error occurred",
+  "retry": "Retry",
+  "back": "Back",
+  "backHome": "Back to Home",
+  "emptyData": "No data available",
+  "emptyDataDesc": "There is currently no data to display.",
+  "errorUnknown": "An unexpected error occurred. Please try again later.",
+  "search": "Search...",
+  "actions": "Actions",
+  "navigation": {
+    "home": "Home",
+    "rooms": "Rooms",
+    "buildings": "Buildings",
+    "contracts": "Contracts",
+    "invoices": "Invoices",
+    "issues": "Issues",
+    "settings": "Settings"
+  }
 }
-
