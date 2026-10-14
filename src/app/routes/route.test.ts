@@ -16,12 +16,12 @@ describe('Route & Authorization Utils', () => {
     expect(getHomePathByRole('admin')).toBe('/admin');
   });
 
-  it('should return /landlord for landlord role', () => {
-    expect(getHomePathByRole('landlord')).toBe('/landlord');
+  it('should return /landlord or /dashboard for landlord role', () => {
+    expect(getHomePathByRole('landlord')).toBe('/dashboard');
   });
 
-  it('should return /tenant for tenant role', () => {
-    expect(getHomePathByRole('tenant')).toBe('/tenant');
+  it('should return /tenant or /dashboard for tenant role', () => {
+    expect(getHomePathByRole('tenant')).toBe('/dashboard');
   });
 
   it('auth store should correctly set and clear user', () => {

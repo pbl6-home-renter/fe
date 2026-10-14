@@ -6,11 +6,10 @@ export const getHomePathByRole = (role?: Role | null): string => {
     case 'admin':
       return '/admin';
     case 'landlord':
-      return '/landlord';
     case 'tenant':
-      return '/tenant';
+      return '/dashboard';
     default:
-      return '/';
+      return '/dashboard';
   }
 };
 

@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import type { RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from './protected-route';
 import { PublicRoute } from './public-route';
@@ -7,6 +7,7 @@ import { ForbiddenPage } from '@/app/pages/forbidden-page';
 import { NotFoundPage } from '@/app/pages/not-found-page';
 
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
+import { RoleBasedRedirect } from './role-based-redirect';
 
 export const routes: RouteObject[] = [
   // 1. Auth Flow (Public Routes with AuthLayout)
@@ -57,97 +58,109 @@ export const routes: RouteObject[] = [
       {
         element: <DashboardLayout />,
         children: [
-          // Tenant portal
+          // 2.1 Shared App Flow (Domain-based routes adaptive to user role)
           {
-            path: '/tenant',
+            path: '/dashboard',
             element: (
-              <ProtectedRoute allowedRoles={['tenant']}>
+              <DashboardOverview
+                roleConfig={{
+                  landlord: {
+                    title: 'Tổng quan chủ trọ',
+                    desc: 'Báo cáo doanh thu, tình trạng phòng và tỷ lệ lấp đầy',
+                  },
+                  tenant: {
+                    title: 'Tổng quan phòng thuê',
+                    desc: 'Theo dõi thông tin hợp đồng, hóa đơn và các dịch vụ phòng',
+                  },
+                  admin: {
+                    title: 'Thống kê hệ thống',
+                    desc: 'Báo cáo toàn diện nền tảng Rentify',
+                  },
+                }}
+              />
+            ),
+          },
+          {
+            path: '/rooms',
+            element: (
+              <DashboardOverview
+                roleConfig={{
+                  landlord: {
+                    title: 'Quản lý nhà / phòng',
+                    desc: 'Danh sách bất động sản và phòng trọ đang cho thuê',
+                  },
+                  tenant: {
+                    title: 'Phòng của tôi',
+                    desc: 'Thông tin chi tiết phòng trọ và tiện ích đang thuê',
+                  },
+                }}
+              />
+            ),
+          },
+          {
+            path: '/contracts',
+            element: (
+              <DashboardOverview
+                roleConfig={{
+                  landlord: {
+                    title: 'Quản lý hợp đồng',
+                    desc: 'Quản lý và tạo mới các hợp đồng thuê nhà điện tử',
+                  },
+                  tenant: {
+                    title: 'Hợp đồng thuê',
+                    desc: 'Chi tiết hợp đồng thuê phòng của bạn',
+                  },
+                }}
+              />
+            ),
+          },
+          {
+            path: '/invoices',
+            element: (
+              <DashboardOverview
+                roleConfig={{
+                  landlord: {
+                    title: 'Hóa đơn & Thanh toán',
+                    desc: 'Phát hành và theo dõi đối soát hóa đơn các phòng',
+                  },
+                  tenant: {
+                    title: 'Hóa đơn tiền phòng',
+                    desc: 'Danh sách hóa đơn tiền nhà, điện nước và thanh toán VietQR',
+                  },
+                }}
+              />
+            ),
+          },
+          {
+            path: '/issues',
+            element: (
+              <DashboardOverview
+                roleConfig={{
+                  landlord: {
+                    title: 'Xử lý sự cố',
+                    desc: 'Theo dõi và phân công xử lý yêu cầu sửa chữa cơ sở vật chất',
+                  },
+                  tenant: {
+                    title: 'Báo cáo sự cố',
+                    desc: 'Gửi yêu cầu sửa chữa và theo dõi tiến độ xử lý',
+                  },
+                }}
+              />
+            ),
+          },
+          {
+            path: '/tenants',
+            element: (
+              <ProtectedRoute allowedRoles={['landlord', 'admin']}>
                 <DashboardOverview
-                  title="Tổng quan phòng thuê"
-                  desc="Theo dõi thông tin hợp đồng, hóa đơn và các dịch vụ phòng"
+                  title="Quản lý khách thuê"
+                  desc="Quản lý danh sách cư dân và thành viên hợp đồng"
                 />
               </ProtectedRoute>
             ),
           },
-          {
-            path: '/tenant/contracts',
-            element: (
-              <ProtectedRoute allowedRoles={['tenant']}>
-                <DashboardOverview title="Hợp đồng thuê" desc="Chi tiết hợp đồng thuê phòng của bạn" />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: '/tenant/invoices',
-            element: (
-              <ProtectedRoute allowedRoles={['tenant']}>
-                <DashboardOverview title="Hóa đơn tiền phòng" desc="Danh sách hóa đơn tiền nhà và điện nước" />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: '/tenant/issues',
-            element: (
-              <ProtectedRoute allowedRoles={['tenant']}>
-                <DashboardOverview title="Báo cáo sự cố" desc="Gửi yêu cầu sửa chữa cơ sở vật chất" />
-              </ProtectedRoute>
-            ),
-          },
 
-          // Landlord portal
-          {
-            path: '/landlord',
-            element: (
-              <ProtectedRoute allowedRoles={['landlord', 'admin']}>
-                <DashboardOverview
-                  title="Tổng quan chủ trọ"
-                  desc="Báo cáo doanh thu, tình trạng phòng và tỷ lệ lấp đầy"
-                />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: '/landlord/rooms',
-            element: (
-              <ProtectedRoute allowedRoles={['landlord', 'admin']}>
-                <DashboardOverview title="Quản lý nhà / phòng" desc="Danh sách bất động sản và phòng trọ đang cho thuê" />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: '/landlord/tenants',
-            element: (
-              <ProtectedRoute allowedRoles={['landlord', 'admin']}>
-                <DashboardOverview title="Khách thuê" desc="Quản lý danh sách cư dân và thành viên hợp đồng" />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: '/landlord/contracts',
-            element: (
-              <ProtectedRoute allowedRoles={['landlord', 'admin']}>
-                <DashboardOverview title="Hợp đồng thuê" desc="Quản lý các hợp đồng thuê nhà điện tử" />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: '/landlord/invoices',
-            element: (
-              <ProtectedRoute allowedRoles={['landlord', 'admin']}>
-                <DashboardOverview title="Hóa đơn & Thanh toán" desc="Phát hành và theo dõi đối soát hóa đơn" />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: '/landlord/issues',
-            element: (
-              <ProtectedRoute allowedRoles={['landlord', 'admin']}>
-                <DashboardOverview title="Xử lý sự cố" desc="Theo dõi và phân công xử lý yêu cầu sửa chữa" />
-              </ProtectedRoute>
-            ),
-          },
-
-          // Admin portal
+          // 2.2 Admin Portal (Exclusive to Admin)
           {
             path: '/admin',
             element: (
@@ -163,7 +176,10 @@ export const routes: RouteObject[] = [
             path: '/admin/approvals',
             element: (
               <ProtectedRoute allowedRoles={['admin']}>
-                <DashboardOverview title="Duyệt chủ trọ" desc="Hàng đợi phê duyệt hồ sơ chủ nhà và bất động sản" />
+                <DashboardOverview
+                  title="Duyệt chủ trọ"
+                  desc="Hàng đợi phê duyệt hồ sơ chủ nhà và bất động sản"
+                />
               </ProtectedRoute>
             ),
           },
@@ -171,7 +187,10 @@ export const routes: RouteObject[] = [
             path: '/admin/users',
             element: (
               <ProtectedRoute allowedRoles={['admin']}>
-                <DashboardOverview title="Quản lý tài khoản" desc="Danh sách và trạng thái người dùng toàn hệ thống" />
+                <DashboardOverview
+                  title="Quản lý tài khoản"
+                  desc="Danh sách và trạng thái người dùng toàn hệ thống"
+                />
               </ProtectedRoute>
             ),
           },
@@ -179,7 +198,10 @@ export const routes: RouteObject[] = [
             path: '/admin/settings',
             element: (
               <ProtectedRoute allowedRoles={['admin']}>
-                <DashboardOverview title="Cài đặt hệ thống" desc="Cấu hình tham số và chính sách nền tảng" />
+                <DashboardOverview
+                  title="Cài đặt hệ thống"
+                  desc="Cấu hình tham số và chính sách nền tảng"
+                />
               </ProtectedRoute>
             ),
           },
@@ -191,11 +213,7 @@ export const routes: RouteObject[] = [
   // 3. Root redirect
   {
     path: '/',
-    element: <Navigate to="/tenant" replace />,
-  },
-  {
-    path: '/dashboard',
-    element: <Navigate to="/tenant" replace />,
+    element: <RoleBasedRedirect />,
   },
 
   // 4. Error Pages

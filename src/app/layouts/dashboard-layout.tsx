@@ -38,12 +38,12 @@ export const DashboardLayout = () => {
 
   // Dynamic menu according to role
   const landlordMenu: MenuItem[] = [
-    { title: 'Tổng quan', path: '/landlord', icon: LayoutDashboard },
-    { title: 'Quản lý nhà / phòng', path: '/landlord/rooms', icon: Building },
-    { title: 'Khách thuê', path: '/landlord/tenants', icon: Users },
-    { title: 'Hợp đồng', path: '/landlord/contracts', icon: FileText },
-    { title: 'Hoá đơn', path: '/landlord/invoices', icon: Receipt },
-    { title: 'Sự cố', path: '/landlord/issues', icon: AlertTriangle },
+    { title: 'Tổng quan', path: '/dashboard', icon: LayoutDashboard },
+    { title: 'Quản lý nhà / phòng', path: '/rooms', icon: Building },
+    { title: 'Khách thuê', path: '/tenants', icon: Users },
+    { title: 'Hợp đồng', path: '/contracts', icon: FileText },
+    { title: 'Hoá đơn', path: '/invoices', icon: Receipt },
+    { title: 'Sự cố', path: '/issues', icon: AlertTriangle },
   ];
 
   const adminMenu: MenuItem[] = [
@@ -54,10 +54,11 @@ export const DashboardLayout = () => {
   ];
 
   const tenantMenu: MenuItem[] = [
-    { title: 'Tổng quan phòng', path: '/tenant', icon: LayoutDashboard },
-    { title: 'Hợp đồng thuê', path: '/tenant/contracts', icon: FileText },
-    { title: 'Hóa đơn tiền nhà', path: '/tenant/invoices', icon: Receipt },
-    { title: 'Báo sự cố', path: '/tenant/issues', icon: AlertTriangle },
+    { title: 'Tổng quan phòng', path: '/dashboard', icon: LayoutDashboard },
+    { title: 'Phòng của tôi', path: '/rooms', icon: Building },
+    { title: 'Hợp đồng thuê', path: '/contracts', icon: FileText },
+    { title: 'Hóa đơn tiền nhà', path: '/invoices', icon: Receipt },
+    { title: 'Báo sự cố', path: '/issues', icon: AlertTriangle },
   ];
 
   const menuItems =
