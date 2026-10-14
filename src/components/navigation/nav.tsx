@@ -25,8 +25,8 @@ export const Nav = ({ items, className, onItemClick }: NavProps) => {
             cn(
               'flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors',
               isActive
-                ? 'bg-[var(--color-rentify-primary-container,#E8F1FC)] text-[var(--color-rentify-primary,#1E6FD9)] font-semibold'
-                : 'text-[var(--color-rentify-text-secondary,#5C7290)] hover:text-[var(--color-rentify-text-primary,#142A4C)] hover:bg-[var(--color-rentify-background,#F8FBFE)]'
+                ? 'bg-rentify-primary-container text-rentify-primary font-semibold'
+                : 'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background'
             )
           }
         >
@@ -37,6 +37,4 @@ export const Nav = ({ items, className, onItemClick }: NavProps) => {
     </nav>
   );
 };
-
-export default Nav;
 

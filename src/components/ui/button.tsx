@@ -22,19 +22,19 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-rentify-primary,#1E6FD9)] focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer select-none';
+    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-rentify-primary focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer select-none';
 
   const variantStyles: Record<ButtonVariant, string> = {
     primary:
-      'bg-[var(--color-rentify-primary,#1E6FD9)] text-[var(--color-rentify-on-primary,#FFFFFF)] hover:bg-[var(--color-rentify-primary-hover,#175BB3)] active:scale-[0.99] shadow-sm',
+      'bg-rentify-primary text-rentify-on-primary hover:bg-rentify-primary-hover active:scale-[0.99] shadow-sm',
     secondary:
-      'bg-[var(--color-rentify-primary-container,#E8F1FC)] text-[var(--color-rentify-on-primary-container,#142A4C)] hover:bg-[#d8e7fa] active:scale-[0.99]',
+      'bg-rentify-primary-container text-rentify-on-primary-container hover:bg-[#d8e7fa] active:scale-[0.99]',
     outline:
-      'border border-[var(--color-rentify-divider,#D7E3F2)] bg-[var(--color-rentify-surface,#FFFFFF)] text-[var(--color-rentify-text-secondary,#5C7290)] hover:bg-[var(--color-rentify-background,#F8FBFE)] hover:text-[var(--color-rentify-text-primary,#142A4C)]',
+      'border border-rentify-divider bg-rentify-surface text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary',
     ghost:
-      'text-[var(--color-rentify-text-secondary,#5C7290)] hover:text-[var(--color-rentify-text-primary,#142A4C)] hover:bg-[var(--color-rentify-primary-container,#E8F1FC)]/50',
+      'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-primary-container/50',
     danger:
-      'bg-[var(--color-rentify-error,#DC2626)] text-white hover:bg-[#b91c1c] active:scale-[0.99] shadow-sm',
+      'bg-rentify-error text-white hover:bg-[#b91c1c] active:scale-[0.99] shadow-sm',
   };
 
   const sizeStyles: Record<ButtonSize, string> = {
@@ -78,4 +78,3 @@ export const Button = ({
   );
 };
 
-export default Button;

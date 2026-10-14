@@ -37,10 +37,10 @@ export const LoadingOverlay = ({
       )}
       {...props}
     >
-      <div className="flex flex-col items-center justify-center gap-3 p-5 rounded-2xl bg-white shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-[var(--color-rentify-divider,#D7E3F2)]">
+      <div className="flex flex-col items-center justify-center gap-3 p-5 rounded-2xl bg-white shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-rentify-divider">
         <LoadingSpinner size="lg" color="primary" />
         {message && (
-          <p className="text-sm font-medium text-[var(--color-rentify-text-primary,#142A4C)] text-center max-w-xs">
+          <p className="text-sm font-medium text-rentify-text-primary text-center max-w-xs">
             {message}
           </p>
         )}
@@ -48,6 +48,4 @@ export const LoadingOverlay = ({
     </div>
   );
 };
-
-export default LoadingOverlay;
 

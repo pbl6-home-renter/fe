@@ -38,15 +38,15 @@ export const ErrorState = ({
         className
       )}
     >
-      <div className="w-16 h-16 rounded-full bg-red-50 text-[var(--color-rentify-error,#DC2626)] flex items-center justify-center mb-4 transition-transform hover:scale-105">
+      <div className="w-16 h-16 rounded-full bg-red-50 text-rentify-error flex items-center justify-center mb-4 transition-transform hover:scale-105">
         <Icon className="w-8 h-8" aria-hidden="true" strokeWidth={1.8} />
       </div>
 
-      <h3 className="text-lg font-semibold text-[var(--color-rentify-text-primary,#142A4C)] mb-1.5 tracking-tight">
+      <h3 className="text-lg font-semibold text-rentify-text-primary mb-1.5 tracking-tight">
         {title}
       </h3>
 
-      <p className="text-sm text-[var(--color-rentify-text-secondary,#5C7290)] max-w-sm leading-relaxed mb-6">
+      <p className="text-sm text-rentify-text-secondary max-w-sm leading-relaxed mb-6">
         {message}
       </p>
 
@@ -67,6 +67,4 @@ export const ErrorState = ({
     </div>
   );
 };
-
-export default ErrorState;
 

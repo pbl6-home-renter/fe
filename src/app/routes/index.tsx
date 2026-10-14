@@ -19,14 +19,14 @@ export const routes: RouteObject[] = [
           {
             path: '/login',
             element: (
-              <div className="bg-[var(--color-rentify-surface,#FFFFFF)] rounded-2xl p-6 sm:p-8 border border-[var(--color-rentify-divider,#D7E3F2)] shadow-sm text-center">
-                <h2 className="text-2xl font-bold text-[var(--color-rentify-text-primary,#142A4C)] mb-2">
+              <div className="bg-rentify-surface rounded-2xl p-6 sm:p-8 border border-rentify-divider shadow-sm text-center">
+                <h2 className="text-2xl font-bold text-rentify-text-primary mb-2">
                   Đăng nhập Rentify
                 </h2>
-                <p className="text-sm text-[var(--color-rentify-text-secondary,#5C7290)] mb-6">
+                <p className="text-sm text-rentify-text-secondary mb-6">
                   Vui lòng đăng nhập để tiếp tục quản lý căn hộ
                 </p>
-                <div className="p-4 rounded-xl bg-[var(--color-rentify-background,#F8FBFE)] border border-[var(--color-rentify-divider,#D7E3F2)] text-xs text-[var(--color-rentify-text-secondary,#5C7290)]">
+                <div className="p-4 rounded-xl bg-rentify-background border border-rentify-divider text-xs text-rentify-text-secondary">
                   Form đăng nhập đang được đồng bộ
                 </div>
               </div>
@@ -35,11 +35,11 @@ export const routes: RouteObject[] = [
           {
             path: '/register',
             element: (
-              <div className="bg-[var(--color-rentify-surface,#FFFFFF)] rounded-2xl p-6 sm:p-8 border border-[var(--color-rentify-divider,#D7E3F2)] shadow-sm text-center">
-                <h2 className="text-2xl font-bold text-[var(--color-rentify-text-primary,#142A4C)] mb-2">
+              <div className="bg-rentify-surface rounded-2xl p-6 sm:p-8 border border-rentify-divider shadow-sm text-center">
+                <h2 className="text-2xl font-bold text-rentify-text-primary mb-2">
                   Đăng ký tài khoản
                 </h2>
-                <p className="text-sm text-[var(--color-rentify-text-secondary,#5C7290)] mb-6">
+                <p className="text-sm text-rentify-text-secondary mb-6">
                   Tạo tài khoản mới cho chủ nhà hoặc khách thuê
                 </p>
               </div>
@@ -215,4 +215,3 @@ export const routes: RouteObject[] = [
 
 export const router = createBrowserRouter(routes);
 
-export default router;

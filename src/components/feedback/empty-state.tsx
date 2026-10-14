@@ -36,16 +36,16 @@ export const EmptyState = ({
         className
       )}
     >
-      <div className="w-16 h-16 rounded-full bg-[var(--color-rentify-primary-container,#E8F1FC)] text-[var(--color-rentify-primary,#1E6FD9)] flex items-center justify-center mb-4 transition-transform hover:scale-105">
+      <div className="w-16 h-16 rounded-full bg-rentify-primary-container text-rentify-primary flex items-center justify-center mb-4 transition-transform hover:scale-105">
         <Icon className="w-8 h-8" aria-hidden="true" strokeWidth={1.8} />
       </div>
 
-      <h3 className="text-lg font-semibold text-[var(--color-rentify-text-primary,#142A4C)] mb-1.5 tracking-tight">
+      <h3 className="text-lg font-semibold text-rentify-text-primary mb-1.5 tracking-tight">
         {title}
       </h3>
 
       {description && (
-        <p className="text-sm text-[var(--color-rentify-text-secondary,#5C7290)] max-w-sm leading-relaxed mb-6">
+        <p className="text-sm text-rentify-text-secondary max-w-sm leading-relaxed mb-6">
           {description}
         </p>
       )}
@@ -60,6 +60,4 @@ export const EmptyState = ({
     </div>
   );
 };
-
-export default EmptyState;
 

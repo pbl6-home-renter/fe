@@ -10,5 +10,3 @@ export const TestField = ({ label = 'Test Field', error, ...props }: TestFieldPr
   return <Input label={label} error={error} {...props} />;
 };
 
-export default TestField;
-
