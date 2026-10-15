@@ -1,5 +1,8 @@
 {
   "appName": "Rentify",
+  "appTagline": "Smart Rental Platform",
+  "securityBadge": "Hệ thống bảo mật 2 lớp SSL",
+  "menuTitle": "Menu quản lý",
   "loading": "Đang tải...",
   "save": "Lưu",
   "cancel": "Hủy",
@@ -15,13 +18,57 @@
   "errorUnknown": "Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.",
   "search": "Tìm kiếm...",
   "actions": "Thao tác",
+  "notifications": "Thông báo",
+  "switchLanguage": "Chuyển ngôn ngữ",
+  "logout": "Đăng xuất",
+  "user": "Người dùng",
+  "portal": "Portal",
+  "systemSecurity": "Bảo mật hệ thống",
+  "searchApartment": "Tìm kiếm căn hộ",
+  "support": {
+    "title": "Bộ phận hỗ trợ:",
+    "techTitle": "Bộ phận hỗ trợ kỹ thuật:",
+    "phone": "1900 6868"
+  },
+  "footer": {
+    "propertyManagement": "Quản lý căn hộ & tòa nhà",
+    "vietqrContract": "Hợp đồng điện tử VietQR",
+    "copyright": "© {{year}} Rentify. Tất cả quyền được bảo lưu.",
+    "platformDescription": "Hệ thống quản lý căn hộ & hợp đồng thuê • Rentify"
+  },
   "navigation": {
     "home": "Trang chủ",
-    "rooms": "Phòng trọ",
-    "buildings": "Tòa nhà",
+    "overview": "Tổng quan",
+    "tenantOverview": "Tổng quan phòng",
+    "rooms": "Quản lý nhà / phòng",
+    "myRoom": "Phòng của tôi",
+    "tenants": "Khách thuê",
     "contracts": "Hợp đồng",
-    "invoices": "Hóa đơn",
+    "invoices": "Hoá đơn",
     "issues": "Sự cố",
-    "settings": "Cài đặt"
+    "settings": "Cài đặt",
+    "buildings": "Tòa nhà",
+    "admin": {
+      "systemStats": "Thống kê hệ thống",
+      "approvals": "Duyệt chủ trọ",
+      "users": "Quản lý tài khoản",
+      "settings": "Cài đặt"
+    }
+  },
+  "errors": {
+    "forbidden": {
+      "badge": "Mã phản hồi 403 • Quyền truy cập",
+      "title": "Truy cập bị từ chối",
+      "description": "Bạn không có quyền truy cập trang này. Vui lòng liên hệ quản trị viên hoặc quay lại trang chính của bạn.",
+      "backHome": "Quay lại trang chính",
+      "backPrev": "Quay lại trang trước"
+    },
+    "notFound": {
+      "badge": "Mã phản hồi 404 • Không tìm thấy",
+      "title": "Trang không tồn tại",
+      "description": "Đường dẫn bạn yêu cầu không tồn tại hoặc đã bị di dời. Vui lòng kiểm tra lại địa chỉ URL hoặc quay về trang chủ.",
+      "backHome": "Quay lại trang chính",
+      "backPrev": "Quay lại trang trước"
+    }
   }
 }

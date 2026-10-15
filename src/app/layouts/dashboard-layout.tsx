@@ -2,16 +2,6 @@ import { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  LayoutDashboard,
-  Building,
-  Users,
-  FileText,
-  Receipt,
-  AlertTriangle,
-  BarChart3,
-  CheckCircle,
-  UserCheck,
-  Settings,
   Bell,
   LogOut,
   Globe,
@@ -23,46 +13,15 @@ import { useAuth } from '@/hooks/use-auth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { changeLanguage } from '@/i18n/i18n';
-
-interface MenuItem {
-  title: string;
-  path: string;
-  icon: typeof LayoutDashboard;
-}
+import { getMenuItemsByRole } from '@/constants/navigation';
 
 export const DashboardLayout = () => {
   const { user, role, logout } = useAuth();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Dynamic menu according to role
-  const landlordMenu: MenuItem[] = [
-    { title: 'Tổng quan', path: '/dashboard', icon: LayoutDashboard },
-    { title: 'Quản lý nhà / phòng', path: '/rooms', icon: Building },
-    { title: 'Khách thuê', path: '/tenants', icon: Users },
-    { title: 'Hợp đồng', path: '/contracts', icon: FileText },
-    { title: 'Hoá đơn', path: '/invoices', icon: Receipt },
-    { title: 'Sự cố', path: '/issues', icon: AlertTriangle },
-  ];
-
-  const adminMenu: MenuItem[] = [
-    { title: 'Thống kê hệ thống', path: '/admin', icon: BarChart3 },
-    { title: 'Duyệt chủ trọ', path: '/admin/approvals', icon: CheckCircle },
-    { title: 'Quản lý tài khoản', path: '/admin/users', icon: UserCheck },
-    { title: 'Cài đặt', path: '/admin/settings', icon: Settings },
-  ];
-
-  const tenantMenu: MenuItem[] = [
-    { title: 'Tổng quan phòng', path: '/dashboard', icon: LayoutDashboard },
-    { title: 'Phòng của tôi', path: '/rooms', icon: Building },
-    { title: 'Hợp đồng thuê', path: '/contracts', icon: FileText },
-    { title: 'Hóa đơn tiền nhà', path: '/invoices', icon: Receipt },
-    { title: 'Báo sự cố', path: '/issues', icon: AlertTriangle },
-  ];
-
-  const menuItems =
-    role === 'admin' ? adminMenu : role === 'landlord' ? landlordMenu : tenantMenu;
+  const menuItems = getMenuItemsByRole(role);
 
   const currentLanguage = i18n.language || 'vi';
 
@@ -73,11 +32,12 @@ export const DashboardLayout = () => {
 
   // Generate dynamic breadcrumb
   const currentPathSegment = location.pathname.split('/').filter(Boolean);
-  const breadcrumbTitle =
-    menuItems.find((item) => item.path === location.pathname)?.title ||
-    (currentPathSegment.length > 0
+  const matchedMenuItem = menuItems.find((item) => item.path === location.pathname);
+  const breadcrumbTitle = matchedMenuItem
+    ? t(matchedMenuItem.titleKey as Parameters<typeof t>[0])
+    : (currentPathSegment.length > 0
       ? currentPathSegment[currentPathSegment.length - 1].toUpperCase()
-      : 'Dashboard');
+      : t('navigation.overview'));
 
   return (
     <div className="min-h-screen bg-rentify-background flex flex-col md:flex-row antialiased">
@@ -106,10 +66,10 @@ export const DashboardLayout = () => {
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-lg text-rentify-text-primary tracking-tight">
-                  Rentify
+                  {t('appName')}
                 </span>
                 <span className="text-[10px] font-semibold text-rentify-primary uppercase tracking-wider -mt-1">
-                  {role || 'Portal'}
+                  {role || t('portal')}
                 </span>
               </div>
             </div>
@@ -125,7 +85,7 @@ export const DashboardLayout = () => {
           {/* Navigation Links */}
           <nav className="p-4 space-y-1">
             <p className="px-3 py-1.5 text-[11px] font-bold text-rentify-neutral uppercase tracking-wider">
-              Menu quản lý
+              {t('menuTitle')}
             </p>
             {menuItems.map((item) => {
               const Icon = item.icon;
@@ -133,7 +93,7 @@ export const DashboardLayout = () => {
                 <NavLink
                   key={item.path}
                   to={item.path}
-                  end={item.path === '/landlord' || item.path === '/admin' || item.path === '/tenant'}
+                  end={item.exact}
                   onClick={() => setSidebarOpen(false)}
                   className={({ isActive }) =>
                     cn(
@@ -145,7 +105,7 @@ export const DashboardLayout = () => {
                   }
                 >
                   <Icon className="w-4 h-4 shrink-0" />
-                  <span>{item.title}</span>
+                  <span>{t(item.titleKey as Parameters<typeof t>[0])}</span>
                 </NavLink>
               );
             })}
@@ -160,7 +120,7 @@ export const DashboardLayout = () => {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-semibold text-rentify-text-primary truncate">
-                {user?.name || 'Người dùng'}
+                {user?.name || t('user')}
               </p>
               <p className="text-[11px] text-rentify-text-secondary truncate">
                 {user?.email || 'user@rentify.vn'}
@@ -202,7 +162,7 @@ export const DashboardLayout = () => {
               type="button"
               onClick={toggleLanguage}
               className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-rentify-text-secondary hover:bg-rentify-background border border-rentify-divider transition-colors cursor-pointer"
-              title="Chuyển ngôn ngữ"
+              title={t('switchLanguage')}
             >
               <Globe className="w-3.5 h-3.5 text-rentify-primary" />
               <span className="font-bold uppercase">{currentLanguage}</span>
@@ -212,7 +172,7 @@ export const DashboardLayout = () => {
             <button
               type="button"
               className="relative p-2 rounded-xl text-rentify-text-secondary hover:bg-rentify-background transition-colors cursor-pointer"
-              aria-label="Thông báo"
+              aria-label={t('notifications')}
             >
               <Bell className="w-4 h-4" />
               <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-rentify-error ring-2 ring-white" />
@@ -228,7 +188,7 @@ export const DashboardLayout = () => {
               className="gap-1.5 text-xs text-rentify-error hover:bg-red-50 hover:text-rentify-error"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Đăng xuất</span>
+              <span className="hidden sm:inline">{t('logout')}</span>
             </Button>
           </div>
         </header>

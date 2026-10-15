@@ -1,5 +1,8 @@
 {
   "appName": "Rentify",
+  "appTagline": "Smart Rental Platform",
+  "securityBadge": "2-Layer SSL Security System",
+  "menuTitle": "Management Menu",
   "loading": "Loading...",
   "save": "Save",
   "cancel": "Cancel",
@@ -15,13 +18,57 @@
   "errorUnknown": "An unexpected error occurred. Please try again later.",
   "search": "Search...",
   "actions": "Actions",
+  "notifications": "Notifications",
+  "switchLanguage": "Switch Language",
+  "logout": "Log Out",
+  "user": "User",
+  "portal": "Portal",
+  "systemSecurity": "System Security",
+  "searchApartment": "Find Apartments",
+  "support": {
+    "title": "Support Team:",
+    "techTitle": "Technical Support:",
+    "phone": "1900 6868"
+  },
+  "footer": {
+    "propertyManagement": "Property & Building Management",
+    "vietqrContract": "VietQR E-Contract",
+    "copyright": "© {{year}} Rentify. All rights reserved.",
+    "platformDescription": "Apartment & Rental Contract Management Platform • Rentify"
+  },
   "navigation": {
     "home": "Home",
-    "rooms": "Rooms",
-    "buildings": "Buildings",
+    "overview": "Overview",
+    "tenantOverview": "Room Overview",
+    "rooms": "Properties & Rooms",
+    "myRoom": "My Room",
+    "tenants": "Tenants",
     "contracts": "Contracts",
     "invoices": "Invoices",
     "issues": "Issues",
-    "settings": "Settings"
+    "settings": "Settings",
+    "buildings": "Buildings",
+    "admin": {
+      "systemStats": "System Analytics",
+      "approvals": "Landlord Approvals",
+      "users": "User Management",
+      "settings": "System Settings"
+    }
+  },
+  "errors": {
+    "forbidden": {
+      "badge": "Response Code 403 • Access Denied",
+      "title": "Access Denied",
+      "description": "You do not have permission to access this page. Please contact an administrator or return to your main dashboard.",
+      "backHome": "Back to Dashboard",
+      "backPrev": "Back to Previous Page"
+    },
+    "notFound": {
+      "badge": "Response Code 404 • Not Found",
+      "title": "Page Not Found",
+      "description": "The requested URL does not exist or has been moved. Please check the address or return to the home page.",
+      "backHome": "Back to Dashboard",
+      "backPrev": "Back to Previous Page"
+    }
   }
 }

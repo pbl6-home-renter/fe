@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Search, ArrowLeft, Home, LifeBuoy } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { getHomePathByRole } from '@/app/routes/route-utils';
@@ -7,6 +8,7 @@ import { Button } from '@/components/ui/button';
 export const NotFoundPage = () => {
   const navigate = useNavigate();
   const { role } = useAuth();
+  const { t } = useTranslation();
 
   const homePath = getHomePathByRole(role);
 
@@ -23,10 +25,10 @@ export const NotFoundPage = () => {
             R
           </div>
           <span className="text-xl font-bold text-rentify-text-primary tracking-tight">
-            Rentify
+            {t('appName')}
           </span>
           <span className="text-rentify-text-secondary text-xs font-medium">
-            · Tìm kiếm căn hộ
+            · {t('searchApartment')}
           </span>
         </div>
 
@@ -48,16 +50,16 @@ export const NotFoundPage = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-rentify-background border border-rentify-divider mb-3">
             <span className="w-2 h-2 rounded-full bg-rentify-primary" />
             <span className="text-xs font-medium text-rentify-text-secondary">
-              Mã phản hồi 404 • Không tìm thấy
+              {t('errors.notFound.badge')}
             </span>
           </div>
 
           {/* Title & Description */}
           <h1 className="text-2xl font-bold text-rentify-text-primary mb-2 tracking-tight">
-            Trang không tồn tại
+            {t('errors.notFound.title')}
           </h1>
           <p className="text-sm text-rentify-text-secondary leading-relaxed max-w-sm mb-6">
-            Đường dẫn bạn yêu cầu không tồn tại hoặc đã bị di dời. Vui lòng kiểm tra lại địa chỉ URL hoặc quay về trang chủ.
+            {t('errors.notFound.description')}
           </p>
 
           {/* Actions */}
@@ -67,7 +69,7 @@ export const NotFoundPage = () => {
               onClick={() => navigate(homePath)}
             >
               <Home className="w-4 h-4" />
-              <span>Quay lại trang chính</span>
+              <span>{t('errors.notFound.backHome')}</span>
             </Button>
 
             <button
@@ -76,19 +78,19 @@ export const NotFoundPage = () => {
               className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-sm font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-primary-container/50 transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Quay lại trang trước</span>
+              <span>{t('errors.notFound.backPrev')}</span>
             </button>
           </div>
 
           {/* Support */}
           <div className="w-full pt-5 mt-6 border-t border-rentify-divider flex items-center justify-center gap-1.5 text-rentify-text-secondary text-xs">
             <LifeBuoy className="w-4 h-4 text-rentify-primary" />
-            <span>Bộ phận hỗ trợ kỹ thuật:</span>
+            <span>{t('support.techTitle')}</span>
             <a
-              href="tel:19006868"
+              href={`tel:${t('support.phone')}`}
               className="text-rentify-primary hover:underline font-semibold"
             >
-              1900 6868
+              {t('support.phone')}
             </a>
           </div>
         </div>
@@ -96,7 +98,7 @@ export const NotFoundPage = () => {
         {/* Footer info */}
         <div className="mt-4 text-center">
           <span className="text-xs text-rentify-neutral">
-            Hệ thống quản lý căn hộ & hợp đồng thuê • Rentify
+            {t('footer.platformDescription')}
           </span>
         </div>
       </div>

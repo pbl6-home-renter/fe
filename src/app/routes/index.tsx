@@ -8,6 +8,7 @@ import { NotFoundPage } from '@/app/pages/not-found-page';
 
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { RoleBasedRedirect } from './role-based-redirect';
+import { Role } from '@/types/role';
 
 export const routes: RouteObject[] = [
   // 1. Auth Flow (Public Routes with AuthLayout)
@@ -151,7 +152,7 @@ export const routes: RouteObject[] = [
           {
             path: '/tenants',
             element: (
-              <ProtectedRoute allowedRoles={['landlord', 'admin']}>
+              <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
                 <DashboardOverview
                   title="Quản lý khách thuê"
                   desc="Quản lý danh sách cư dân và thành viên hợp đồng"
@@ -164,7 +165,7 @@ export const routes: RouteObject[] = [
           {
             path: '/admin',
             element: (
-              <ProtectedRoute allowedRoles={['admin']}>
+              <ProtectedRoute allowedRoles={[Role.ADMIN]}>
                 <DashboardOverview
                   title="Thống kê hệ thống"
                   desc="Báo cáo toàn diện nền tảng Rentify"
@@ -175,7 +176,7 @@ export const routes: RouteObject[] = [
           {
             path: '/admin/approvals',
             element: (
-              <ProtectedRoute allowedRoles={['admin']}>
+              <ProtectedRoute allowedRoles={[Role.ADMIN]}>
                 <DashboardOverview
                   title="Duyệt chủ trọ"
                   desc="Hàng đợi phê duyệt hồ sơ chủ nhà và bất động sản"
@@ -186,7 +187,7 @@ export const routes: RouteObject[] = [
           {
             path: '/admin/users',
             element: (
-              <ProtectedRoute allowedRoles={['admin']}>
+              <ProtectedRoute allowedRoles={[Role.ADMIN]}>
                 <DashboardOverview
                   title="Quản lý tài khoản"
                   desc="Danh sách và trạng thái người dùng toàn hệ thống"
@@ -197,7 +198,7 @@ export const routes: RouteObject[] = [
           {
             path: '/admin/settings',
             element: (
-              <ProtectedRoute allowedRoles={['admin']}>
+              <ProtectedRoute allowedRoles={[Role.ADMIN]}>
                 <DashboardOverview
                   title="Cài đặt hệ thống"
                   desc="Cấu hình tham số và chính sách nền tảng"

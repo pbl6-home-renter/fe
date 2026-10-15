@@ -1,7 +1,10 @@
 import { Outlet, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ShieldCheck, Building2, Sparkles } from 'lucide-react';
 
 export const AuthLayout = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-rentify-background flex flex-col justify-between antialiased">
       {/* Top Navbar */}
@@ -12,17 +15,17 @@ export const AuthLayout = () => {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-xl tracking-tight text-rentify-text-primary">
-              Rentify
+              {t('appName')}
             </span>
             <span className="text-[11px] font-medium text-rentify-text-secondary -mt-1">
-              Smart Rental Platform
+              {t('appTagline')}
             </span>
           </div>
         </Link>
 
         <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-rentify-text-secondary">
           <ShieldCheck className="w-4 h-4 text-rentify-success" />
-          <span>Hệ thống bảo mật 2 lớp SSL</span>
+          <span>{t('securityBadge')}</span>
         </div>
       </header>
 
@@ -38,15 +41,15 @@ export const AuthLayout = () => {
         <div className="flex items-center justify-center gap-4 mb-2 sm:mb-0">
           <span className="flex items-center gap-1.5">
             <Building2 className="w-3.5 h-3.5 text-rentify-primary" />
-            Quản lý căn hộ & tòa nhà
+            {t('footer.propertyManagement')}
           </span>
           <span>•</span>
           <span className="flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-rentify-warning" />
-            Hợp đồng điện tử VietQR
+            {t('footer.vietqrContract')}
           </span>
         </div>
-        <p>© 2026 Rentify. Tất cả quyền được bảo lưu.</p>
+        <p>{t('footer.copyright', { year: new Date().getFullYear() })}</p>
       </footer>
     </div>
   );
