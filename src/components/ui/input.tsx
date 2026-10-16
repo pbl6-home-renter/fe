@@ -59,7 +59,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             aria-invalid={!!error}
             aria-describedby={errorId || helperId}
             className={cn(
-              'w-full min-h-[42px] px-3.5 py-2.5 text-sm rounded-xl',
+              'w-full min-h-10.5 px-3.5 py-2.5 text-sm rounded-xl',
               'bg-rentify-surface text-rentify-text-primary',
               'border border-rentify-divider',
               'placeholder:text-rentify-neutral',

@@ -17,9 +17,9 @@ export type Role = (typeof Role)[keyof typeof Role];
 export const ROLES = Object.values(Role) as readonly Role[];
 
 /**
- * Type guard to check if an unknown value is a valid Role
+ * Type guard to check if a value is a valid Role
  */
-export const isValidRole = (value: unknown): value is Role => {
-  return typeof value === 'string' && ROLES.includes(value as Role);
+export const isValidRole = (value: string | Role): value is Role => {
+  return ROLES.includes(value as Role);
 };
 
