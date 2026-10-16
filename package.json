@@ -8,7 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "i18n:check": "i18n-unused",
+    "i18n:check": "i18n-unused display-missed",
+    "i18n:unused": "i18n-unused display-unused",
+    "i18n:clean": "i18n-unused remove-unused",
+    "i18n:sync": "i18n-unused sync src/i18n/locales/vi src/i18n/locales/en",
     "test": "vitest run",
     "prepare": "husky"
   },

@@ -11,10 +11,11 @@ import {
   UserCheck,
   Settings,
 } from 'lucide-react';
+import type { ParseKeys } from 'i18next';
 import { Role } from '@/types/role';
 
 export interface MenuItem {
-  titleKey: string;
+  titleKey: ParseKeys<'common'>;
   path: string;
   icon: LucideIcon;
   exact?: boolean;

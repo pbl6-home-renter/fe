@@ -34,7 +34,7 @@ export const DashboardLayout = () => {
   const currentPathSegment = location.pathname.split('/').filter(Boolean);
   const matchedMenuItem = menuItems.find((item) => item.path === location.pathname);
   const breadcrumbTitle = matchedMenuItem
-    ? t(matchedMenuItem.titleKey as Parameters<typeof t>[0])
+    ? t(matchedMenuItem.titleKey)
     : (currentPathSegment.length > 0
       ? currentPathSegment[currentPathSegment.length - 1].toUpperCase()
       : t('navigation.overview'));
@@ -105,7 +105,7 @@ export const DashboardLayout = () => {
                   }
                 >
                   <Icon className="w-4 h-4 shrink-0" />
-                  <span>{t(item.titleKey as Parameters<typeof t>[0])}</span>
+                  <span>{t(item.titleKey)}</span>
                 </NavLink>
               );
             })}
