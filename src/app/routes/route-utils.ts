@@ -1,16 +1,15 @@
-import type { Role } from '@/types/user';
+import { Role } from '@/types/role';
 
 export const getHomePathByRole = (role?: Role | null): string => {
   if (!role) return '/login';
   switch (role) {
-    case 'admin':
+    case Role.ADMIN:
       return '/admin';
-    case 'landlord':
-      return '/landlord';
-    case 'tenant':
-      return '/tenant';
+    case Role.LANDLORD:
+    case Role.TENANT:
+      return '/dashboard';
     default:
-      return '/';
+      return '/dashboard';
   }
 };
 

@@ -18,9 +18,9 @@ const sizeClasses: Record<SpinnerSize, string> = {
 };
 
 const colorClasses: Record<SpinnerColor, string> = {
-  primary: 'text-[var(--color-rentify-primary,#1E6FD9)]',
+  primary: 'text-rentify-primary',
   white: 'text-white',
-  neutral: 'text-[var(--color-rentify-neutral,#94A3B8)]',
+  neutral: 'text-rentify-neutral',
   current: 'text-current',
 };
 
@@ -66,6 +66,4 @@ export const LoadingSpinner = ({
     </span>
   );
 };
-
-export default LoadingSpinner;
 

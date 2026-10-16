@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/use-auth';
-import type { Role } from '@/types/user';
+import type { Role } from '@/types/role';
 
 export interface ProtectedRouteProps {
   allowedRoles?: Role[];
@@ -32,4 +32,3 @@ export const ProtectedRoute = ({
   return children ? <>{children}</> : <Outlet />;
 };
 
-export default ProtectedRoute;

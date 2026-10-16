@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/stores/auth-store';
-import type { User, Role } from '@/types/user';
+import type { User } from '@/types/user';
+import type { Role } from '@/types/role';
 
 export const useAuth = () => {
   const user = useAuthStore((state) => state.user);
@@ -29,5 +30,4 @@ export const useAuth = () => {
   };
 };
 
-export default useAuth;
 

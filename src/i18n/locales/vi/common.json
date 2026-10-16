@@ -1,5 +1,8 @@
 {
   "appName": "Rentify",
+  "appTagline": "Smart Rental Platform",
+  "securityBadge": "Hệ thống bảo mật 2 lớp SSL",
+  "menuTitle": "Menu quản lý",
   "loading": "Đang tải...",
   "save": "Lưu",
   "cancel": "Hủy",
@@ -15,13 +18,159 @@
   "errorUnknown": "Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.",
   "search": "Tìm kiếm...",
   "actions": "Thao tác",
+  "notifications": "Thông báo",
+  "switchLanguage": "Chuyển ngôn ngữ",
+  "logout": "Đăng xuất",
+  "user": "Người dùng",
+  "portal": "Portal",
+  "systemSecurity": "Bảo mật hệ thống",
+  "searchApartment": "Tìm kiếm căn hộ",
+  "support": {
+    "title": "Bộ phận hỗ trợ:",
+    "techTitle": "Bộ phận hỗ trợ kỹ thuật:",
+    "phone": "1900 6868"
+  },
+  "footer": {
+    "propertyManagement": "Quản lý căn hộ & tòa nhà",
+    "vietqrContract": "Hợp đồng điện tử VietQR",
+    "copyright": "© {{year}} Rentify. Tất cả quyền được bảo lưu.",
+    "platformDescription": "Hệ thống quản lý căn hộ & hợp đồng thuê • Rentify"
+  },
   "navigation": {
     "home": "Trang chủ",
-    "rooms": "Phòng trọ",
-    "buildings": "Tòa nhà",
+    "overview": "Tổng quan",
+    "tenantOverview": "Tổng quan phòng",
+    "rooms": "Quản lý nhà / phòng",
+    "myRoom": "Phòng của tôi",
+    "tenants": "Khách thuê",
     "contracts": "Hợp đồng",
-    "invoices": "Hóa đơn",
+    "invoices": "Hoá đơn",
     "issues": "Sự cố",
-    "settings": "Cài đặt"
+    "settings": "Cài đặt",
+    "buildings": "Tòa nhà",
+    "meterReadings": "Chỉ số điện nước",
+    "roommates": "Tìm người ở ghép",
+    "chat": "Tin nhắn",
+    "admin": {
+      "systemStats": "Thống kê hệ thống",
+      "approvals": "Duyệt chủ trọ",
+      "users": "Quản lý tài khoản",
+      "settings": "Cài đặt",
+      "auditLogs": "Nhật ký kiểm toán"
+    }
+  },
+  "errors": {
+    "forbidden": {
+      "badge": "Mã phản hồi 403 • Quyền truy cập",
+      "title": "Truy cập bị từ chối",
+      "description": "Bạn không có quyền truy cập trang này. Vui lòng liên hệ quản trị viên hoặc quay lại trang chính của bạn.",
+      "backHome": "Quay lại trang chính",
+      "backPrev": "Quay lại trang trước"
+    },
+    "notFound": {
+      "badge": "Mã phản hồi 404 • Không tìm thấy",
+      "title": "Trang không tồn tại",
+      "description": "Đường dẫn bạn yêu cầu không tồn tại hoặc đã bị di dời. Vui lòng kiểm tra lại địa chỉ URL hoặc quay về trang chủ.",
+      "backHome": "Quay lại trang chính",
+      "backPrev": "Quay lại trang trước"
+    }
+  },
+  "routes": {
+    "dashboard": {
+      "defaultTitle": "Tổng quan hệ thống",
+      "defaultDesc": "Chào mừng bạn đến với Rentify",
+      "landlordTitle": "Tổng quan chủ trọ",
+      "landlordDesc": "Báo cáo doanh thu, tình trạng phòng và tỷ lệ lấp đầy",
+      "tenantTitle": "Tổng quan phòng thuê",
+      "tenantDesc": "Theo dõi thông tin hợp đồng, hóa đơn và các dịch vụ phòng",
+      "adminTitle": "Thống kê hệ thống",
+      "adminDesc": "Báo cáo toàn diện nền tảng Rentify"
+    },
+    "buildings": {
+      "title": "Quản lý tòa nhà",
+      "desc": "Danh sách các tòa nhà và khu căn hộ cho thuê",
+      "detailTitle": "Chi tiết tòa nhà",
+      "detailDesc": "Thông tin chi tiết tòa nhà, danh sách phòng và tiện ích"
+    },
+    "rooms": {
+      "landlordTitle": "Quản lý nhà / phòng",
+      "landlordDesc": "Danh sách bất động sản và phòng trọ đang cho thuê",
+      "tenantTitle": "Phòng của tôi",
+      "tenantDesc": "Thông tin chi tiết phòng trọ và tiện ích đang thuê",
+      "detailTitle": "Chi tiết phòng",
+      "detailDesc": "Thông tin phòng, giá thuê, trang thiết bị và trạng thái"
+    },
+    "contracts": {
+      "landlordTitle": "Quản lý hợp đồng",
+      "landlordDesc": "Quản lý và tạo mới các hợp đồng thuê nhà điện tử",
+      "tenantTitle": "Hợp đồng thuê",
+      "tenantDesc": "Chi tiết hợp đồng thuê phòng của bạn",
+      "newTitle": "Tạo mới hợp đồng",
+      "newDesc": "Thiết lập hợp đồng thuê mới với chữ ký số",
+      "detailTitle": "Chi tiết hợp đồng",
+      "detailDesc": "Xem và quản lý các điều khoản hợp đồng thuê",
+      "templatesTitle": "Mẫu hợp đồng",
+      "templatesDesc": "Quản lý các mẫu biểu hợp đồng thuê chuẩn"
+    },
+    "invoices": {
+      "landlordTitle": "Hóa đơn & Thanh toán",
+      "landlordDesc": "Phát hành và theo dõi đối soát hóa đơn các phòng",
+      "tenantTitle": "Hóa đơn tiền phòng",
+      "tenantDesc": "Danh sách hóa đơn tiền nhà, điện nước và thanh toán VietQR",
+      "detailTitle": "Chi tiết hóa đơn",
+      "detailDesc": "Xem bảng kê chi tiết dịch vụ và trạng thái thanh toán"
+    },
+    "meterReadings": {
+      "title": "Chỉ số điện nước",
+      "desc": "Ghi nhận và chốt chỉ số công tơ điện nước theo chu kỳ"
+    },
+    "issues": {
+      "landlordTitle": "Xử lý sự cố",
+      "landlordDesc": "Theo dõi và phân công xử lý yêu cầu sửa chữa cơ sở vật chất",
+      "tenantTitle": "Báo cáo sự cố",
+      "tenantDesc": "Gửi yêu cầu sửa chữa và theo dõi tiến độ xử lý",
+      "newTitle": "Tạo báo cáo sự cố",
+      "newDesc": "Mô tả vấn đề hư hỏng cần hỗ trợ sửa chữa",
+      "detailTitle": "Chi tiết sự cố",
+      "detailDesc": "Tiến trình khắc phục sự cố và nhật ký sửa chữa"
+    },
+    "tenants": {
+      "title": "Quản lý khách thuê",
+      "desc": "Quản lý danh sách cư dân và thành viên hợp đồng",
+      "detailTitle": "Hồ sơ khách thuê",
+      "detailDesc": "Thông tin cá nhân, định danh CCCD và lịch sử thuê phòng"
+    },
+    "roommates": {
+      "title": "Tìm người ở ghép",
+      "desc": "Tìm kiếm bạn cùng phòng phù hợp với tiêu chí và sở thích",
+      "profileTitle": "Hồ sơ ghép phòng",
+      "profileDesc": "Thiết lập thông tin cá nhân và thói quen sinh hoạt"
+    },
+    "chat": {
+      "title": "Tin nhắn trao đổi",
+      "desc": "Trò chuyện trực tiếp giữa chủ trọ và khách thuê",
+      "detailTitle": "Cuộc trò chuyện",
+      "detailDesc": "Chi tiết tin nhắn và hình ảnh trao đổi"
+    },
+    "notifications": {
+      "title": "Thông báo hệ thống",
+      "desc": "Cập nhật các nhắc nhở thanh toán, sự cố và biến động hợp đồng"
+    },
+    "profile": {
+      "title": "Hồ sơ cá nhân",
+      "desc": "Quản lý thông tin tài khoản, bảo mật và tài khoản thụ hưởng"
+    },
+    "admin": {
+      "systemStatsTitle": "Thống kê hệ thống",
+      "systemStatsDesc": "Báo cáo toàn diện nền tảng Rentify",
+      "approvalsTitle": "Duyệt chủ trọ",
+      "approvalsDesc": "Hàng đợi phê duyệt hồ sơ chủ nhà và bất động sản",
+      "usersTitle": "Quản lý tài khoản",
+      "usersDesc": "Danh sách và trạng thái người dùng toàn hệ thống",
+      "settingsTitle": "Cài đặt hệ thống",
+      "settingsDesc": "Cấu hình tham số và chính sách nền tảng",
+      "auditLogsTitle": "Nhật ký kiểm toán",
+      "auditLogsDesc": "Lịch sử hoạt động và ghi vết bảo mật của hệ thống"
+    }
   }
 }

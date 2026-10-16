@@ -13,11 +13,11 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', children, ...props }, ref) => {
     const variantStyles = {
       default:
-        'bg-[var(--color-rentify-surface,#FFFFFF)] border border-[var(--color-rentify-divider,#D7E3F2)] shadow-[0_4px_20px_-4px_rgba(30,111,217,0.06)]',
+        'bg-rentify-surface border border-rentify-divider shadow-[0_4px_20px_-4px_rgba(30,111,217,0.06)]',
       flat:
-        'bg-[var(--color-rentify-surface,#FFFFFF)] border border-[var(--color-rentify-divider,#D7E3F2)]',
+        'bg-rentify-surface border border-rentify-divider',
       interactive:
-        'bg-[var(--color-rentify-surface,#FFFFFF)] border border-[var(--color-rentify-divider,#D7E3F2)] shadow-[0_4px_20px_-4px_rgba(30,111,217,0.06)] hover:shadow-[0_8px_30px_-4px_rgba(30,111,217,0.12)] hover:border-[var(--color-rentify-primary,#1E6FD9)]/40 transition-all duration-200 cursor-pointer',
+        'bg-rentify-surface border border-rentify-divider shadow-[0_4px_20px_-4px_rgba(30,111,217,0.06)] hover:shadow-[0_8px_30px_-4px_rgba(30,111,217,0.12)] hover:border-rentify-primary/40 transition-all duration-200 cursor-pointer',
     };
 
     return (
@@ -38,7 +38,7 @@ export const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEleme
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex flex-col space-y-1.5 pb-4 border-b border-[var(--color-rentify-divider,#D7E3F2)]', className)}
+      className={cn('flex flex-col space-y-1.5 pb-4 border-b border-rentify-divider', className)}
       {...props}
     />
   )
@@ -49,7 +49,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadi
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn('text-lg font-semibold tracking-tight text-[var(--color-rentify-text-primary,#142A4C)]', className)}
+      className={cn('text-lg font-semibold tracking-tight text-rentify-text-primary', className)}
       {...props}
     />
   )
@@ -60,7 +60,7 @@ export const CardDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<H
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn('text-sm text-[var(--color-rentify-text-secondary,#5C7290)] leading-relaxed', className)}
+      className={cn('text-sm text-rentify-text-secondary leading-relaxed', className)}
       {...props}
     />
   )
@@ -78,12 +78,10 @@ export const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEleme
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex items-center pt-4 border-t border-[var(--color-rentify-divider,#D7E3F2)]', className)}
+      className={cn('flex items-center pt-4 border-t border-rentify-divider', className)}
       {...props}
     />
   )
 );
 CardFooter.displayName = 'CardFooter';
-
-export default Card;
 

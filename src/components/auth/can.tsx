@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useAuthStore } from '@/stores/auth-store';
-import type { Role } from '@/types/user';
+import type { Role } from '@/types/role';
 
 interface CanProps {
   roles?: Role[];

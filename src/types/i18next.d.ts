@@ -1,6 +1,6 @@
 import 'i18next';
-import viCommon from './locales/vi/common.json';
-import viAuth from './locales/vi/auth.json';
+import viCommon from '@/i18n/locales/vi/common.json';
+import viAuth from '@/i18n/locales/vi/auth.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -11,3 +11,4 @@ declare module 'i18next' {
     };
   }
 }
+

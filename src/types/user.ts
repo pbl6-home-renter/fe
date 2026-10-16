@@ -1,4 +1,7 @@
-export type Role = 'landlord' | 'tenant' | 'admin';
+import type { Role } from './role';
+
+export type { Role };
+export { Role as RoleEnum } from './role';
 
 export type UserStatus = 'active' | 'locked';
 

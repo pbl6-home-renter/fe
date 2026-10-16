@@ -1,5 +1,8 @@
 {
   "appName": "Rentify",
+  "appTagline": "Smart Rental Platform",
+  "securityBadge": "2-Layer SSL Security System",
+  "menuTitle": "Management Menu",
   "loading": "Loading...",
   "save": "Save",
   "cancel": "Cancel",
@@ -15,13 +18,159 @@
   "errorUnknown": "An unexpected error occurred. Please try again later.",
   "search": "Search...",
   "actions": "Actions",
+  "notifications": "Notifications",
+  "switchLanguage": "Switch Language",
+  "logout": "Log Out",
+  "user": "User",
+  "portal": "Portal",
+  "systemSecurity": "System Security",
+  "searchApartment": "Find Apartments",
+  "support": {
+    "title": "Support Team:",
+    "techTitle": "Technical Support:",
+    "phone": "1900 6868"
+  },
+  "footer": {
+    "propertyManagement": "Property & Building Management",
+    "vietqrContract": "VietQR E-Contract",
+    "copyright": "© {{year}} Rentify. All rights reserved.",
+    "platformDescription": "Apartment & Rental Contract Management Platform • Rentify"
+  },
   "navigation": {
     "home": "Home",
-    "rooms": "Rooms",
-    "buildings": "Buildings",
+    "overview": "Overview",
+    "tenantOverview": "Room Overview",
+    "rooms": "Properties & Rooms",
+    "myRoom": "My Room",
+    "tenants": "Tenants",
     "contracts": "Contracts",
     "invoices": "Invoices",
     "issues": "Issues",
-    "settings": "Settings"
+    "settings": "Settings",
+    "buildings": "Buildings",
+    "meterReadings": "Meter Readings",
+    "roommates": "Find Roommates",
+    "chat": "Messages",
+    "admin": {
+      "systemStats": "System Analytics",
+      "approvals": "Landlord Approvals",
+      "users": "User Management",
+      "settings": "System Settings",
+      "auditLogs": "Audit Logs"
+    }
+  },
+  "errors": {
+    "forbidden": {
+      "badge": "Response Code 403 • Access Denied",
+      "title": "Access Denied",
+      "description": "You do not have permission to access this page. Please contact an administrator or return to your main dashboard.",
+      "backHome": "Back to Dashboard",
+      "backPrev": "Back to Previous Page"
+    },
+    "notFound": {
+      "badge": "Response Code 404 • Not Found",
+      "title": "Page Not Found",
+      "description": "The requested URL does not exist or has been moved. Please check the address or return to the home page.",
+      "backHome": "Back to Dashboard",
+      "backPrev": "Back to Previous Page"
+    }
+  },
+  "routes": {
+    "dashboard": {
+      "defaultTitle": "System Overview",
+      "defaultDesc": "Welcome to Rentify",
+      "landlordTitle": "Landlord Overview",
+      "landlordDesc": "Revenue reporting, room availability, and occupancy rate",
+      "tenantTitle": "Room Overview",
+      "tenantDesc": "Track your contracts, invoices, and room services",
+      "adminTitle": "System Analytics",
+      "adminDesc": "Comprehensive reporting of the Rentify platform"
+    },
+    "buildings": {
+      "title": "Building Management",
+      "desc": "List of rental buildings and apartment complexes",
+      "detailTitle": "Building Details",
+      "detailDesc": "Building information, room listings, and facilities"
+    },
+    "rooms": {
+      "landlordTitle": "Properties & Rooms",
+      "landlordDesc": "List of rental properties and available rooms",
+      "tenantTitle": "My Room",
+      "tenantDesc": "Details of your currently rented room and utilities",
+      "detailTitle": "Room Details",
+      "detailDesc": "Room information, rental price, amenities, and status"
+    },
+    "contracts": {
+      "landlordTitle": "Contract Management",
+      "landlordDesc": "Manage and create digital rental contracts",
+      "tenantTitle": "Rental Contracts",
+      "tenantDesc": "Details of your room rental contract",
+      "newTitle": "Create New Contract",
+      "newDesc": "Set up a new rental contract with digital signature",
+      "detailTitle": "Contract Details",
+      "detailDesc": "View and manage rental contract terms and conditions",
+      "templatesTitle": "Contract Templates",
+      "templatesDesc": "Manage standard rental contract templates"
+    },
+    "invoices": {
+      "landlordTitle": "Invoices & Payments",
+      "landlordDesc": "Issue and reconcile room invoices",
+      "tenantTitle": "Room Invoices",
+      "tenantDesc": "List of room rent, utility bills, and VietQR payment",
+      "detailTitle": "Invoice Details",
+      "detailDesc": "View detailed service breakdown and payment status"
+    },
+    "meterReadings": {
+      "title": "Meter Readings",
+      "desc": "Record and verify electricity and water meters periodically"
+    },
+    "issues": {
+      "landlordTitle": "Issue Resolution",
+      "landlordDesc": "Track and assign maintenance and repair requests",
+      "tenantTitle": "Report Issue",
+      "tenantDesc": "Submit repair requests and track resolution progress",
+      "newTitle": "Create Issue Report",
+      "newDesc": "Describe the issue or damage requiring repair",
+      "detailTitle": "Issue Details",
+      "detailDesc": "Resolution progress and maintenance logs"
+    },
+    "tenants": {
+      "title": "Tenant Management",
+      "desc": "Manage residents and contract members",
+      "detailTitle": "Tenant Profile",
+      "detailDesc": "Personal details, ID verification, and rental history"
+    },
+    "roommates": {
+      "title": "Find Roommates",
+      "desc": "Find compatible roommates based on preferences and lifestyle",
+      "profileTitle": "Roommate Profile",
+      "profileDesc": "Set up personal preferences and living habits"
+    },
+    "chat": {
+      "title": "Messages",
+      "desc": "Direct communication between landlords and tenants",
+      "detailTitle": "Conversation",
+      "detailDesc": "Message thread and shared attachments"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "desc": "Payment reminders, issue updates, and contract changes"
+    },
+    "profile": {
+      "title": "Personal Profile",
+      "desc": "Manage account information, security, and payout bank account"
+    },
+    "admin": {
+      "systemStatsTitle": "System Analytics",
+      "systemStatsDesc": "Comprehensive platform analytics and reporting",
+      "approvalsTitle": "Landlord Approvals",
+      "approvalsDesc": "Verification queue for landlords and properties",
+      "usersTitle": "User Management",
+      "usersDesc": "List and status of all system accounts",
+      "settingsTitle": "System Settings",
+      "settingsDesc": "Platform configuration parameters and policies",
+      "auditLogsTitle": "Audit Logs",
+      "auditLogsDesc": "System activity logs and security audit trail"
+    }
   }
 }

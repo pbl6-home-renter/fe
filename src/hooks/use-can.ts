@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/stores/auth-store';
-import type { Role } from '@/types/user';
+import type { Role } from '@/types/role';
 
 export const useCan = () => {
   const user = useAuthStore((state) => state.user);

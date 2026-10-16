@@ -3,7 +3,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { I18nextProvider } from 'react-i18next';
 import { Toaster } from 'sonner';
 import { queryClient } from '@/lib/react-query';
-import i18n from '@/i18n/i18n';
+import { i18n } from '@/i18n/i18n';
 
 interface AppProviderProps {
   children: ReactNode;
@@ -20,4 +20,3 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   );
 };
 
-export default AppProvider;

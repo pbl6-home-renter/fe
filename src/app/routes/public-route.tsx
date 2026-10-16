@@ -17,4 +17,3 @@ export const PublicRoute = ({ children }: PublicRouteProps) => {
   return children ? <>{children}</> : <Outlet />;
 };
 
-export default PublicRoute;

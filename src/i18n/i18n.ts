@@ -41,5 +41,4 @@ export const changeLanguage = (lang: 'vi' | 'en') => {
   return i18n.changeLanguage(lang);
 };
 
-export default i18n;
-
+export { i18n };
