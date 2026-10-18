@@ -1,5 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
+import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-page';
 
 export const commonRoutes: RouteObject[] = [
   {
@@ -171,5 +172,9 @@ export const commonRoutes: RouteObject[] = [
         descKey="routes.profile.desc"
       />
     ),
+  },
+  {
+    path: '/design-system',
+    element: <DesignSystemShowcasePage />,
   },
 ];

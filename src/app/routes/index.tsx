@@ -1,16 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 import type { RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from './protected-route';
-import { DashboardLayout } from '@/app/layouts';
+import { DashboardLayout } from '@/app/layouts/dashboard-layout';
 import { RoleBasedRedirect } from './role-based-redirect';
-import {
-  authRoutes,
-  commonRoutes,
-  landlordRoutes,
-  tenantRoutes,
-  adminRoutes,
-  errorRoutes,
-} from './roles';
+import { authRoutes } from './roles/auth.routes';
+import { commonRoutes } from './roles/common.routes';
+import { landlordRoutes } from './roles/landlord.routes';
+import { tenantRoutes } from './roles/tenant.routes';
+import { adminRoutes } from './roles/admin.routes';
+import { errorRoutes } from './roles/error.routes';
 
 export const routes: RouteObject[] = [
   // 1. Auth Flow (Public Routes with AuthLayout)
