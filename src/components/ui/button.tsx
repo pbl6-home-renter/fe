@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'destructive';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,6 +35,8 @@ export const Button = ({
       'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-primary-container/50',
     danger:
       'bg-rentify-error text-white hover:bg-[#b91c1c] active:scale-[0.99] shadow-sm',
+    destructive:
+      'bg-rentify-error text-white hover:bg-[#b91c1c] active:scale-[0.99] shadow-sm',
   };
 
   const sizeStyles: Record<ButtonSize, string> = {
@@ -55,6 +57,7 @@ export const Button = ({
     outline: 'primary' as const,
     ghost: 'primary' as const,
     danger: 'white' as const,
+    destructive: 'white' as const,
   };
 
   const isDisabled = disabled || isLoading;
