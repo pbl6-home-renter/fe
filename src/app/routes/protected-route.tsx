@@ -19,16 +19,16 @@ export const ProtectedRoute = ({
 
   const requiredRoles = allowedRoles || roles;
 
-  // 1. Check authentication
+  // 1. Check authentication status
   if (!isAuthenticated || !user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    const returnUrl = encodeURIComponent(location.pathname + location.search);
+    return <Navigate to={`/login?redirect=${returnUrl}`} state={{ from: location }} replace />;
   }
 
-  // 2. Check role authorization
+  // 2. Check role-based permission
   if (requiredRoles && !requiredRoles.includes(user.role)) {
     return <Navigate to="/403" replace />;
   }
 
   return children ? <>{children}</> : <Outlet />;
 };
-

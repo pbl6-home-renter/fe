@@ -23,6 +23,25 @@
   "logout": "Log Out",
   "user": "User",
   "portal": "Portal",
+  "portals": {
+    "landlord": "Landlord Portal",
+    "tenant": "Resident Portal",
+    "admin": "Admin Portal",
+    "verifiedLandlord": "Verified Landlord",
+    "verifiedTenant": "Verified Resident",
+    "verifiedAdmin": "System Administrator"
+  },
+  "logoutModal": {
+    "badge": "Current Session",
+    "title": "Log Out Account",
+    "description": "Are you sure you want to log out of Rentify on this device?",
+    "onlineStatus": "Online",
+    "cancel": "Cancel",
+    "confirm": "Log Out",
+    "advisory": "You will need to verify your credentials to log in again."
+  },
+  "profile": "Profile",
+  "settings": "Account Settings",
   "systemSecurity": "System Security",
   "searchApartment": "Find Apartments",
   "support": {
@@ -159,6 +178,10 @@
     "profile": {
       "title": "Personal Profile",
       "desc": "Manage account information, security, and payout bank account"
+    },
+    "settings": {
+      "title": "Settings & Account",
+      "desc": "Manage notification preferences, security, and system settings"
     },
     "admin": {
       "systemStatsTitle": "System Analytics",
