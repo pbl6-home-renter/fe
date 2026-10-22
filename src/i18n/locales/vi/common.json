@@ -23,6 +23,25 @@
   "logout": "Đăng xuất",
   "user": "Người dùng",
   "portal": "Portal",
+  "portals": {
+    "landlord": "Cổng Chủ Nhà",
+    "tenant": "Cổng cư dân",
+    "admin": "Cổng Quản Trị",
+    "verifiedLandlord": "Chủ nhà xác thực",
+    "verifiedTenant": "Cư dân xác thực",
+    "verifiedAdmin": "Quản trị viên"
+  },
+  "logoutModal": {
+    "badge": "Phiên làm việc hiện tại",
+    "title": "Đăng xuất tài khoản",
+    "description": "Bạn có chắc chắn muốn đăng xuất khỏi cổng Rentify trên thiết bị này không?",
+    "onlineStatus": "Trực tuyến",
+    "cancel": "Hủy",
+    "confirm": "Đăng xuất",
+    "advisory": "Bạn sẽ cần xác thực thông tin khi đăng nhập lại."
+  },
+  "profile": "Hồ sơ cá nhân",
+  "settings": "Cài đặt tài khoản",
   "systemSecurity": "Bảo mật hệ thống",
   "searchApartment": "Tìm kiếm căn hộ",
   "support": {
@@ -159,6 +178,10 @@
     "profile": {
       "title": "Hồ sơ cá nhân",
       "desc": "Quản lý thông tin tài khoản, bảo mật và tài khoản thụ hưởng"
+    },
+    "settings": {
+      "title": "Cài đặt & Tài khoản",
+      "desc": "Quản lý thiết lập thông báo, mật khẩu và tùy chọn hệ thống"
     },
     "admin": {
       "systemStatsTitle": "Thống kê hệ thống",

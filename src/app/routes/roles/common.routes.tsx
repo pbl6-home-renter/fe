@@ -174,6 +174,15 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
+    path: '/settings',
+    element: (
+      <DashboardOverview
+        titleKey="routes.settings.title"
+        descKey="routes.settings.desc"
+      />
+    ),
+  },
+  {
     path: '/design-system',
     element: <DesignSystemShowcasePage />,
   },

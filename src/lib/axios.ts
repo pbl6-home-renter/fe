@@ -157,7 +157,8 @@ apiClient.interceptors.response.use(
       useAuthStore.getState().clearAuth();
 
       if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-        window.location.href = '/login';
+        const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+        window.location.href = `/login?redirect=${returnUrl}`;
       }
 
       return Promise.reject(refreshError);

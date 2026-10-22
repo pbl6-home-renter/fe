@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/use-auth';
 import { getHomePathByRole } from '@/app/routes/route-utils';
 
@@ -9,11 +9,18 @@ export interface PublicRouteProps {
 
 export const PublicRoute = ({ children }: PublicRouteProps) => {
   const { user, isAuthenticated } = useAuth();
+  const [searchParams] = useSearchParams();
 
   if (isAuthenticated && user) {
-    return <Navigate to={getHomePathByRole(user.role)} replace />;
+    const rawRedirect = searchParams.get('redirect') || searchParams.get('returnUrl');
+    // Ensure safe internal relative redirection
+    const destination =
+      rawRedirect && rawRedirect.startsWith('/') && !rawRedirect.startsWith('//')
+        ? decodeURIComponent(rawRedirect)
+        : getHomePathByRole(user.role);
+
+    return <Navigate to={destination} replace />;
   }
 
   return children ? <>{children}</> : <Outlet />;
 };
-
