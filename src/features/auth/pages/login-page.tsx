@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
@@ -10,15 +11,14 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
-import { useLoginForm } from '@/features/auth/hooks/use-login-form';
+import { useLoginForm } from '@/features/auth/hooks/login/use-login-form';
 
 export const LoginPage = () => {
   const { t } = useTranslation('auth');
   const {
-    values,
+    register,
     errors,
-    isLoading,
-    handleChange,
+    isSubmitting,
     handleSubmit,
   } = useLoginForm();
 
@@ -30,29 +30,63 @@ export const LoginPage = () => {
       </CardHeader>
 
       <CardContent>
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        {errors.serverError && (
+          <div
+            role="alert"
+            className="flex items-center gap-2 p-3 mb-4 rounded-xl bg-rentify-error/10 border border-rentify-error/20 text-rentify-error text-sm font-medium"
+          >
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{errors.serverError}</span>
+          </div>
+        )}
+
+        <form className="space-y-4" onSubmit={handleSubmit} noValidate>
           <Input
-            label={t('email')}
-            type="email"
-            value={values.email}
-            onChange={(e) => handleChange('email', e.target.value)}
-            placeholder={t('placeholders.email')}
-            autoComplete="email"
-            error={errors.email}
+            label={t('identifier')}
+            type="text"
+            placeholder={t('placeholders.identifier')}
+            autoComplete="username"
+            error={errors.identifier}
+            disabled={isSubmitting}
             required
+            {...register('identifier')}
           />
 
           <PasswordInput
             label={t('password')}
-            value={values.password}
-            onChange={(e) => handleChange('password', e.target.value)}
             placeholder={t('placeholders.password')}
             autoComplete="current-password"
             error={errors.password}
+            disabled={isSubmitting}
             required
+            {...register('password')}
           />
 
-          <Button type="submit" isLoading={isLoading} className="w-full">
+          <div className="flex items-center justify-between text-xs">
+            <label className="flex items-center gap-2 cursor-pointer select-none text-rentify-text-secondary">
+              <input
+                type="checkbox"
+                className="rounded border-rentify-divider text-rentify-primary focus:ring-rentify-primary"
+                disabled={isSubmitting}
+                {...register('rememberMe')}
+              />
+              <span>{t('rememberMe')}</span>
+            </label>
+
+            <Link
+              to="/forgot-password"
+              className="font-medium text-rentify-primary hover:underline"
+            >
+              {t('forgotPassword')}
+            </Link>
+          </div>
+
+          <Button
+            type="submit"
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+            className="w-full"
+          >
             {t('login')}
           </Button>
         </form>

@@ -1,4 +1,5 @@
 import { type HTMLAttributes } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
@@ -15,6 +16,8 @@ export const Skeleton = ({
   style,
   ...props
 }: SkeletonProps) => {
+  const { t } = useTranslation('common');
+
   const variantStyles = {
     rectangular: 'rounded-xl',
     circular: 'rounded-full',
@@ -24,7 +27,7 @@ export const Skeleton = ({
   return (
     <div
       role="status"
-      aria-label="Đang tải dữ liệu..."
+      aria-label={t('loadingData')}
       className={cn(
         'animate-pulse bg-rentify-surface-container-highest/60',
         variantStyles[variant],
@@ -37,7 +40,7 @@ export const Skeleton = ({
       }}
       {...props}
     >
-      <span className="sr-only">Đang tải...</span>
+      <span className="sr-only">{t('loading')}</span>
     </div>
   );
 };

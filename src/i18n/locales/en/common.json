@@ -4,6 +4,13 @@
   "securityBadge": "2-Layer SSL Security System",
   "menuTitle": "Management Menu",
   "loading": "Loading...",
+  "loadingData": "Loading data...",
+  "checkingSession": "Checking session...",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "closeDialog": "Close dialog",
+  "closeAlert": "Close alert",
+  "errorDefault": "Unable to load data at this time. Please try again later.",
   "save": "Save",
   "cancel": "Cancel",
   "delete": "Delete",
@@ -195,5 +202,29 @@
       "auditLogsTitle": "Audit Logs",
       "auditLogsDesc": "System activity logs and security audit trail"
     }
+  },
+  "apiErrors": {
+    "BAD_REQUEST": "Invalid request. Please check the provided information.",
+    "UNAUTHORIZED": "Your session has expired or is invalid. Please sign in again.",
+    "FORBIDDEN": "You do not have permission to access or perform this action.",
+    "NOT_FOUND": "Requested resource not found.",
+    "RESOURCE_NOT_FOUND": "Requested resource not found.",
+    "CONFLICT": "Conflict with current state or resource already exists.",
+    "UNPROCESSABLE_ENTITY": "Data validation failed. Please check your submission.",
+    "VALIDATION_FAILED": "Validation failed. Please verify the input fields.",
+    "VALIDATION FAILED": "Validation failed. Please verify the input fields.",
+    "TOO_MANY_REQUESTS": "Too many requests. Please wait a moment and try again.",
+    "RATE_LIMIT_EXCEEDED": "Rate limit exceeded. Please wait a moment and try again.",
+    "RATE LIMIT EXCEEDED": "Rate limit exceeded. Please wait a moment and try again.",
+    "INTERNAL_SERVER_ERROR": "An unexpected server error occurred. Please try again later.",
+    "INTERNAL ERROR": "An unexpected server error occurred. Please try again later.",
+    "INVALID TOKEN": "Invalid or expired session token. Please sign in again.",
+    "CAN'T DELETE": "Cannot delete resource due to existing relationships or constraints.",
+    "IDEMPOTENCY KEY REUSED": "Request is already being processed, please do not resubmit.",
+    "networkError": "Unable to connect to server. Please check your network connection.",
+    "fallback": "An error occurred while processing your request. Please try again later."
+  },
+  "apiSuccess": {
+    "fallback": "Action completed successfully."
   }
 }

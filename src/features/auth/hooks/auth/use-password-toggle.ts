@@ -1,8 +1,5 @@
 import { useState, useCallback } from 'react';
 
-/**
- * Custom hook to manage password input visibility state
- */
 export const usePasswordToggle = (initialVisible = false) => {
   const [isVisible, setIsVisible] = useState(initialVisible);
 

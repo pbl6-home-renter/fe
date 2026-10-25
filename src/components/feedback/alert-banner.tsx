@@ -1,4 +1,5 @@
 import { useState, type ReactNode, type HTMLAttributes } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CheckCircle2,
   AlertTriangle,
@@ -59,6 +60,7 @@ export const AlertBanner = ({
   className,
   ...props
 }: AlertBannerProps) => {
+  const { t } = useTranslation('common');
   const [dismissed, setDismissed] = useState(false);
   const config = variantConfig[variant] || variantConfig.info;
   const { Icon, iconColor, container } = config;
@@ -94,7 +96,7 @@ export const AlertBanner = ({
           type="button"
           onClick={handleDismiss}
           className="shrink-0 p-1 rounded-md opacity-60 hover:opacity-100 hover:bg-black/5 transition-opacity cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary"
-          aria-label="Đóng thông báo"
+          aria-label={t('closeAlert')}
         >
           <X className="w-4 h-4" aria-hidden="true" />
         </button>

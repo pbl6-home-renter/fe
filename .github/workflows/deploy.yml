@@ -64,8 +64,10 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/pbl6-web:latest
+          # build-args: |
+          #   VITE_API_BASE_URL=/api/v1
           build-args: |
-            VITE_API_BASE_URL=/api/v1
+            VITE_API_BASE_URL=http://${{ secrets.EC2_HOST }}/api/v1
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
