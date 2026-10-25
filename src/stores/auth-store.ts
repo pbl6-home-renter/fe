@@ -5,10 +5,14 @@ import type { User } from '@/types/user';
 interface AuthState {
   user: User | null;
   accessToken: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
-  setAuth: (user: User, accessToken: string) => void;
+  isHydrated: boolean;
+  setAuth: (user: User, accessToken: string, refreshToken?: string | null) => void;
   setUser: (user: User | null) => void;
   setAccessToken: (accessToken: string | null) => void;
+  setRefreshToken: (refreshToken: string | null) => void;
+  setHydrated: (isHydrated: boolean) => void;
   clearAuth: () => void;
 }
 
@@ -57,12 +61,15 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       accessToken: null,
+      refreshToken: null,
       isAuthenticated: false,
+      isHydrated: false,
 
-      setAuth: (user: User, accessToken: string) =>
+      setAuth: (user: User, accessToken: string, refreshToken: string | null = null) =>
         set({
           user,
           accessToken,
+          refreshToken,
           isAuthenticated: true,
         }),
 
@@ -78,16 +85,30 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: !!accessToken && !!state.user,
         })),
 
+      setRefreshToken: (refreshToken: string | null) =>
+        set({
+          refreshToken,
+        }),
+
+      setHydrated: (isHydrated: boolean) =>
+        set({
+          isHydrated,
+        }),
+
       clearAuth: () =>
         set({
           user: null,
           accessToken: null,
+          refreshToken: null,
           isAuthenticated: false,
         }),
     }),
     {
       name: 'rentify_auth_storage',
       storage: createJSONStorage(() => safeStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated(true);
+      },
     }
   )
 );

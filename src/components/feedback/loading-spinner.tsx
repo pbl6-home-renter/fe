@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 export type SpinnerSize = 'sm' | 'md' | 'lg';
@@ -24,20 +25,20 @@ const colorClasses: Record<SpinnerColor, string> = {
   current: 'text-current',
 };
 
-/**
- * LoadingSpinner component - smooth accessible SVG spinner
- */
 export const LoadingSpinner = ({
   size = 'md',
   color = 'primary',
   className,
-  label = 'Đang tải...',
+  label,
   ...props
 }: LoadingSpinnerProps) => {
+  const { t } = useTranslation('common');
+  const accessibleLabel = label ?? t('loading');
+
   return (
     <span
       role="status"
-      aria-label={label}
+      aria-label={accessibleLabel}
       className={cn('inline-flex items-center justify-center shrink-0', className)}
       {...props}
     >
@@ -62,8 +63,7 @@ export const LoadingSpinner = ({
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
         />
       </svg>
-      <span className="sr-only">{label}</span>
+      <span className="sr-only">{accessibleLabel}</span>
     </span>
   );
 };
-

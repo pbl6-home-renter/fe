@@ -1,8 +1,5 @@
 import { useState, useCallback } from 'react';
 
-/**
- * Shared generic hook to manage form values, validation errors, and touched fields
- */
 export function useAuthFormState<T extends Record<string, unknown>>(initialValues: T) {
   const [values, setValues] = useState<T>(initialValues);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -10,7 +7,6 @@ export function useAuthFormState<T extends Record<string, unknown>>(initialValue
 
   const setFieldValue = useCallback(<K extends keyof T>(field: K, value: T[K]) => {
     setValues((prev) => ({ ...prev, [field]: value }));
-    // Clear validation error when field is updated
     setErrors((prev) => {
       if (!prev[field as string]) return prev;
       const next = { ...prev };

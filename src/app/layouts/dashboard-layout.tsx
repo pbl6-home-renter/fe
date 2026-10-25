@@ -1,26 +1,25 @@
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/use-auth';
+import { useLogoutMutation } from '@/features/auth/hooks/auth/use-logout-mutation';
 import { Sidebar } from './components/sidebar';
 import { Header } from './components/header';
 import { LogoutModal } from './components/logout-modal';
 
 export const DashboardLayout = () => {
-  const { logout } = useAuth();
+  const logoutMutation = useLogoutMutation();
   const navigate = useNavigate();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const handleConfirmLogout = () => {
-    setIsLoggingOut(true);
+  const handleConfirmLogout = async () => {
     try {
-      logout();
+      await logoutMutation.mutateAsync();
+    } catch {
+      // Handled in onError (clearAuth and toast)
+    } finally {
       setLogoutModalOpen(false);
       navigate('/login', { replace: true });
-    } finally {
-      setIsLoggingOut(false);
     }
   };
 
@@ -54,7 +53,7 @@ export const DashboardLayout = () => {
         open={logoutModalOpen}
         onClose={() => setLogoutModalOpen(false)}
         onConfirm={handleConfirmLogout}
-        isLoading={isLoggingOut}
+        isLoading={logoutMutation.isPending}
       />
     </div>
   );

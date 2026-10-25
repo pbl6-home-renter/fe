@@ -1,33 +1,36 @@
 import { useAuthStore } from '@/stores/auth-store';
-import type { User } from '@/types/user';
+import { useCurrentUserQuery } from '@/features/auth/hooks/auth/use-current-user-query';
 import type { Role } from '@/types/role';
 
 export const useAuth = () => {
   const user = useAuthStore((state) => state.user);
   const accessToken = useAuthStore((state) => state.accessToken);
+  const refreshToken = useAuthStore((state) => state.refreshToken);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isHydrated = useAuthStore((state) => state.isHydrated);
   const setAuth = useAuthStore((state) => state.setAuth);
   const clearAuth = useAuthStore((state) => state.clearAuth);
 
-  const role: Role | null = user?.role ?? null;
+  const currentUserQuery = useCurrentUserQuery();
 
-  const login = (userData: User, tokens: { accessToken: string; refreshToken?: string } | string) => {
-    const token = typeof tokens === 'string' ? tokens : tokens.accessToken;
-    setAuth(userData, token);
-  };
-
-  const logout = () => {
-    clearAuth();
-  };
+  const isRestoringSession =
+    isHydrated &&
+    (isAuthenticated || !!accessToken) &&
+    !user &&
+    !currentUserQuery.isError;
 
   return {
     user,
-    role,
+    role: (user?.role ?? null) as Role | null,
     accessToken,
+    refreshToken,
     isAuthenticated,
-    login,
-    logout,
+    isHydrated,
+    isRestoringSession,
+    currentUserQuery,
+    setAuth,
+    clearAuth,
+    login: setAuth,
+    logout: clearAuth,
   };
 };
-
-

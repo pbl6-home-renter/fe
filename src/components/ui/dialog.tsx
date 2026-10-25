@@ -5,6 +5,7 @@ import {
   type HTMLAttributes,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { IconButton } from './icon-button';
@@ -41,6 +42,7 @@ export const Dialog = ({
   closeOnEsc = true,
   className,
 }: DialogProps) => {
+  const { t } = useTranslation('common');
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -91,7 +93,7 @@ export const Dialog = ({
           <IconButton
             variant="ghost"
             size="sm"
-            aria-label="Đóng hộp thoại"
+            aria-label={t('closeDialog')}
             onClick={onClose}
           >
             <X className="w-4 h-4" aria-hidden="true" />

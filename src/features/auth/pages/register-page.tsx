@@ -18,25 +18,23 @@ import {
 } from '@/components/ui/card';
 import { Role } from '@/types/role';
 import { cn } from '@/lib/utils';
-import { useRegisterForm } from '@/features/auth/hooks/use-register-form';
+import { useRegisterForm } from '@/features/auth/hooks/register/use-register-form';
 
 export const RegisterPage = () => {
   const { t } = useTranslation('auth');
   const {
+    register,
     setRole,
-    values,
     errors,
-    isLoading,
+    isSubmitting,
     isLandlord,
     isTenant,
-    handleChange,
     handleSubmit,
   } = useRegisterForm();
 
   return (
-    <Card className="w-full max-w-[480px] shadow-card border-rentify-divider rounded-[24px]">
+    <Card className="w-full max-w-120 shadow-card border-rentify-divider rounded-[24px]">
       <CardHeader className="text-center pb-4">
-        {/* Brand Monogram Icon */}
         <div className="mx-auto w-12 h-12 rounded-xl bg-rentify-primary-container/10 flex items-center justify-center text-rentify-primary mb-3 shadow-xs">
           <svg
             className="w-7 h-7"
@@ -75,22 +73,32 @@ export const RegisterPage = () => {
       </CardHeader>
 
       <CardContent>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          {/* Role Selection Tabs / Cards */}
+        {errors.serverError && (
+          <div
+            role="alert"
+            className="flex items-center gap-2 p-3 mb-4 rounded-xl bg-rentify-error/10 border border-rentify-error/20 text-rentify-error text-sm font-medium"
+          >
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{errors.serverError}</span>
+          </div>
+        )}
+
+        <form className="space-y-4" onSubmit={handleSubmit} noValidate>
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-rentify-text-primary">
               {t('selectRole')}
             </label>
             <div className="grid grid-cols-2 gap-3">
-              {/* Tenant Option */}
               <button
                 type="button"
+                disabled={isSubmitting}
                 onClick={() => setRole(Role.TENANT)}
                 className={cn(
                   'flex flex-col items-start p-3 rounded-xl border text-left transition-all cursor-pointer relative',
                   isTenant
                     ? 'border-rentify-primary bg-rentify-primary-container/10 ring-1 ring-rentify-primary'
-                    : 'border-rentify-divider bg-white hover:bg-rentify-background'
+                    : 'border-rentify-divider bg-white hover:bg-rentify-background',
+                  isSubmitting && 'opacity-60 cursor-not-allowed'
                 )}
               >
                 <div className="flex items-center justify-between w-full mb-1">
@@ -116,15 +124,16 @@ export const RegisterPage = () => {
                 </span>
               </button>
 
-              {/* Landlord Option */}
               <button
                 type="button"
+                disabled={isSubmitting}
                 onClick={() => setRole(Role.LANDLORD)}
                 className={cn(
                   'flex flex-col items-start p-3 rounded-xl border text-left transition-all cursor-pointer relative',
                   isLandlord
                     ? 'border-rentify-primary bg-rentify-primary-container/10 ring-1 ring-rentify-primary'
-                    : 'border-rentify-divider bg-white hover:bg-rentify-background'
+                    : 'border-rentify-divider bg-white hover:bg-rentify-background',
+                  isSubmitting && 'opacity-60 cursor-not-allowed'
                 )}
               >
                 <div className="flex items-center justify-between w-full mb-1">
@@ -150,78 +159,70 @@ export const RegisterPage = () => {
                 </span>
               </button>
             </div>
-          </div>
-
-          {/* Full Name */}
-          <Input
-            label={t('fullname')}
-            type="text"
-            value={values.fullname}
-            onChange={(e) => handleChange('fullname', e.target.value)}
-            placeholder={isLandlord ? t('placeholders.fullnameLandlord') : t('placeholders.fullnameTenant')}
-            error={errors.fullname}
-            required
-          />
-
-          {/* Phone Number */}
-          <Input
-            label={t('phone')}
-            type="tel"
-            value={values.phone}
-            onChange={(e) => handleChange('phone', e.target.value)}
-            placeholder={t('placeholders.phone')}
-            error={errors.phone}
-            required
-          />
-
-          {/* Email */}
-          <Input
-            label={t('email')}
-            type="email"
-            value={values.email}
-            onChange={(e) => handleChange('email', e.target.value)}
-            placeholder={t('placeholders.email')}
-            autoComplete="email"
-            error={errors.email}
-            required
-          />
-
-          {/* Password */}
-          <PasswordInput
-            label={t('password')}
-            value={values.password}
-            onChange={(e) => handleChange('password', e.target.value)}
-            placeholder={t('placeholders.password')}
-            autoComplete="new-password"
-            error={errors.password}
-            required
-          />
-
-          {/* Confirm Password */}
-          <div>
-            <PasswordInput
-              label={t('confirmPassword')}
-              value={values.confirmPassword}
-              onChange={(e) => handleChange('confirmPassword', e.target.value)}
-              placeholder={t('placeholders.password')}
-              autoComplete="new-password"
-              error={errors.confirmPassword}
-              required
-            />
-            {errors.confirmPassword && (
-              <div className="flex items-center gap-1.5 mt-1 text-rentify-error text-xs">
-                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                <span>{errors.confirmPassword}</span>
-              </div>
+            {errors.role && (
+              <p role="alert" className="text-xs font-medium text-rentify-error mt-0.5">
+                {errors.role}
+              </p>
             )}
           </div>
 
-          {/* Submit Button */}
+          <Input
+            label={t('name')}
+            type="text"
+            placeholder={isLandlord ? t('placeholders.nameLandlord') : t('placeholders.nameTenant')}
+            error={errors.name}
+            disabled={isSubmitting}
+            required
+            {...register('name')}
+          />
+
+          <Input
+            label={t('phone')}
+            type="tel"
+            placeholder={t('placeholders.phone')}
+            error={errors.phone}
+            disabled={isSubmitting}
+            required
+            {...register('phone')}
+          />
+
+          <Input
+            label={t('email')}
+            type="email"
+            placeholder={t('placeholders.email')}
+            autoComplete="email"
+            error={errors.email}
+            disabled={isSubmitting}
+            required
+            {...register('email')}
+          />
+
+          <PasswordInput
+            label={t('password')}
+            placeholder={t('placeholders.password')}
+            autoComplete="new-password"
+            error={errors.password}
+            disabled={isSubmitting}
+            required
+            {...register('password')}
+          />
+
+          <PasswordInput
+            label={t('confirmPassword')}
+            placeholder={t('placeholders.password')}
+            autoComplete="new-password"
+            error={errors.confirmPassword}
+            disabled={isSubmitting}
+            required
+            {...register('confirmPassword')}
+          />
+
           <div className="pt-2">
             <Button
               type="submit"
               size="lg"
-              isLoading={isLoading}
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
               className="w-full justify-center"
             >
               {t('register')}
@@ -229,7 +230,6 @@ export const RegisterPage = () => {
           </div>
         </form>
 
-        {/* Bottom Login Link */}
         <div className="mt-6 text-center text-xs text-rentify-text-secondary">
           <span>{t('alreadyHaveAccount')}</span>
           <Link
