@@ -100,4 +100,4 @@ jobs:
             echo "[+] Pulling latest infra scripts..."
             git pull --ff-only
             echo "[+] Pulling latest FE image and reloading web/Caddy..."
-            bash ./scripts/deploy.sh web caddy
+            DEPLOY_STACK=edge bash ./scripts/deploy.sh web caddy
