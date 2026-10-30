@@ -1,0 +1,18 @@
+{
+  "apiErrors": {
+    "MEDIA_TYPE_NOT_ALLOWED": "This file type or size is not supported.",
+    "INVALID_PURPOSE": "This file purpose does not match the target item.",
+    "UPLOAD_NOT_COMPLETED": "The file has not finished uploading. Please try again.",
+    "TICKET_EXPIRED": "The upload session has expired. Please select the file and upload again.",
+    "MEDIA_DELETED": "The file has been deleted.",
+    "CANNOT_DELETE": "This file is kept as evidence and cannot be deleted.",
+    "MEDIA_FILE_REQUIRED": "Please select a file.",
+    "MEDIA_FILE_EMPTY": "The file is empty, please choose another one.",
+    "MEDIA_FILE_TOO_LARGE": "The file exceeds the size limit (max 10 MB).",
+    "MEDIA_STORAGE_UPLOAD_FAILED": "Could not upload the file to storage. Please try again.",
+    "MEDIA_UPLOAD_CANCELED": "File upload canceled."
+  },
+  "apiSuccess": {
+    "MEDIA_UPLOAD_COMPLETED": "File uploaded successfully."
+  }
+}

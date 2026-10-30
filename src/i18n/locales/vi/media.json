@@ -1,0 +1,18 @@
+{
+  "apiErrors": {
+    "MEDIA_TYPE_NOT_ALLOWED": "Định dạng hoặc dung lượng tệp không được hỗ trợ.",
+    "INVALID_PURPOSE": "Loại tệp không phù hợp với đối tượng được tải lên.",
+    "UPLOAD_NOT_COMPLETED": "Tệp chưa được tải lên xong. Vui lòng thử lại.",
+    "TICKET_EXPIRED": "Phiên tải lên đã hết hạn. Vui lòng chọn lại tệp và tải lên.",
+    "MEDIA_DELETED": "Tệp đã bị xóa.",
+    "CANNOT_DELETE": "Tệp này đang được lưu làm bằng chứng nên không thể xóa.",
+    "MEDIA_FILE_REQUIRED": "Vui lòng chọn tệp.",
+    "MEDIA_FILE_EMPTY": "Tệp rỗng, vui lòng chọn tệp khác.",
+    "MEDIA_FILE_TOO_LARGE": "Tệp vượt quá dung lượng cho phép (tối đa 10 MB).",
+    "MEDIA_STORAGE_UPLOAD_FAILED": "Không thể tải tệp lên kho lưu trữ. Vui lòng thử lại.",
+    "MEDIA_UPLOAD_CANCELED": "Đã hủy tải lên tệp."
+  },
+  "apiSuccess": {
+    "MEDIA_UPLOAD_COMPLETED": "Tải tệp lên thành công."
+  }
+}

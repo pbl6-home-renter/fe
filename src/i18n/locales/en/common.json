@@ -221,6 +221,8 @@
     "INVALID TOKEN": "Invalid or expired session token. Please sign in again.",
     "CAN'T DELETE": "Cannot delete resource due to existing relationships or constraints.",
     "IDEMPOTENCY KEY REUSED": "Request is already being processed, please do not resubmit.",
+    "SERVICE_UNAVAILABLE": "The service is temporarily unavailable. Please try again later.",
+    "UNEXPECTED_FIELD": "The request contains an unsupported field.",
     "networkError": "Unable to connect to server. Please check your network connection.",
     "fallback": "An error occurred while processing your request. Please try again later."
   },
