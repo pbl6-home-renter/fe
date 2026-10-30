@@ -23,12 +23,12 @@ const VARIANT_STYLES: Record<ButtonVariant, string> = {
   primary:
     'bg-rentify-primary text-rentify-on-primary hover:bg-rentify-primary-hover active:scale-[0.99] shadow-sm',
   secondary:
-    'bg-rentify-primary-container text-rentify-on-primary-container hover:bg-[#d8e7fa] active:scale-[0.99]',
+    'bg-rentify-primary-container text-rentify-on-primary-container hover:bg-primary-fixed active:scale-[0.99]',
   outline:
     'border border-rentify-divider bg-rentify-surface text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary',
   ghost:
     'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-primary-container/50',
-  danger: 'bg-rentify-error text-white hover:bg-[#b91c1c] active:scale-[0.99] shadow-sm',
+  danger: 'bg-rentify-error text-white hover:bg-red-700 active:scale-[0.99] shadow-sm',
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {

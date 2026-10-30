@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { changeLanguage } from '@/i18n/i18n';
-import { StatusDot } from '@/components/ui/status-dot';
 import { UserMenuDropdown } from './user-menu-dropdown';
 import {
   getNavigationByRole,
@@ -64,31 +63,19 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* Desktop Session Indicator + Breadcrumb */}
-        <div className="flex items-center gap-2.5">
-          {/* Live Verified Session Indicator from FIX */}
-          <div className="hidden lg:flex items-center gap-2">
-            <StatusDot variant="success" pulse />
-            <span className="text-xs font-semibold text-rentify-text-primary">
-              {t(portalMeta.verifiedLabelKey, portalMeta.fallbackVerifiedLabel)}
-            </span>
-            <span className="h-3.5 w-px bg-rentify-divider" />
-          </div>
-
-          {/* Breadcrumb Navigation */}
-          <nav
-            aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 text-xs sm:text-sm"
-          >
-            <span className="text-rentify-text-secondary font-medium hidden sm:inline">
-              {t(portalMeta.portalNameKey, portalMeta.fallbackPortalName)}
-            </span>
-            <ChevronRight className="w-3.5 h-3.5 text-rentify-neutral hidden sm:inline" />
-            <span className="font-bold text-rentify-text-primary tracking-tight">
-              {breadcrumbTitle}
-            </span>
-          </nav>
-        </div>
+        {/* Breadcrumb Navigation */}
+        <nav
+          aria-label="Breadcrumb"
+          className="flex items-center gap-1.5 text-xs sm:text-sm"
+        >
+          <span className="text-rentify-text-secondary font-medium hidden sm:inline">
+            {t(portalMeta.portalNameKey, portalMeta.fallbackPortalName)}
+          </span>
+          <ChevronRight className="w-3.5 h-3.5 text-rentify-neutral hidden sm:inline" />
+          <span className="font-bold text-rentify-text-primary tracking-tight">
+            {breadcrumbTitle}
+          </span>
+        </nav>
       </div>
 
       {/* Right side: Quick Search, Notifications, Language, User Dropdown */}

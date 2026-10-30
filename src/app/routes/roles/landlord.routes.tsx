@@ -2,27 +2,23 @@ import type { RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { Role } from '@/types/role';
+import { BuildingListPage } from '@/features/buildings/pages/building-list-page';
+import { BuildingDetailPage } from '@/features/buildings/pages/building-detail-page';
 
 export const landlordRoutes: RouteObject[] = [
   {
     path: '/buildings',
     element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
-        <DashboardOverview
-          titleKey="routes.buildings.title"
-          descKey="routes.buildings.desc"
-        />
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <BuildingListPage />
       </ProtectedRoute>
     ),
   },
   {
     path: '/buildings/:id',
     element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
-        <DashboardOverview
-          titleKey="routes.buildings.detailTitle"
-          descKey="routes.buildings.detailDesc"
-        />
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <BuildingDetailPage />
       </ProtectedRoute>
     ),
   },

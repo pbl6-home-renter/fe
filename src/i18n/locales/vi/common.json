@@ -29,13 +29,18 @@
   "switchLanguage": "Chuyển ngôn ngữ",
   "logout": "Đăng xuất",
   "user": "Người dùng",
+  "userRoles": {
+    "landlord": "Chủ nhà",
+    "tenant": "Khách thuê",
+    "admin": "Quản trị viên"
+  },
   "portal": "Portal",
   "portals": {
-    "landlord": "Cổng Chủ Nhà",
-    "tenant": "Cổng cư dân",
-    "admin": "Cổng Quản Trị",
+    "landlord": "Chủ nhà",
+    "tenant": "Khách thuê",
+    "admin": "Quản trị viên",
     "verifiedLandlord": "Chủ nhà xác thực",
-    "verifiedTenant": "Cư dân xác thực",
+    "verifiedTenant": "Khách thuê xác thực",
     "verifiedAdmin": "Quản trị viên"
   },
   "logoutModal": {
@@ -79,7 +84,7 @@
     "chat": "Tin nhắn",
     "admin": {
       "systemStats": "Thống kê hệ thống",
-      "approvals": "Duyệt chủ trọ",
+      "approvals": "Phê duyệt chủ nhà",
       "users": "Quản lý tài khoản",
       "settings": "Cài đặt",
       "auditLogs": "Nhật ký kiểm toán"
@@ -105,10 +110,10 @@
     "dashboard": {
       "defaultTitle": "Tổng quan hệ thống",
       "defaultDesc": "Chào mừng bạn đến với Rentify",
-      "landlordTitle": "Tổng quan chủ trọ",
+      "landlordTitle": "Tổng quan vận hành",
       "landlordDesc": "Báo cáo doanh thu, tình trạng phòng và tỷ lệ lấp đầy",
       "tenantTitle": "Tổng quan phòng thuê",
-      "tenantDesc": "Theo dõi thông tin hợp đồng, hóa đơn và các dịch vụ phòng",
+      "tenantDesc": "Theo dõi thông tin phòng thuê, hợp đồng và hóa đơn dịch vụ",
       "adminTitle": "Thống kê hệ thống",
       "adminDesc": "Báo cáo toàn diện nền tảng Rentify"
     },
@@ -162,19 +167,19 @@
     },
     "tenants": {
       "title": "Quản lý khách thuê",
-      "desc": "Quản lý danh sách cư dân và thành viên hợp đồng",
+      "desc": "Quản lý danh sách khách thuê và hợp đồng thuê",
       "detailTitle": "Hồ sơ khách thuê",
       "detailDesc": "Thông tin cá nhân, định danh CCCD và lịch sử thuê phòng"
     },
     "roommates": {
-      "title": "Tìm người ở ghép",
-      "desc": "Tìm kiếm bạn cùng phòng phù hợp với tiêu chí và sở thích",
+      "title": "Tìm bạn cùng phòng",
+      "desc": "Tìm kiếm bạn cùng phòng phù hợp với tiêu chí và thói quen sinh hoạt",
       "profileTitle": "Hồ sơ ghép phòng",
       "profileDesc": "Thiết lập thông tin cá nhân và thói quen sinh hoạt"
     },
     "chat": {
       "title": "Tin nhắn trao đổi",
-      "desc": "Trò chuyện trực tiếp giữa chủ trọ và khách thuê",
+      "desc": "Trò chuyện trực tiếp giữa chủ nhà và khách thuê",
       "detailTitle": "Cuộc trò chuyện",
       "detailDesc": "Chi tiết tin nhắn và hình ảnh trao đổi"
     },
@@ -193,7 +198,7 @@
     "admin": {
       "systemStatsTitle": "Thống kê hệ thống",
       "systemStatsDesc": "Báo cáo toàn diện nền tảng Rentify",
-      "approvalsTitle": "Duyệt chủ trọ",
+      "approvalsTitle": "Phê duyệt chủ nhà",
       "approvalsDesc": "Hàng đợi phê duyệt hồ sơ chủ nhà và bất động sản",
       "usersTitle": "Quản lý tài khoản",
       "usersDesc": "Danh sách và trạng thái người dùng toàn hệ thống",
@@ -228,5 +233,14 @@
   },
   "apiSuccess": {
     "fallback": "Thao tác thành công."
+  },
+  "administrativeUnits": {
+    "province": "Tỉnh / Thành phố",
+    "selectProvince": "Chọn Tỉnh / Thành phố",
+    "loadingProvinces": "Đang tải tỉnh / thành phố...",
+    "ward": "Phường / Xã",
+    "selectWard": "Chọn Phường / Xã",
+    "loadingWards": "Đang tải phường / xã...",
+    "selectProvinceFirst": "Vui lòng chọn Tỉnh / Thành phố trước"
   }
 }

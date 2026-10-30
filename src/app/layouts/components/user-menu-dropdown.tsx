@@ -97,7 +97,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
         <div
           role="menu"
           aria-orientation="vertical"
-          className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-[0_12px_32px_-4px_rgba(20,42,76,0.15),0_0_0_1px_#D7E3F2] p-2 z-50 animate-in fade-in zoom-in-95 duration-150"
+          className="absolute right-0 top-full mt-2 w-64 bg-rentify-surface rounded-2xl border border-rentify-divider shadow-modal p-2 z-50 animate-in fade-in zoom-in-95 duration-150"
         >
           {/* User Profile Card */}
           <div className="p-3 bg-rentify-background rounded-xl mb-1.5">
@@ -129,7 +129,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background transition-colors cursor-pointer text-left"
             >
               <User className="w-4 h-4 text-rentify-primary shrink-0" />
-              <span>{t('profile', 'Hồ sơ cá nhân')}</span>
+              <span>{t('profile')}</span>
             </button>
 
             <button
@@ -139,7 +139,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background transition-colors cursor-pointer text-left"
             >
               <Settings className="w-4 h-4 text-rentify-primary shrink-0" />
-              <span>{t('settings', 'Cài đặt tài khoản')}</span>
+              <span>{t('settings')}</span>
             </button>
           </div>
 
@@ -153,10 +153,10 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
               setIsOpen(false);
               onOpenLogoutModal();
             }}
-            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rentify-error hover:bg-red-50 transition-colors cursor-pointer text-left"
+            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rentify-error hover:bg-rentify-error/10 transition-colors cursor-pointer text-left"
           >
             <LogOut className="w-4 h-4 shrink-0" />
-            <span>{t('logout', 'Đăng xuất')}</span>
+            <span>{t('logout')}</span>
           </button>
         </div>
       )}

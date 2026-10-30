@@ -1,28 +1,12 @@
 import type { RouteObject } from 'react-router-dom';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
+import { DashboardPage } from '@/features/dashboard/pages/dashboard-page';
 import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-page';
 
 export const commonRoutes: RouteObject[] = [
   {
     path: '/dashboard',
-    element: (
-      <DashboardOverview
-        roleConfig={{
-          landlord: {
-            titleKey: 'routes.dashboard.landlordTitle',
-            descKey: 'routes.dashboard.landlordDesc',
-          },
-          tenant: {
-            titleKey: 'routes.dashboard.tenantTitle',
-            descKey: 'routes.dashboard.tenantDesc',
-          },
-          admin: {
-            titleKey: 'routes.dashboard.adminTitle',
-            descKey: 'routes.dashboard.adminDesc',
-          },
-        }}
-      />
-    ),
+    element: <DashboardPage />,
   },
   {
     path: '/rooms',
