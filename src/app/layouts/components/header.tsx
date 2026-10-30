@@ -7,7 +7,7 @@ import {
   Search,
   ChevronRight,
 } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { changeLanguage } from '@/i18n/i18n';
 import { StatusDot } from '@/components/ui/status-dot';
 import { UserMenuDropdown } from './user-menu-dropdown';

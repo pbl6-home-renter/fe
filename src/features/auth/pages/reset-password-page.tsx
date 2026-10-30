@@ -1,66 +1,14 @@
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PasswordInput } from '@/components/ui/password-input';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card';
-import {
-  resetPasswordSchema,
-  toResetPasswordPayload,
-  type ResetPasswordFormData,
-} from '@/features/auth/validations/password-reset.validation';
-import {
-  setFormApiErrors,
-  getFieldError,
-} from '@/features/auth/validations/common.validation';
-import { useResetPasswordMutation } from '@/features/auth/hooks/auth/use-reset-password-mutation';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { useResetPasswordForm } from '../forms/use-reset-password-form';
 
 export const ResetPasswordPage = () => {
   const { t } = useTranslation('auth');
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get('token') || '';
-
-  const resetMutation = useResetPasswordMutation({
-    suppressErrorToast: true,
-  });
-
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<ResetPasswordFormData>({
-    resolver: zodResolver(resetPasswordSchema),
-    defaultValues: {
-      token,
-      newPassword: '',
-      confirmPassword: '',
-    },
-    mode: 'onTouched',
-  });
-
-  const onSubmit = handleSubmit(async (values) => {
-    try {
-      const payload = toResetPasswordPayload(values);
-      await resetMutation.mutateAsync(payload);
-      navigate('/login', { replace: true });
-    } catch (err: unknown) {
-      setFormApiErrors(setError, err);
-    }
-  });
-
-  const isLoading = resetMutation.isPending || isSubmitting;
-  const serverError = errors.root?.serverError?.message;
-  const isTokenMissing = !token;
+  const { register, errors, isSubmitting, isTokenMissing, handleSubmit } = useResetPasswordForm();
 
   return (
     <Card className="w-full max-w-105 shadow-card border-rentify-divider rounded-[16px]">
@@ -115,25 +63,23 @@ export const ResetPasswordPage = () => {
           </div>
         ) : (
           <>
-            {serverError && (
+            {errors.serverError && (
               <div
                 role="alert"
                 className="flex items-center gap-2 p-3 rounded-xl bg-rentify-error/10 border border-rentify-error/20 text-rentify-error text-sm font-medium"
               >
                 <AlertCircle className="w-4 h-4 shrink-0" />
-                <span>{serverError}</span>
+                <span>{errors.serverError}</span>
               </div>
             )}
 
-            <form className="space-y-4" onSubmit={onSubmit} noValidate>
-              <input type="hidden" {...register('token')} value={token} />
-
+            <form className="space-y-4" onSubmit={handleSubmit} noValidate>
               <PasswordInput
                 label={t('newPassword')}
                 placeholder={t('placeholders.password')}
                 autoComplete="new-password"
-                error={getFieldError(errors.newPassword, t)}
-                disabled={isLoading}
+                error={errors.newPassword}
+                disabled={isSubmitting}
                 required
                 {...register('newPassword')}
               />
@@ -142,8 +88,8 @@ export const ResetPasswordPage = () => {
                 label={t('confirmPassword')}
                 placeholder={t('placeholders.password')}
                 autoComplete="new-password"
-                error={getFieldError(errors.confirmPassword, t)}
-                disabled={isLoading}
+                error={errors.confirmPassword}
+                disabled={isSubmitting}
                 required
                 {...register('confirmPassword')}
               />
@@ -155,8 +101,8 @@ export const ResetPasswordPage = () => {
               <Button
                 type="submit"
                 size="lg"
-                isLoading={isLoading}
-                disabled={isLoading}
+                isLoading={isSubmitting}
+                disabled={isSubmitting}
                 className="w-full justify-center mt-2"
               >
                 {t('resetPasswordTitle')}

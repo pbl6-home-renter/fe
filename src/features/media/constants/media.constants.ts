@@ -106,20 +106,18 @@ export const getMediaAccept = (purpose: MediaPurpose): string =>
 /** Matches the `url` complete-upload returns for private files. */
 export const PRIVATE_MEDIA_URL_PATTERN = /\/media\/([0-9a-f-]{36})\/?$/i;
 
-export const MEDIA_SUCCESS_CODES = {
-  MEDIA_UPLOAD_TICKET_ISSUED: 'MEDIA_UPLOAD_TICKET_ISSUED',
-  MEDIA_UPLOAD_COMPLETED: 'MEDIA_UPLOAD_COMPLETED',
+export const MEDIA_QUERY_KEYS = {
+  ALL: ['media'],
+  OBJECT: (mediaId: string) => ['media', 'object', mediaId],
 } as const;
 
-/** Backend codes plus client-only codes (`MEDIA_FILE_*`, `MEDIA_STORAGE_*`, `MEDIA_UPLOAD_CANCELED`). */
+/**
+ * Codes the client raises itself (validation, storage PUT, cancel). Backend codes
+ * need no constant: they are translated straight from the response.
+ */
 export const MEDIA_ERROR_CODES = {
   MEDIA_TYPE_NOT_ALLOWED: 'MEDIA_TYPE_NOT_ALLOWED',
   INVALID_PURPOSE: 'INVALID_PURPOSE',
-  UPLOAD_NOT_COMPLETED: 'UPLOAD_NOT_COMPLETED',
-  TICKET_EXPIRED: 'TICKET_EXPIRED',
-  MEDIA_DELETED: 'MEDIA_DELETED',
-  CANNOT_DELETE: 'CANNOT_DELETE',
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
   MEDIA_FILE_REQUIRED: 'MEDIA_FILE_REQUIRED',
   MEDIA_FILE_EMPTY: 'MEDIA_FILE_EMPTY',
   MEDIA_FILE_TOO_LARGE: 'MEDIA_FILE_TOO_LARGE',

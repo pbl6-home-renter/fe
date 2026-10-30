@@ -1,15 +1,15 @@
-import axios from 'axios';
-import { apiClient } from '@/lib/axios';
-import type { ApiResponse } from '@/types/api';
+import axios, { type AxiosRequestConfig } from 'axios';
+import { http } from '@/lib/api/http';
 import type {
   MediaCompleteUploadResponseDto,
   MediaPresignUploadRequestDto,
   MediaPresignUploadResponseDto,
 } from '../types/media.dto';
 
-export interface MediaRequestOptions {
-  signal?: AbortSignal;
-}
+export type MediaRequestOptions = Pick<
+  AxiosRequestConfig,
+  'signal' | 'skipSuccessToast' | 'skipErrorToast'
+>;
 
 export interface MediaStorageUploadOptions extends MediaRequestOptions {
   /** 0–100 */
@@ -17,16 +17,8 @@ export interface MediaStorageUploadOptions extends MediaRequestOptions {
 }
 
 export const mediaApi = {
-  presignUpload: async (
-    payload: MediaPresignUploadRequestDto,
-    options?: MediaRequestOptions
-  ): Promise<MediaPresignUploadResponseDto> => {
-    return apiClient.post<ApiResponse<MediaPresignUploadResponseDto>, MediaPresignUploadResponseDto>(
-      '/media/presign-upload',
-      payload,
-      { signal: options?.signal }
-    );
-  },
+  presignUpload: (body: MediaPresignUploadRequestDto, options?: MediaRequestOptions) =>
+    http.post<MediaPresignUploadResponseDto>('/media/presign-upload', body, options),
 
   /**
    * PUTs the raw file to the presigned storage URL. Uses plain `axios`, not
@@ -51,25 +43,19 @@ export const mediaApi = {
     });
   },
 
-  completeUpload: async (
-    mediaId: string,
-    options?: MediaRequestOptions
-  ): Promise<MediaCompleteUploadResponseDto> => {
-    return apiClient.post<
-      ApiResponse<MediaCompleteUploadResponseDto>,
-      MediaCompleteUploadResponseDto
-    >(`/media/${mediaId}/complete-upload`, undefined, { signal: options?.signal });
-  },
+  completeUpload: (mediaId: string, options?: MediaRequestOptions) =>
+    http.post<MediaCompleteUploadResponseDto>(
+      `/media/${mediaId}/complete-upload`,
+      undefined,
+      options
+    ),
 
-  /** Streams a private file (needs the Bearer token, so it can't be an `<img src>`). */
-  getBlob: async (mediaId: string, options?: MediaRequestOptions): Promise<Blob> => {
-    return apiClient.get<Blob, Blob>(`/media/${mediaId}`, {
-      responseType: 'blob',
-      signal: options?.signal,
-    });
-  },
+  /**
+   * Streams a private file (needs the Bearer token, so it can't be an `<img src>`).
+   * No error toast: a broken image is shown by the component instead.
+   */
+  getBlob: (mediaId: string, options?: MediaRequestOptions) =>
+    http.getBlob(`/media/${mediaId}`, { signal: options?.signal, skipErrorToast: true }),
 
-  delete: async (mediaId: string): Promise<void> => {
-    return apiClient.delete<void, void>(`/media/${mediaId}`);
-  },
+  delete: (mediaId: string) => http.delete(`/media/${mediaId}`),
 };

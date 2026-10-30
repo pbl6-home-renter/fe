@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '@/features/auth/hooks/auth/use-logout-mutation';
+import { useLogoutMutation } from '@/features/auth/hooks/use-logout-mutation';
 import { Sidebar } from './components/sidebar';
 import { Header } from './components/header';
 import { LogoutModal } from './components/logout-modal';

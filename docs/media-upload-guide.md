@@ -44,11 +44,11 @@ File được gắn với thực thể cha ngay lúc presign qua `ownerType` + `
 ```
 fe/src/features/media/
 ├── api/media.api.ts                 # mediaApi: presignUpload, putToStorage, completeUpload, getBlob, delete
-├── constants/media.constants.ts     # MEDIA_PURPOSE_RULES, MEDIA_MAX_SIZE_BYTES, getMediaAccept, mã lỗi/thành công
+├── constants/media.constants.ts     # MEDIA_PURPOSE_RULES, MEDIA_MAX_SIZE_BYTES, getMediaAccept, MEDIA_QUERY_KEYS, mã lỗi phía client
 ├── types/media.dto.ts               # MediaOwnerType, MediaPurpose, MediaContentType, MediaCaptureSource + DTO
 ├── utils/upload-media.ts            # uploadMedia() (cả luồng), validateMediaFile(), MediaUploadError
-├── validations/media.validation.ts  # createMediaFileSchema(), createMediaFilesSchema() cho react-hook-form
-└── hooks/media/
+├── forms/media-file.schema.ts       # createMediaFileSchema(), createMediaFilesSchema() cho react-hook-form
+└── hooks/
     ├── use-media-upload.ts              # useMediaUpload(): mutation + progress + cancel
     ├── use-media-object-url-query.ts    # useMediaObjectUrl(): hiển thị file private
     └── use-delete-media-mutation.ts     # useDeleteMediaMutation()
@@ -85,7 +85,7 @@ Giới hạn chung: tối đa **10 MB**/file, không nhận SVG/HTML/video. Admi
 
 ```tsx
 import { useTranslation } from 'react-i18next';
-import { useMediaUpload } from '@/features/media/hooks/media/use-media-upload';
+import { useMediaUpload } from '@/features/media/hooks/use-media-upload';
 import { getMediaAccept } from '@/features/media/constants/media.constants';
 import { MediaOwnerType, MediaPurpose } from '@/features/media/types/media.dto';
 import { ProgressMeterTrack } from '@/components/ui/progress-meter';
@@ -129,7 +129,7 @@ export const AvatarUploader = () => {
 };
 ```
 
-`useMediaUpload(options?)` nhận cùng options như `useAppMutation` và trả về:
+`useMediaUpload(options?)` nhận cùng options như `useMutation` (trừ `mutationFn`) và trả về:
 
 | Giá trị | Ý nghĩa |
 |---|---|
@@ -140,14 +140,14 @@ export const AvatarUploader = () => {
 | `reset()` | Hủy + xóa `data`/`error`/`progress`. |
 | `data`, `error`, … | Như `useMutation`. |
 
-Mặc định: thành công → toast `MEDIA_UPLOAD_COMPLETED`; lỗi → toast theo mã lỗi (mục 5). Tắt bằng `useMediaUpload({ suppressErrorToast: true, successCode: undefined })`.
+Mặc định: thành công → toast theo mã `MEDIA_UPLOAD_COMPLETED` mà API trả về; lỗi → toast theo mã lỗi (mục 5). Tắt bằng biến `skipErrorToast: true` / `skipSuccessToast: true` khi gọi `upload`/`uploadAsync` (hoặc `uploadMedia`).
 
 ### B. Upload nhiều file rồi gửi `mediaId` vào API nghiệp vụ (ví dụ: ảnh phòng)
 
 `ownerId` phải là id của phòng **đã tồn tại**. Upload tuần tự bằng `uploadAsync` để progress dễ hiểu và tránh toast lặp:
 
 ```tsx
-const { uploadAsync, progress, isUploading } = useMediaUpload({ successCode: undefined });
+const { uploadAsync, progress, isUploading } = useMediaUpload();
 
 const uploadGallery = async (roomId: string, files: File[]): Promise<string[]> => {
   const mediaIds: string[] = [];
@@ -157,6 +157,7 @@ const uploadGallery = async (roomId: string, files: File[]): Promise<string[]> =
       ownerType: MediaOwnerType.ROOM,
       ownerId: roomId,
       purpose: MediaPurpose.GALLERY_PHOTO,
+      skipSuccessToast: true,
     });
     mediaIds.push(media.id);
   }
@@ -171,7 +172,7 @@ Muốn upload song song: gọi trực tiếp `uploadMedia()` từ `utils/upload-
 `url` của file private (`/api/v1/media/{id}`) cần Bearer token nên **không** dùng thẳng được trong `<img src>` / `<a href>`. Dùng `useMediaObjectUrl`: hook tự tải blob qua `apiClient` và trả object URL (tự revoke khi unmount). Với URL public, hook trả nguyên URL, nên có thể dùng cho mọi loại `url`.
 
 ```tsx
-import { useMediaObjectUrl } from '@/features/media/hooks/media/use-media-object-url-query';
+import { useMediaObjectUrl } from '@/features/media/hooks/use-media-object-url-query';
 
 const SignedContractPreview = ({ url }: { url: string }) => {
   const { src, isLoading } = useMediaObjectUrl(url);
@@ -195,7 +196,7 @@ deleteMedia.mutate(mediaId);
 
 ```ts
 import { z } from 'zod';
-import { createMediaFileSchema, createMediaFilesSchema } from '@/features/media/validations/media.validation';
+import { createMediaFileSchema, createMediaFilesSchema } from '@/features/media/forms/media-file.schema';
 import { MediaPurpose } from '@/features/media/types/media.dto';
 
 export const roomPhotosSchema = z.object({
@@ -204,7 +205,7 @@ export const roomPhotosSchema = z.object({
 });
 ```
 
-`message` của lỗi là **mã lỗi** (ví dụ `MEDIA_FILE_TOO_LARGE`), hiển thị bằng `getApiErrorMessage(errors.cover?.message ?? '')` từ `@/lib/api-code-i18n`. Ngoài form có thể gọi `validateMediaFile(file, purpose)` (trả mã lỗi hoặc `null`).
+`message` của lỗi là **mã lỗi** (ví dụ `MEDIA_FILE_TOO_LARGE`), hiển thị bằng `getApiErrorMessage(errors.cover?.message ?? '')` từ `@/lib/api/api-messages`. Ngoài form có thể gọi `validateMediaFile(file, purpose)` (trả mã lỗi hoặc `null`).
 
 ---
 

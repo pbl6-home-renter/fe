@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 import { LoadingSpinner } from './loading-spinner';
 
 export interface LoadingOverlayProps extends HTMLAttributes<HTMLDivElement> {

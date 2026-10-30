@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Navigate, Outlet, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { getHomePathByRole } from '@/app/routes/route-utils';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 

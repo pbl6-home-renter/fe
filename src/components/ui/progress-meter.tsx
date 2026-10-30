@@ -1,5 +1,5 @@
 import { type HTMLAttributes } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 export interface ProgressMeterProps extends HTMLAttributes<HTMLDivElement> {
   value: number; // 0 to 100 or relative to max

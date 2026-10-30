@@ -1,8 +1,5 @@
 import type { Role } from './role';
 
-export type { Role };
-export { Role as RoleEnum } from './role';
-
 export const UserStatus = {
   ACTIVE: 'active',
   LOCKED: 'locked',

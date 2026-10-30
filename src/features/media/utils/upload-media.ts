@@ -1,5 +1,6 @@
 import { isCancel } from 'axios';
-import { getApiErrorMessage } from '@/lib/api-code-i18n';
+import { toast } from 'sonner';
+import { getApiErrorMessage } from '@/lib/api/api-messages';
 import { mediaApi } from '../api/media.api';
 import {
   MEDIA_CONTENT_TYPE_EXTENSIONS,
@@ -41,6 +42,10 @@ export interface UploadMediaParams {
   /** Storage PUT progress, 0–100. */
   onProgress?: (percent: number) => void;
   signal?: AbortSignal;
+  /** Don't toast "upload completed", e.g. when uploading a batch one by one. */
+  skipSuccessToast?: boolean;
+  /** Don't toast errors, e.g. when the form shows them inline. */
+  skipErrorToast?: boolean;
 }
 
 /** Returns the error code the backend would reject this file with, or `null`. */
@@ -80,12 +85,7 @@ const throwIfAborted = (signal?: AbortSignal): void => {
   }
 };
 
-/**
- * Full upload flow: validate → presign → PUT to storage → complete.
- * Resolves with the completed media; use its `id` in business APIs
- * (e.g. `photoMediaIds`) and its `url` to display the file.
- */
-export const uploadMedia = async ({
+const runUpload = async ({
   file,
   ownerType,
   ownerId,
@@ -93,6 +93,8 @@ export const uploadMedia = async ({
   captureSource,
   onProgress,
   signal,
+  skipSuccessToast,
+  skipErrorToast,
 }: UploadMediaParams): Promise<MediaCompleteUploadResponseDto> => {
   if (!MEDIA_PURPOSE_RULES[purpose].ownerTypes.includes(ownerType)) {
     throw new MediaUploadError(MEDIA_ERROR_CODES.INVALID_PURPOSE);
@@ -115,7 +117,7 @@ export const uploadMedia = async ({
         size: file.size,
         ...(captureSource ? { captureSource } : {}),
       },
-      { signal }
+      { signal, skipErrorToast }
     );
 
     onProgress?.(0);
@@ -133,10 +135,31 @@ export const uploadMedia = async ({
     }
 
     throwIfAborted(signal);
-    return await mediaApi.completeUpload(ticket.id, { signal });
+    return await mediaApi.completeUpload(ticket.id, { signal, skipSuccessToast, skipErrorToast });
   } catch (error) {
     if (isCancel(error)) {
       throw new MediaUploadError(MEDIA_ERROR_CODES.MEDIA_UPLOAD_CANCELED, { cause: error });
+    }
+    throw error;
+  }
+};
+
+/**
+ * Full upload flow: validate → presign → PUT to storage → complete.
+ * Resolves with the completed media; use its `id` in business APIs
+ * (e.g. `photoMediaIds`) and its `url` to display the file.
+ */
+export const uploadMedia = async (
+  params: UploadMediaParams
+): Promise<MediaCompleteUploadResponseDto> => {
+  try {
+    return await runUpload(params);
+  } catch (error) {
+    // API errors are toasted by `apiClient`; the client-side ones are toasted here.
+    const isClientError =
+      error instanceof MediaUploadError && error.code !== MEDIA_ERROR_CODES.MEDIA_UPLOAD_CANCELED;
+    if (isClientError && !params.skipErrorToast) {
+      toast.error(error.message, { id: error.message });
     }
     throw error;
   }
