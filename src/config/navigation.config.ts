@@ -33,7 +33,7 @@ export interface NavMenuItem {
  */
 export const LANDLORD_NAVIGATION: readonly NavMenuItem[] = [
   { id: 'landlord-overview', titleKey: 'navigation.overview', path: '/dashboard', icon: LayoutDashboard, exact: true },
-  { id: 'landlord-rooms', titleKey: 'navigation.rooms', path: '/rooms', icon: Building2 },
+  { id: 'landlord-rooms', titleKey: 'navigation.rooms', path: '/buildings', icon: Building2 },
   { id: 'landlord-tenants', titleKey: 'navigation.tenants', path: '/tenants', icon: Users },
   { id: 'landlord-contracts', titleKey: 'navigation.contracts', path: '/contracts', icon: FileText },
   { id: 'landlord-invoices', titleKey: 'navigation.invoices', path: '/invoices', icon: Receipt },
@@ -43,7 +43,7 @@ export const LANDLORD_NAVIGATION: readonly NavMenuItem[] = [
 ] as const;
 
 /**
- * Menu items for Tenant role (Cổng cư dân)
+ * Menu items for Tenant role (Khách thuê)
  */
 export const TENANT_NAVIGATION: readonly NavMenuItem[] = [
   { id: 'tenant-overview', titleKey: 'navigation.tenantOverview', path: '/dashboard', icon: LayoutDashboard, exact: true },
@@ -116,9 +116,9 @@ export const getPortalMetaByRole = (role?: Role | null): PortalMeta => {
     default:
       return {
         portalNameKey: 'portals.tenant',
-        fallbackPortalName: 'Cổng cư dân',
+        fallbackPortalName: 'Khách thuê',
         verifiedLabelKey: 'portals.verifiedTenant',
-        fallbackVerifiedLabel: 'Cư dân xác thực',
+        fallbackVerifiedLabel: 'Khách thuê xác thực',
         badgeVariant: 'success',
       };
   }

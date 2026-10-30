@@ -47,7 +47,7 @@ export const attachRefreshTokenInterceptor = (client: AxiosInstance, baseURL: st
     const response = await axios.post<ApiResponse<TokenPair>>(
       `${baseURL}/auth/refresh`,
       { refreshToken },
-      { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+      { headers: { 'Content-Type': 'application/json' } }
     );
     const tokens = response.data?.data;
     if (!tokens?.accessToken) {

@@ -1,0 +1,21 @@
+{
+  "empty": {
+    "welcomeTitle": "Welcome to Rentify!",
+    "welcomeDesc": "Get started by adding your first building or property to manage your rentals and tenants efficiently.",
+    "addFirstBuilding": "Add First Building"
+  },
+  "full": {
+    "dashboardTitle": "Property Overview",
+    "dashboardSubtitle": "Monitor property status and manage your real estate portfolio",
+    "totalBuildings": "Total Buildings",
+    "activeBuildings": "Active",
+    "pendingBuildings": "Pending Approval",
+    "otherBuildings": "Needs Revision",
+    "myBuildingsList": "Your Properties",
+    "viewAllBuildings": "View All",
+    "addNewBuilding": "Add Building",
+    "unspecifiedAddress": "Address not updated",
+    "floorsUnit": "{{count}} floors",
+    "viewDetail": "View Details"
+  }
+}

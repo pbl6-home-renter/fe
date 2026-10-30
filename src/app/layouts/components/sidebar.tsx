@@ -1,18 +1,12 @@
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  X,
-  LogOut,
-  Building2,
-  ShieldCheck,
-  CheckCircle,
-} from 'lucide-react';
+import { X, LogOut } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
+import { Role } from '@/types/role';
 import { cn } from '@/lib/utils/cn';
-import {
-  getNavigationByRole,
-  getPortalMetaByRole,
-} from '@/config/navigation.config';
+import { RentifyLogo } from '@/components/ui/rentify-logo';
+import { Avatar } from '@/components/ui/avatar';
+import { getNavigationByRole } from '@/config/navigation.config';
 
 export interface SidebarProps {
   open: boolean;
@@ -21,11 +15,16 @@ export interface SidebarProps {
 }
 
 export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
-  const { role } = useAuth();
-  const { t } = useTranslation();
+  const { user, role } = useAuth();
+  const { t } = useTranslation('common');
 
-  const portalMeta = getPortalMetaByRole(role);
   const menuItems = getNavigationByRole(role);
+
+  const getRoleLabel = () => {
+    if (role === Role.LANDLORD) return t('userRoles.landlord');
+    if (role === Role.ADMIN) return t('userRoles.admin');
+    return t('userRoles.tenant');
+  };
 
   return (
     <>
@@ -42,7 +41,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
       {/* Main Sidebar Aside */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-rentify-divider',
+          'fixed inset-y-0 left-0 z-50 w-64 bg-rentify-surface border-r border-rentify-divider',
           'flex flex-col justify-between transition-transform duration-300 ease-in-out md:static md:translate-x-0',
           open ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'
         )}
@@ -50,25 +49,13 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
         <div className="flex flex-col flex-1 overflow-y-auto">
           {/* Brand Logo Header */}
           <div className="h-16 px-5 flex items-center justify-between border-b border-rentify-divider shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-xl bg-rentify-primary text-white flex items-center justify-center font-bold text-base shadow-sm">
-                R
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-lg text-rentify-text-primary tracking-tight leading-tight">
-                  {t('appName')}
-                </span>
-                <span className="text-[11px] font-semibold text-rentify-primary tracking-normal leading-tight">
-                  {t(portalMeta.portalNameKey, portalMeta.fallbackPortalName)}
-                </span>
-              </div>
-            </div>
+            <RentifyLogo role={role} size="md" />
 
             {/* Close button for mobile */}
             <button
               type="button"
               onClick={onClose}
-              aria-label={t('cancel')}
+              aria-label={t('closeDialog')}
               className="p-1.5 rounded-lg text-rentify-text-secondary hover:bg-rentify-background md:hidden cursor-pointer"
             >
               <X className="w-5 h-5" />
@@ -78,7 +65,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
           {/* Navigation Links */}
           <nav className="p-3.5 space-y-1">
             <p className="px-3 py-1.5 text-[11px] font-bold text-rentify-neutral uppercase tracking-wider">
-              {t('menuTitle', 'MENU QUẢN LÝ')}
+              {t('menuTitle')}
             </p>
 
             {menuItems.map((item) => {
@@ -108,7 +95,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
                       className={cn(
                         'px-2 py-0.5 rounded-full text-xs font-bold leading-none',
                         item.badgeVariant === 'danger'
-                          ? 'bg-red-100 text-rentify-error'
+                          ? 'bg-rentify-error/15 text-rentify-error'
                           : 'bg-white/20 text-white'
                       )}
                     >
@@ -121,39 +108,34 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
           </nav>
         </div>
 
-        {/* Sidebar Footer: Session Info Micro-Card & Logout */}
-        <div className="p-3.5 border-t border-rentify-divider space-y-2 shrink-0 bg-white">
-          {/* Micro-Card */}
-          <div className="p-3 rounded-xl bg-rentify-background border border-rentify-divider/70 flex flex-col gap-1.5">
-            <div className="flex items-center gap-2 text-rentify-text-primary">
-              {role === 'landlord' ? (
-                <Building2 className="w-4 h-4 text-rentify-primary shrink-0" />
-              ) : role === 'admin' ? (
-                <ShieldCheck className="w-4 h-4 text-rentify-primary shrink-0" />
-              ) : (
-                <CheckCircle className="w-4 h-4 text-rentify-primary shrink-0" />
-              )}
-              <span className="text-xs font-semibold">
-                {t(portalMeta.verifiedLabelKey, portalMeta.fallbackVerifiedLabel)}
-              </span>
+        {/* Sidebar Footer: User Profile & Quick Logout */}
+        <div className="p-3.5 border-t border-rentify-divider shrink-0 bg-rentify-surface">
+          <div className="flex items-center justify-between gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <Avatar
+                name={user?.name || user?.email || 'User'}
+                size="sm"
+              />
+              <div className="flex flex-col min-w-0">
+                <span className="font-semibold text-xs text-rentify-text-primary truncate">
+                  {user?.name || user?.email || t('user')}
+                </span>
+                <span className="text-[11px] text-rentify-text-secondary truncate">
+                  {getRoleLabel()}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-rentify-success inline-block shrink-0 animate-pulse" />
-              <span className="text-[11px] text-rentify-text-secondary font-medium">
-                {t('logoutModal.onlineStatus', 'Trực tuyến')}
-              </span>
-            </div>
-          </div>
 
-          {/* Quick Logout Button */}
-          <button
-            type="button"
-            onClick={onOpenLogoutModal}
-            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rentify-error hover:bg-red-50 transition-colors cursor-pointer text-left"
-          >
-            <LogOut className="w-4 h-4 shrink-0" />
-            <span>{t('logout', 'Đăng xuất')}</span>
-          </button>
+            <button
+              type="button"
+              onClick={onOpenLogoutModal}
+              title={t('logout')}
+              aria-label={t('logout')}
+              className="p-1.5 rounded-lg text-rentify-text-secondary hover:text-rentify-error hover:bg-rentify-error/10 transition-colors shrink-0"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </aside>
     </>

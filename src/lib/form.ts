@@ -15,7 +15,9 @@ export const getFieldError = <Ns extends Namespace>(
   if (!error?.message) {
     return undefined;
   }
-  return error.message.startsWith('errors.') ? (t as unknown as TranslateFn)(error.message) : error.message;
+  return error.message.startsWith('errors.') || error.message.startsWith('validations.')
+    ? (t as unknown as TranslateFn)(error.message)
+    : error.message;
 };
 
 /** Shows an API error as the form-level `root.serverError`. */

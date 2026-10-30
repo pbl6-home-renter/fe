@@ -37,7 +37,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       primary:
         'bg-rentify-primary text-white hover:bg-rentify-primary-hover active:scale-95 shadow-sm',
       secondary:
-        'bg-rentify-primary-container text-rentify-on-primary-container hover:bg-[#d8e7fa] active:scale-95',
+        'bg-rentify-primary-container text-rentify-on-primary-container hover:bg-primary-fixed active:scale-95',
     };
 
     const sizeStyles: Record<IconButtonSize, string> = {

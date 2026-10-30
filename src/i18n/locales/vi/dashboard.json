@@ -1,0 +1,21 @@
+{
+  "empty": {
+    "welcomeTitle": "Chào mừng bạn đến với Rentify!",
+    "welcomeDesc": "Bắt đầu bằng cách thêm Tòa nhà hoặc Khu trọ đầu tiên của bạn để quản lý bất động sản và khách thuê hiệu quả.",
+    "addFirstBuilding": "Thêm Tòa nhà đầu tiên"
+  },
+  "full": {
+    "dashboardTitle": "Tổng quan Bất động sản",
+    "dashboardSubtitle": "Theo dõi tình trạng hoạt động và danh sách các tòa nhà thuộc quyền quản lý",
+    "totalBuildings": "Tổng số tòa nhà",
+    "activeBuildings": "Đang hoạt động",
+    "pendingBuildings": "Chờ duyệt",
+    "otherBuildings": "Cần hoàn thiện",
+    "myBuildingsList": "Danh sách Tòa nhà của bạn",
+    "viewAllBuildings": "Xem tất cả",
+    "addNewBuilding": "Thêm tòa nhà",
+    "unspecifiedAddress": "Chưa cập nhật địa chỉ",
+    "floorsUnit": "{{count}} tầng",
+    "viewDetail": "Xem chi tiết"
+  }
+}

@@ -29,6 +29,11 @@
   "switchLanguage": "Switch Language",
   "logout": "Log Out",
   "user": "User",
+  "userRoles": {
+    "landlord": "Landlord",
+    "tenant": "Tenant",
+    "admin": "Administrator"
+  },
   "portal": "Portal",
   "portals": {
     "landlord": "Landlord Portal",
@@ -228,5 +233,14 @@
   },
   "apiSuccess": {
     "fallback": "Action completed successfully."
+  },
+  "administrativeUnits": {
+    "province": "Province / City",
+    "selectProvince": "Select Province / City",
+    "loadingProvinces": "Loading provinces...",
+    "ward": "Ward / Commune",
+    "selectWard": "Select Ward / Commune",
+    "loadingWards": "Loading wards...",
+    "selectProvinceFirst": "Please select a Province / City first"
   }
 }
