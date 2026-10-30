@@ -74,6 +74,10 @@ export const queryKeys = {
     all: ['auth'] as const,
     me: ['auth', 'me'] as const,
   },
+  media: {
+    all: ['media'] as const,
+    object: (mediaId: string) => ['media', 'object', mediaId] as const,
+  },
 } as const;
 
 export const queryClient = new QueryClient({

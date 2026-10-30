@@ -3,18 +3,22 @@ import { initReactI18next } from 'react-i18next';
 
 import viCommon from './locales/vi/common.json';
 import viAuth from './locales/vi/auth.json';
+import viMedia from './locales/vi/media.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
+import enMedia from './locales/en/media.json';
 
 export const defaultNS = 'common';
 export const resources = {
   vi: {
     common: viCommon,
     auth: viAuth,
+    media: viMedia,
   },
   en: {
     common: enCommon,
     auth: enAuth,
+    media: enMedia,
   },
 } as const;
 

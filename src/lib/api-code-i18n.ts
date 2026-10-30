@@ -47,6 +47,8 @@ export const COMMON_ERROR_CODES = {
   RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
   RATE_LIMIT_EXCEEDED_SPACE: 'RATE LIMIT EXCEEDED',
   INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+  UNEXPECTED_FIELD: 'UNEXPECTED_FIELD',
   INTERNAL_ERROR: 'INTERNAL ERROR',
   INVALID_TOKEN: 'INVALID TOKEN',
   CANT_DELETE: "CAN'T DELETE",
@@ -59,20 +61,19 @@ const translateKey = (key: string): string => {
   return (i18n.t as unknown as (k: string) => string)(key);
 };
 
+/** Namespaces searched for API codes, feature namespaces first, `common` last. */
+const API_CODE_NAMESPACES = ['auth', 'media', 'common'] as const;
+
+const findApiCodeKey = (section: 'apiErrors' | 'apiSuccess', code: string): string | undefined =>
+  API_CODE_NAMESPACES.map((ns) => `${ns}:${section}.${code}`).find((key) => i18n.exists(key));
+
 /**
  * Returns localized text for a specific API error code.
  */
 export const getApiErrorMessage = (code: string, fallbackKey?: string): string => {
-  if (code) {
-    const authCodeKey = `auth:apiErrors.${code}`;
-    if (i18n.exists(authCodeKey)) {
-      return translateKey(authCodeKey);
-    }
-
-    const commonCodeKey = `common:apiErrors.${code}`;
-    if (i18n.exists(commonCodeKey)) {
-      return translateKey(commonCodeKey);
-    }
+  const codeKey = code ? findApiCodeKey('apiErrors', code) : undefined;
+  if (codeKey) {
+    return translateKey(codeKey);
   }
 
   if (fallbackKey && i18n.exists(fallbackKey)) {
@@ -86,14 +87,9 @@ export const getApiErrorMessage = (code: string, fallbackKey?: string): string =
  * Returns localized text for a specific API success code.
  */
 export const getApiSuccessMessage = (code: string, fallbackKey?: string): string => {
-  const authKey = `auth:apiSuccess.${code}`;
-  if (i18n.exists(authKey)) {
-    return translateKey(authKey);
-  }
-
-  const commonKey = `common:apiSuccess.${code}`;
-  if (i18n.exists(commonKey)) {
-    return translateKey(commonKey);
+  const codeKey = findApiCodeKey('apiSuccess', code);
+  if (codeKey) {
+    return translateKey(codeKey);
   }
 
   if (fallbackKey && i18n.exists(fallbackKey)) {

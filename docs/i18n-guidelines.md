@@ -14,10 +14,12 @@ fe/src/i18n/
 └── locales/
     ├── vi/                   # Ngôn ngữ Tiếng Việt (Default / Source of Truth)
     │   ├── common.json       # Dùng chung (nút bấm, layout, navigation, errors, footer)
-    │   └── auth.json         # Phân hệ Xác thực (login, register, forgot-password)
+    │   ├── auth.json         # Phân hệ Xác thực (login, register, forgot-password)
+    │   └── media.json        # Upload file: mã lỗi/thành công của media (apiErrors, apiSuccess)
     └── en/                   # Ngôn ngữ Tiếng Anh
         ├── common.json
-        └── auth.json
+        ├── auth.json
+        └── media.json
 ```
 
 ### Nguyên tắc Namespace:
