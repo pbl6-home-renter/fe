@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import type { ParseKeys } from 'i18next';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import type { Role } from '@/types/role';
 
 export interface DashboardOverviewConfig {

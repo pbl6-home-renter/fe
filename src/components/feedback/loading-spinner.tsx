@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 export type SpinnerSize = 'sm' | 'md' | 'lg';
 export type SpinnerColor = 'primary' | 'white' | 'neutral' | 'current';

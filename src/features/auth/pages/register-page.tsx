@@ -9,16 +9,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Role } from '@/types/role';
-import { cn } from '@/lib/utils';
-import { useRegisterForm } from '@/features/auth/hooks/register/use-register-form';
+import { cn } from '@/lib/utils/cn';
+import { useRegisterForm } from '../forms/use-register-form';
 
 export const RegisterPage = () => {
   const { t } = useTranslation('auth');

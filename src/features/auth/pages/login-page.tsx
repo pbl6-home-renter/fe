@@ -4,14 +4,8 @@ import { AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card';
-import { useLoginForm } from '@/features/auth/hooks/login/use-login-form';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { useLoginForm } from '../forms/use-login-form';
 
 export const LoginPage = () => {
   const { t } = useTranslation('auth');

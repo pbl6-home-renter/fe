@@ -7,7 +7,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 import { IconButton } from './icon-button';
 
 export interface DialogProps {
@@ -130,8 +130,6 @@ export const Dialog = ({
     document.body
   );
 };
-
-export const DialogBase = Dialog;
 
 export const DialogHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div className={cn('flex flex-col gap-1 pr-8', className)} {...props} />

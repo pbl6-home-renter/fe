@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Lock, ArrowLeft, Home, LifeBuoy } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { getHomePathByRole } from '@/app/routes/route-utils';
 import { Button } from '@/components/ui/button';
 

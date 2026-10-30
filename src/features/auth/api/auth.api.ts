@@ -1,6 +1,5 @@
-import { apiClient } from '@/lib/axios';
+import { http } from '@/lib/api/http';
 import { useAuthStore } from '@/stores/auth-store';
-import type { ApiResponse } from '@/types/api';
 import type {
   AuthLoginRequestDto,
   AuthLoginResponseDto,
@@ -14,45 +13,33 @@ import type {
   UserProfile,
 } from '../types/auth.dto';
 
+/** Called only from forms, which show the error inline instead of a toast. */
+const FORM_REQUEST = { skipErrorToast: true };
+
 export const authApi = {
-  login: async (credentials: AuthLoginRequestDto): Promise<AuthLoginResponseDto> => {
-    return apiClient.post<ApiResponse<AuthLoginResponseDto>, AuthLoginResponseDto>(
-      '/auth/login',
-      credentials
-    );
-  },
+  login: (body: AuthLoginRequestDto) =>
+    http.post<AuthLoginResponseDto>('/auth/login', body, FORM_REQUEST),
 
-  register: async (payload: AuthRegisterRequestDto): Promise<AuthRegisterResponseDto> => {
-    return apiClient.post<ApiResponse<AuthRegisterResponseDto>, AuthRegisterResponseDto>(
-      '/auth/register',
-      payload
-    );
-  },
+  register: (body: AuthRegisterRequestDto) =>
+    http.post<AuthRegisterResponseDto>('/auth/register', body, FORM_REQUEST),
 
-  logout: async (payload?: AuthLogoutRequestDto): Promise<void> => {
-    const refreshToken =
-      payload?.refreshToken ?? useAuthStore.getState().refreshToken ?? '';
-    return apiClient.post<void, void>('/auth/logout', { refreshToken });
-  },
+  logout: (body?: AuthLogoutRequestDto) =>
+    http.post('/auth/logout', {
+      refreshToken: body?.refreshToken ?? useAuthStore.getState().refreshToken ?? '',
+    }),
 
-  getProfile: async (): Promise<UserProfile> => {
-    return apiClient.get<ApiResponse<UserProfile>, UserProfile>('/me');
-  },
+  getProfile: () => http.get<UserProfile>('/me'),
 
-  requestPasswordReset: async (
-    payload: AuthRequestPasswordResetRequestDto
-  ): Promise<AuthRequestPasswordResetResponseDto> => {
-    return apiClient.post<
-      ApiResponse<AuthRequestPasswordResetResponseDto>,
-      AuthRequestPasswordResetResponseDto
-    >('/auth/password-reset-requests', payload);
-  },
+  requestPasswordReset: (body: AuthRequestPasswordResetRequestDto) =>
+    http.post<AuthRequestPasswordResetResponseDto>(
+      '/auth/password-reset-requests',
+      body,
+      FORM_REQUEST
+    ),
 
-  resetPassword: async (payload: AuthResetPasswordRequestDto): Promise<void> => {
-    return apiClient.post<void, void>('/auth/password-resets', payload);
-  },
+  resetPassword: (body: AuthResetPasswordRequestDto) =>
+    http.post('/auth/password-resets', body, FORM_REQUEST),
 
-  changePassword: async (payload: UserChangePasswordRequestDto): Promise<void> => {
-    return apiClient.put<void, void>('/me/password', payload);
-  },
+  changePassword: (body: UserChangePasswordRequestDto) =>
+    http.put('/me/password', body, FORM_REQUEST),
 };

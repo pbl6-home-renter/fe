@@ -4,7 +4,7 @@ import {
   useState,
   type ChangeEvent,
 } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 export interface TextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {

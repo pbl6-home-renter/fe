@@ -1,62 +1,14 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card';
-import {
-  requestPasswordResetSchema,
-  type RequestPasswordResetFormData,
-} from '@/features/auth/validations/password-reset.validation';
-import {
-  setFormApiErrors,
-  getFieldError,
-} from '@/features/auth/validations/common.validation';
-import { useRequestPasswordResetMutation } from '@/features/auth/hooks/auth/use-request-password-reset-mutation';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { useForgotPasswordForm } from '../forms/use-forgot-password-form';
 
 export const ForgotPasswordPage = () => {
   const { t } = useTranslation('auth');
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const requestMutation = useRequestPasswordResetMutation({
-    suppressErrorToast: true,
-  });
-
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<RequestPasswordResetFormData>({
-    resolver: zodResolver(requestPasswordResetSchema),
-    defaultValues: {
-      email: '',
-    },
-    mode: 'onTouched',
-  });
-
-  const onSubmit = handleSubmit(async (values) => {
-    try {
-      await requestMutation.mutateAsync({
-        email: values.email.trim(),
-      });
-      setIsSuccess(true);
-    } catch (err: unknown) {
-      setFormApiErrors(setError, err);
-    }
-  });
-
-  const isLoading = requestMutation.isPending || isSubmitting;
-  const serverError = errors.root?.serverError?.message;
+  const { register, errors, isSubmitting, isSuccess, handleSubmit } = useForgotPasswordForm();
 
   return (
     <Card className="w-full max-w-105 shadow-card border-rentify-divider rounded-[16px]">
@@ -99,13 +51,13 @@ export const ForgotPasswordPage = () => {
       </CardHeader>
 
       <CardContent className="space-y-4 pt-2">
-        {serverError && (
+        {errors.serverError && (
           <div
             role="alert"
             className="flex items-center gap-2 p-3 rounded-xl bg-rentify-error/10 border border-rentify-error/20 text-rentify-error text-sm font-medium"
           >
             <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>{serverError}</span>
+            <span>{errors.serverError}</span>
           </div>
         )}
 
@@ -120,14 +72,14 @@ export const ForgotPasswordPage = () => {
             </p>
           </div>
         ) : (
-          <form className="space-y-4" onSubmit={onSubmit} noValidate>
+          <form className="space-y-4" onSubmit={handleSubmit} noValidate>
             <Input
               label={t('email')}
               type="email"
               placeholder={t('placeholders.email')}
               autoComplete="email"
-              error={getFieldError(errors.email, t)}
-              disabled={isLoading}
+              error={errors.email}
+              disabled={isSubmitting}
               required
               {...register('email')}
             />
@@ -135,8 +87,8 @@ export const ForgotPasswordPage = () => {
             <Button
               type="submit"
               size="lg"
-              isLoading={isLoading}
-              disabled={isLoading}
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
               className="w-full justify-center mt-2"
             >
               {t('sendResetLink')}

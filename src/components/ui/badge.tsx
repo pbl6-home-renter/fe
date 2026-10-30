@@ -1,5 +1,5 @@
 import { type HTMLAttributes, type ReactNode } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 export type BadgeVariant =
   | 'default'
@@ -62,5 +62,3 @@ export const Badge = ({
     </span>
   );
 };
-
-export const OutlinedTag = Badge;

@@ -114,7 +114,7 @@ export const DesignSystemShowcasePage = () => {
               <Button variant="secondary">Secondary Action</Button>
               <Button variant="outline">Outline Border</Button>
               <Button variant="ghost">Ghost Button</Button>
-              <Button variant="destructive">Destructive / Delete</Button>
+              <Button variant="danger">Danger / Delete</Button>
             </div>
           </div>
 

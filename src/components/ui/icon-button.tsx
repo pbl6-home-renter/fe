@@ -1,5 +1,5 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 
 export type IconButtonVariant = 'ghost' | 'outline' | 'primary' | 'secondary';

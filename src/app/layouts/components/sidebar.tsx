@@ -7,8 +7,8 @@ import {
   ShieldCheck,
   CheckCircle,
 } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
-import { cn } from '@/lib/utils';
+import { useAuth } from '@/features/auth/hooks/use-auth';
+import { cn } from '@/lib/utils/cn';
 import {
   getNavigationByRole,
   getPortalMetaByRole,
