@@ -79,13 +79,14 @@ export const Dialog = ({
           onClose();
         }
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 scrim-underlay animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 scrim-underlay animate-in fade-in duration-200 overflow-y-auto"
     >
       <div
         className={cn(
           'relative w-full bg-rentify-surface rounded-2xl border border-rentify-divider',
           'shadow-[0_16px_40px_-8px_rgba(20,42,76,0.12)] p-6 sm:p-7',
-          'flex flex-col gap-4 text-left animate-in zoom-in-95 duration-200',
+          'flex flex-col gap-4 text-left animate-in zoom-in-95 duration-200 my-auto',
+          'max-h-[calc(100vh-3rem)] overflow-y-auto',
           maxWidthMap[maxWidth],
           className
         )}

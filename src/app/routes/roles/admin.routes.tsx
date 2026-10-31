@@ -2,6 +2,8 @@ import type { RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { Role } from '@/types/role';
+import { BuildingApprovalListPage } from '@/features/buildings/pages/admin/building-approval-list-page';
+import { BuildingApprovalDetailPage } from '@/features/buildings/pages/admin/building-approval-detail-page';
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -19,10 +21,15 @@ export const adminRoutes: RouteObject[] = [
     path: '/admin/approvals',
     element: (
       <ProtectedRoute allowedRoles={[Role.ADMIN]}>
-        <DashboardOverview
-          titleKey="routes.admin.approvalsTitle"
-          descKey="routes.admin.approvalsDesc"
-        />
+        <BuildingApprovalListPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/admin/approvals/:id',
+    element: (
+      <ProtectedRoute allowedRoles={[Role.ADMIN]}>
+        <BuildingApprovalDetailPage />
       </ProtectedRoute>
     ),
   },

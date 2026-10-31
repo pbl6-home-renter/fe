@@ -1,12 +1,19 @@
 import { http } from '@/lib/api/http';
 import type { ListParams, Paginated } from '@/types/api';
 import type {
+  BuildingAdminDetailDto,
+  BuildingAdminFilter,
+  BuildingAdminListItemDto,
+  BuildingApproveRequestDto,
+  BuildingApproveResponseDto,
   BuildingCreateRequestDto,
   BuildingCreateResponseDto,
   BuildingFilter,
   BuildingMyDetailDto,
   BuildingMyListItemDto,
   BuildingRatePoliciesBatchCreateRequestDto,
+  BuildingRejectRequestDto,
+  BuildingRejectResponseDto,
   BuildingUpdateRequestDto,
   BuildingUpdateResponseDto,
   BuildingVietQrConfigRequestDto,
@@ -40,4 +47,17 @@ export const buildingApi = {
     payload: BuildingRatePoliciesBatchCreateRequestDto
   ): Promise<void> =>
     http.post<void>(`/buildings/${buildingId}/rate-policies/batch`, payload),
+
+  // Admin approval APIs
+  getAdminBuildings: (params?: ListParams<BuildingAdminFilter>): Promise<Paginated<BuildingAdminListItemDto>> =>
+    http.getPage<BuildingAdminListItemDto, BuildingAdminFilter>('/admin/buildings', params),
+
+  getAdminBuilding: (id: string): Promise<BuildingAdminDetailDto> =>
+    http.get<BuildingAdminDetailDto>(`/admin/buildings/${id}`),
+
+  approveBuilding: (id: string, payload?: BuildingApproveRequestDto): Promise<BuildingApproveResponseDto> =>
+    http.post<BuildingApproveResponseDto>(`/buildings/${id}/approve`, payload ?? { note: 'Ownership proof verified' }),
+
+  rejectBuilding: (id: string, payload: BuildingRejectRequestDto): Promise<BuildingRejectResponseDto> =>
+    http.post<BuildingRejectResponseDto>(`/buildings/${id}/reject`, payload),
 };

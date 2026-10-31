@@ -64,7 +64,7 @@ export const BuildingOverviewCard = ({ building }: BuildingOverviewCardProps) =>
               })}
             </span>
           </div>
-          <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div className="w-full h-1.5 bg-surface-container-low rounded-full overflow-hidden">
             <div
               className="h-full bg-rentify-success rounded-full transition-all"
               style={{ width: `${Math.min(100, occRate)}%` }}
