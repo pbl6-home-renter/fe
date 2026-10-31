@@ -35,7 +35,7 @@ export const BuildingRatePoliciesCard = ({ ratePolicies }: BuildingRatePoliciesC
             >
               <div className="flex items-center justify-between text-rentify-text-secondary">
                 <span className="text-xs font-semibold">{policy.name}</span>
-                <Zap className="w-4 h-4 text-amber-500" />
+                <Zap className="w-4 h-4 text-rentify-warning" />
               </div>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="text-2xl font-bold text-rentify-text-primary">
@@ -51,7 +51,7 @@ export const BuildingRatePoliciesCard = ({ ratePolicies }: BuildingRatePoliciesC
             <div className="bg-canvas-base border border-rentify-divider/60 rounded-xl p-4 flex flex-col gap-1.5">
               <div className="flex items-center justify-between text-rentify-text-secondary">
                 <span className="text-xs font-semibold">{t('detail.electricityRate')}</span>
-                <Zap className="w-4 h-4 text-amber-500" />
+                <Zap className="w-4 h-4 text-rentify-warning" />
               </div>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="text-2xl font-bold text-rentify-text-primary">3.800</span>
@@ -75,7 +75,7 @@ export const BuildingRatePoliciesCard = ({ ratePolicies }: BuildingRatePoliciesC
             <div className="bg-canvas-base border border-rentify-divider/60 rounded-xl p-4 flex flex-col gap-1.5">
               <div className="flex items-center justify-between text-rentify-text-secondary">
                 <span className="text-xs font-semibold">{t('detail.internetRate')}</span>
-                <Wifi className="w-4 h-4 text-indigo-500" />
+                <Wifi className="w-4 h-4 text-rentify-primary" />
               </div>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="text-2xl font-bold text-rentify-text-primary">100.000</span>

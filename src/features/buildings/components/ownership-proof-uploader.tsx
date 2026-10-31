@@ -48,7 +48,7 @@ export const OwnershipProofUploader = ({
           'border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition cursor-pointer select-none',
           disabled
             ? 'opacity-50 cursor-not-allowed border-rentify-border'
-            : 'border-rentify-border hover:border-rentify-primary hover:bg-rentify-primary/5 bg-gray-50/50'
+            : 'border-rentify-divider hover:border-rentify-primary hover:bg-rentify-primary/5 bg-surface-container-low/50'
         )}
       >
         <div className="w-12 h-12 rounded-full bg-rentify-primary/10 text-rentify-primary flex items-center justify-center mb-3">
@@ -99,11 +99,11 @@ export const OwnershipProofUploader = ({
                   className="flex items-center justify-between p-3 rounded-lg border border-rentify-border bg-white text-sm"
                 >
                   <div className="flex items-center gap-3 min-w-0 pr-2">
-                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center shrink-0 text-rentify-text-secondary">
+                    <div className="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center shrink-0 text-rentify-text-secondary">
                       {isPdf ? (
-                        <FileText className="w-4 h-4 text-red-500" />
+                        <FileText className="w-4 h-4 text-rentify-error" />
                       ) : (
-                        <ImageIcon className="w-4 h-4 text-blue-500" />
+                        <ImageIcon className="w-4 h-4 text-rentify-primary" />
                       )}
                     </div>
                     <div className="min-w-0">

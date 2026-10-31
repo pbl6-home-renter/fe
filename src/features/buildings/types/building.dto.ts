@@ -198,3 +198,45 @@ export interface BuildingAdminListItemDto {
   documentsCount: number;
   createdAt: string;
 }
+
+export interface BuildingAdminOwnershipDocument {
+  id: string;
+  url: string;
+  name?: string;
+  uploadedAt?: string;
+}
+
+export interface BuildingAdminDetailDto {
+  id: string;
+  name: string;
+  province: string;
+  district?: string;
+  ward: string;
+  address: string;
+  totalFloors?: number;
+  totalRooms: number;
+  occupancyRate?: string;
+  description?: string | null;
+  amenities?: Record<string, boolean | string | number | null> | null;
+  landlordId: string;
+  landlord: {
+    id: string;
+    name: string;
+    phone: string;
+    email?: string | null;
+    cccdNumber?: string | null;
+  };
+  ownershipDocuments: BuildingAdminOwnershipDocument[];
+  status: BuildingStatus;
+  reviewNote?: string | null;
+  submittedAt?: string;
+  createdAt: string;
+}
+
+export interface BuildingAdminFilter {
+  status?: string;
+  landlordId?: string;
+  province?: string;
+  ward?: string;
+  q?: string;
+}
