@@ -18,6 +18,7 @@
     "allApproved": "All buildings have been approved",
     "rooms": "{{count}} rooms",
     "occupancy": "Occupancy",
+    "occupancyValue": "{{value}}% occupied",
     "quickAction": "Details"
   },
   "createBuilding": "Add Building",

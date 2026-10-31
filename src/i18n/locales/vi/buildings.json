@@ -18,6 +18,7 @@
     "allApproved": "Tất cả tòa nhà đã được duyệt",
     "rooms": "{{count}} phòng",
     "occupancy": "Lấp đầy",
+    "occupancyValue": "Lấp đầy {{value}}%",
     "quickAction": "Chi tiết"
   },
   "createBuilding": "Thêm Tòa nhà",
