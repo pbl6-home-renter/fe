@@ -1,10 +1,12 @@
 import type { ListParams } from '@/types/api';
-import type { BuildingFilter } from '../types/building.dto';
+import type { BuildingFilter, BuildingAdminFilter } from '../types/building.dto';
 
 export const BUILDING_QUERY_KEYS = {
   ALL: ['buildings'] as const,
   MY_LIST: (params?: ListParams<BuildingFilter>) => ['buildings', 'my-list', params] as const,
   MY_DETAIL: (id: string) => ['buildings', 'my-detail', id] as const,
+  ADMIN_LIST: (params?: ListParams<BuildingAdminFilter>) => ['buildings', 'admin-list', params] as const,
+  ADMIN_DETAIL: (id: string) => ['buildings', 'admin-detail', id] as const,
 } as const;
 
 /** Zod messages: i18n keys in the `buildings` namespace, translated by `getFieldError`. */
@@ -21,3 +23,10 @@ export const BUILDING_VALIDATION_KEYS = {
   DESCRIPTION_MAX: 'errors.descriptionMax',
   DOCUMENTS_REQUIRED: 'errors.documentsRequired',
 } as const;
+
+export const REJECT_PRESET_REASONS = [
+  'Giấy tờ mờ, không rõ số phát hành và thông tin số thửa.',
+  'Thông tin người đại diện đứng tên trên giấy tờ chưa khớp với thông tin tài khoản.',
+  'Thiếu biên bản kiểm định an toàn PCCC có hiệu lực hoặc mộc đỏ cơ quan chức năng.',
+  'Địa chỉ thực tế và vị trí ghi trên sổ chứng nhận chưa đồng nhất.',
+] as const;

@@ -9,17 +9,17 @@ export interface BuildingStatusConfig {
 export const BUILDING_STATUS_CONFIGS: Record<BuildingStatus, BuildingStatusConfig> = {
   [BuildingStatus.APPROVED]: {
     dotClass: 'bg-rentify-success',
-    pillClass: 'bg-green-50 text-rentify-success border-green-200',
+    pillClass: 'bg-rentify-success/10 text-rentify-success border-rentify-success/30',
     labelKey: 'status.approved',
   },
   [BuildingStatus.REJECTED]: {
     dotClass: 'bg-rentify-error',
-    pillClass: 'bg-red-50 text-rentify-error border-red-200',
+    pillClass: 'bg-rentify-error/10 text-rentify-error border-rentify-error/30',
     labelKey: 'status.rejected',
   },
   [BuildingStatus.PENDING]: {
     dotClass: 'bg-rentify-neutral',
-    pillClass: 'bg-slate-50 text-slate-600 border-slate-200',
+    pillClass: 'bg-surface-container-low text-rentify-text-secondary border-rentify-divider',
     labelKey: 'status.pending',
   },
 };

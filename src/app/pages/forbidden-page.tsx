@@ -35,7 +35,7 @@ export const ForbiddenPage = () => {
         {/* Card */}
         <div className="relative w-full bg-rentify-surface rounded-2xl border border-rentify-divider p-6 sm:p-10 shadow-[0_12px_32px_-4px_rgba(30,111,217,0.08),0_4px_12px_-2px_rgba(30,111,217,0.03)] text-center flex flex-col items-center">
           {/* Lock Icon */}
-          <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mb-5 text-rentify-error shadow-xs">
+          <div className="w-16 h-16 rounded-full bg-rentify-error/10 flex items-center justify-center mb-5 text-rentify-error shadow-xs">
             <Lock className="w-8 h-8" aria-hidden="true" strokeWidth={2} />
           </div>
 

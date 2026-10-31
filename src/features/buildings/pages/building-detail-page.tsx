@@ -95,7 +95,7 @@ export const BuildingDetailPage = () => {
           title={t('detail.rejectedTitle')}
         >
           <div className="flex items-start gap-2 mt-1 text-xs">
-            <ShieldAlert className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+            <ShieldAlert className="w-4 h-4 text-rentify-error shrink-0 mt-0.5" />
             <p>{building.reviewNote || t('detail.rejectedDefaultReason')}</p>
           </div>
         </AlertBanner>
