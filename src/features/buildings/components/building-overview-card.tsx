@@ -75,7 +75,7 @@ export const BuildingOverviewCard = ({ building }: BuildingOverviewCardProps) =>
         <div className="bg-canvas-base border border-rentify-divider/60 rounded-xl p-4 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-rentify-text-secondary">
-              {t('detail.floorsScale', { defaultValue: 'Số tầng' })}
+              {t('detail.floorsScale')}
             </span>
             <Building2 className="w-4 h-4 text-rentify-primary" />
           </div>
@@ -85,7 +85,7 @@ export const BuildingOverviewCard = ({ building }: BuildingOverviewCardProps) =>
             </span>
             {building.totalFloors && (
               <span className="text-xs font-semibold text-rentify-text-secondary">
-                {t('detail.floorsUnit', { defaultValue: 'tầng' })}
+                {t('detail.floorsUnit')}
               </span>
             )}
           </div>

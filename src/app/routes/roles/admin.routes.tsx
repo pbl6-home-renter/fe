@@ -1,4 +1,4 @@
-import type { RouteObject } from 'react-router-dom';
+import { type RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { Role } from '@/types/role';
@@ -18,7 +18,7 @@ export const adminRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/admin/approvals',
+    path: '/admin/buildings',
     element: (
       <ProtectedRoute allowedRoles={[Role.ADMIN]}>
         <BuildingApprovalListPage />
@@ -26,7 +26,7 @@ export const adminRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/admin/approvals/:id',
+    path: '/admin/buildings/:id',
     element: (
       <ProtectedRoute allowedRoles={[Role.ADMIN]}>
         <BuildingApprovalDetailPage />

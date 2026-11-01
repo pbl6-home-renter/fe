@@ -24,6 +24,8 @@
   "emptyDataDesc": "There is currently no data to display.",
   "errorUnknown": "An unexpected error occurred. Please try again later.",
   "search": "Search...",
+  "clear": "Clear selection",
+  "noResults": "No results found",
   "actions": "Actions",
   "dataTable": {
     "view": "View",

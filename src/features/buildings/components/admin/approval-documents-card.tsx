@@ -15,17 +15,17 @@ export const ApprovalDocumentsCard = ({ documents }: ApprovalDocumentsCardProps)
       <div className="pb-3 border-b border-rentify-divider">
         <h3 className="text-base font-bold text-rentify-text-primary flex items-center gap-2">
           <FileCheck className="w-4 h-4 text-rentify-primary" />
-          <span>{t('admin.documentsTitle', { defaultValue: 'Giấy tờ pháp lý & Chứng minh sở hữu' })}</span>
+          <span>{t('admin.documentsTitle')}</span>
         </h3>
         <p className="text-xs text-rentify-text-secondary mt-0.5">
-          {t('admin.documentsDesc', { defaultValue: 'Kiểm tra kỹ sổ đỏ, giấy tờ chứng nhận quyền sở hữu' })}
+          {t('admin.documentsDesc')}
         </p>
       </div>
 
       {documents.length === 0 ? (
         <div className="p-4 rounded-xl bg-surface-container-low/60 flex items-center gap-3 text-xs text-rentify-text-secondary">
           <ShieldAlert className="w-4 h-4 text-rentify-warning shrink-0" />
-          <span>{t('admin.noDocuments', { defaultValue: 'Chưa có tài liệu đính kèm nào được tải lên.' })}</span>
+          <span>{t('admin.noDocuments')}</span>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

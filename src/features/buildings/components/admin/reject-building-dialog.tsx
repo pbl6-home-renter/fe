@@ -43,17 +43,15 @@ export const RejectBuildingDialog = ({
           </div>
           <div className="flex flex-col">
             <h2 className="text-lg font-bold text-rentify-text-primary">
-              {t('admin.rejectTitle', { defaultValue: 'Từ chối phê duyệt bất động sản' })}
+              {t('admin.rejectTitle')}
             </h2>
             <p className="text-xs text-rentify-text-secondary mt-0.5">
               {landlordName
                 ? t('admin.rejectTarget', {
-                    defaultValue: 'Hồ sơ: {{building}} · Chủ sở hữu: {{landlord}}',
                     building: buildingName,
                     landlord: landlordName,
                   })
                 : t('admin.rejectTargetBuildingOnly', {
-                    defaultValue: 'Hồ sơ tòa nhà: {{building}}',
                     building: buildingName,
                   })}
             </p>
@@ -62,15 +60,13 @@ export const RejectBuildingDialog = ({
 
         {/* Note info box */}
         <div className="p-3 bg-surface-container-low border border-rentify-divider rounded-xl text-xs text-rentify-text-secondary leading-relaxed">
-          {t('admin.rejectNotice', {
-            defaultValue: 'Vui lòng nêu rõ lý do từ chối hồ sơ. Thông báo kèm lý do này sẽ được gửi trực tiếp đến chủ nhà để tiến hành cập nhật, bổ sung.',
-          })}
+          {t('admin.rejectNotice')}
         </div>
 
         {/* Preset Reason Chips */}
         <div className="space-y-2">
           <label className="text-[11px] font-semibold text-rentify-text-secondary uppercase tracking-wider block">
-            {t('admin.presetReasonsLabel', { defaultValue: 'Lý do gợi ý thường gặp' })}
+            {t('admin.presetReasonsLabel')}
           </label>
           <div className="flex flex-wrap gap-1.5">
             {presetReasons.map((preset, idx) => (
@@ -90,7 +86,7 @@ export const RejectBuildingDialog = ({
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs">
             <label htmlFor="rejectionNote" className="font-semibold text-rentify-text-primary">
-              {t('admin.rejectNoteField', { defaultValue: 'Nội dung lý do từ chối' })}{' '}
+              {t('admin.rejectNoteField')}{' '}
               <span className="text-rentify-error">*</span>
             </label>
             <span className="text-rentify-text-secondary">{note.length} / 500</span>
@@ -101,9 +97,7 @@ export const RejectBuildingDialog = ({
             rows={4}
             value={note}
             onChange={(e) => handleNoteChange(e.target.value)}
-            placeholder={t('admin.rejectNotePlaceholder', {
-              defaultValue: 'Nhập chi tiết các thông tin chưa đạt yêu cầu kiểm duyệt...',
-            })}
+            placeholder={t('admin.rejectNotePlaceholder')}
             maxLength={500}
             disabled={isPending}
             className={`w-full p-3 text-sm rounded-xl border bg-rentify-surface text-rentify-text-primary placeholder:text-rentify-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-rentify-error/20 transition-all resize-none ${
@@ -131,7 +125,7 @@ export const RejectBuildingDialog = ({
             isLoading={isPending}
             disabled={isPending}
           >
-            {t('admin.confirmReject', { defaultValue: 'Xác nhận từ chối' })}
+            {t('admin.confirmReject')}
           </Button>
         </div>
       </form>

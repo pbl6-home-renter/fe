@@ -4,6 +4,8 @@ import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { Role } from '@/types/role';
 import { BuildingListPage } from '@/features/buildings/pages/building-list-page';
 import { BuildingDetailPage } from '@/features/buildings/pages/building-detail-page';
+import { RoomListPage } from '@/features/rooms/pages/room-list-page';
+import { RoomDetailPage } from '@/features/rooms/pages/room-detail-page';
 
 export const landlordRoutes: RouteObject[] = [
   {
@@ -19,6 +21,38 @@ export const landlordRoutes: RouteObject[] = [
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
         <BuildingDetailPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/buildings/:id/rooms',
+    element: (
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <RoomListPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/buildings/:id/rooms/:roomId',
+    element: (
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <RoomDetailPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/rooms',
+    element: (
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <RoomListPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/rooms/:id',
+    element: (
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <RoomDetailPage />
       </ProtectedRoute>
     ),
   },

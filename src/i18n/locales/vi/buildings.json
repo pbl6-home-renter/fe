@@ -219,6 +219,8 @@
     "noDocuments": "Chưa có tài liệu chứng minh sở hữu",
     "shareProfile": "Chia sẻ hồ sơ",
     "unspecifiedAddress": "Chưa cập nhật địa chỉ",
+    "floorsUnit": "tầng",
+    "floorsScale": "Số tầng",
     "floorsCount": "{{count}} tầng lầu",
     "multiFloorScale": "Quy mô nhiều tầng",
     "roomsCount": "{{count}} phòng độc lập",
@@ -294,6 +296,7 @@
     "amenitiesTitle": "Tiện ích chung đã khai báo",
     "rejectTitle": "Từ chối phê duyệt bất động sản",
     "rejectTarget": "Hồ sơ: {{building}} · Chủ sở hữu: {{landlord}}",
+    "rejectTargetBuildingOnly": "Hồ sơ tòa nhà: {{building}}",
     "rejectNotice": "Vui lòng nêu rõ lý do từ chối hồ sơ. Thông báo kèm lý do này sẽ được gửi trực tiếp đến chủ nhà để tiến hành cập nhật, bổ sung.",
     "presetReasonsLabel": "Lý do gợi ý thường gặp",
     "rejectNoteField": "Nội dung lý do từ chối",
@@ -301,6 +304,10 @@
     "rejectNoteRequired": "Vui lòng nhập lý do từ chối hồ sơ.",
     "rejectNoteMax": "Lý do từ chối không được vượt quá 500 ký tự.",
     "confirmReject": "Xác nhận từ chối"
+  },
+  "emptyState": {
+    "title": "Không tìm thấy hồ sơ",
+    "description": "Hồ sơ bất động sản không tồn tại hoặc đã bị gỡ bỏ."
   },
   "apiSuccess": {
     "BUILDING_CREATED": "Tạo tòa nhà thành công. Đang chờ quản trị viên phê duyệt.",

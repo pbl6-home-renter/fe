@@ -34,11 +34,11 @@ export const useRejectBuildingDialog = ({
     e.preventDefault();
     const trimmed = note.trim();
     if (!trimmed) {
-      setError(t('admin.rejectNoteRequired', { defaultValue: 'Vui lòng nhập lý do từ chối hồ sơ.' }));
+      setError(t('admin.rejectNoteRequired'));
       return;
     }
     if (trimmed.length > 500) {
-      setError(t('admin.rejectNoteMax', { defaultValue: 'Lý do từ chối không được vượt quá 500 ký tự.' }));
+      setError(t('admin.rejectNoteMax'));
       return;
     }
 
