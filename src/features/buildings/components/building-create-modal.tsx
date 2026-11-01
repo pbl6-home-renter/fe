@@ -56,10 +56,8 @@ export const BuildingCreateModal = ({
       onClose={handleClose}
       maxWidth="2xl"
       className="max-h-[90vh] overflow-y-auto"
-      title={t('create.title', { defaultValue: 'Tạo Tòa nhà mới' })}
-      description={t('create.subtitle', {
-        defaultValue: 'Khởi tạo tòa nhà và gửi hồ sơ giấy tờ để ban quản trị phê duyệt',
-      })}
+      title={t('create.title')}
+      description={t('create.subtitle')}
     >
       <div className="space-y-6 pt-2">
         <CreateWizardIndicator step={step} />

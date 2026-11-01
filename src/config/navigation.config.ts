@@ -61,7 +61,7 @@ export const TENANT_NAVIGATION: readonly NavMenuItem[] = [
  */
 export const ADMIN_NAVIGATION: readonly NavMenuItem[] = [
   { id: 'admin-stats', titleKey: 'navigation.admin.systemStats', path: '/admin', icon: BarChart3, exact: true },
-  { id: 'admin-approvals', titleKey: 'navigation.admin.approvals', path: '/admin/approvals', icon: CheckCircle2 },
+  { id: 'admin-buildings', titleKey: 'navigation.admin.approvals', path: '/admin/buildings', icon: CheckCircle2 },
   { id: 'admin-users', titleKey: 'navigation.admin.users', path: '/admin/users', icon: UserCheck },
   { id: 'admin-audit', titleKey: 'navigation.admin.auditLogs', path: '/admin/audit-logs', icon: ShieldCheck },
   { id: 'admin-settings', titleKey: 'navigation.admin.settings', path: '/admin/settings', icon: Settings },

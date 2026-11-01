@@ -219,6 +219,8 @@
     "noDocuments": "No proof of ownership documents attached",
     "shareProfile": "Share Profile",
     "unspecifiedAddress": "Address not updated",
+    "floorsUnit": "floors",
+    "floorsScale": "Total floors",
     "floorsCount": "{{count}} floors",
     "multiFloorScale": "Multi-story building",
     "roomsCount": "{{count}} independent rooms",
@@ -294,6 +296,7 @@
     "amenitiesTitle": "Declared Amenities",
     "rejectTitle": "Reject Property Application",
     "rejectTarget": "Application: {{building}} · Owner: {{landlord}}",
+    "rejectTargetBuildingOnly": "Building profile: {{building}}",
     "rejectNotice": "Please state the reason for rejection clearly. This notice will be sent directly to the landlord for updates.",
     "presetReasonsLabel": "Common Preset Reasons",
     "rejectNoteField": "Rejection Reason",
@@ -301,6 +304,10 @@
     "rejectNoteRequired": "Please provide a reason for rejection.",
     "rejectNoteMax": "Rejection reason must not exceed 500 characters.",
     "confirmReject": "Confirm Rejection"
+  },
+  "emptyState": {
+    "title": "Property profile not found",
+    "description": "The property record does not exist or has been removed."
   },
   "apiSuccess": {
     "BUILDING_CREATED": "Building created successfully and submitted for review.",

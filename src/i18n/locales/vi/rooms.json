@@ -1,0 +1,137 @@
+{
+  "status": {
+    "available": "Phòng trống",
+    "occupied": "Đang thuê",
+    "maintenance": "Đang bảo trì",
+    "cleaning": "Đang dọn dẹp",
+    "pending_cleanup": "Chờ dọn dẹp",
+    "allStatuses": "Tất cả trạng thái"
+  },
+  "gender": {
+    "any": "Tất cả (Không giới hạn)",
+    "male": "Nam",
+    "female": "Nữ"
+  },
+  "amenities": {
+    "aircon": "Điều hòa",
+    "fridge": "Tủ lạnh",
+    "wcInside": "WC khép kín",
+    "waterHeater": "Bình nóng lạnh",
+    "mezzanine": "Gác lửng",
+    "table": "Bàn làm việc",
+    "chair": "Ghế ngồi"
+  },
+  "floorDisplay": "Tầng {{floor}}",
+  "cancel": "Hủy bỏ",
+  "activeIssuesTooltip": "{{count}} sự cố đang mở",
+  "unapprovedAlertTitle": "Cần chờ Admin duyệt tòa nhà",
+  "unapprovedAlertDesc": "Hồ sơ tòa nhà đang trong quá trình xét duyệt hoặc cần bổ sung. Bạn chỉ có thể tạo và quản lý phòng sau khi hồ sơ được phê duyệt.",
+  "list": {
+    "title": "Danh sách buồng phòng",
+    "subtitle": "Theo dõi tình trạng lấp đầy, giá niêm yết và thông tin khách thuê",
+    "roomCount": "{{count}} phòng",
+    "addRoom": "Thêm phòng mới",
+    "floorFilter": "Tầng:",
+    "allFloors": "Tất cả tầng",
+    "noBuildingsTitle": "Bạn chưa có tòa nhà nào",
+    "noBuildingsDesc": "Hãy tạo tòa nhà trước khi bắt đầu tạo phòng cho thuê.",
+    "goToBuildings": "Quản lý tòa nhà",
+    "selectBuilding": "Chọn cơ sở tòa nhà:"
+  },
+  "empty": {
+    "title": "Chưa có phòng nào",
+    "approvedDesc": "Bắt đầu bằng cách thêm phòng trọ đầu tiên vào cơ sở này.",
+    "unapprovedDesc": "Tòa nhà cần được phê duyệt trước khi tạo phòng."
+  },
+  "form": {
+    "name": "Số phòng / Tên phòng",
+    "namePlaceholder": "Ví dụ: P.201, Studio 3...",
+    "floorNumber": "Tầng lầu",
+    "area": "Diện tích sử dụng (m²)",
+    "rentPrice": "Giá thuê (VNĐ/tháng)",
+    "depositAmount": "Tiền đặt cọc (VNĐ)",
+    "matchRentPrice": "Bằng 1 tháng tiền thuê",
+    "maxOccupancy": "Số người ở tối đa",
+    "unlimitedOccupancy": "Để trống nếu không giới hạn",
+    "unlimited": "Không giới hạn",
+    "genderPolicy": "Chính sách giới tính",
+    "amenitiesTitle": "Tiện nghi phòng sẵn có",
+    "description": "Mô tả chi tiết phòng",
+    "descriptionPlaceholder": "Mô tả đặc điểm không gian, cửa sổ, ban công..."
+  },
+  "create": {
+    "title": "Thêm phòng mới {{building}}",
+    "subtitle": "Khởi tạo thông tin phòng, giá thuê và tiện nghi",
+    "readyNotice": "Phòng mới tạo sẽ sẵn sàng cho thuê",
+    "submitAction": "Tạo phòng"
+  },
+  "edit": {
+    "title": "Chỉnh sửa thông tin phòng {{name}}",
+    "subtitle": "Cập nhật tên phòng, giá thuê và diện tích",
+    "submitAction": "Lưu thay đổi"
+  },
+  "delete": {
+    "title": "Xác nhận xóa phòng",
+    "confirmAction": "Xác nhận xóa",
+    "confirmation": "Bạn có chắc chắn muốn xóa vĩnh viễn phòng {{name}}?",
+    "warning": "Hành động này sẽ không thể khôi phục. Các thông tin liên quan đến phòng sẽ bị gỡ bỏ."
+  },
+  "detail": {
+    "backToBuilding": "Quay lại {{building}}",
+    "markReadyAction": "Sẵn sàng cho thuê",
+    "editAction": "Sửa phòng",
+    "deleteAction": "Xóa",
+    "specsTitle": "Thông số kỹ thuật & Giá thuê",
+    "specsSubtitle": "Các thông tin cơ bản được thiết lập cho căn phòng này",
+    "contractTitle": "Hợp đồng & Khách thuê",
+    "noContract": "Chưa có hợp đồng",
+    "contractCode": "Mã hợp đồng",
+    "contractPeriod": "Thời hạn thuê",
+    "membersTitle": "Thành viên đang cư trú",
+    "representative": "Đại diện hợp đồng",
+    "vacantRoomTitle": "Phòng hiện đang chưa có người thuê",
+    "vacantRoomDesc": "Tạo hợp đồng thuê mới hoặc xếp khách vào phòng này từ phân hệ Hợp đồng.",
+    "notFoundTitle": "Không tìm thấy thông tin phòng",
+    "notFoundDesc": "Phòng không tồn tại hoặc bạn không có quyền truy cập.",
+    "idLabel": "Mã phòng",
+    "meterTitle": "Chỉ số chốt kỳ gần nhất",
+    "electricity": "Số điện",
+    "water": "Số nước"
+  },
+  "units": {
+    "currency": "đ",
+    "perMonth": "đ/tháng",
+    "monthSuffix": "/tháng",
+    "area": "m²",
+    "people": "{{count}} người",
+    "kwh": "kWh",
+    "m3": "m³"
+  },
+  "errors": {
+    "nameRequired": "Vui lòng nhập tên hoặc số phòng.",
+    "nameMax": "Tên phòng không được vượt quá 254 ký tự.",
+    "floorNumberRequired": "Vui lòng nhập số tầng.",
+    "floorNumberInt": "Số tầng phải là số nguyên.",
+    "floorNumberMin": "Số tầng tối thiểu là 1.",
+    "areaRequired": "Vui lòng nhập diện tích sử dụng.",
+    "areaPositive": "Diện tích phải là số lớn hơn 0.",
+    "rentPriceRequired": "Vui lòng nhập giá thuê.",
+    "rentPriceMin": "Giá thuê không được âm.",
+    "depositAmountRequired": "Vui lòng nhập tiền đặt cọc.",
+    "depositAmountMin": "Tiền đặt cọc không được âm.",
+    "maxOccupancyInt": "Số người ở phải là số nguyên.",
+    "maxOccupancyMin": "Số người ở tối thiểu là 1.",
+    "descriptionMax": "Mô tả không được vượt quá 1000 ký tự.",
+    "duplicateRoom": "Tên phòng này đã tồn tại trong tòa nhà."
+  },
+  "apiSuccess": {
+    "ROOM_CREATED": "Tạo phòng mới thành công.",
+    "ROOM_UPDATED": "Cập nhật thông tin phòng thành công.",
+    "ROOM_MARKED_READY": "Đã đánh dấu phòng sẵn sàng cho thuê."
+  },
+  "apiErrors": {
+    "DUPLICATE_ROOM": "Tên phòng này đã tồn tại trong tòa nhà.",
+    "BUILDING_NOT_APPROVED": "Tòa nhà chưa được phê duyệt nên không thể thêm phòng.",
+    "INVALID_ROOM_TRANSITION": "Chỉ có thể chuyển sang sẵn sàng cho thuê từ trạng thái đang dọn dẹp hoặc bảo trì."
+  }
+}

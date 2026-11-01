@@ -30,6 +30,7 @@ export interface SelectDropdownProps {
   containerClassName?: string;
   className?: string;
   searchable?: boolean;
+  clearable?: boolean;
   onChange?: (e: { target: { value: string; name?: string } }) => void;
   onSelectOption?: (option: SelectOption) => void;
 }
@@ -49,6 +50,7 @@ export const SelectDropdown = ({
   containerClassName,
   className,
   searchable = true,
+  clearable = false,
   onChange,
   onSelectOption,
 }: SelectDropdownProps) => {
@@ -211,12 +213,12 @@ export const SelectDropdown = ({
         </div>
 
         <div className="flex items-center gap-1 shrink-0 text-rentify-text-secondary">
-          {selectedOption && !disabled && (
+          {clearable && selectedOption && !disabled && (
             <button
               type="button"
               onClick={handleClear}
               className="p-1 hover:text-rentify-text-primary rounded-full transition-colors"
-              title={t('clear', { defaultValue: 'Xóa lựa chọn' })}
+              title={t('clear')}
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -258,7 +260,7 @@ export const SelectDropdown = ({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t('search', { defaultValue: 'Tìm kiếm...' })}
+                  placeholder={t('search')}
                   className="w-full h-8.5 pl-8 pr-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-rentify-text-primary placeholder:text-rentify-text-secondary focus:outline-none focus:bg-rentify-surface focus:border-rentify-primary"
                 />
               </div>
@@ -269,7 +271,7 @@ export const SelectDropdown = ({
           <div className="max-h-60 overflow-y-auto py-1">
             {filteredOptions.length === 0 ? (
               <div className="py-4 px-3 text-center text-xs text-rentify-text-secondary">
-                {t('noResults', { defaultValue: 'Không tìm thấy kết quả phù hợp' })}
+                {t('noResults')}
               </div>
             ) : (
               filteredOptions.map((opt) => {

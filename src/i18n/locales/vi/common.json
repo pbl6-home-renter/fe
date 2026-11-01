@@ -24,6 +24,8 @@
   "emptyDataDesc": "Hiện tại chưa có dữ liệu nào để hiển thị.",
   "errorUnknown": "Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.",
   "search": "Tìm kiếm...",
+  "clear": "Xóa lựa chọn",
+  "noResults": "Không tìm thấy kết quả phù hợp",
   "actions": "Thao tác",
   "dataTable": {
     "view": "Tùy chỉnh",

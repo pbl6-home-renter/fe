@@ -1,0 +1,137 @@
+{
+  "status": {
+    "available": "Available",
+    "occupied": "Occupied",
+    "maintenance": "Under Maintenance",
+    "cleaning": "Cleaning",
+    "pending_cleanup": "Pending Cleanup",
+    "allStatuses": "All statuses"
+  },
+  "gender": {
+    "any": "Any (No restriction)",
+    "male": "Male",
+    "female": "Female"
+  },
+  "amenities": {
+    "aircon": "Air Conditioner",
+    "fridge": "Refrigerator",
+    "wcInside": "Private Bathroom",
+    "waterHeater": "Water Heater",
+    "mezzanine": "Mezzanine",
+    "table": "Desk",
+    "chair": "Chair"
+  },
+  "floorDisplay": "Floor {{floor}}",
+  "cancel": "Cancel",
+  "activeIssuesTooltip": "{{count}} open issues",
+  "unapprovedAlertTitle": "Awaiting Property Approval",
+  "unapprovedAlertDesc": "This property is currently pending administrative review. You will be able to add and manage rooms once it is approved.",
+  "list": {
+    "title": "Room Directory",
+    "subtitle": "Track occupancy rates, listing prices, and tenant details",
+    "roomCount": "{{count}} rooms",
+    "addRoom": "Add Room",
+    "floorFilter": "Floor:",
+    "allFloors": "All floors",
+    "noBuildingsTitle": "No properties found",
+    "noBuildingsDesc": "Create a property before adding rentable rooms.",
+    "goToBuildings": "Manage Properties",
+    "selectBuilding": "Select property:"
+  },
+  "empty": {
+    "title": "No rooms yet",
+    "approvedDesc": "Get started by adding your first room to this property.",
+    "unapprovedDesc": "This property must be approved by an administrator before adding rooms."
+  },
+  "form": {
+    "name": "Room number / Name",
+    "namePlaceholder": "E.g.: Room 201, Studio 3...",
+    "floorNumber": "Floor",
+    "area": "Floor area (m²)",
+    "rentPrice": "Monthly rent (VND)",
+    "depositAmount": "Security deposit (VND)",
+    "matchRentPrice": "Equal to 1 month rent",
+    "maxOccupancy": "Maximum occupants",
+    "unlimitedOccupancy": "Leave blank for no limit",
+    "unlimited": "No limit",
+    "genderPolicy": "Gender policy",
+    "amenitiesTitle": "Room Amenities",
+    "description": "Room description",
+    "descriptionPlaceholder": "Describe features, windows, balcony..."
+  },
+  "create": {
+    "title": "Add New Room {{building}}",
+    "subtitle": "Configure room specifications, pricing, and amenities",
+    "readyNotice": "New room will be immediately available for rent",
+    "submitAction": "Create Room"
+  },
+  "edit": {
+    "title": "Edit Room {{name}}",
+    "subtitle": "Update room name, rental price, and floor area",
+    "submitAction": "Save Changes"
+  },
+  "delete": {
+    "title": "Delete Room Confirmation",
+    "confirmAction": "Confirm Delete",
+    "confirmation": "Are you sure you want to permanently delete room {{name}}?",
+    "warning": "This action cannot be undone. All data related to this room will be removed."
+  },
+  "detail": {
+    "backToBuilding": "Back to {{building}}",
+    "markReadyAction": "Mark as Ready",
+    "editAction": "Edit Room",
+    "deleteAction": "Delete",
+    "specsTitle": "Technical Specs & Pricing",
+    "specsSubtitle": "Basic specifications declared for this room",
+    "contractTitle": "Contract & Tenant Info",
+    "noContract": "No active contract",
+    "contractCode": "Contract code",
+    "contractPeriod": "Lease duration",
+    "membersTitle": "Active Residents",
+    "representative": "Lease representative",
+    "vacantRoomTitle": "Room is currently vacant",
+    "vacantRoomDesc": "Create a new lease contract or assign tenants from the Contracts section.",
+    "notFoundTitle": "Room Not Found",
+    "notFoundDesc": "The requested room does not exist or you do not have permission to view it.",
+    "idLabel": "Room ID",
+    "meterTitle": "Latest Recorded Meters",
+    "electricity": "Electricity",
+    "water": "Water"
+  },
+  "units": {
+    "currency": "VND",
+    "perMonth": "VND/mo",
+    "monthSuffix": "/month",
+    "area": "m²",
+    "people": "{{count}} people",
+    "kwh": "kWh",
+    "m3": "m³"
+  },
+  "errors": {
+    "nameRequired": "Please enter a room name or number.",
+    "nameMax": "Room name cannot exceed 254 characters.",
+    "floorNumberRequired": "Please enter a floor number.",
+    "floorNumberInt": "Floor number must be an integer.",
+    "floorNumberMin": "Floor number must be at least 1.",
+    "areaRequired": "Please enter floor area.",
+    "areaPositive": "Floor area must be a positive number.",
+    "rentPriceRequired": "Please enter rent price.",
+    "rentPriceMin": "Rent price cannot be negative.",
+    "depositAmountRequired": "Please enter deposit amount.",
+    "depositAmountMin": "Deposit amount cannot be negative.",
+    "maxOccupancyInt": "Max occupants must be an integer.",
+    "maxOccupancyMin": "Max occupants must be at least 1.",
+    "descriptionMax": "Description cannot exceed 1000 characters.",
+    "duplicateRoom": "A room with this name already exists in this property."
+  },
+  "apiSuccess": {
+    "ROOM_CREATED": "Room created successfully.",
+    "ROOM_UPDATED": "Room updated successfully.",
+    "ROOM_MARKED_READY": "Room marked as ready for rent."
+  },
+  "apiErrors": {
+    "DUPLICATE_ROOM": "A room with this name already exists in this property.",
+    "BUILDING_NOT_APPROVED": "Cannot add rooms to an unapproved property.",
+    "INVALID_ROOM_TRANSITION": "Can only mark room as ready from cleaning or maintenance status."
+  }
+}

@@ -16,6 +16,7 @@ import { BuildingRoomsNavCard } from '../components/building-rooms-nav-card';
 import { BuildingAmenitiesCard } from '../components/building-amenities-card';
 import { DeleteBuildingDialog } from '../components/delete-building-dialog';
 import { BuildingEditModal } from '../components/building-edit-modal';
+import { BuildingRoomList } from '@/features/rooms/components/building-room-list';
 import { useMyBuildingQuery } from '../hooks/use-my-building-query';
 
 export const BuildingDetailPage = () => {
@@ -112,6 +113,14 @@ export const BuildingDetailPage = () => {
           <BuildingRoomsNavCard buildingId={building.id} />
           <BuildingAmenitiesCard amenities={building.amenities} />
         </div>
+      </div>
+
+      <div className="pt-2">
+        <BuildingRoomList
+          buildingId={building.id}
+          buildingName={building.name}
+          buildingStatus={building.status}
+        />
       </div>
 
       <BuildingEditModal

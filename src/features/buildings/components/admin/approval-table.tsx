@@ -121,7 +121,7 @@ export const ApprovalTable = ({
           className="ml-auto gap-1.5 text-rentify-primary"
           onClick={(event) => {
             event.stopPropagation();
-            navigate(`/admin/approvals/${row.original.id}`);
+            navigate(`/admin/buildings/${row.original.id}`);
           }}
         >
           {t('admin.reviewAction')}
@@ -174,7 +174,7 @@ export const ApprovalTable = ({
           filters={<ApprovalStatusTabs selectedStatus={selectedStatus} onSelectStatus={onStatusChange} />}
         />
       )}
-      onRowClick={(building) => navigate(`/admin/approvals/${building.id}`)}
+      onRowClick={(building) => navigate(`/admin/buildings/${building.id}`)}
       renderMobileRow={(row) => (
         <div className="space-y-3">
           <div className="flex items-start justify-between gap-3">

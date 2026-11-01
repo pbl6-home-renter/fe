@@ -35,11 +35,11 @@ export const ApprovalDetailHeader = ({
     <div className="space-y-3">
       <button
         type="button"
-        onClick={() => navigate('/admin/approvals')}
+        onClick={() => navigate('/admin/buildings')}
         className="inline-flex items-center gap-1.5 text-xs text-rentify-text-secondary hover:text-rentify-primary transition-colors cursor-pointer font-medium"
       >
         <ArrowLeft className="w-4 h-4" />
-        <span>{t('admin.backToQueue', { defaultValue: 'Quay lại hàng đợi phê duyệt' })}</span>
+        <span>{t('admin.backToQueue')}</span>
       </button>
 
       <Card className="p-5 sm:p-6 border-rentify-divider bg-rentify-surface shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-2xl">
@@ -74,7 +74,7 @@ export const ApprovalDetailHeader = ({
               className="gap-2 border-rentify-error text-rentify-error hover:bg-rentify-error/10"
             >
               <XCircle className="w-4 h-4" />
-              <span>{t('admin.rejectButton', { defaultValue: 'Từ chối phê duyệt' })}</span>
+              <span>{t('admin.rejectButton')}</span>
             </Button>
 
             <Button
@@ -86,7 +86,7 @@ export const ApprovalDetailHeader = ({
               className="gap-2 bg-rentify-success hover:bg-rentify-success/90"
             >
               <CheckCircle2 className="w-4 h-4" />
-              <span>{t('admin.approveButton', { defaultValue: 'Phê duyệt bất động sản' })}</span>
+              <span>{t('admin.approveButton')}</span>
             </Button>
           </div>
         )}

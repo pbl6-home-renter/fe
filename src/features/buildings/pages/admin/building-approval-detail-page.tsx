@@ -30,7 +30,7 @@ export const BuildingApprovalDetailPage = () => {
       {
         id,
         payload: {
-          note: t('admin.defaultApproveNote', { defaultValue: 'Đã xác thực hồ sơ và giấy tờ sở hữu' }),
+          note: t('admin.defaultApproveNote'),
         },
       },
       {
@@ -51,8 +51,8 @@ export const BuildingApprovalDetailPage = () => {
     return (
       <div className="p-6">
         <ErrorState
-          title={t('emptyState.title', { defaultValue: 'Không tìm thấy hồ sơ' })}
-          message={t('emptyState.description', { defaultValue: 'Hồ sơ bất động sản không tồn tại hoặc đã bị gỡ bỏ.' })}
+          title={t('emptyState.title')}
+          message={t('emptyState.description')}
           onRetry={() => void refetch()}
         />
       </div>
@@ -73,7 +73,7 @@ export const BuildingApprovalDetailPage = () => {
           <ShieldAlert className="w-5 h-5 text-rentify-error shrink-0 mt-0.5" />
           <div className="space-y-0.5">
             <h4 className="text-xs font-bold text-rentify-error">
-              {t('admin.rejectedNoticeTitle', { defaultValue: 'Hồ sơ đã bị từ chối' })}
+              {t('admin.rejectedNoticeTitle')}
             </h4>
             <p className="text-xs text-rentify-text-primary leading-relaxed">
               {building.reviewNote}
@@ -90,7 +90,7 @@ export const BuildingApprovalDetailPage = () => {
             <Card className="p-6 border-rentify-divider bg-rentify-surface rounded-2xl shadow-xs space-y-3">
               <h3 className="text-base font-bold text-rentify-text-primary pb-2 border-b border-rentify-divider flex items-center gap-2">
                 <Layers className="w-4 h-4 text-rentify-primary" />
-                <span>{t('admin.amenitiesTitle', { defaultValue: 'Tiện ích chung đã khai báo' })}</span>
+                <span>{t('admin.amenitiesTitle')}</span>
               </h3>
 
               <div className="flex flex-wrap gap-1.5">
@@ -100,7 +100,7 @@ export const BuildingApprovalDetailPage = () => {
                       key={key}
                       className="px-2.5 py-1 rounded-lg bg-surface-container-low text-rentify-text-primary text-xs font-medium"
                     >
-                      {t(`amenities.${key}`, { defaultValue: key })}
+                      {t(`amenities.${key}` as never)}
                     </span>
                   ) : null
                 )}
