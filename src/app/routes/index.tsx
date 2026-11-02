@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import type { RouteObject } from 'react-router-dom';
+import { ROUTES } from '@/config/routes.config';
 import { ProtectedRoute } from './protected-route';
 import { DashboardLayout } from '@/app/layouts/dashboard-layout';
 import { RoleBasedRedirect } from './role-based-redirect';
@@ -32,7 +33,7 @@ export const routes: RouteObject[] = [
 
   // 3. Root redirect
   {
-    path: '/',
+    path: ROUTES.HOME,
     element: <RoleBasedRedirect />,
   },
 

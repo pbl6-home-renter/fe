@@ -2,66 +2,15 @@ import type { RouteObject } from 'react-router-dom';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { DashboardPage } from '@/features/dashboard/pages/dashboard-page';
 import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-page';
+import { ROUTES } from '@/config/routes.config';
 
 export const commonRoutes: RouteObject[] = [
   {
-    path: '/dashboard',
+    path: ROUTES.DASHBOARD,
     element: <DashboardPage />,
   },
   {
-    path: '/rooms',
-    element: (
-      <DashboardOverview
-        roleConfig={{
-          landlord: {
-            titleKey: 'routes.rooms.landlordTitle',
-            descKey: 'routes.rooms.landlordDesc',
-          },
-          tenant: {
-            titleKey: 'routes.rooms.tenantTitle',
-            descKey: 'routes.rooms.tenantDesc',
-          },
-        }}
-      />
-    ),
-  },
-  {
-    path: '/rooms/:id',
-    element: (
-      <DashboardOverview
-        titleKey="routes.rooms.detailTitle"
-        descKey="routes.rooms.detailDesc"
-      />
-    ),
-  },
-  {
-    path: '/contracts',
-    element: (
-      <DashboardOverview
-        roleConfig={{
-          landlord: {
-            titleKey: 'routes.contracts.landlordTitle',
-            descKey: 'routes.contracts.landlordDesc',
-          },
-          tenant: {
-            titleKey: 'routes.contracts.tenantTitle',
-            descKey: 'routes.contracts.tenantDesc',
-          },
-        }}
-      />
-    ),
-  },
-  {
-    path: '/contracts/:id',
-    element: (
-      <DashboardOverview
-        titleKey="routes.contracts.detailTitle"
-        descKey="routes.contracts.detailDesc"
-      />
-    ),
-  },
-  {
-    path: '/invoices',
+    path: ROUTES.INVOICES,
     element: (
       <DashboardOverview
         roleConfig={{
@@ -78,7 +27,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/invoices/:id',
+    path: ROUTES.INVOICE_DETAIL(':id'),
     element: (
       <DashboardOverview
         titleKey="routes.invoices.detailTitle"
@@ -87,7 +36,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/issues',
+    path: ROUTES.ISSUES,
     element: (
       <DashboardOverview
         roleConfig={{
@@ -104,7 +53,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/issues/new',
+    path: ROUTES.ISSUE_NEW,
     element: (
       <DashboardOverview
         titleKey="routes.issues.newTitle"
@@ -113,7 +62,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/issues/:id',
+    path: ROUTES.ISSUE_DETAIL(':id'),
     element: (
       <DashboardOverview
         titleKey="routes.issues.detailTitle"
@@ -122,7 +71,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/chat',
+    path: ROUTES.CHAT,
     element: (
       <DashboardOverview
         titleKey="routes.chat.title"
@@ -131,7 +80,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/chat/:id',
+    path: ROUTES.CHAT_DETAIL(':id'),
     element: (
       <DashboardOverview
         titleKey="routes.chat.detailTitle"
@@ -140,7 +89,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/notifications',
+    path: ROUTES.NOTIFICATIONS,
     element: (
       <DashboardOverview
         titleKey="routes.notifications.title"
@@ -149,7 +98,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/profile',
+    path: ROUTES.PROFILE,
     element: (
       <DashboardOverview
         titleKey="routes.profile.title"
@@ -158,7 +107,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/settings',
+    path: ROUTES.SETTINGS,
     element: (
       <DashboardOverview
         titleKey="routes.settings.title"
@@ -167,7 +116,7 @@ export const commonRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/design-system',
+    path: ROUTES.DESIGN_SYSTEM,
     element: <DesignSystemShowcasePage />,
   },
 ];

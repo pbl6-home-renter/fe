@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import { useRoomQuery } from '../hooks/use-room-query';
 import { useMarkRoomReadyMutation } from '../hooks/use-mark-room-ready-mutation';
 import { RoomHeader } from '../components/detail/room-header';
@@ -95,7 +96,7 @@ export const RoomDetailPage = () => {
         roomId={room.id}
         roomName={room.name}
         onSuccess={() => {
-          navigate(`/buildings/${room.buildingId}`, { replace: true });
+          navigate(ROUTES.LANDLORD.BUILDING_DETAIL(room.buildingId), { replace: true });
         }}
       />
     </div>

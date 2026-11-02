@@ -2,14 +2,17 @@ import type { RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { Role } from '@/types/role';
+import { ROUTES } from '@/config/routes.config';
 import { BuildingListPage } from '@/features/buildings/pages/building-list-page';
 import { BuildingDetailPage } from '@/features/buildings/pages/building-detail-page';
 import { RoomListPage } from '@/features/rooms/pages/room-list-page';
 import { RoomDetailPage } from '@/features/rooms/pages/room-detail-page';
+import { ContractListPage } from '@/features/contracts/pages/contract-list-page';
+import { ContractDetailPage } from '@/features/contracts/pages/contract-detail-page';
 
 export const landlordRoutes: RouteObject[] = [
   {
-    path: '/buildings',
+    path: ROUTES.LANDLORD.BUILDINGS,
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
         <BuildingListPage />
@@ -17,7 +20,7 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/buildings/:id',
+    path: ROUTES.LANDLORD.BUILDING_DETAIL(':id'),
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
         <BuildingDetailPage />
@@ -25,7 +28,7 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/buildings/:id/rooms',
+    path: ROUTES.LANDLORD.BUILDING_ROOMS(':id'),
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
         <RoomListPage />
@@ -33,7 +36,7 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/buildings/:id/rooms/:roomId',
+    path: ROUTES.LANDLORD.BUILDING_ROOM_DETAIL(':id', ':roomId'),
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
         <RoomDetailPage />
@@ -41,7 +44,7 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/rooms',
+    path: ROUTES.LANDLORD.ROOMS,
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
         <RoomListPage />
@@ -49,7 +52,7 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/rooms/:id',
+    path: ROUTES.LANDLORD.ROOM_DETAIL(':id'),
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
         <RoomDetailPage />
@@ -57,7 +60,7 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/tenants',
+    path: ROUTES.LANDLORD.TENANTS,
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
         <DashboardOverview
@@ -68,7 +71,7 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/tenants/:id',
+    path: ROUTES.LANDLORD.TENANT_DETAIL(':id'),
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
         <DashboardOverview
@@ -79,29 +82,23 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/contracts/new',
+    path: ROUTES.LANDLORD.CONTRACTS,
     element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
-        <DashboardOverview
-          titleKey="routes.contracts.newTitle"
-          descKey="routes.contracts.newDesc"
-        />
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <ContractListPage />
       </ProtectedRoute>
     ),
   },
   {
-    path: '/contracts/templates',
+    path: ROUTES.LANDLORD.CONTRACT_DETAIL(':id'),
     element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
-        <DashboardOverview
-          titleKey="routes.contracts.templatesTitle"
-          descKey="routes.contracts.templatesDesc"
-        />
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <ContractDetailPage />
       </ProtectedRoute>
     ),
   },
   {
-    path: '/meter-readings',
+    path: ROUTES.LANDLORD.METER_READINGS,
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
         <DashboardOverview

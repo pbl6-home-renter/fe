@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import landlordLogo from '@/assets/landlord-logo.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -55,7 +56,7 @@ export const ForgotPasswordPage = () => {
           </div>
 
           <Link
-            to="/login"
+            to={ROUTES.LOGIN}
             className="inline-flex items-center justify-center gap-2 w-full h-11 bg-surface-container-low hover:bg-surface-container text-rentify-primary font-medium text-sm rounded-xl transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -87,7 +88,7 @@ export const ForgotPasswordPage = () => {
 
           <div className="mt-4 text-center">
             <Link
-              to="/login"
+              to={ROUTES.LOGIN}
               className="inline-flex items-center gap-1.5 text-sm font-medium text-rentify-text-secondary hover:text-rentify-primary transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />

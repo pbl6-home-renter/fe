@@ -7,12 +7,14 @@ import viMedia from './locales/vi/media.json';
 import viBuildings from './locales/vi/buildings.json';
 import viDashboard from './locales/vi/dashboard.json';
 import viRooms from './locales/vi/rooms.json';
+import viContracts from './locales/vi/contracts.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
 import enMedia from './locales/en/media.json';
 import enBuildings from './locales/en/buildings.json';
 import enDashboard from './locales/en/dashboard.json';
 import enRooms from './locales/en/rooms.json';
+import enContracts from './locales/en/contracts.json';
 
 export const defaultNS = 'common';
 export const resources = {
@@ -23,6 +25,7 @@ export const resources = {
     buildings: viBuildings,
     dashboard: viDashboard,
     rooms: viRooms,
+    contracts: viContracts,
   },
   en: {
     common: enCommon,
@@ -31,6 +34,7 @@ export const resources = {
     buildings: enBuildings,
     dashboard: enDashboard,
     rooms: enRooms,
+    contracts: enContracts,
   },
 } as const;
 

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, ShieldAlert } from 'lucide-react';
 import { isAxiosError } from 'axios';
+import { ROUTES } from '@/config/routes.config';
 import { Card } from '@/components/ui/card';
 import { AlertBanner } from '@/components/feedback/alert-banner';
 import { ErrorState } from '@/components/feedback/error-state';
@@ -31,7 +32,7 @@ export const BuildingDetailPage = () => {
 
   useEffect(() => {
     if (errorStatus === 403) {
-      navigate('/forbidden', { replace: true });
+      navigate(ROUTES.FORBIDDEN_ALT, { replace: true });
     }
   }, [errorStatus, navigate]);
 
@@ -56,7 +57,7 @@ export const BuildingDetailPage = () => {
             title={t('detail.notFoundTitle')}
             message={t('detail.notFoundDesc')}
             retryText={t('backToList')}
-            onRetry={() => navigate('/buildings')}
+            onRetry={() => navigate(ROUTES.LANDLORD.BUILDINGS)}
           />
         </Card>
       );
@@ -76,7 +77,7 @@ export const BuildingDetailPage = () => {
       <div>
         <button
           type="button"
-          onClick={() => navigate('/buildings')}
+          onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-rentify-text-secondary hover:text-rentify-text-primary transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />

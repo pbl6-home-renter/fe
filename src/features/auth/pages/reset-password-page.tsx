@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import landlordLogo from '@/assets/landlord-logo.png';
 import { Button } from '@/components/ui/button';
 import { PasswordInput } from '@/components/ui/password-input';
@@ -42,7 +43,7 @@ export const ResetPasswordPage = () => {
               {t('errors.tokenRequired')}
             </p>
             <Link
-              to="/forgot-password"
+              to={ROUTES.FORGOT_PASSWORD}
               className="inline-flex items-center text-xs font-semibold text-rentify-primary hover:underline"
             >
               ← {t('resendResetLink')}
@@ -98,7 +99,7 @@ export const ResetPasswordPage = () => {
 
             <div className="mt-4 text-center">
               <Link
-                to="/login"
+                to={ROUTES.LOGIN}
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-rentify-text-secondary hover:text-rentify-primary transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />

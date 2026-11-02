@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ROUTES } from '@/config/routes.config';
 import {
   buildingInfoSchema,
   type BuildingInfoFormData,
@@ -71,7 +72,7 @@ export const useBuildingForm = (options?: UseBuildingFormOptions) => {
         if (options?.onSuccess) {
           options.onSuccess(response.id);
         } else {
-          navigate(`/buildings/${response.id}`, { replace: true });
+          navigate(ROUTES.LANDLORD.BUILDING_DETAIL(response.id), { replace: true });
         }
       },
     });

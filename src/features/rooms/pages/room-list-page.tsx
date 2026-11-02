@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Building2 } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import { BuildingRoomList } from '../components/building-room-list';
 import { useMyBuildingsQuery } from '@/features/buildings/hooks/use-my-buildings-query';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
@@ -53,7 +54,7 @@ export const RoomListPage = () => {
             <Button
               type="button"
               variant="primary"
-              onClick={() => navigate('/buildings')}
+              onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}
             >
               <Building2 className="w-4 h-4 mr-1.5" />
               <span>{t('list.goToBuildings')}</span>

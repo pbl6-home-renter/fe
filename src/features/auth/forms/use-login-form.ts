@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import { getHomePathByRole } from '@/app/routes/route-utils';
 import { getFieldError, setFormApiErrors } from '@/lib/form';
 import { useLoginMutation } from '../hooks/use-login-mutation';
@@ -37,7 +38,7 @@ export const useLoginForm = () => {
         identifier: values.identifier.trim(),
       });
       const role = (user || profile)?.role;
-      navigate(redirectTarget || (role ? getHomePathByRole(role) : '/'), { replace: true });
+      navigate(redirectTarget || (role ? getHomePathByRole(role) : ROUTES.HOME), { replace: true });
     } catch (error) {
       setFormApiErrors(form.setError, error);
     }

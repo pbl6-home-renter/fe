@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, Building2, MapPin } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
+import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { BuildingStatusBadge } from './building-status-badge';
 import type { BuildingMyListItemDto } from '../types/building.dto';
@@ -98,7 +99,7 @@ export const useBuildingListColumns = () => {
           className="ml-auto gap-1.5 text-rentify-primary"
           onClick={(event) => {
             event.stopPropagation();
-            navigate(`/buildings/${row.original.id}`);
+            navigate(ROUTES.LANDLORD.BUILDING_DETAIL(row.original.id));
           }}
         >
           {t('viewDetail')}

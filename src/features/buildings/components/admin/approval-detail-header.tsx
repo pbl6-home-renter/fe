@@ -7,6 +7,7 @@ import {
   MapPin,
   Calendar,
 } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { BuildingStatusBadge } from '../building-status-badge';
@@ -35,7 +36,7 @@ export const ApprovalDetailHeader = ({
     <div className="space-y-3">
       <button
         type="button"
-        onClick={() => navigate('/admin/buildings')}
+        onClick={() => navigate(ROUTES.ADMIN.BUILDINGS)}
         className="inline-flex items-center gap-1.5 text-xs text-rentify-text-secondary hover:text-rentify-primary transition-colors cursor-pointer font-medium"
       >
         <ArrowLeft className="w-4 h-4" />

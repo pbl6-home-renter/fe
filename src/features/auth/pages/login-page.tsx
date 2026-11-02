@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertCircle } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import landlordLogo from '@/assets/landlord-logo.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -77,7 +78,7 @@ export const LoginPage = () => {
           />
 
           <Link
-            to="/forgot-password"
+            to={ROUTES.FORGOT_PASSWORD}
             className="font-medium text-rentify-primary hover:underline transition-colors"
           >
             {t('forgotPassword')}
@@ -99,7 +100,7 @@ export const LoginPage = () => {
       <div className="mt-8 text-center text-sm text-rentify-text-secondary">
         <span>{t('dontHaveAccount')}</span>
         <Link
-          to="/register"
+          to={ROUTES.REGISTER}
           className="font-semibold text-rentify-primary hover:underline ml-1.5 inline-flex items-center"
         >
           {t('register')}

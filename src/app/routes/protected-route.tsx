@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import type { Role } from '@/types/role';
@@ -33,15 +34,15 @@ export const ProtectedRoute = ({
 
   if (!isAuthenticated || !user) {
     const returnUrl = encodeURIComponent(location.pathname + location.search);
-    return <Navigate to={`/login?redirect=${returnUrl}`} state={{ from: location }} replace />;
+    return <Navigate to={`${ROUTES.LOGIN}?redirect=${returnUrl}`} state={{ from: location }} replace />;
   }
 
   if (user.status === UserStatus.LOCKED) {
-    return <Navigate to="/403" replace />;
+    return <Navigate to={ROUTES.FORBIDDEN} replace />;
   }
 
   if (requiredRoles && !requiredRoles.includes(user.role)) {
-    return <Navigate to="/403" replace />;
+    return <Navigate to={ROUTES.FORBIDDEN} replace />;
   }
 
   return children ? <>{children}</> : <Outlet />;

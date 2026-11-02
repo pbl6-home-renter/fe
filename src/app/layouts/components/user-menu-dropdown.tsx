@@ -15,6 +15,7 @@ import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Divider } from '@/components/ui/divider';
 import { getPortalMetaByRole } from '@/config/navigation.config';
+import { ROUTES } from '@/config/routes.config';
 
 export interface UserMenuDropdownProps {
   onOpenLogoutModal: () => void;
@@ -125,7 +126,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
             <button
               type="button"
               role="menuitem"
-              onClick={() => handleNavigate('/profile')}
+              onClick={() => handleNavigate(ROUTES.PROFILE)}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background transition-colors cursor-pointer text-left"
             >
               <User className="w-4 h-4 text-rentify-primary shrink-0" />
@@ -135,7 +136,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
             <button
               type="button"
               role="menuitem"
-              onClick={() => handleNavigate('/settings')}
+              onClick={() => handleNavigate(ROUTES.SETTINGS)}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background transition-colors cursor-pointer text-left"
             >
               <Settings className="w-4 h-4 text-rentify-primary shrink-0" />

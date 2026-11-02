@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 
 interface BuildingRoomsNavCardProps {
   buildingId?: string;
@@ -11,7 +12,7 @@ export const BuildingRoomsNavCard = ({ buildingId }: BuildingRoomsNavCardProps) 
   const navigate = useNavigate();
 
   const handleNavigateRooms = () => {
-    navigate(buildingId ? `/rooms?buildingId=${buildingId}` : '/rooms');
+    navigate(buildingId ? `${ROUTES.LANDLORD.ROOMS}?buildingId=${buildingId}` : ROUTES.LANDLORD.ROOMS);
   };
 
   return (

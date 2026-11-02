@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, Building2, FileCheck2 } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
+import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table/data-table';
 import { DataTableToolbar } from '@/components/ui/data-table/data-table-toolbar';
@@ -121,7 +122,7 @@ export const ApprovalTable = ({
           className="ml-auto gap-1.5 text-rentify-primary"
           onClick={(event) => {
             event.stopPropagation();
-            navigate(`/admin/buildings/${row.original.id}`);
+            navigate(ROUTES.ADMIN.BUILDING_DETAIL(row.original.id));
           }}
         >
           {t('admin.reviewAction')}
@@ -174,7 +175,7 @@ export const ApprovalTable = ({
           filters={<ApprovalStatusTabs selectedStatus={selectedStatus} onSelectStatus={onStatusChange} />}
         />
       )}
-      onRowClick={(building) => navigate(`/admin/buildings/${building.id}`)}
+      onRowClick={(building) => navigate(ROUTES.ADMIN.BUILDING_DETAIL(building.id))}
       renderMobileRow={(row) => (
         <div className="space-y-3">
           <div className="flex items-start justify-between gap-3">

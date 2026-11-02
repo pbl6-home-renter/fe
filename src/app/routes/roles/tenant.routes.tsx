@@ -2,10 +2,11 @@ import type { RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { Role } from '@/types/role';
+import { ROUTES } from '@/config/routes.config';
 
 export const tenantRoutes: RouteObject[] = [
   {
-    path: '/roommates',
+    path: ROUTES.TENANT.ROOMMATES,
     element: (
       <ProtectedRoute allowedRoles={[Role.TENANT]}>
         <DashboardOverview
@@ -16,7 +17,7 @@ export const tenantRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/roommates/profile',
+    path: ROUTES.TENANT.ROOMMATES_PROFILE,
     element: (
       <ProtectedRoute allowedRoles={[Role.TENANT]}>
         <DashboardOverview

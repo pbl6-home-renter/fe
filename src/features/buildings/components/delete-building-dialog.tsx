@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useDeleteBuildingMutation } from '../hooks/use-delete-building-mutation';
@@ -27,7 +28,7 @@ export const DeleteBuildingDialog = ({
     deleteMutation.mutate(buildingId, {
       onSuccess: () => {
         onClose();
-        navigate('/buildings', { replace: true });
+        navigate(ROUTES.LANDLORD.BUILDINGS, { replace: true });
       },
     });
   };

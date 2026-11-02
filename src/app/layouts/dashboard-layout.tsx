@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/config/routes.config';
 import { useLogoutMutation } from '@/features/auth/hooks/use-logout-mutation';
 import { Sidebar } from './components/sidebar';
 import { Header } from './components/header';
@@ -19,7 +20,7 @@ export const DashboardLayout = () => {
       // Handled in onError (clearAuth and toast)
     } finally {
       setLogoutModalOpen(false);
-      navigate('/login', { replace: true });
+      navigate(ROUTES.LOGIN, { replace: true });
     }
   };
 

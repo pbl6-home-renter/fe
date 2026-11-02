@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Role } from '@/types/role';
+import { ROUTES } from '@/config/routes.config';
 import { LandlordDashboardPage } from './landlord-dashboard-page';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 
@@ -15,7 +16,7 @@ export const DashboardPage = () => {
   const { role } = useAuth();
 
   if (role === Role.ADMIN) {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to={ROUTES.ADMIN.DASHBOARD} replace />;
   }
 
   if (role === Role.LANDLORD) {

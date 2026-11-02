@@ -8,6 +8,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
+import { ROUTES } from '@/config/routes.config';
 import { changeLanguage } from '@/i18n/i18n';
 import { UserMenuDropdown } from './user-menu-dropdown';
 import {
@@ -83,7 +84,7 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
         {/* Quick Search */}
         <button
           type="button"
-          onClick={() => navigate('/rooms')}
+          onClick={() => navigate(ROUTES.LANDLORD.ROOMS)}
           aria-label={t('search')}
           className="p-2 rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary transition-colors cursor-pointer hidden sm:flex items-center justify-center"
         >
@@ -93,7 +94,7 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
         {/* Notifications Bell */}
         <button
           type="button"
-          onClick={() => navigate('/notifications')}
+          onClick={() => navigate(ROUTES.NOTIFICATIONS)}
           aria-label={t('notifications')}
           className="relative p-2 rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary transition-colors cursor-pointer"
         >

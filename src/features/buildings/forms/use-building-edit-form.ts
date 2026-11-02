@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import { ROUTES } from '@/config/routes.config';
 import { BuildingStatus } from '../enums/building-status.enum';
 import {
   buildingInfoSchema,
@@ -83,7 +84,7 @@ export const useBuildingEditForm = ({ building, onSuccess }: UseBuildingEditForm
       if (onSuccess) {
         onSuccess();
       } else {
-        navigate(`/buildings/${building.id}`);
+        navigate(ROUTES.LANDLORD.BUILDING_DETAIL(building.id));
       }
       return;
     }
@@ -95,7 +96,7 @@ export const useBuildingEditForm = ({ building, onSuccess }: UseBuildingEditForm
           if (onSuccess) {
             onSuccess();
           } else {
-            navigate(`/buildings/${building.id}`);
+            navigate(ROUTES.LANDLORD.BUILDING_DETAIL(building.id));
           }
         },
       }
