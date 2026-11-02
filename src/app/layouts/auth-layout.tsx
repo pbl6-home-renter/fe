@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import { RentifyLogo } from '@/components/ui/rentify-logo';
 import { Role } from '@/types/role';
 
@@ -14,7 +15,7 @@ export const AuthLayout = () => {
     <div className="min-h-screen bg-rentify-background flex flex-col justify-between antialiased font-sans text-rentify-text-primary">
       {/* Top Header: Simple Brand Logo & Title */}
       <header className="w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-        <Link to="/" className="group transition-transform hover:scale-102">
+        <Link to={ROUTES.HOME} className="group transition-transform hover:scale-102">
           <RentifyLogo role={role} size="lg" />
         </Link>
       </header>

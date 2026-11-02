@@ -5,6 +5,7 @@ import viMedia from '@/i18n/locales/vi/media.json';
 import viBuildings from '@/i18n/locales/vi/buildings.json';
 import viDashboard from '@/i18n/locales/vi/dashboard.json';
 import viRooms from '@/i18n/locales/vi/rooms.json';
+import viContracts from '@/i18n/locales/vi/contracts.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -16,6 +17,7 @@ declare module 'i18next' {
       buildings: typeof viBuildings;
       dashboard: typeof viDashboard;
       rooms: typeof viRooms;
+      contracts: typeof viContracts;
     };
   }
 }

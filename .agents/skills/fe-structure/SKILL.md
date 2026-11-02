@@ -49,10 +49,10 @@ features/rooms/
 ├── hooks/
 │   ├── use-rooms-query.ts           # 1 query/mutation = 1 file
 │   ├── use-create-room-mutation.ts
+│   ├── use-room-create-form.ts      # Hook form logic (useForm + mutation)
 │   └── use-room-list.ts             # hook "màn hình": gom state + query cho 1 trang/khối UI
 ├── forms/
-│   ├── room.schema.ts               # Zod schema + RoomFormData = z.infer<…>
-│   └── use-room-form.ts             # useForm + mutation + điều hướng
+│   └── room.schema.ts               # Zod schema + RoomFormData = z.infer<…> (forms/ chỉ chứa schema)
 ├── components/                      # Component chỉ feature này dùng
 │   ├── room-list-table.tsx
 │   ├── room-list-columns.tsx
@@ -83,8 +83,8 @@ pages/ → components/ → forms/ → hooks/ → api/
 | Component / page | `kebab-case.tsx`, export `PascalCase` | `building-detail-page.tsx` → `BuildingDetailPage` |
 | Hook | `use-<noun>-<verb/role>.ts` | `use-my-buildings-query.ts`, `use-delete-building-mutation.ts`, `use-building-list.ts` |
 | API | `<feature>.api.ts`, export object `<feature>Api` | `building.api.ts` → `buildingApi` |
-| Schema form | `<noun>.schema.ts` | `building.schema.ts` |
-| Hook form | `use-<noun>-form.ts` | `use-building-edit-form.ts` |
+| Schema form | `<noun>.schema.ts` (đặt trong `forms/`) | `building.schema.ts` |
+| Hook form | `use-<noun>-form.ts` (đặt trong `hooks/`) | `use-building-edit-form.ts` |
 | DTO | `<feature>.dto.ts` | `building.dto.ts` |
 | Hằng | `<feature>.constants.ts`, hằng `UPPER_SNAKE` | `BUILDING_QUERY_KEYS` |
 | Enum | `<noun>.enum.ts` | `building-status.enum.ts` |

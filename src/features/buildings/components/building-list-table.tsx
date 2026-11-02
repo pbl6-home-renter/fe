@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table/data-table';
 import { DataTableToolbar } from '@/components/ui/data-table/data-table-toolbar';
@@ -101,7 +102,7 @@ export const BuildingListTable = (props: BuildingListTableProps) => {
           )}
         />
       )}
-      onRowClick={(building) => navigate(`/buildings/${building.id}`)}
+      onRowClick={(building) => navigate(ROUTES.LANDLORD.BUILDING_DETAIL(building.id))}
       renderMobileRow={(row) => <BuildingListMobileRow row={row} />}
     />
   );

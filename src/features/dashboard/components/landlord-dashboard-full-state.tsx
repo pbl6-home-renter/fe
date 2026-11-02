@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Layers,
 } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { BuildingStatus } from '@/features/buildings/enums/building-status.enum';
@@ -54,7 +55,7 @@ export const LandlordDashboardFullState = ({
           <Button
             variant="outline"
             size="md"
-            onClick={() => navigate('/buildings')}
+            onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}
             className="border-rentify-divider"
           >
             {t('full.viewAllBuildings')}
@@ -138,7 +139,7 @@ export const LandlordDashboardFullState = ({
           {buildings.map((building) => (
             <Card
               key={building.id}
-              onClick={() => navigate(`/buildings/${building.id}`)}
+              onClick={() => navigate(ROUTES.LANDLORD.BUILDING_DETAIL(building.id))}
               className="p-5 border-rentify-divider bg-rentify-surface hover:shadow-md transition-all cursor-pointer flex flex-col justify-between gap-4 group"
             >
               <div className="space-y-3">

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import { Role } from '@/types/role';
 import { getFieldError, setFormApiErrors } from '@/lib/form';
 import { useRegisterMutation } from '../hooks/use-register-mutation';
@@ -34,7 +35,7 @@ export const useRegisterForm = () => {
   const handleSubmit = form.handleSubmit(async ({ name, phone, email, password, role }) => {
     try {
       await registerMutation.mutateAsync({ name, phone, email, password, role });
-      navigate('/login', { replace: true });
+      navigate(ROUTES.LOGIN, { replace: true });
     } catch (error) {
       setFormApiErrors(form.setError, error);
     }

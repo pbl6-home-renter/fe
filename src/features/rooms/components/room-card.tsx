@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { User, AlertCircle } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import { Card } from '@/components/ui/card';
 import { RoomStatusBadge } from './room-status-badge';
 import type { RoomMyListItemDto } from '../types/room.dto';
@@ -16,8 +17,8 @@ export const RoomCard = ({ room, buildingId }: RoomCardProps) => {
 
   const effectiveBuildingId = buildingId || room.buildingId;
   const detailUrl = effectiveBuildingId
-    ? `/buildings/${effectiveBuildingId}/rooms/${room.id}`
-    : `/rooms/${room.id}`;
+    ? ROUTES.LANDLORD.BUILDING_ROOM_DETAIL(effectiveBuildingId, room.id)
+    : ROUTES.LANDLORD.ROOM_DETAIL(room.id);
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat('vi-VN').format(price);

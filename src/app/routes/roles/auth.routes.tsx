@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
+import { ROUTES } from '@/config/routes.config';
 import { PublicRoute } from '../public-route';
 import { AuthLayout } from '@/app/layouts/auth-layout';
 import { LoginPage } from '@/features/auth/pages/login-page';
@@ -14,19 +15,19 @@ export const authRoutes: RouteObject[] = [
         element: <AuthLayout />,
         children: [
           {
-            path: '/login',
+            path: ROUTES.LOGIN,
             element: <LoginPage />,
           },
           {
-            path: '/register',
+            path: ROUTES.REGISTER,
             element: <RegisterPage />,
           },
           {
-            path: '/forgot-password',
+            path: ROUTES.FORGOT_PASSWORD,
             element: <ForgotPasswordPage />,
           },
           {
-            path: '/reset-password',
+            path: ROUTES.RESET_PASSWORD,
             element: <ResetPasswordPage />,
           },
         ],

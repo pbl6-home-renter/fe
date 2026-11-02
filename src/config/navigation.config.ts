@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import type { ParseKeys } from 'i18next';
 import { Role } from '@/types/role';
+import { ROUTES } from './routes.config';
 
 export interface NavMenuItem {
   id: string;
@@ -32,39 +33,39 @@ export interface NavMenuItem {
  * Menu items for Landlord role (Cổng Chủ Nhà)
  */
 export const LANDLORD_NAVIGATION: readonly NavMenuItem[] = [
-  { id: 'landlord-overview', titleKey: 'navigation.overview', path: '/dashboard', icon: LayoutDashboard, exact: true },
-  { id: 'landlord-rooms', titleKey: 'navigation.rooms', path: '/buildings', icon: Building2 },
-  { id: 'landlord-tenants', titleKey: 'navigation.tenants', path: '/tenants', icon: Users },
-  { id: 'landlord-contracts', titleKey: 'navigation.contracts', path: '/contracts', icon: FileText },
-  { id: 'landlord-invoices', titleKey: 'navigation.invoices', path: '/invoices', icon: Receipt },
-  { id: 'landlord-issues', titleKey: 'navigation.issues', path: '/issues', icon: AlertTriangle },
-  { id: 'landlord-chat', titleKey: 'navigation.chat', path: '/chat', icon: MessageSquare },
-  { id: 'landlord-settings', titleKey: 'navigation.settings', path: '/settings', icon: Settings },
+  { id: 'landlord-overview', titleKey: 'navigation.overview', path: ROUTES.LANDLORD.DASHBOARD, icon: LayoutDashboard, exact: true },
+  { id: 'landlord-rooms', titleKey: 'navigation.rooms', path: ROUTES.LANDLORD.BUILDINGS, icon: Building2 },
+  { id: 'landlord-tenants', titleKey: 'navigation.tenants', path: ROUTES.LANDLORD.TENANTS, icon: Users },
+  { id: 'landlord-contracts', titleKey: 'navigation.contracts', path: ROUTES.LANDLORD.CONTRACTS, icon: FileText },
+  { id: 'landlord-invoices', titleKey: 'navigation.invoices', path: ROUTES.LANDLORD.INVOICES, icon: Receipt },
+  { id: 'landlord-issues', titleKey: 'navigation.issues', path: ROUTES.LANDLORD.ISSUES, icon: AlertTriangle },
+  { id: 'landlord-chat', titleKey: 'navigation.chat', path: ROUTES.LANDLORD.CHAT, icon: MessageSquare },
+  { id: 'landlord-settings', titleKey: 'navigation.settings', path: ROUTES.LANDLORD.SETTINGS, icon: Settings },
 ] as const;
 
 /**
  * Menu items for Tenant role (Khách thuê)
  */
 export const TENANT_NAVIGATION: readonly NavMenuItem[] = [
-  { id: 'tenant-overview', titleKey: 'navigation.tenantOverview', path: '/dashboard', icon: LayoutDashboard, exact: true },
-  { id: 'tenant-room', titleKey: 'navigation.myRoom', path: '/rooms', icon: Home },
-  { id: 'tenant-contracts', titleKey: 'navigation.contracts', path: '/contracts', icon: FileText },
-  { id: 'tenant-invoices', titleKey: 'navigation.invoices', path: '/invoices', icon: Receipt },
-  { id: 'tenant-issues', titleKey: 'navigation.issues', path: '/issues', icon: AlertTriangle },
-  { id: 'tenant-roommates', titleKey: 'navigation.roommates', path: '/roommates', icon: UserPlus },
-  { id: 'tenant-chat', titleKey: 'navigation.chat', path: '/chat', icon: MessageSquare },
-  { id: 'tenant-settings', titleKey: 'navigation.settings', path: '/settings', icon: Settings },
+  { id: 'tenant-overview', titleKey: 'navigation.tenantOverview', path: ROUTES.TENANT.DASHBOARD, icon: LayoutDashboard, exact: true },
+  { id: 'tenant-room', titleKey: 'navigation.myRoom', path: ROUTES.TENANT.ROOMS, icon: Home },
+  { id: 'tenant-contracts', titleKey: 'navigation.contracts', path: ROUTES.TENANT.CONTRACTS, icon: FileText },
+  { id: 'tenant-invoices', titleKey: 'navigation.invoices', path: ROUTES.TENANT.INVOICES, icon: Receipt },
+  { id: 'tenant-issues', titleKey: 'navigation.issues', path: ROUTES.TENANT.ISSUES, icon: AlertTriangle },
+  { id: 'tenant-roommates', titleKey: 'navigation.roommates', path: ROUTES.TENANT.ROOMMATES, icon: UserPlus },
+  { id: 'tenant-chat', titleKey: 'navigation.chat', path: ROUTES.TENANT.CHAT, icon: MessageSquare },
+  { id: 'tenant-settings', titleKey: 'navigation.settings', path: ROUTES.TENANT.SETTINGS, icon: Settings },
 ] as const;
 
 /**
  * Menu items for Admin role (Cổng Quản Trị)
  */
 export const ADMIN_NAVIGATION: readonly NavMenuItem[] = [
-  { id: 'admin-stats', titleKey: 'navigation.admin.systemStats', path: '/admin', icon: BarChart3, exact: true },
-  { id: 'admin-buildings', titleKey: 'navigation.admin.approvals', path: '/admin/buildings', icon: CheckCircle2 },
-  { id: 'admin-users', titleKey: 'navigation.admin.users', path: '/admin/users', icon: UserCheck },
-  { id: 'admin-audit', titleKey: 'navigation.admin.auditLogs', path: '/admin/audit-logs', icon: ShieldCheck },
-  { id: 'admin-settings', titleKey: 'navigation.admin.settings', path: '/admin/settings', icon: Settings },
+  { id: 'admin-stats', titleKey: 'navigation.admin.systemStats', path: ROUTES.ADMIN.DASHBOARD, icon: BarChart3, exact: true },
+  { id: 'admin-buildings', titleKey: 'navigation.admin.approvals', path: ROUTES.ADMIN.BUILDINGS, icon: CheckCircle2 },
+  { id: 'admin-users', titleKey: 'navigation.admin.users', path: ROUTES.ADMIN.USERS, icon: UserCheck },
+  { id: 'admin-audit', titleKey: 'navigation.admin.auditLogs', path: ROUTES.ADMIN.AUDIT_LOGS, icon: ShieldCheck },
+  { id: 'admin-settings', titleKey: 'navigation.admin.settings', path: ROUTES.ADMIN.SETTINGS, icon: Settings },
 ] as const;
 
 /**

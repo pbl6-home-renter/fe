@@ -2,6 +2,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import { getFieldError, setFormApiErrors } from '@/lib/form';
 import { useResetPasswordMutation } from '../hooks/use-reset-password-mutation';
 import { resetPasswordSchema, type ResetPasswordFormData } from './password.schema';
@@ -24,7 +25,7 @@ export const useResetPasswordForm = () => {
   const handleSubmit = form.handleSubmit(async ({ newPassword }) => {
     try {
       await resetMutation.mutateAsync({ token, newPassword });
-      navigate('/login', { replace: true });
+      navigate(ROUTES.LOGIN, { replace: true });
     } catch (error) {
       setFormApiErrors(form.setError, error);
     }

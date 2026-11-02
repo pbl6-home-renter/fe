@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, CheckCircle2, Edit3, Trash2 } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { RoomStatusBadge } from '../room-status-badge';
 import { RoomStatus } from '../../enums/room-status.enum';
@@ -30,7 +31,7 @@ export const RoomHeader = ({
     room.status === RoomStatus.PENDING_CLEANUP;
 
   const handleBack = () => {
-    navigate(`/buildings/${room.buildingId}`);
+    navigate(ROUTES.LANDLORD.BUILDING_DETAIL(room.buildingId));
   };
 
   return (

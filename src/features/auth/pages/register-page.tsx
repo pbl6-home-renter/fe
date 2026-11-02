@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import {
   Home,
   Building2,
@@ -160,7 +161,7 @@ export const RegisterPage = () => {
       <div className="mt-8 text-center text-sm text-rentify-text-secondary">
         <span>{t('alreadyHaveAccount')}</span>
         <Link
-          to="/login"
+          to={ROUTES.LOGIN}
           className="font-semibold text-rentify-primary hover:underline ml-1.5 inline-flex items-center"
         >
           {t('login')}
