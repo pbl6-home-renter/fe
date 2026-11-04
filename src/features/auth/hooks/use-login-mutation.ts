@@ -1,12 +1,11 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { MutationHookOptions } from '@/lib/query/types';
 import { useAuthStore } from '@/stores/auth-store';
 import { authApi } from '../api/auth.api';
 import type { AuthLoginRequestDto, AuthLoginResponseDto } from '../types/auth.dto';
 
-export const useLoginMutation = (
-  options?: MutationHookOptions<AuthLoginResponseDto, AuthLoginRequestDto>
-) => {
+export const useLoginMutation = (options?: MutationHookOptions<AuthLoginResponseDto, AuthLoginRequestDto>) => {
+  const queryClient = useQueryClient();
   const setAuth = useAuthStore((state) => state.setAuth);
 
   return useMutation({
@@ -15,6 +14,7 @@ export const useLoginMutation = (
     onSuccess: (data, ...rest) => {
       const user = data.user || data.profile;
       if (user) {
+        queryClient.clear();
         setAuth(user, data.accessToken, data.refreshToken);
       }
       return options?.onSuccess?.(data, ...rest);

@@ -1,0 +1,163 @@
+import type { CursorPaginationMeta, PaginationMeta } from '@/types/api';
+
+export type ConversationKind = 'direct' | 'group';
+export type MessageType = 'text' | 'image' | 'system' | 'bot';
+export type MemberStatus = 'active' | 'read_only';
+export type SystemMessageAction =
+  | 'members_added'
+  | 'member_kicked'
+  | 'member_left'
+  | 'admin_transferred'
+  | 'member_role_changed'
+  | 'conversation_title_changed'
+  | 'conversation_avatar_changed';
+
+interface SystemMessageBase {
+  actorUserId: string;
+  actorDisplayName: string;
+}
+
+export type SystemMessagePayload =
+  | (SystemMessageBase & {
+      action: 'members_added';
+      members: Array<{ userId: string; displayName: string }>;
+    })
+  | (SystemMessageBase & {
+      action: 'member_kicked' | 'member_left' | 'admin_transferred';
+      member: { userId: string; displayName: string };
+    })
+  | (SystemMessageBase & {
+      action: 'member_role_changed';
+      member: { userId: string; displayName: string };
+      oldRole: 'admin' | 'member';
+      newRole: 'admin' | 'member';
+    })
+  | (SystemMessageBase & {
+      action: 'conversation_title_changed';
+      oldTitle: string | null;
+      newTitle: string | null;
+    })
+  | (SystemMessageBase & {
+      action: 'conversation_avatar_changed';
+      oldAvatarMediaId: string | null;
+      newAvatarMediaId: string | null;
+    });
+
+export interface ChatMessage {
+  id: string;
+  conversationId: string;
+  senderUserId: string | null;
+  senderName: string;
+  senderType: 'user' | 'system';
+  sequence: string;
+  clientMessageId: string | null;
+  type: MessageType;
+  content: string | null;
+  mediaId: string | null;
+  payload: SystemMessagePayload | null;
+  createdAt: string;
+}
+
+export interface LastMessage {
+  id: string;
+  sequence: string;
+  senderName: string;
+  contentPreview: string;
+  type: MessageType;
+  sentAt: string;
+  payload: SystemMessagePayload | null;
+}
+
+export interface ConversationSummary {
+  id: string;
+  kind: ConversationKind;
+  contextType: 'contract' | 'building' | null;
+  contextId: string | null;
+  title: string | null;
+  displayName: string | null;
+  avatarMediaId: string | null;
+  unreadCount: number;
+  lastMessage: LastMessage | null;
+  memberCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ConversationMember {
+  id: string;
+  conversationId: string;
+  userId: string | null;
+  displayName: string;
+  participantType: 'user' | 'system';
+  role: 'admin' | 'member' | 'system';
+  status: MemberStatus;
+  lastReadSequence: string;
+  leftSequence: string | null;
+  joinedAt: string;
+  leftAt: string | null;
+}
+
+export interface SentMessage {
+  id: string;
+  conversationId: string;
+  senderName: string;
+  type: MessageType;
+  content: string | null;
+  mediaId: string | null;
+  sequence: string;
+  clientMessageId: string | null;
+  createdAt: string;
+}
+
+export interface ConversationDetail extends Omit<ConversationSummary, 'lastMessage'> {
+  members: ConversationMember[];
+}
+
+export interface UserDirectoryEntry {
+  id: string;
+  name: string;
+}
+
+export interface UserDirectoryPage {
+  items: UserDirectoryEntry[];
+  pagination: PaginationMeta;
+}
+
+export interface MessagePage {
+  items: ChatMessage[];
+  pagination: CursorPaginationMeta;
+}
+
+export interface CreateGroupRequest {
+  kind: 'group';
+  memberUserIds: string[];
+  title?: string;
+}
+
+export interface CreateDirectRequest {
+  kind: 'direct';
+  recipientUserId: string;
+}
+
+export interface SendTextMessageRequest {
+  conversationId: string;
+  clientMessageId: string;
+  type: 'text';
+  content: string;
+}
+
+export interface UnreadSummary {
+  totalUnreadCount: number;
+}
+
+export interface SendMessageEvent {
+  conversationId: string;
+  messageId: string;
+  sequence: string;
+  senderUserId: string | null;
+  senderName: string;
+  conversationName: string | null;
+  type: 'text' | 'image' | 'bot';
+  contentPreview: string;
+  createdAt: string;
+}

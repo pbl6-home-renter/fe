@@ -77,3 +77,5 @@ export const ROUTES = {
     AUDIT_LOGS: '/admin/audit-logs',
   },
 } as const;
+
+export const SOCKET_PATH = '/api/v1/community/socket.io';

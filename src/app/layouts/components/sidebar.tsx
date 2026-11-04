@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils/cn';
 import { RentifyLogo } from '@/components/ui/rentify-logo';
 import { Avatar } from '@/components/ui/avatar';
 import { getNavigationByRole } from '@/config/navigation.config';
+import { useUnreadSummaryQuery } from '@/features/chat/hooks/use-chat-queries';
+import { CHAT_UNREAD_BADGE_MAX } from '@/features/chat/constants/chat.constants';
 
 export interface SidebarProps {
   open: boolean;
@@ -19,6 +21,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
   const { t } = useTranslation('common');
 
   const menuItems = getNavigationByRole(role);
+  const unread = useUnreadSummaryQuery(role === Role.LANDLORD || role === Role.TENANT);
 
   const getRoleLabel = () => {
     if (role === Role.LANDLORD) return t('userRoles.landlord');
@@ -43,7 +46,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
         className={cn(
           'fixed inset-y-0 left-0 z-50 w-64 bg-rentify-surface border-r border-rentify-divider',
           'flex flex-col justify-between transition-transform duration-300 ease-in-out md:static md:translate-x-0',
-          open ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'
+          open ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0',
         )}
       >
         <div className="flex flex-col flex-1 overflow-y-auto">
@@ -81,7 +84,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
                       'flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150',
                       isActive
                         ? 'bg-rentify-primary-container text-white shadow-xs font-semibold'
-                        : 'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background'
+                        : 'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background',
                     )
                   }
                 >
@@ -90,16 +93,22 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
                     <span className="truncate">{t(item.titleKey)}</span>
                   </div>
 
-                  {item.badge !== undefined && (
+                  {(item.badge !== undefined ||
+                    ((item.id === 'landlord-chat' || item.id === 'tenant-chat') &&
+                      (unread.data?.totalUnreadCount ?? 0) > 0)) && (
                     <span
                       className={cn(
                         'px-2 py-0.5 rounded-full text-xs font-bold leading-none',
                         item.badgeVariant === 'danger'
                           ? 'bg-rentify-error/15 text-rentify-error'
-                          : 'bg-white/20 text-white'
+                          : 'bg-white/20 text-white',
                       )}
                     >
-                      {item.badge}
+                      {item.id === 'landlord-chat' || item.id === 'tenant-chat'
+                        ? (unread.data?.totalUnreadCount ?? 0) > CHAT_UNREAD_BADGE_MAX
+                          ? `${CHAT_UNREAD_BADGE_MAX}+`
+                          : unread.data?.totalUnreadCount
+                        : item.badge}
                     </span>
                   )}
                 </NavLink>
@@ -112,17 +121,12 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
         <div className="p-3.5 border-t border-rentify-divider shrink-0 bg-rentify-surface">
           <div className="flex items-center justify-between gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors">
             <div className="flex items-center gap-2.5 min-w-0">
-              <Avatar
-                name={user?.name || user?.email || 'User'}
-                size="sm"
-              />
+              <Avatar name={user?.name || user?.email || 'User'} size="sm" />
               <div className="flex flex-col min-w-0">
                 <span className="font-semibold text-xs text-rentify-text-primary truncate">
                   {user?.name || user?.email || t('user')}
                 </span>
-                <span className="text-[11px] text-rentify-text-secondary truncate">
-                  {getRoleLabel()}
-                </span>
+                <span className="text-[11px] text-rentify-text-secondary truncate">{getRoleLabel()}</span>
               </div>
             </div>
 

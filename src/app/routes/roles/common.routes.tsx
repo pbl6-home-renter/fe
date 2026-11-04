@@ -3,6 +3,7 @@ import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { DashboardPage } from '@/features/dashboard/pages/dashboard-page';
 import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-page';
 import { ROUTES } from '@/config/routes.config';
+import { ChatRoute } from '@/app/routes/chat-route';
 
 export const commonRoutes: RouteObject[] = [
   {
@@ -28,12 +29,7 @@ export const commonRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.INVOICE_DETAIL(':id'),
-    element: (
-      <DashboardOverview
-        titleKey="routes.invoices.detailTitle"
-        descKey="routes.invoices.detailDesc"
-      />
-    ),
+    element: <DashboardOverview titleKey="routes.invoices.detailTitle" descKey="routes.invoices.detailDesc" />,
   },
   {
     path: ROUTES.ISSUES,
@@ -54,66 +50,31 @@ export const commonRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.ISSUE_NEW,
-    element: (
-      <DashboardOverview
-        titleKey="routes.issues.newTitle"
-        descKey="routes.issues.newDesc"
-      />
-    ),
+    element: <DashboardOverview titleKey="routes.issues.newTitle" descKey="routes.issues.newDesc" />,
   },
   {
     path: ROUTES.ISSUE_DETAIL(':id'),
-    element: (
-      <DashboardOverview
-        titleKey="routes.issues.detailTitle"
-        descKey="routes.issues.detailDesc"
-      />
-    ),
+    element: <DashboardOverview titleKey="routes.issues.detailTitle" descKey="routes.issues.detailDesc" />,
   },
   {
     path: ROUTES.CHAT,
-    element: (
-      <DashboardOverview
-        titleKey="routes.chat.title"
-        descKey="routes.chat.desc"
-      />
-    ),
+    element: <ChatRoute />,
   },
   {
     path: ROUTES.CHAT_DETAIL(':id'),
-    element: (
-      <DashboardOverview
-        titleKey="routes.chat.detailTitle"
-        descKey="routes.chat.detailDesc"
-      />
-    ),
+    element: <ChatRoute />,
   },
   {
     path: ROUTES.NOTIFICATIONS,
-    element: (
-      <DashboardOverview
-        titleKey="routes.notifications.title"
-        descKey="routes.notifications.desc"
-      />
-    ),
+    element: <DashboardOverview titleKey="routes.notifications.title" descKey="routes.notifications.desc" />,
   },
   {
     path: ROUTES.PROFILE,
-    element: (
-      <DashboardOverview
-        titleKey="routes.profile.title"
-        descKey="routes.profile.desc"
-      />
-    ),
+    element: <DashboardOverview titleKey="routes.profile.title" descKey="routes.profile.desc" />,
   },
   {
     path: ROUTES.SETTINGS,
-    element: (
-      <DashboardOverview
-        titleKey="routes.settings.title"
-        descKey="routes.settings.desc"
-      />
-    ),
+    element: <DashboardOverview titleKey="routes.settings.title" descKey="routes.settings.desc" />,
   },
   {
     path: ROUTES.DESIGN_SYSTEM,

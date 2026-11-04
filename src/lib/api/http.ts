@@ -1,6 +1,9 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   ApiResponse,
+  CursorPaginated,
+  CursorPaginatedApiResponse,
+  CursorPaginationParams,
   ListParams,
   PaginatedApiResponse,
   Paginated,
@@ -15,19 +18,32 @@ const unwrapPage = <T>({ data }: AxiosResponse<PaginatedApiResponse<T>>): Pagina
   pagination: data.pagination,
 });
 
+const unwrapCursorPage = <T>({ data }: AxiosResponse<CursorPaginatedApiResponse<T>>): CursorPaginated<T> => ({
+  items: data.data,
+  pagination: data.pagination,
+});
+
 /**
  * Typed wrappers around `apiClient` that strip the `{ statusCode, code, data }`
  * envelope, so feature APIs only declare the payload type.
  */
 export const http = {
-  get: <T>(url: string, config?: AxiosRequestConfig) =>
-    apiClient.get<ApiResponse<T>>(url, config).then(unwrap),
+  get: <T>(url: string, config?: AxiosRequestConfig) => apiClient.get<ApiResponse<T>>(url, config).then(unwrap),
 
   getPage: <T, TFilter extends object = Record<string, unknown>>(
     url: string,
     params?: ListParams<TFilter>,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ) => apiClient.get<PaginatedApiResponse<T>>(url, { ...config, params }).then(unwrapPage),
+
+  getPageWithParams: <T, TParams extends object>(url: string, params: TParams, config?: AxiosRequestConfig) =>
+    apiClient.get<PaginatedApiResponse<T>>(url, { ...config, params }).then(unwrapPage),
+
+  getCursorPage: <T, TParams extends object = CursorPaginationParams>(
+    url: string,
+    params?: TParams,
+    config?: AxiosRequestConfig,
+  ) => apiClient.get<CursorPaginatedApiResponse<T>>(url, { ...config, params }).then(unwrapCursorPage),
 
   getBlob: (url: string, config?: AxiosRequestConfig) =>
     apiClient.get<Blob>(url, { ...config, responseType: 'blob' }).then((res) => res.data),

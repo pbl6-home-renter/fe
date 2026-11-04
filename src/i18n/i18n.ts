@@ -8,6 +8,7 @@ import viBuildings from './locales/vi/buildings.json';
 import viDashboard from './locales/vi/dashboard.json';
 import viRooms from './locales/vi/rooms.json';
 import viContracts from './locales/vi/contracts.json';
+import viChat from './locales/vi/chat.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
 import enMedia from './locales/en/media.json';
@@ -15,6 +16,7 @@ import enBuildings from './locales/en/buildings.json';
 import enDashboard from './locales/en/dashboard.json';
 import enRooms from './locales/en/rooms.json';
 import enContracts from './locales/en/contracts.json';
+import enChat from './locales/en/chat.json';
 
 export const defaultNS = 'common';
 export const resources = {
@@ -26,6 +28,7 @@ export const resources = {
     dashboard: viDashboard,
     rooms: viRooms,
     contracts: viContracts,
+    chat: viChat,
   },
   en: {
     common: enCommon,
@@ -35,24 +38,23 @@ export const resources = {
     dashboard: enDashboard,
     rooms: enRooms,
     contracts: enContracts,
+    chat: enChat,
   },
 } as const;
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: 'vi',
-    fallbackLng: 'vi',
-    defaultNS,
-    interpolation: {
-      escapeValue: false, // React already escapes values
-    },
-    detection: {
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage'],
-    },
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: 'vi',
+  fallbackLng: 'vi',
+  defaultNS,
+  interpolation: {
+    escapeValue: false, // React already escapes values
+  },
+  detection: {
+    order: ['localStorage', 'navigator'],
+    caches: ['localStorage'],
+  },
+});
 
 /**
  * Helper function to toggle or switch language between 'vi' and 'en'

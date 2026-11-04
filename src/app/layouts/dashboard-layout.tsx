@@ -1,14 +1,17 @@
 import { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/config/routes.config';
 import { useLogoutMutation } from '@/features/auth/hooks/use-logout-mutation';
 import { Sidebar } from './components/sidebar';
 import { Header } from './components/header';
 import { LogoutModal } from './components/logout-modal';
+import { isChatPath } from '@/features/chat/constants/chat.constants';
 
 export const DashboardLayout = () => {
   const logoutMutation = useLogoutMutation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isChatRoute = isChatPath(location.pathname);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
@@ -36,14 +39,17 @@ export const DashboardLayout = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         {/* Sticky Header Topbar */}
-        <Header
-          onToggleSidebar={() => setSidebarOpen(true)}
-          onOpenLogoutModal={() => setLogoutModalOpen(true)}
-        />
+        <Header onToggleSidebar={() => setSidebarOpen(true)} onOpenLogoutModal={() => setLogoutModalOpen(true)} />
 
         {/* Standardized Content Container for Features */}
-        <main className="flex-1 overflow-y-auto bg-rentify-background p-4 sm:p-6 lg:p-8">
-          <div className="max-w-360 mx-auto w-full">
+        <main
+          className={
+            isChatRoute
+              ? 'flex-1 min-h-0 overflow-hidden bg-rentify-background'
+              : 'flex-1 overflow-y-auto bg-rentify-background p-4 sm:p-6 lg:p-8'
+          }
+        >
+          <div className={isChatRoute ? 'h-full min-h-0 w-full' : 'max-w-360 mx-auto w-full'}>
             <Outlet />
           </div>
         </main>
