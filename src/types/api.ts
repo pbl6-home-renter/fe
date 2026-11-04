@@ -31,6 +31,28 @@ export interface Paginated<T> {
   pagination: PaginationMeta;
 }
 
+export interface CursorPaginationMeta {
+  type: 'cursor';
+  pageSize: number;
+  nextCursor: string | null;
+  hasNextPage: boolean;
+}
+
+export interface CursorPaginatedApiResponse<T> extends ApiResponse<T[]> {
+  pagination: CursorPaginationMeta;
+}
+
+/** What `http.getCursorPage()` resolves to: the envelope already unwrapped. */
+export interface CursorPaginated<T> {
+  items: T[];
+  pagination: CursorPaginationMeta;
+}
+
+export interface CursorPaginationParams {
+  cursor?: string;
+  pageSize?: number;
+}
+
 export type SortOrder = 'asc' | 'desc';
 
 export interface PaginationParams {

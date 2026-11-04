@@ -3,6 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import { ROUTES } from '@/config/routes.config';
 import { ProtectedRoute } from './protected-route';
 import { DashboardLayout } from '@/app/layouts/dashboard-layout';
+import { AppRouterLayout } from '@/app/layouts/app-router-layout';
 import { RoleBasedRedirect } from './role-based-redirect';
 import { authRoutes } from './roles/auth.routes';
 import { commonRoutes } from './roles/common.routes';
@@ -12,33 +13,26 @@ import { adminRoutes } from './roles/admin.routes';
 import { errorRoutes } from './roles/error.routes';
 
 export const routes: RouteObject[] = [
-  // 1. Auth Flow (Public Routes with AuthLayout)
-  ...authRoutes,
-
-  // 2. Protected App Flow (DashboardLayout)
   {
-    element: <ProtectedRoute />,
+    element: <AppRouterLayout />,
     children: [
+      ...authRoutes,
       {
-        element: <DashboardLayout />,
+        element: <ProtectedRoute />,
         children: [
-          ...commonRoutes,
-          ...landlordRoutes,
-          ...tenantRoutes,
-          ...adminRoutes,
+          {
+            element: <DashboardLayout />,
+            children: [...commonRoutes, ...landlordRoutes, ...tenantRoutes, ...adminRoutes],
+          },
         ],
       },
+      {
+        path: ROUTES.HOME,
+        element: <RoleBasedRedirect />,
+      },
+      ...errorRoutes,
     ],
   },
-
-  // 3. Root redirect
-  {
-    path: ROUTES.HOME,
-    element: <RoleBasedRedirect />,
-  },
-
-  // 4. Error Pages & Fallbacks
-  ...errorRoutes,
 ];
 
 export const router = createBrowserRouter(routes);

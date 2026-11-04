@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 import { queryClient } from '@/lib/query/query-client';
 import { i18n } from '@/i18n/i18n';
 import { useCurrentUserQuery } from '@/features/auth/hooks/use-current-user-query';
+import { SocketSessionProvider } from '@/features/realtime/components/socket-session-provider';
 
 interface AppProviderProps {
   children: ReactNode;
@@ -20,7 +21,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     <I18nextProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         <AuthSessionInitializer>
-          {children}
+          <SocketSessionProvider>{children}</SocketSessionProvider>
         </AuthSessionInitializer>
         <Toaster richColors position="top-right" closeButton />
       </QueryClientProvider>

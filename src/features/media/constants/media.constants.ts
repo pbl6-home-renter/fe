@@ -1,14 +1,13 @@
-import {
-  MediaContentType,
-  MediaOwnerType,
-  MediaPurpose,
-  type MediaVisibility,
-} from '../types/media.dto';
+import { MediaContentType, MediaOwnerType, MediaPurpose, type MediaVisibility } from '../types/media.dto';
 
 /** Identity-Service default (`MEDIA_MAX_SIZE_BYTES`), same for every purpose. */
 export const MEDIA_MAX_SIZE_BYTES = 10 * 1024 * 1024;
 
 export const MEDIA_FILE_NAME_MAX_LENGTH = 255;
+
+export const MEDIA_API_ROUTES = {
+  BY_ID: (mediaId: string) => `/media/${mediaId}`,
+} as const;
 
 /** First extension is the one appended when a file name lacks a matching one. */
 export const MEDIA_CONTENT_TYPE_EXTENSIONS: Readonly<Record<MediaContentType, readonly string[]>> = {
@@ -18,11 +17,7 @@ export const MEDIA_CONTENT_TYPE_EXTENSIONS: Readonly<Record<MediaContentType, re
   [MediaContentType.PDF]: ['pdf'],
 };
 
-const IMAGE_CONTENT_TYPES = [
-  MediaContentType.JPEG,
-  MediaContentType.PNG,
-  MediaContentType.WEBP,
-] as const;
+const IMAGE_CONTENT_TYPES = [MediaContentType.JPEG, MediaContentType.PNG, MediaContentType.WEBP] as const;
 
 const IMAGE_AND_PDF_CONTENT_TYPES = [...IMAGE_CONTENT_TYPES, MediaContentType.PDF] as const;
 
@@ -100,8 +95,7 @@ export const MEDIA_PURPOSE_RULES: Readonly<Record<MediaPurpose, MediaPurposeRule
 };
 
 /** Value for `<input type="file" accept>` of a purpose. */
-export const getMediaAccept = (purpose: MediaPurpose): string =>
-  MEDIA_PURPOSE_RULES[purpose].contentTypes.join(',');
+export const getMediaAccept = (purpose: MediaPurpose): string => MEDIA_PURPOSE_RULES[purpose].contentTypes.join(',');
 
 /** Matches the `url` complete-upload returns for private files. */
 export const PRIVATE_MEDIA_URL_PATTERN = /\/media\/([0-9a-f-]{36})\/?$/i;
