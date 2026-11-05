@@ -18,6 +18,7 @@ import { useMarkReadMutation } from './use-chat-mutations';
 import type { CursorPaginated } from '@/types/api';
 import type { ChatMessage } from '../types/chat.dto';
 import { isConversationSocketEvent, parseChatMessage } from '../utils/chat-message.guard';
+import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
 
 interface UseChatWindowOptions {
   conversationId?: string;
@@ -72,14 +73,29 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
 
   useEffect(() => {
     if (!socket || !conversationId) return;
-    const joinConversation = () =>
+    const joinConversation = () => {
+      logRealtimeDebug('info', 'emit conversation:join', { conversationId });
       socket.emit(CHAT_SOCKET_EVENTS.JOIN, { conversationId }, (result: unknown) => {
+        logRealtimeDebug('info', 'ack conversation:join', {
+          conversationId,
+          ok: !(result && typeof result === 'object' && 'ok' in result && result.ok === false),
+          code:
+            result && typeof result === 'object' && 'code' in result && typeof result.code === 'string'
+              ? result.code
+              : null,
+        });
         if (!result || typeof result !== 'object' || !('ok' in result) || result.ok !== false) return;
         if ('code' in result && result.code === 'FORBIDDEN') navigate(getChatPath());
       });
+    };
     joinConversation();
     const onMessage = (payload: unknown) => {
       const message = parseChatMessage(payload);
+      logRealtimeDebug(message ? 'info' : 'warn', 'receive message:created', {
+        valid: Boolean(message),
+        conversationId: message?.conversationId ?? null,
+        messageId: message?.id ?? null,
+      });
       if (!message || message.conversationId !== conversationId) return;
       const alreadySeen =
         seenMessageIds.current.has(message.id) ||
@@ -108,6 +124,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
       }
     };
     const onRevoked = (event: unknown) => {
+      logRealtimeDebug('info', 'receive conversation:access-revoked', { conversationId });
       if (!isConversationSocketEvent(event) || event.conversationId !== conversationId) return;
       client.removeQueries({ queryKey: chatKeys.detail(conversationId), exact: true });
       client.removeQueries({ queryKey: chatKeys.messages(conversationId), exact: true });
@@ -116,6 +133,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
       navigate(getChatPath());
     };
     const onReadUpdated = (event: unknown) => {
+      logRealtimeDebug('info', 'receive conversation:read-updated', { conversationId });
       if (!isConversationSocketEvent(event)) return;
       if (event.conversationId === conversationId) {
         void client.invalidateQueries({ queryKey: chatKeys.detail(conversationId) });
@@ -128,6 +146,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
     socket.on(CHAT_SOCKET_EVENTS.READ_UPDATED, onReadUpdated);
     socket.on(REALTIME_SOCKET_EVENTS.SESSION_READY, joinConversation);
     return () => {
+      logRealtimeDebug('info', 'emit conversation:leave', { conversationId });
       socket.emit(CHAT_SOCKET_EVENTS.LEAVE, { conversationId });
       socket.off(CHAT_SOCKET_EVENTS.MESSAGE_CREATED, onMessage);
       socket.off(CHAT_SOCKET_EVENTS.ACCESS_REVOKED, onRevoked);

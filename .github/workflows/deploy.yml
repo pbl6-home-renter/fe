@@ -65,6 +65,7 @@ jobs:
           #   VITE_API_BASE_URL=/api/v1
           build-args: |
             VITE_API_BASE_URL=http://${{ secrets.EC2_HOST }}/api/v1
+            VITE_SOCKET_DEBUG=true
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

@@ -10,6 +10,8 @@ import {
 } from '../constants/chat.constants';
 import type { SentMessage } from '../types/chat.dto';
 import { retryChatRequest } from '../utils/retry-chat-request';
+import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
+import { createUuid } from '@/lib/utils/uuid';
 
 export interface PendingMessage {
   clientMessageId: string;
@@ -39,8 +41,9 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
     [],
   );
 
-  const send = async (content: string, clientMessageId: string = crypto.randomUUID()) => {
+  const send = async (content: string, clientMessageId: string = createUuid()) => {
     let activeConversationId = conversationId ?? conversationByTarget[targetKey];
+    let requestStage: 'create-direct-conversation' | 'send-message' = 'send-message';
     const cleaned = content.trim();
     const controller = new AbortController();
     sendControllers.current.set(clientMessageId, controller);
@@ -58,6 +61,8 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
     }));
     try {
       if (recipientUserId && !activeConversationId) {
+        requestStage = 'create-direct-conversation';
+        logRealtimeDebug('info', 'REST request started', { stage: requestStage });
         const created = await retryChatRequest(
           (signal) =>
             chatApi.createDirect({ kind: 'direct', recipientUserId }, { signal, timeout: CHAT_SEND_TIMEOUT_MS }),
@@ -65,9 +70,12 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
         );
         activeConversationId = created.id;
         setConversationByTarget((current) => ({ ...current, [targetKey]: created.id }));
+        logRealtimeDebug('info', 'REST request succeeded', { stage: requestStage, conversationId: created.id });
       }
       if (!activeConversationId) throw new Error('Conversation is required');
       const sendingConversationId = activeConversationId;
+      requestStage = 'send-message';
+      logRealtimeDebug('info', 'REST request started', { stage: requestStage, conversationId: sendingConversationId });
       const message: SentMessage = await retryChatRequest(
         (signal) =>
           chatApi.sendText(
@@ -76,6 +84,11 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
           ),
         controller.signal,
       );
+      logRealtimeDebug('info', 'REST request succeeded', {
+        stage: requestStage,
+        conversationId: sendingConversationId,
+        messageId: message.id,
+      });
       setPendingByTarget((current) => ({
         ...current,
         [targetKey]: (current[targetKey] ?? []).filter((item) => item.clientMessageId !== clientMessageId),
@@ -87,6 +100,21 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
       ]);
       return { conversationId: sendingConversationId, message };
     } catch (error) {
+      const status = isAxiosError(error) ? (error.response?.status ?? null) : null;
+      const responseCode =
+        isAxiosError(error) &&
+        error.response?.data &&
+        typeof error.response.data === 'object' &&
+        'code' in error.response.data
+          ? String(error.response.data.code)
+          : null;
+      logRealtimeDebug('warn', 'REST request failed', {
+        stage: requestStage,
+        conversationId: activeConversationId ?? null,
+        status,
+        code: responseCode,
+        aborted: controller.signal.aborted,
+      });
       if (!controller.signal.aborted) {
         setPendingByTarget((current) => ({
           ...current,

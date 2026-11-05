@@ -4,7 +4,11 @@ import { useAuthStore } from '@/stores/auth-store';
 import { authApi } from '../api/auth.api';
 import { AUTH_QUERY_KEYS } from '../constants/auth.constants';
 
-/** Loads `/me` into the auth store when only the tokens were persisted. */
+/**
+ * Loads `/me` into the auth store when only the tokens were persisted, or when the
+ * stored user came from the login response, which omits `status` (the realtime
+ * socket only connects for an `active` user).
+ */
 export const useCurrentUserQuery = () => {
   const queryClient = useQueryClient();
   const user = useAuthStore((state) => state.user);
@@ -28,7 +32,7 @@ export const useCurrentUserQuery = () => {
         throw error;
       }
     },
-    enabled: (isAuthenticated || !!accessToken) && !user,
+    enabled: (isAuthenticated || !!accessToken) && !user?.status,
     retry: false,
   });
 };
