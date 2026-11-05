@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { UserStatus } from '@/types/user';
 import type { SocketConnectionStatus, SocketSession } from '../context/socket-session.context';
 import { REALTIME_SOCKET_EVENTS } from '../constants/realtime.constants';
+import { logRealtimeDebug } from '../utils/realtime-debug';
 
 const REFRESH_BEFORE_EXPIRY_MS = 60_000;
 const REFRESH_RETRY_INITIAL_MS = 5_000;
@@ -45,11 +46,25 @@ export const useSocketSession = (): SocketSession => {
       autoConnect: false,
       auth: { token: accessToken },
     });
-    connection.on('connect', () => setStatusSession({ token: accessToken, status: 'connected' }));
-    connection.on('disconnect', () => setStatusSession({ token: accessToken, status: 'reconnecting' }));
-    connection.io.on('reconnect_attempt', () => setStatusSession({ token: accessToken, status: 'reconnecting' }));
-    connection.on('connect_error', () => setStatusSession({ token: accessToken, status: 'reconnecting' }));
+    logRealtimeDebug('info', 'connecting', { origin: gatewayOrigin, path: SOCKET_PATH, transport: 'websocket' });
+    connection.on('connect', () => {
+      logRealtimeDebug('info', 'connected', { socketId: connection.id ?? null });
+      setStatusSession({ token: accessToken, status: 'connected' });
+    });
+    connection.on('disconnect', (reason) => {
+      logRealtimeDebug('warn', 'disconnected', { reason });
+      setStatusSession({ token: accessToken, status: 'reconnecting' });
+    });
+    connection.io.on('reconnect_attempt', (attempt) => {
+      logRealtimeDebug('info', 'reconnect_attempt', { attempt });
+      setStatusSession({ token: accessToken, status: 'reconnecting' });
+    });
+    connection.on('connect_error', (error) => {
+      logRealtimeDebug('warn', 'connect_error', { message: error.message });
+      setStatusSession({ token: accessToken, status: 'reconnecting' });
+    });
     connection.on(REALTIME_SOCKET_EVENTS.SESSION_READY, () => {
+      logRealtimeDebug('info', 'session_ready');
       setSession({ token: accessToken, socket: connection });
     });
     connection.connect();
@@ -71,6 +86,7 @@ export const useSocketSession = (): SocketSession => {
     }
 
     return () => {
+      logRealtimeDebug('info', 'disconnecting');
       if (refreshTimer !== null) window.clearTimeout(refreshTimer);
       connection.disconnect();
     };

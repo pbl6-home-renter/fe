@@ -17,6 +17,7 @@ import {
 import type { ConversationSummary, LastMessage, UnreadSummary } from '../types/chat.dto';
 import type { Paginated } from '@/types/api';
 import { isSendMessageEvent } from '../utils/chat-message.guard';
+import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
 
 export const useChatRealtimeBridge = () => {
   const { socket, status } = useSocket();
@@ -46,7 +47,19 @@ export const useChatRealtimeBridge = () => {
   useEffect(() => {
     if (!socket || !user || (role !== Role.LANDLORD && role !== Role.TENANT)) return;
     const onMessage = (payload: unknown) => {
-      if (!isSendMessageEvent(payload) || seenMessageIds.current.has(payload.messageId)) return;
+      if (!isSendMessageEvent(payload)) {
+        logRealtimeDebug('warn', 'invalid chat:message-received payload');
+        return;
+      }
+      logRealtimeDebug('info', 'receive chat:message-received', {
+        conversationId: payload.conversationId,
+        messageId: payload.messageId,
+        type: payload.type,
+      });
+      if (seenMessageIds.current.has(payload.messageId)) {
+        logRealtimeDebug('info', 'duplicate chat:message-received ignored', { messageId: payload.messageId });
+        return;
+      }
       seenMessageIds.current.add(payload.messageId);
       if (seenMessageIds.current.size > CHAT_SEEN_MESSAGE_CACHE_LIMIT) {
         const oldestMessageId = seenMessageIds.current.values().next().value;
