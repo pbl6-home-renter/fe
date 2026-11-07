@@ -5,7 +5,16 @@ const translateKey = (key: string): string => {
 };
 
 /** Namespaces searched for API codes, feature namespaces first, `common` last. */
-const API_CODE_NAMESPACES = ['auth', 'media', 'buildings', 'rooms', 'contracts', 'common'] as const;
+const API_CODE_NAMESPACES = [
+  'auth',
+  'media',
+  'buildings',
+  'rooms',
+  'contracts',
+  'meterReadings',
+  'chat',
+  'common',
+] as const;
 
 const findApiCodeKey = (section: 'apiErrors' | 'apiSuccess', code: string): string | undefined =>
   API_CODE_NAMESPACES.map((ns) => `${ns}:${section}.${code}`).find((key) => i18n.exists(key));

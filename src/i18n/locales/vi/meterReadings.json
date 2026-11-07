@@ -1,0 +1,86 @@
+{
+  "page": {
+    "title": "Chỉ số điện nước",
+    "subtitle": "Ghi nhận và quản lý chỉ số điện, nước định kỳ theo từng tòa nhà"
+  },
+  "filter": {
+    "selectBuilding": "Chọn tòa nhà...",
+    "previousMonth": "Tháng trước",
+    "nextMonth": "Tháng sau"
+  },
+  "columns": {
+    "room": "Phòng",
+    "previous": "Chỉ số cũ",
+    "current": "Chỉ số mới",
+    "consumption": "Tiêu thụ",
+    "actions": "Thao tác"
+  },
+  "types": {
+    "electricity": "Điện",
+    "water": "Nước"
+  },
+  "status": {
+    "saved": "Đã lưu",
+    "processingOcr": "Đang nhận diện...",
+    "photoAttached": "Đã đính kèm ảnh"
+  },
+  "actions": {
+    "saveAll": "Lưu tất cả",
+    "save": "Lưu chỉ số",
+    "cancel": "Hủy",
+    "close": "Đóng",
+    "detailEntry": "Nhập chi tiết",
+    "capturePhoto": "Chụp ảnh công tơ",
+    "viewPhoto": "Xem ảnh minh chứng",
+    "retake": "Chụp lại",
+    "refresh": "Làm mới"
+  },
+  "modal": {
+    "singleTitle": "Nhập chỉ số - {{room}}",
+    "periodLabel": "Kỳ ghi nhận",
+    "isBaselineLabel": "Chỉ số bàn giao / Thay đồng hồ mới",
+    "isBaselineDesc": "Bật tùy chọn này nếu đây là chỉ số đầu kỳ khi bàn giao phòng hoặc sau khi thay mới công tơ",
+    "evidencePhotoLabel": "Ảnh chụp mặt công tơ",
+    "previewImageTitle": "Ảnh chụp công tơ minh chứng"
+  },
+  "warnings": {
+    "ocrUnrecognized": "Không nhận diện được số, vui lòng nhập tay",
+    "ocrFailedManualFallback": "Lỗi nhận diện AI, đã chuyển sang chế độ nhập tay",
+    "noRoomsInBuilding": "Tòa nhà này hiện chưa có phòng trọ nào.",
+    "noBuildingsTitle": "Chưa có tòa nhà nào",
+    "noBuildingsDesc": "Vui lòng tạo tòa nhà trước khi quản lý chỉ số điện nước.",
+    "noImageAvailable": "Không có ảnh minh chứng để hiển thị.",
+    "noBaseline": "Chưa có chỉ số bàn giao",
+    "noUnsavedChanges": "Không có chỉ số mới nào cần lưu."
+  },
+  "errors": {
+    "readingRequired": "Vui lòng nhập chỉ số",
+    "readingInvalid": "Chỉ số phải là số thập phân hợp lệ",
+    "roomRequired": "Vui lòng chọn phòng",
+    "periodInvalid": "Kỳ ghi nhận không đúng định dạng YYYY-MM",
+    "evidenceRequired": "Bắt buộc phải có ảnh chụp công tơ làm minh chứng",
+    "readingLessThanPrevious": "Chỉ số mới nhỏ hơn chỉ số cũ",
+    "invalidImage": "Ảnh không hợp lệ hoặc kích thước vượt quá 5MB (chỉ chấp nhận JPEG, PNG, WebP)",
+    "missingPhotoForRoom": "Phòng {{room}} chưa có ảnh minh chứng cho chỉ số {{type}}"
+  },
+  "messages": {
+    "singleRecordedSuccess": "Đã lưu chỉ số thành công",
+    "bulkRecordedSuccess": "Đã lưu chỉ số thành công cho {{count}} phòng"
+  },
+  "apiSuccess": {
+    "METER_READING_CREATED": "Đã ghi nhận chỉ số thành công",
+    "METER_READINGS_BULK_RECORDED": "Đã lưu hàng loạt chỉ số điện nước thành công",
+    "METER_READINGS_FETCHED": "Lấy danh sách chỉ số thành công",
+    "METER_READING_UPDATED": "Cập nhật chỉ số thành công"
+  },
+  "apiErrors": {
+    "DUPLICATE_READING": "Chỉ số gửi lên bị trùng lặp",
+    "DUPLICATE_METER_READING": "Chỉ số của phòng trong kỳ này đã được ghi nhận trước đó",
+    "CURRENT_READING_INVALID": "Chỉ số mới không hợp lệ hoặc nhỏ hơn chỉ số cũ",
+    "BASELINE_REQUIRED": "Phòng này chưa có chỉ số bàn giao ban đầu, vui lòng nhập chỉ số bàn giao trước",
+    "PERIOD_ALREADY_INVOICED": "Kỳ này đã phát hành hóa đơn, không thể chỉnh sửa chỉ số",
+    "METER_READING_NOT_LATEST": "Chỉ có thể chỉnh sửa chỉ số của kỳ mới nhất",
+    "METER_READING_PERIOD_OUT_OF_ORDER": "Kỳ ghi nhận chỉ số phải theo thứ tự thời gian tăng dần",
+    "EVIDENCE_REQUIRED": "Bắt buộc phải tải lên ảnh chụp công tơ làm minh chứng"
+  }
+}
