@@ -44,6 +44,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
     detail.data?.kind === 'group' && detail.data.avatarMediaId
       ? MEDIA_API_ROUTES.BY_ID(detail.data.avatarMediaId)
       : undefined,
+    { signedDownload: true },
   );
   const { refetch: refetchDetail } = detail;
   const { refetch: refetchHistory } = history;

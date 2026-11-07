@@ -4,7 +4,7 @@ import { MEDIA_API_ROUTES } from '@/features/media/constants/media.constants';
 
 export const useChatImage = (mediaId: string) => {
   const [isPreviewOpen, setPreviewOpen] = useState(false);
-  const media = useMediaObjectUrl(MEDIA_API_ROUTES.BY_ID(mediaId));
+  const media = useMediaObjectUrl(MEDIA_API_ROUTES.BY_ID(mediaId), { signedDownload: true });
 
   return {
     ...media,

@@ -37,12 +37,19 @@ const subscribeObjectUrl = (blob: Blob | undefined) => () => {
  * Public URLs are returned as is; private ones are fetched with the Bearer
  * token and exposed as an object URL that is revoked on unmount.
  */
-export const useMediaObjectUrl = (url: string | null | undefined) => {
+export const useMediaObjectUrl = (
+  url: string | null | undefined,
+  options?: { signedDownload?: boolean },
+) => {
   const mediaId = getPrivateMediaId(url);
+  const signedDownload = options?.signedDownload ?? false;
 
   const query = useQuery({
-    queryKey: MEDIA_QUERY_KEYS.OBJECT(mediaId ?? ''),
-    queryFn: ({ signal }) => mediaApi.getBlob(mediaId as string, { signal }),
+    queryKey: [...MEDIA_QUERY_KEYS.OBJECT(mediaId ?? ''), signedDownload ? 'signed' : 'stream'],
+    queryFn: ({ signal }) =>
+      signedDownload
+        ? mediaApi.getChatBlob(mediaId as string, { signal })
+        : mediaApi.getBlob(mediaId as string, { signal }),
     enabled: !!mediaId,
     staleTime: Infinity,
   });
