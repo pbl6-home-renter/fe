@@ -1,6 +1,5 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-
 import viCommon from './locales/vi/common.json';
 import viAuth from './locales/vi/auth.json';
 import viMedia from './locales/vi/media.json';
@@ -10,6 +9,7 @@ import viRooms from './locales/vi/rooms.json';
 import viContracts from './locales/vi/contracts.json';
 import viChat from './locales/vi/chat.json';
 import viNotifications from './locales/vi/notifications.json';
+import viMeterReadings from './locales/vi/meterReadings.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
 import enMedia from './locales/en/media.json';
@@ -19,6 +19,7 @@ import enRooms from './locales/en/rooms.json';
 import enContracts from './locales/en/contracts.json';
 import enChat from './locales/en/chat.json';
 import enNotifications from './locales/en/notifications.json';
+import enMeterReadings from './locales/en/meterReadings.json';
 
 export const defaultNS = 'common';
 export const resources = {
@@ -32,6 +33,7 @@ export const resources = {
     contracts: viContracts,
     chat: viChat,
     notifications: viNotifications,
+    meterReadings: viMeterReadings,
   },
   en: {
     common: enCommon,
@@ -43,6 +45,7 @@ export const resources = {
     contracts: enContracts,
     chat: enChat,
     notifications: enNotifications,
+    meterReadings: enMeterReadings,
   },
 } as const;
 

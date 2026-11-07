@@ -14,6 +14,7 @@ import {
   Settings,
   MessageSquare,
   UserPlus,
+  Gauge,
 } from 'lucide-react';
 import type { ParseKeys } from 'i18next';
 import { Role } from '@/types/role';
@@ -33,10 +34,22 @@ export interface NavMenuItem {
  * Menu items for Landlord role (Cổng Chủ Nhà)
  */
 export const LANDLORD_NAVIGATION: readonly NavMenuItem[] = [
-  { id: 'landlord-overview', titleKey: 'navigation.overview', path: ROUTES.LANDLORD.DASHBOARD, icon: LayoutDashboard, exact: true },
+  {
+    id: 'landlord-overview',
+    titleKey: 'navigation.overview',
+    path: ROUTES.LANDLORD.DASHBOARD,
+    icon: LayoutDashboard,
+    exact: true,
+  },
   { id: 'landlord-rooms', titleKey: 'navigation.rooms', path: ROUTES.LANDLORD.BUILDINGS, icon: Building2 },
   { id: 'landlord-tenants', titleKey: 'navigation.tenants', path: ROUTES.LANDLORD.TENANTS, icon: Users },
   { id: 'landlord-contracts', titleKey: 'navigation.contracts', path: ROUTES.LANDLORD.CONTRACTS, icon: FileText },
+  {
+    id: 'landlord-meter-readings',
+    titleKey: 'navigation.meterReadings',
+    path: ROUTES.LANDLORD.METER_READINGS,
+    icon: Gauge,
+  },
   { id: 'landlord-invoices', titleKey: 'navigation.invoices', path: ROUTES.LANDLORD.INVOICES, icon: Receipt },
   { id: 'landlord-issues', titleKey: 'navigation.issues', path: ROUTES.LANDLORD.ISSUES, icon: AlertTriangle },
   { id: 'landlord-chat', titleKey: 'navigation.chat', path: ROUTES.LANDLORD.CHAT, icon: MessageSquare },
@@ -47,7 +60,13 @@ export const LANDLORD_NAVIGATION: readonly NavMenuItem[] = [
  * Menu items for Tenant role (Khách thuê)
  */
 export const TENANT_NAVIGATION: readonly NavMenuItem[] = [
-  { id: 'tenant-overview', titleKey: 'navigation.tenantOverview', path: ROUTES.TENANT.DASHBOARD, icon: LayoutDashboard, exact: true },
+  {
+    id: 'tenant-overview',
+    titleKey: 'navigation.tenantOverview',
+    path: ROUTES.TENANT.DASHBOARD,
+    icon: LayoutDashboard,
+    exact: true,
+  },
   { id: 'tenant-room', titleKey: 'navigation.myRoom', path: ROUTES.TENANT.ROOMS, icon: Home },
   { id: 'tenant-contracts', titleKey: 'navigation.contracts', path: ROUTES.TENANT.CONTRACTS, icon: FileText },
   { id: 'tenant-invoices', titleKey: 'navigation.invoices', path: ROUTES.TENANT.INVOICES, icon: Receipt },
@@ -61,7 +80,13 @@ export const TENANT_NAVIGATION: readonly NavMenuItem[] = [
  * Menu items for Admin role (Cổng Quản Trị)
  */
 export const ADMIN_NAVIGATION: readonly NavMenuItem[] = [
-  { id: 'admin-stats', titleKey: 'navigation.admin.systemStats', path: ROUTES.ADMIN.DASHBOARD, icon: BarChart3, exact: true },
+  {
+    id: 'admin-stats',
+    titleKey: 'navigation.admin.systemStats',
+    path: ROUTES.ADMIN.DASHBOARD,
+    icon: BarChart3,
+    exact: true,
+  },
   { id: 'admin-buildings', titleKey: 'navigation.admin.approvals', path: ROUTES.ADMIN.BUILDINGS, icon: CheckCircle2 },
   { id: 'admin-users', titleKey: 'navigation.admin.users', path: ROUTES.ADMIN.USERS, icon: UserCheck },
   { id: 'admin-audit', titleKey: 'navigation.admin.auditLogs', path: ROUTES.ADMIN.AUDIT_LOGS, icon: ShieldCheck },

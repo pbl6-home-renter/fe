@@ -1,0 +1,86 @@
+{
+  "page": {
+    "title": "Meter Readings",
+    "subtitle": "Record and manage electricity and water meter readings by building"
+  },
+  "filter": {
+    "selectBuilding": "Select building...",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month"
+  },
+  "columns": {
+    "room": "Room",
+    "previous": "Previous",
+    "current": "Current",
+    "consumption": "Usage",
+    "actions": "Actions"
+  },
+  "types": {
+    "electricity": "Electricity",
+    "water": "Water"
+  },
+  "status": {
+    "saved": "Saved",
+    "processingOcr": "Recognizing...",
+    "photoAttached": "Photo attached"
+  },
+  "actions": {
+    "saveAll": "Save All",
+    "save": "Save Reading",
+    "cancel": "Cancel",
+    "close": "Close",
+    "detailEntry": "Detailed Entry",
+    "capturePhoto": "Capture Meter Photo",
+    "viewPhoto": "View Evidence Photo",
+    "retake": "Retake",
+    "refresh": "Refresh"
+  },
+  "modal": {
+    "singleTitle": "Enter Reading - {{room}}",
+    "periodLabel": "Billing Period",
+    "isBaselineLabel": "Handover / New Meter Baseline",
+    "isBaselineDesc": "Enable this option if this is the initial handover reading or after replacing a meter",
+    "evidencePhotoLabel": "Meter Face Photo",
+    "previewImageTitle": "Meter Evidence Photo"
+  },
+  "warnings": {
+    "ocrUnrecognized": "Could not recognize meter reading, please enter manually",
+    "ocrFailedManualFallback": "AI recognition failed, switched to manual input",
+    "noRoomsInBuilding": "This building has no rooms yet.",
+    "noBuildingsTitle": "No buildings found",
+    "noBuildingsDesc": "Please create a building before managing meter readings.",
+    "noImageAvailable": "No evidence image available to display.",
+    "noBaseline": "No baseline reading available",
+    "noUnsavedChanges": "No new meter readings to save."
+  },
+  "errors": {
+    "readingRequired": "Please enter a reading value",
+    "readingInvalid": "Reading must be a valid decimal number",
+    "roomRequired": "Please select a room",
+    "periodInvalid": "Period format must be YYYY-MM",
+    "evidenceRequired": "Meter evidence photo is required",
+    "readingLessThanPrevious": "Current reading cannot be less than previous reading",
+    "invalidImage": "Invalid image or size exceeds 5MB (only JPEG, PNG, WebP supported)",
+    "missingPhotoForRoom": "Room {{room}} is missing an evidence photo for {{type}}"
+  },
+  "messages": {
+    "singleRecordedSuccess": "Meter reading saved successfully",
+    "bulkRecordedSuccess": "Successfully saved meter readings for {{count}} rooms"
+  },
+  "apiSuccess": {
+    "METER_READING_CREATED": "Meter reading recorded successfully",
+    "METER_READINGS_BULK_RECORDED": "Batch meter readings recorded successfully",
+    "METER_READINGS_FETCHED": "Meter readings fetched successfully",
+    "METER_READING_UPDATED": "Meter reading updated successfully"
+  },
+  "apiErrors": {
+    "DUPLICATE_READING": "A submitted meter reading is duplicated",
+    "DUPLICATE_METER_READING": "Meter reading for this room and period already exists",
+    "CURRENT_READING_INVALID": "Current reading is invalid or less than previous reading",
+    "BASELINE_REQUIRED": "This room requires a baseline reading first",
+    "PERIOD_ALREADY_INVOICED": "This period has already been invoiced and cannot be modified",
+    "METER_READING_NOT_LATEST": "Only the latest reading can be updated",
+    "METER_READING_PERIOD_OUT_OF_ORDER": "Meter readings must be recorded in increasing period order",
+    "EVIDENCE_REQUIRED": "Meter evidence photo is required"
+  }
+}
