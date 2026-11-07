@@ -5,12 +5,17 @@ import { useDirectConversationQuery } from './use-chat-queries';
 import { useChatComposer, type PendingMessage } from './use-chat-composer';
 import { CHAT_SEARCH_MAX_LENGTH, getChatDraftKey, getChatPath } from '../constants/chat.constants';
 import type { ConversationSummary } from '../types/chat.dto';
+import { MediaPurpose } from '@/features/media/types/media.dto';
+import { validateMediaFile } from '@/features/media/utils/upload-media';
+import { getApiErrorMessage } from '@/lib/api/api-messages';
+import { useNotify } from '@/lib/notifications/use-notify';
 
 export const useChatPage = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const notify = useNotify();
   const { status } = useSocket();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [recipient, setRecipient] = useState<{ id: string; name: string }>();
@@ -54,10 +59,10 @@ export const useChatPage = () => {
   };
   const send = async () => {
     const content = composer.draft.trim();
-    if (!content) return;
+    if (!content && !composer.imageDraft) return;
     const sendingTarget = targetKey;
     try {
-      const result = await composer.send(content);
+      const result = await composer.send(content, undefined, composer.imageDraft);
       rememberConversationDraftKey(result.conversationId, sendingTarget);
       if (result.conversationId && activeTargetKey.current === sendingTarget) {
         navigate(getChatPath(result.conversationId, search), { state: { chatDraftKey: sendingTarget } });
@@ -70,7 +75,7 @@ export const useChatPage = () => {
   const retry = async (item: PendingMessage) => {
     const sendingTarget = targetKey;
     try {
-      const result = await composer.send(item.content, item.clientMessageId);
+      const result = await composer.send(item.content, item.clientMessageId, item.imageFile, item.mediaId);
       rememberConversationDraftKey(result.conversationId, sendingTarget);
       if (result.conversationId && activeTargetKey.current === sendingTarget) {
         navigate(getChatPath(result.conversationId, search), { state: { chatDraftKey: sendingTarget } });
@@ -79,6 +84,15 @@ export const useChatPage = () => {
     } catch {
       // Keep the failed item and its idempotency key for a later retry.
     }
+  };
+  const selectImage = (file?: File) => {
+    if (!file) return;
+    const errorCode = validateMediaFile(file, MediaPurpose.CHAT_ATTACHMENT);
+    if (errorCode) {
+      notify.error(getApiErrorMessage(errorCode));
+      return;
+    }
+    composer.setImageDraft(file);
   };
   const changeSearch = (value: string) => {
     const next = new URLSearchParams(searchParams);
@@ -105,7 +119,8 @@ export const useChatPage = () => {
     connectionStatus: status,
     draft: composer.draft,
     pending: composer.pending,
-    isSending: composer.pending.some((item) => item.status === 'sending'),
+    imageDraft: composer.imageDraft,
+    isSending: composer.pending.some((item) => item.status === 'sending' || item.status === 'uploading'),
     onSearchChange: changeSearch,
     onSelectConversation: selectConversation,
     onSelectDirect: selectDirect,
@@ -114,6 +129,8 @@ export const useChatPage = () => {
     onGroupCreated: openConversation,
     onDraftChange: composer.setDraft,
     onSend: () => void send(),
+    onSelectImage: selectImage,
+    onRemoveImage: () => composer.setImageDraft(undefined),
     onRetry: (item: PendingMessage) => void retry(item),
     onBack: backToList,
   };

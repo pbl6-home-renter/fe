@@ -9,7 +9,7 @@ import type {
   CreateDirectRequest,
   CreateGroupRequest,
   MessagePage,
-  SendTextMessageRequest,
+  SendMessageRequest,
   SentMessage,
   UnreadSummary,
   UserDirectoryEntry,
@@ -75,7 +75,7 @@ export const chatApi = {
       skipErrorToast: true,
     }),
 
-  sendText: (body: SendTextMessageRequest, config?: AxiosRequestConfig) =>
+  sendMessage: (body: SendMessageRequest, config?: AxiosRequestConfig) =>
     http.post<SentMessage>(CHAT_API_ROUTES.MESSAGES, body, config),
 
   markRead: (conversationId: string, lastReadSequence: string) =>

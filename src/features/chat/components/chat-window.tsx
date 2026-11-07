@@ -17,9 +17,12 @@ interface ChatWindowProps {
   connectionStatus: SocketConnectionStatus;
   draft: string;
   pending: PendingMessage[];
+  imageDraft?: File;
   isSending: boolean;
   onDraftChange: (value: string) => void;
   onSend: () => void;
+  onSelectImage: (file?: File) => void;
+  onRemoveImage: () => void;
   onRetry: (item: PendingMessage) => void;
   onBack: () => void;
 }
@@ -30,9 +33,12 @@ export const ChatWindow = ({
   connectionStatus,
   draft,
   pending,
+  imageDraft,
   isSending,
   onDraftChange,
   onSend,
+  onSelectImage,
+  onRemoveImage,
   onRetry,
   onBack,
 }: ChatWindowProps) => {
@@ -119,8 +125,11 @@ export const ChatWindow = ({
           value={draft}
           readOnly={isReadOnly}
           isSending={isSending}
+          imageFile={imageDraft}
           onChange={onDraftChange}
           onSend={onSend}
+          onSelectImage={onSelectImage}
+          onRemoveImage={onRemoveImage}
         />
       )}
       {manageOpen && conversationId && window.detail.data?.kind === 'group' && (

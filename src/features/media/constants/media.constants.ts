@@ -88,8 +88,8 @@ export const MEDIA_PURPOSE_RULES: Readonly<Record<MediaPurpose, MediaPurposeRule
     visibility: 'private',
   },
   [MediaPurpose.CHAT_ATTACHMENT]: {
-    ownerTypes: [MediaOwnerType.MESSAGE],
-    contentTypes: IMAGE_AND_PDF_CONTENT_TYPES,
+    ownerTypes: [MediaOwnerType.CONVERSATION],
+    contentTypes: IMAGE_CONTENT_TYPES,
     visibility: 'private',
   },
   [MediaPurpose.CONVERSATION_AVATAR]: {

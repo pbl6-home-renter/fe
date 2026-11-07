@@ -4,6 +4,8 @@ import { ChatImage } from './chat-image';
 import { formatChatMessage } from '../utils/format-chat-message';
 import type { PendingMessage } from '../hooks/use-chat-composer';
 import { Button } from '@/components/ui/button';
+import { ProgressMeterTrack } from '@/components/ui/progress-meter';
+import { useChatLocalImagePreview } from '../hooks/use-chat-local-image-preview';
 
 type ChatMessageItemProps =
   | {
@@ -29,14 +31,25 @@ const formatDateTime = (value: string, locale: string) => {
 
 export const ChatMessageItem = (props: ChatMessageItemProps) => {
   const { t, i18n } = useTranslation('chat');
+  const pendingImageUrl = useChatLocalImagePreview(props.kind === 'pending' ? props.pending.imageFile : undefined);
   if (props.kind === 'pending') {
     const { pending } = props;
     return (
       <div className="mb-3 flex justify-end">
         <div className="max-w-[78%] rounded-2xl bg-rentify-primary/10 px-4 py-2.5 shadow-sm">
-          <p className="whitespace-pre-wrap wrap-break-word text-sm">{pending.content}</p>
+          {pending.type === 'image' && pendingImageUrl && (
+            <img src={pendingImageUrl} alt={t('photoSent')} className="max-h-72 max-w-72 rounded-xl object-cover" />
+          )}
+          {pending.content && <p className="mt-1 whitespace-pre-wrap wrap-break-word text-sm">{pending.content}</p>}
+          {pending.status === 'uploading' && (
+            <ProgressMeterTrack value={pending.uploadProgress ?? 0} label={t('uploadingImage')} showValue />
+          )}
           <div className="mt-1 flex items-center justify-end gap-2 text-[10px] text-rentify-neutral">
-            {pending.status === 'sending' ? t('sending') : t('sendFailed')}
+            {pending.status === 'uploading'
+              ? t('uploadingImage')
+              : pending.status === 'sending'
+                ? t('sending')
+                : t('sendFailed')}
             {pending.canRetry && (
               <Button
                 type="button"

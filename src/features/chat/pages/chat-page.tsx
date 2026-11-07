@@ -25,9 +25,12 @@ export const ChatPage = () => {
         connectionStatus={page.connectionStatus}
         draft={page.draft}
         pending={page.pending}
+        imageDraft={page.imageDraft}
         isSending={page.isSending}
         onDraftChange={page.onDraftChange}
         onSend={page.onSend}
+        onSelectImage={page.onSelectImage}
+        onRemoveImage={page.onRemoveImage}
         onRetry={page.onRetry}
         onBack={page.onBack}
       />

@@ -168,6 +168,16 @@ export interface SendTextMessageRequest {
   content: string;
 }
 
+export interface SendImageMessageRequest {
+  conversationId: string;
+  clientMessageId: string;
+  type: 'image';
+  content?: string | null;
+  mediaId: string;
+}
+
+export type SendMessageRequest = SendTextMessageRequest | SendImageMessageRequest;
+
 export interface UnreadSummary {
   totalUnreadCount: number;
 }
