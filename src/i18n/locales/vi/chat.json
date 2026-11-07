@@ -39,8 +39,7 @@
   "photoSent": "Đã gửi ảnh",
   "viewImage": "Xem ảnh lớn",
   "toast": {
-    "message": "{{conversation}} · {{preview}}",
-    "open": "Mở chat"
+    "dismiss": "Đóng thông báo"
   },
   "system": {
     "unknownActor": "Một thành viên",

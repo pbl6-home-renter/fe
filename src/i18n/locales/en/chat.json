@@ -39,8 +39,7 @@
   "photoSent": "Sent a photo",
   "viewImage": "View full-size image",
   "toast": {
-    "message": "{{conversation}} · {{preview}}",
-    "open": "Open chat"
+    "dismiss": "Dismiss"
   },
   "system": {
     "unknownActor": "A member",

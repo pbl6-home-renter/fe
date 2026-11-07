@@ -102,7 +102,7 @@ export const ChatWindow = ({
         pending={pending}
         onRetryPending={onRetry}
         onAtBottomChange={window.setAtBottom}
-        currentUserId={window.currentMember?.userId ?? undefined}
+        currentUserId={window.currentUserId}
         showSenderNames={window.detail.data?.kind === 'group'}
       />
       {!window.detail.isLoading && (

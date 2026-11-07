@@ -1,6 +1,6 @@
 import axios, { isCancel, type InternalAxiosRequestConfig } from 'axios';
-import { toast } from 'sonner';
 import { useAuthStore } from '@/stores/auth-store';
+import { notify } from '@/lib/notifications/notify';
 import type { ApiResponse } from '@/types/api';
 import { findApiSuccessMessage } from './api-messages';
 import { getErrorMessage } from './errors';
@@ -48,7 +48,7 @@ apiClient.interceptors.response.use(
     if (method !== 'get' && !skipSuccessToast && typeof code === 'string') {
       const message = findApiSuccessMessage(code);
       if (message) {
-        toast.success(message, { id: message });
+        notify.success(message, { id: message });
       }
     }
     return response;
@@ -57,8 +57,8 @@ apiClient.interceptors.response.use(
     const skipErrorToast = axios.isAxiosError(error) && error.config?.skipErrorToast;
     if (!isCancel(error) && !skipErrorToast) {
       const message = getErrorMessage(error);
-      toast.error(message, { id: message });
+      notify.error(message, { id: message });
     }
     return Promise.reject(error);
-  }
+  },
 );

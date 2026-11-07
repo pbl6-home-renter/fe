@@ -8,10 +8,12 @@ import {
   CHAT_UNREAD_QUERY_KEY,
   chatKeys,
 } from '../constants/chat.constants';
-import type { SentMessage } from '../types/chat.dto';
+import type { ChatMessage, SentMessage } from '../types/chat.dto';
 import { retryChatRequest } from '../utils/retry-chat-request';
+import { upsertChatMessageCache } from '../utils/upsert-chat-message-cache';
 import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
 import { createUuid } from '@/lib/utils/uuid';
+import { useAuthStore } from '@/stores/auth-store';
 
 export interface PendingMessage {
   clientMessageId: string;
@@ -25,6 +27,7 @@ const transientError = (error: unknown) =>
   isAxiosError(error) && (!error.response || error.response.status === 408 || error.response.status >= 500);
 export const useChatComposer = (targetKey: string, recipientUserId?: string, conversationId?: string) => {
   const client = useQueryClient();
+  const senderUserId = useAuthStore((state) => state.user?.id);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [pendingByTarget, setPendingByTarget] = useState<Record<string, PendingMessage[]>>({});
   const [conversationByTarget, setConversationByTarget] = useState<Record<string, string>>({});
@@ -42,8 +45,10 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
   );
 
   const send = async (content: string, clientMessageId: string = createUuid()) => {
+    if (!senderUserId) throw new Error('Authenticated user is required to send chat messages');
     let activeConversationId = conversationId ?? conversationByTarget[targetKey];
     let requestStage: 'create-direct-conversation' | 'send-message' = 'send-message';
+    let requestStartedAt = performance.now();
     const cleaned = content.trim();
     const controller = new AbortController();
     sendControllers.current.set(clientMessageId, controller);
@@ -62,6 +67,7 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
     try {
       if (recipientUserId && !activeConversationId) {
         requestStage = 'create-direct-conversation';
+        requestStartedAt = performance.now();
         logRealtimeDebug('info', 'REST request started', { stage: requestStage });
         const created = await retryChatRequest(
           (signal) =>
@@ -70,11 +76,16 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
         );
         activeConversationId = created.id;
         setConversationByTarget((current) => ({ ...current, [targetKey]: created.id }));
-        logRealtimeDebug('info', 'REST request succeeded', { stage: requestStage, conversationId: created.id });
+        logRealtimeDebug('info', 'REST request succeeded', {
+          stage: requestStage,
+          conversationId: created.id,
+          durationMs: Math.round(performance.now() - requestStartedAt),
+        });
       }
       if (!activeConversationId) throw new Error('Conversation is required');
       const sendingConversationId = activeConversationId;
       requestStage = 'send-message';
+      requestStartedAt = performance.now();
       logRealtimeDebug('info', 'REST request started', { stage: requestStage, conversationId: sendingConversationId });
       const message: SentMessage = await retryChatRequest(
         (signal) =>
@@ -88,13 +99,33 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
         stage: requestStage,
         conversationId: sendingConversationId,
         messageId: message.id,
+        durationMs: Math.round(performance.now() - requestStartedAt),
       });
+      const sentMessage: ChatMessage = {
+        id: message.id,
+        conversationId: message.conversationId,
+        senderUserId,
+        senderName: message.senderName,
+        senderType: 'user',
+        sequence: message.sequence,
+        clientMessageId: message.clientMessageId ?? clientMessageId,
+        type: message.type,
+        content: message.content,
+        mediaId: message.mediaId,
+        payload: null,
+        createdAt: message.createdAt,
+      };
+      const messagesQueryKey = chatKeys.messages(sendingConversationId);
+      const historyHadData = client.getQueryData(messagesQueryKey) !== undefined;
+      const historyWasFetching = client.getQueryState(messagesQueryKey)?.fetchStatus === 'fetching';
+      if (historyWasFetching) await client.cancelQueries({ queryKey: messagesQueryKey });
+      upsertChatMessageCache(client, sentMessage);
+      if (historyWasFetching || !historyHadData) void client.invalidateQueries({ queryKey: messagesQueryKey });
       setPendingByTarget((current) => ({
         ...current,
         [targetKey]: (current[targetKey] ?? []).filter((item) => item.clientMessageId !== clientMessageId),
       }));
       void Promise.allSettled([
-        client.invalidateQueries({ queryKey: chatKeys.messages(sendingConversationId) }),
         client.invalidateQueries({ queryKey: CHAT_LIST_QUERY_KEY }),
         client.invalidateQueries({ queryKey: CHAT_UNREAD_QUERY_KEY }),
       ]);
@@ -114,6 +145,7 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
         status,
         code: responseCode,
         aborted: controller.signal.aborted,
+        durationMs: Math.round(performance.now() - requestStartedAt),
       });
       if (!controller.signal.aborted) {
         setPendingByTarget((current) => ({

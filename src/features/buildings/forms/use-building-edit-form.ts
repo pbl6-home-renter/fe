@@ -3,18 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
+import { useNotify } from '@/lib/notifications/use-notify';
 import { ROUTES } from '@/config/routes.config';
 import { BuildingStatus } from '../enums/building-status.enum';
-import {
-  buildingInfoSchema,
-  type BuildingInfoFormData,
-} from './building.schema';
+import { buildingInfoSchema, type BuildingInfoFormData } from './building.schema';
 import { useUpdateBuildingMutation } from '../hooks/use-update-building-mutation';
-import type {
-  BuildingMyDetailDto,
-  BuildingUpdateRequestDto,
-} from '../types/building.dto';
+import type { BuildingMyDetailDto, BuildingUpdateRequestDto } from '../types/building.dto';
 
 export interface UseBuildingEditFormOptions {
   building?: BuildingMyDetailDto;
@@ -23,6 +17,7 @@ export interface UseBuildingEditFormOptions {
 
 export const useBuildingEditForm = ({ building, onSuccess }: UseBuildingEditFormOptions) => {
   const { t } = useTranslation('buildings');
+  const notify = useNotify();
   const navigate = useNavigate();
 
   const isApproved = building?.status === BuildingStatus.APPROVED;
@@ -80,7 +75,7 @@ export const useBuildingEditForm = ({ building, onSuccess }: UseBuildingEditForm
     }
 
     if (Object.keys(payload).length === 0) {
-      toast.info(t('messages.noChanges'));
+      notify.info(t('messages.noChanges'));
       if (onSuccess) {
         onSuccess();
       } else {
@@ -99,7 +94,7 @@ export const useBuildingEditForm = ({ building, onSuccess }: UseBuildingEditForm
             navigate(ROUTES.LANDLORD.BUILDING_DETAIL(building.id));
           }
         },
-      }
+      },
     );
   });
 

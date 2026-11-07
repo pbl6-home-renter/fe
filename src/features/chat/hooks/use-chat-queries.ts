@@ -34,6 +34,7 @@ export const useMessagesQuery = (id?: string, options?: InfiniteQueryHookOptions
       id ? chatApi.getMessages(id, pageParam, { signal }) : Promise.reject(new Error('Conversation ID is required')),
     getNextPageParam: (page) => (page.pagination.hasNextPage ? (page.pagination.nextCursor ?? undefined) : undefined),
     ...options,
+    refetchOnMount: 'always',
     enabled: Boolean(id) && (options?.enabled ?? true),
   });
 

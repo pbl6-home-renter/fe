@@ -1,12 +1,9 @@
 import { useState, useRef, type ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
+import { useNotify } from '@/lib/notifications/use-notify';
 import { uploadMedia, validateMediaFile } from '@/features/media/utils/upload-media';
 import { MEDIA_ERROR_CODES } from '@/features/media/constants/media.constants';
-import {
-  MediaOwnerType,
-  MediaPurpose,
-} from '@/features/media/types/media.dto';
+import { MediaOwnerType, MediaPurpose } from '@/features/media/types/media.dto';
 import { getErrorMessage } from '@/lib/api/errors';
 import type { UploadedMediaItem } from '../types/ownership-proof.types';
 
@@ -20,6 +17,7 @@ export const useOwnershipProofUploader = ({
   buildingId = '00000000-0000-0000-0000-000000000000',
 }: UseOwnershipProofUploaderOptions) => {
   const { t } = useTranslation('buildings');
+  const notify = useNotify();
   const [items, setItems] = useState<UploadedMediaItem[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -38,7 +36,7 @@ export const useOwnershipProofUploader = ({
         const next = prev.map((it) =>
           it.id === item.id
             ? { ...it, status: 'completed' as const, mediaId: completed.id, errorMessage: undefined }
-            : it
+            : it,
         );
         const completedIds = next
           .filter((it) => it.status === 'completed' && Boolean(it.mediaId))
@@ -49,13 +47,9 @@ export const useOwnershipProofUploader = ({
     } catch (err: unknown) {
       const msg = getErrorMessage(err) || t('uploader.uploadFailed');
       setItems((prev) =>
-        prev.map((it) =>
-          it.id === item.id
-            ? { ...it, status: 'error' as const, errorMessage: msg }
-            : it
-        )
+        prev.map((it) => (it.id === item.id ? { ...it, status: 'error' as const, errorMessage: msg } : it)),
       );
-      toast.error(msg);
+      notify.error(msg);
     }
   };
 
@@ -66,11 +60,11 @@ export const useOwnershipProofUploader = ({
       const validationError = validateMediaFile(file, MediaPurpose.OWNERSHIP_PROOF);
       if (validationError) {
         if (validationError === MEDIA_ERROR_CODES.MEDIA_TYPE_NOT_ALLOWED) {
-          toast.error(t('uploader.invalidType', { name: file.name }));
+          notify.error(t('uploader.invalidType', { name: file.name }));
         } else if (validationError === MEDIA_ERROR_CODES.MEDIA_FILE_TOO_LARGE) {
-          toast.error(t('uploader.fileTooLarge', { name: file.name }));
+          notify.error(t('uploader.fileTooLarge', { name: file.name }));
         } else {
-          toast.error(t('uploader.uploadFailed'));
+          notify.error(t('uploader.uploadFailed'));
         }
         return;
       }
@@ -112,11 +106,7 @@ export const useOwnershipProofUploader = ({
 
   const handleRetry = (item: UploadedMediaItem) => {
     setItems((prev) =>
-      prev.map((it) =>
-        it.id === item.id
-          ? { ...it, status: 'uploading' as const, errorMessage: undefined }
-          : it
-      )
+      prev.map((it) => (it.id === item.id ? { ...it, status: 'uploading' as const, errorMessage: undefined } : it)),
     );
     void uploadSingleFile(item);
   };

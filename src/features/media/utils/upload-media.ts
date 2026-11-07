@@ -1,5 +1,5 @@
 import { isCancel } from 'axios';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notifications/notify';
 import { getApiErrorMessage } from '@/lib/api/api-messages';
 import { mediaApi } from '../api/media.api';
 import {
@@ -117,7 +117,7 @@ const runUpload = async ({
         size: file.size,
         ...(captureSource ? { captureSource } : {}),
       },
-      { signal, skipErrorToast }
+      { signal, skipErrorToast },
     );
 
     onProgress?.(0);
@@ -149,17 +149,14 @@ const runUpload = async ({
  * Resolves with the completed media; use its `id` in business APIs
  * (e.g. `photoMediaIds`) and its `url` to display the file.
  */
-export const uploadMedia = async (
-  params: UploadMediaParams
-): Promise<MediaCompleteUploadResponseDto> => {
+export const uploadMedia = async (params: UploadMediaParams): Promise<MediaCompleteUploadResponseDto> => {
   try {
     return await runUpload(params);
   } catch (error) {
     // API errors are toasted by `apiClient`; the client-side ones are toasted here.
-    const isClientError =
-      error instanceof MediaUploadError && error.code !== MEDIA_ERROR_CODES.MEDIA_UPLOAD_CANCELED;
+    const isClientError = error instanceof MediaUploadError && error.code !== MEDIA_ERROR_CODES.MEDIA_UPLOAD_CANCELED;
     if (isClientError && !params.skipErrorToast) {
-      toast.error(error.message, { id: error.message });
+      notify.error(error.message, { id: error.message });
     }
     throw error;
   }

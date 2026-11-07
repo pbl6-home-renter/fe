@@ -38,6 +38,22 @@ export const ChatMessageFeed = (props: ChatMessageFeedProps) => {
     onAtBottomChange: props.onAtBottomChange,
   });
   const latestMessage = props.messages.at(-1);
+  const persistedClientMessageIds = new Set(
+    props.messages.map((message) => message.clientMessageId).filter((id): id is string => id !== null),
+  );
+  const feedItems = [
+    ...(props.isLoading
+      ? []
+      : props.messages.map((message, index) => ({
+          key: message.clientMessageId ?? message.id,
+          kind: 'message' as const,
+          message,
+          previousMessage: props.messages[index - 1],
+        }))),
+    ...props.pending
+      .filter((message) => !persistedClientMessageIds.has(message.clientMessageId))
+      .map((message) => ({ key: message.clientMessageId, kind: 'pending' as const, message })),
+  ];
 
   return (
     <div ref={feedRef} onScroll={handleScroll} className="relative min-h-0 flex-1 overflow-y-auto px-5 py-4">
@@ -58,23 +74,20 @@ export const ChatMessageFeed = (props: ChatMessageFeedProps) => {
       {!props.isLoading && !props.isError && props.messages.length === 0 && props.pending.length === 0 && (
         <p className="py-8 text-center text-sm text-rentify-text-secondary">{t('emptyMessages')}</p>
       )}
-      {!props.isLoading &&
-        props.messages.map((message, index) => (
+      {feedItems.map((item) =>
+        item.kind === 'message' ? (
           <ChatMessageItem
-            key={message.id}
-            message={message}
-            previousMessage={props.messages[index - 1]}
+            key={item.key}
+            kind="message"
+            message={item.message}
+            previousMessage={item.previousMessage}
             currentUserId={props.currentUserId}
             showSenderName={props.showSenderNames}
           />
-        ))}
-      {props.pending.map((message) => (
-        <PendingMessageItem
-          key={message.clientMessageId}
-          message={message}
-          onRetry={() => props.onRetryPending(message)}
-        />
-      ))}
+        ) : (
+          <ChatMessageItem key={item.key} kind="pending" pending={item.message} onRetry={props.onRetryPending} />
+        ),
+      )}
       {latestMessage && <div className="h-px" onMouseEnter={props.onLatestVisible} />}
       {props.newMessageCount > 0 && (
         <div className="sticky bottom-2 flex justify-center">
@@ -110,36 +123,6 @@ const HistoryError = ({ onRetry }: { onRetry: () => void }) => {
       <Button variant="ghost" size="sm" onClick={onRetry} className="text-rentify-primary">
         {t('tryLoadAgain')}
       </Button>
-    </div>
-  );
-};
-
-interface PendingMessageItemProps {
-  message: PendingMessage;
-  onRetry: () => void;
-}
-
-const PendingMessageItem = ({ message, onRetry }: PendingMessageItemProps) => {
-  const { t } = useTranslation('chat');
-  return (
-    <div className="mb-3 flex justify-end">
-      <div className="max-w-[78%] rounded-2xl bg-rentify-primary/10 px-4 py-2.5">
-        <p className="whitespace-pre-wrap break-words text-sm">{message.content}</p>
-        <div className="mt-1 flex items-center justify-end gap-2 text-[10px] text-rentify-neutral">
-          {message.status === 'sending' ? t('sending') : t('sendFailed')}
-          {message.canRetry && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={onRetry}
-              className="h-auto min-h-0 p-0 font-semibold text-rentify-primary"
-            >
-              {t('retry')}
-            </Button>
-          )}
-        </div>
-      </div>
     </div>
   );
 };

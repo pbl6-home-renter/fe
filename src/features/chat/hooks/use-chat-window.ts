@@ -17,7 +17,8 @@ import { useConversationQuery, useMessagesQuery } from './use-chat-queries';
 import { useMarkReadMutation } from './use-chat-mutations';
 import type { CursorPaginated } from '@/types/api';
 import type { ChatMessage } from '../types/chat.dto';
-import { isConversationSocketEvent, parseChatMessage } from '../utils/chat-message.guard';
+import { isConversationSocketEvent, isSendMessageEvent, parseChatMessage } from '../utils/chat-message.guard';
+import { upsertChatMessageCache } from '../utils/upsert-chat-message-cache';
 import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
 
 interface UseChatWindowOptions {
@@ -34,6 +35,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
   const atBottom = useRef(true);
   const lastReadRequest = useRef<string | undefined>(undefined);
   const seenMessageIds = useRef(new Set<string>());
+  const countedMessageIds = useRef(new Set<string>());
   const detail = useConversationQuery(conversationId);
   const history = useMessagesQuery(conversationId);
   const { refetch: refetchDetail } = detail;
@@ -97,31 +99,55 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
         messageId: message?.id ?? null,
       });
       if (!message || message.conversationId !== conversationId) return;
+      const messagesQueryKey = chatKeys.messages(conversationId);
+      const cachedMessages = client.getQueryData<InfiniteData<CursorPaginated<ChatMessage>>>(messagesQueryKey);
       const alreadySeen =
         seenMessageIds.current.has(message.id) ||
-        Boolean(
-          client
-            .getQueryData<InfiniteData<CursorPaginated<ChatMessage>>>(chatKeys.messages(conversationId))
-            ?.pages.some((page) => page.items.some((item) => item.id === message.id)),
-        );
-      if (alreadySeen) return;
-      seenMessageIds.current.add(message.id);
-      if (seenMessageIds.current.size > CHAT_SEEN_MESSAGE_CACHE_LIMIT) {
-        const oldestId = seenMessageIds.current.values().next().value;
-        if (oldestId) seenMessageIds.current.delete(oldestId);
+        Boolean(cachedMessages?.pages.some((page) => page.items.some((item) => item.id === message.id)));
+      if (message.senderUserId !== userId && message.type !== 'system' && !countedMessageIds.current.has(message.id)) {
+        rememberMessageId(countedMessageIds.current, message.id);
+        setNewCount((count) => count + 1);
       }
-      if (message.senderUserId !== userId && message.type !== 'system') setNewCount((count) => count + 1);
-      client.setQueryData<InfiniteData<CursorPaginated<ChatMessage>>>(chatKeys.messages(conversationId), (current) => {
-        if (!current?.pages.length) return current;
-        const [latest, ...older] = current.pages;
-        return latest.items.some((item) => item.id === message.id)
-          ? current
-          : { ...current, pages: [{ ...latest, items: [message, ...latest.items] }, ...older] };
-      });
+      if (alreadySeen) return;
+      rememberMessageId(seenMessageIds.current, message.id);
+      const historyHadData = client.getQueryData(messagesQueryKey) !== undefined;
+      const historyWasFetching = client.getQueryState(messagesQueryKey)?.fetchStatus === 'fetching';
+      if (historyWasFetching) {
+        void client.cancelQueries({ queryKey: messagesQueryKey }).then(() => {
+          upsertChatMessageCache(client, message);
+          void client.invalidateQueries({ queryKey: messagesQueryKey });
+        });
+      } else {
+        upsertChatMessageCache(client, message);
+        if (!historyHadData) void client.invalidateQueries({ queryKey: messagesQueryKey });
+      }
       if (message.type === 'system') {
         void client.invalidateQueries({ queryKey: CHAT_LIST_QUERY_KEY });
         void client.invalidateQueries({ queryKey: chatKeys.detail(conversationId) });
       }
+    };
+    const onMessageReceived = (payload: unknown) => {
+      if (!isSendMessageEvent(payload) || payload.conversationId !== conversationId) return;
+      const messagesQueryKey = chatKeys.messages(conversationId);
+      const cachedMessages = client.getQueryData<InfiniteData<CursorPaginated<ChatMessage>>>(messagesQueryKey);
+      const messageIsCached = Boolean(
+        cachedMessages?.pages.some((page) => page.items.some((item) => item.id === payload.messageId)),
+      );
+      logRealtimeDebug('info', 'receive chat:message-received in active conversation', {
+        conversationId,
+        messageId: payload.messageId,
+        messageIsCached,
+      });
+      if (payload.senderUserId !== userId && !countedMessageIds.current.has(payload.messageId)) {
+        rememberMessageId(countedMessageIds.current, payload.messageId);
+        setNewCount((count) => count + 1);
+      }
+      if (seenMessageIds.current.has(payload.messageId) || messageIsCached) return;
+      logRealtimeDebug('warn', 'active conversation message missing; refreshing history', {
+        conversationId,
+        messageId: payload.messageId,
+      });
+      void client.invalidateQueries({ queryKey: messagesQueryKey });
     };
     const onRevoked = (event: unknown) => {
       logRealtimeDebug('info', 'receive conversation:access-revoked', { conversationId });
@@ -142,6 +168,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
       }
     };
     socket.on(CHAT_SOCKET_EVENTS.MESSAGE_CREATED, onMessage);
+    socket.on(CHAT_SOCKET_EVENTS.MESSAGE_RECEIVED, onMessageReceived);
     socket.on(CHAT_SOCKET_EVENTS.ACCESS_REVOKED, onRevoked);
     socket.on(CHAT_SOCKET_EVENTS.READ_UPDATED, onReadUpdated);
     socket.on(REALTIME_SOCKET_EVENTS.SESSION_READY, joinConversation);
@@ -149,6 +176,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
       logRealtimeDebug('info', 'emit conversation:leave', { conversationId });
       socket.emit(CHAT_SOCKET_EVENTS.LEAVE, { conversationId });
       socket.off(CHAT_SOCKET_EVENTS.MESSAGE_CREATED, onMessage);
+      socket.off(CHAT_SOCKET_EVENTS.MESSAGE_RECEIVED, onMessageReceived);
       socket.off(CHAT_SOCKET_EVENTS.ACCESS_REVOKED, onRevoked);
       socket.off(CHAT_SOCKET_EVENTS.READ_UPDATED, onReadUpdated);
       socket.off(REALTIME_SOCKET_EVENTS.SESSION_READY, joinConversation);
@@ -181,10 +209,19 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
     currentMember,
     lastSequence,
     newCount,
+    currentUserId: userId,
     markLatestRead,
     setAtBottom: (value: boolean) => {
       atBottom.current = value;
     },
     retryLoad: () => void Promise.all([refetchDetail(), refetchHistory()]),
   };
+};
+
+const rememberMessageId = (messageIds: Set<string>, messageId: string) => {
+  messageIds.add(messageId);
+  if (messageIds.size > CHAT_SEEN_MESSAGE_CACHE_LIMIT) {
+    const oldestMessageId = messageIds.values().next().value;
+    if (oldestMessageId) messageIds.delete(oldestMessageId);
+  }
 };
