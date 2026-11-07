@@ -2,6 +2,7 @@ import axios, { type AxiosRequestConfig } from 'axios';
 import { http } from '@/lib/api/http';
 import type {
   MediaCompleteUploadResponseDto,
+  MediaDownloadUrlResponseDto,
   MediaPresignUploadRequestDto,
   MediaPresignUploadResponseDto,
 } from '../types/media.dto';
@@ -56,6 +57,19 @@ export const mediaApi = {
    */
   getBlob: (mediaId: string, options?: MediaRequestOptions) =>
     http.getBlob(`/media/${mediaId}`, { signal: options?.signal, skipErrorToast: true }),
+
+  /** Avoids an XHR redirect across the API and R2 origins, which sends Origin: null. */
+  getChatBlob: async (mediaId: string, options?: MediaRequestOptions): Promise<Blob> => {
+    const { url } = await http.get<MediaDownloadUrlResponseDto>(
+      `/media/${mediaId}/download-url`,
+      { signal: options?.signal, skipErrorToast: true },
+    );
+    const response = await axios.get<Blob>(url, {
+      responseType: 'blob',
+      signal: options?.signal,
+    });
+    return response.data;
+  },
 
   delete: (mediaId: string) => http.delete(`/media/${mediaId}`),
 };

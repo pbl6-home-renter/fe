@@ -84,3 +84,7 @@ export interface MediaCompleteUploadResponseDto {
   /** Absolute R2 URL for public purposes, `/api/v1/media/{id}` for private ones. */
   url: string;
 }
+
+export interface MediaDownloadUrlResponseDto {
+  url: string;
+}

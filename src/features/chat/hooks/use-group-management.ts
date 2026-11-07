@@ -51,7 +51,10 @@ export const useGroupManagement = ({
   );
   const candidates =
     directory.data?.pages.flatMap((page) => page.items).filter((person) => !activeUserIds.has(person.id)) ?? [];
-  const avatar = useMediaObjectUrl(conversation?.avatarMediaId ? `/media/${conversation.avatarMediaId}` : undefined);
+  const avatar = useMediaObjectUrl(
+    conversation?.avatarMediaId ? `/media/${conversation.avatarMediaId}` : undefined,
+    { signedDownload: true },
+  );
   const addMembers = useAddConversationMembersMutation({ onSuccess: () => setSelectedIds([]) });
   const leave = useLeaveConversationMutation({
     onSuccess: () => {
