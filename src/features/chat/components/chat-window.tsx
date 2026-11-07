@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, Settings2 } from 'lucide-react';
 import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
@@ -8,6 +9,7 @@ import { ChatMessageFeed } from './chat-message-feed';
 import { ChatComposer } from './chat-composer';
 import type { PendingMessage } from '../hooks/use-chat-composer';
 import type { SocketConnectionStatus } from '@/features/realtime/context/socket-session.context';
+import { GroupManagementDialog } from './group-management-dialog';
 
 interface ChatWindowProps {
   conversationId?: string;
@@ -36,6 +38,7 @@ export const ChatWindow = ({
 }: ChatWindowProps) => {
   const { t } = useTranslation('chat');
   const window = useChatWindow({ conversationId, draftName: draftRecipient?.name, connectionStatus });
+  const [manageOpen, setManageOpen] = useState(false);
 
   if (!conversationId && !draftRecipient)
     return (
@@ -71,7 +74,7 @@ export const ChatWindow = ({
         <IconButton className="md:hidden" aria-label={t('backToList')} onClick={onBack}>
           <ArrowLeft className="h-4 w-4" />
         </IconButton>
-        <Avatar name={window.title} size="sm" />
+        <Avatar src={window.avatarSrc} name={window.title} size="sm" />
         <div className="min-w-0">
           <h2 className="truncate text-sm font-semibold">{window.title}</h2>
           {window.detail.data?.kind === 'group' && (
@@ -83,6 +86,12 @@ export const ChatWindow = ({
         )}
         {connectionStatus === 'connecting' && (
           <span className="ml-auto text-xs text-rentify-neutral">{t('connecting')}</span>
+        )}
+        {conversationId && window.detail.data?.kind === 'group' && window.currentMember?.status === 'active' && (
+          <Button variant="ghost" size="sm" className="ml-auto" onClick={() => setManageOpen(true)}>
+            <Settings2 className="h-4 w-4" aria-hidden="true" />
+            {t('groupManagement.open')}
+          </Button>
         )}
       </header>
       <ChatMessageFeed
@@ -112,6 +121,15 @@ export const ChatWindow = ({
           isSending={isSending}
           onChange={onDraftChange}
           onSend={onSend}
+        />
+      )}
+      {manageOpen && conversationId && window.detail.data?.kind === 'group' && (
+        <GroupManagementDialog
+          conversationId={conversationId}
+          currentUserId={window.currentUserId}
+          open={manageOpen}
+          onClose={() => setManageOpen(false)}
+          onLeft={onBack}
         />
       )}
     </section>

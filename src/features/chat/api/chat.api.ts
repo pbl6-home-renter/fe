@@ -13,6 +13,11 @@ import type {
   SentMessage,
   UnreadSummary,
   UserDirectoryEntry,
+  ConversationMember,
+  UpdateConversationMetadataRequest,
+  AddConversationMembersRequest,
+  UpdateConversationMemberRoleRequest,
+  ConversationMetadataResponse,
 } from '../types/chat.dto';
 
 export interface ConversationListParams {
@@ -78,6 +83,20 @@ export const chatApi = {
       conversationId,
       lastReadSequence,
     }),
+
+  updateConversation: (id: string, body: UpdateConversationMetadataRequest) =>
+    http.patch<ConversationMetadataResponse>(CHAT_API_ROUTES.CONVERSATION(id), body),
+
+  addMembers: (id: string, body: AddConversationMembersRequest) =>
+    http.post<ConversationMember[]>(CHAT_API_ROUTES.MEMBERS(id), body),
+
+  updateMemberRole: (conversationId: string, userId: string, body: UpdateConversationMemberRoleRequest) =>
+    http.put<void>(CHAT_API_ROUTES.MEMBER_ROLE(conversationId, userId), body),
+
+  removeMember: (conversationId: string, userId: string) =>
+    http.delete<void>(CHAT_API_ROUTES.MEMBER(conversationId, userId)),
+
+  leaveConversation: (id: string) => http.delete<void>(CHAT_API_ROUTES.LEAVE(id)),
 };
 
 export type ConversationListPage = Paginated<ConversationSummary>;

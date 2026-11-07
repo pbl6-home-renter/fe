@@ -10,6 +10,7 @@ export const MediaOwnerType = {
   METER_READING: 'meter_reading',
   ISSUE_REPORT: 'issue_report',
   MESSAGE: 'message',
+  CONVERSATION: 'conversation',
 } as const;
 
 export type MediaOwnerType = (typeof MediaOwnerType)[keyof typeof MediaOwnerType];
@@ -26,6 +27,7 @@ export const MediaPurpose = {
   METER_READING_EVIDENCE: 'meter_reading_evidence',
   ISSUE_PHOTO: 'issue_photo',
   CHAT_ATTACHMENT: 'chat_attachment',
+  CONVERSATION_AVATAR: 'conversation_avatar',
 } as const;
 
 export type MediaPurpose = (typeof MediaPurpose)[keyof typeof MediaPurpose];

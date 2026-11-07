@@ -9,6 +9,7 @@ import viDashboard from './locales/vi/dashboard.json';
 import viRooms from './locales/vi/rooms.json';
 import viContracts from './locales/vi/contracts.json';
 import viChat from './locales/vi/chat.json';
+import viNotifications from './locales/vi/notifications.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
 import enMedia from './locales/en/media.json';
@@ -17,6 +18,7 @@ import enDashboard from './locales/en/dashboard.json';
 import enRooms from './locales/en/rooms.json';
 import enContracts from './locales/en/contracts.json';
 import enChat from './locales/en/chat.json';
+import enNotifications from './locales/en/notifications.json';
 
 export const defaultNS = 'common';
 export const resources = {
@@ -29,6 +31,7 @@ export const resources = {
     rooms: viRooms,
     contracts: viContracts,
     chat: viChat,
+    notifications: viNotifications,
   },
   en: {
     common: enCommon,
@@ -39,6 +42,7 @@ export const resources = {
     rooms: enRooms,
     contracts: enContracts,
     chat: enChat,
+    notifications: enNotifications,
   },
 } as const;
 

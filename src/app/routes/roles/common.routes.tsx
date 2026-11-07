@@ -4,6 +4,7 @@ import { DashboardPage } from '@/features/dashboard/pages/dashboard-page';
 import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-page';
 import { ROUTES } from '@/config/routes.config';
 import { ChatRoute } from '@/app/routes/chat-route';
+import { NotificationsPage } from '@/features/notifications/pages/notifications-page';
 
 export const commonRoutes: RouteObject[] = [
   {
@@ -66,7 +67,7 @@ export const commonRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.NOTIFICATIONS,
-    element: <DashboardOverview titleKey="routes.notifications.title" descKey="routes.notifications.desc" />,
+    element: <NotificationsPage />,
   },
   {
     path: ROUTES.PROFILE,

@@ -19,6 +19,7 @@ import { isSendMessageEvent } from '../utils/chat-message.guard';
 import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
 import { Avatar } from '@/components/ui/avatar';
 import { useNotify } from '@/lib/notifications/use-notify';
+import { useNotificationPreferencesQuery } from '@/features/notifications/hooks/use-notification-preferences-query';
 
 export const useChatRealtimeBridge = () => {
   const { socket, status } = useSocket();
@@ -28,6 +29,9 @@ export const useChatRealtimeBridge = () => {
   const location = useLocation();
   const { t } = useTranslation('chat');
   const notify = useNotify();
+  const notificationPreferences = useNotificationPreferencesQuery();
+  const chatNotificationsEnabled =
+    notificationPreferences.data?.find((preference) => preference.type === 'chat')?.pushEnabled === true;
   const seenMessageIds = useRef(new Set<string>());
 
   const hasConnected = useRef(false);
@@ -119,7 +123,7 @@ export const useChatRealtimeBridge = () => {
           });
         else void queryClient.invalidateQueries({ queryKey: CHAT_UNREAD_QUERY_KEY });
       }
-      if (!incoming || document.visibilityState !== 'visible') return;
+      if (!incoming || !chatNotificationsEnabled || document.visibilityState !== 'visible') return;
       if (location.pathname === getChatPath(payload.conversationId)) return;
       const preview = payload.type === 'image' ? t('photoSent') : payload.contentPreview;
       notify.custom(
@@ -166,7 +170,18 @@ export const useChatRealtimeBridge = () => {
     return () => {
       socket.off(CHAT_SOCKET_EVENTS.MESSAGE_RECEIVED, onMessage);
     };
-  }, [location.pathname, location.search, navigate, notify, queryClient, role, socket, t, user]);
+  }, [
+    chatNotificationsEnabled,
+    location.pathname,
+    location.search,
+    navigate,
+    notify,
+    queryClient,
+    role,
+    socket,
+    t,
+    user,
+  ]);
 
   useEffect(() => {
     if (!socket) return;

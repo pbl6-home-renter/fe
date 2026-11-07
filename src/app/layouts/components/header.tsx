@@ -1,20 +1,12 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  Menu,
-  Bell,
-  Globe,
-  Search,
-  ChevronRight,
-} from 'lucide-react';
+import { Menu, Bell, Globe, Search, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { ROUTES } from '@/config/routes.config';
 import { changeLanguage } from '@/i18n/i18n';
 import { UserMenuDropdown } from './user-menu-dropdown';
-import {
-  getNavigationByRole,
-  getPortalMetaByRole,
-} from '@/config/navigation.config';
+import { getNavigationByRole, getPortalMetaByRole } from '@/config/navigation.config';
+import { useUnreadNotificationsQuery } from '@/features/notifications/hooks/use-unread-notifications-query';
 
 export interface HeaderProps {
   onToggleSidebar: () => void;
@@ -29,6 +21,7 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
 
   const portalMeta = getPortalMetaByRole(role);
   const menuItems = getNavigationByRole(role);
+  const hasUnreadNotifications = useUnreadNotificationsQuery().data ?? false;
 
   const currentLanguage = i18n.language || 'vi';
 
@@ -47,8 +40,8 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
   const breadcrumbTitle = matchedMenuItem
     ? t(matchedMenuItem.titleKey)
     : pathSegments.length > 0
-    ? pathSegments[pathSegments.length - 1].toUpperCase()
-    : t('navigation.overview');
+      ? pathSegments[pathSegments.length - 1].toUpperCase()
+      : t('navigation.overview');
 
   return (
     <header className="sticky top-0 h-16 bg-white/95 backdrop-blur-xl border-b border-rentify-divider px-4 sm:px-6 flex items-center justify-between shrink-0 z-40 shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
@@ -65,17 +58,12 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
         </button>
 
         {/* Breadcrumb Navigation */}
-        <nav
-          aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-xs sm:text-sm"
-        >
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs sm:text-sm">
           <span className="text-rentify-text-secondary font-medium hidden sm:inline">
             {t(portalMeta.portalNameKey, portalMeta.fallbackPortalName)}
           </span>
           <ChevronRight className="w-3.5 h-3.5 text-rentify-neutral hidden sm:inline" />
-          <span className="font-bold text-rentify-text-primary tracking-tight">
-            {breadcrumbTitle}
-          </span>
+          <span className="font-bold text-rentify-text-primary tracking-tight">{breadcrumbTitle}</span>
         </nav>
       </div>
 
@@ -99,7 +87,9 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
           className="relative p-2 rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary transition-colors cursor-pointer"
         >
           <Bell className="w-4 h-4" />
-          <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-rentify-error ring-2 ring-white" />
+          {hasUnreadNotifications && (
+            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-rentify-error ring-2 ring-white" />
+          )}
         </button>
 
         {/* Language Switcher */}

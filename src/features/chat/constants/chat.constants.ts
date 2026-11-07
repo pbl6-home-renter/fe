@@ -24,6 +24,10 @@ export const CHAT_API_ROUTES = {
   MESSAGES: '/messages',
   MARK_READ: '/messages/mark-read',
   USER_DIRECTORY: '/users/directory',
+  MEMBERS: (id: string) => `/conversations/${id}/members`,
+  MEMBER_ROLE: (conversationId: string, userId: string) => `/conversations/${conversationId}/members/${userId}/role`,
+  MEMBER: (conversationId: string, userId: string) => `/conversations/${conversationId}/members/${userId}`,
+  LEAVE: (id: string) => `/conversations/${id}/members/me`,
 } as const;
 
 export const CHAT_SOCKET_EVENTS = {

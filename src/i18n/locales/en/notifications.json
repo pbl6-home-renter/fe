@@ -1,0 +1,21 @@
+{
+  "title": "Notifications",
+  "description": "Updates related to you.",
+  "loading": "Loading notifications...",
+  "loadError": "Couldn't load notifications.",
+  "loadMoreError": "Couldn't load more notifications.",
+  "retry": "Try again",
+  "loadMore": "Load more",
+  "empty": "You have no notifications yet.",
+  "emptyUnread": "No unread notifications.",
+  "markAllRead": "Mark all as read",
+  "filters": { "label": "Filter notifications", "all": "All", "unread": "Unread" },
+  "categories": { "chat": "Chat", "invoice": "Invoices", "issue": "Issues" },
+  "preferences": {
+    "button": "Notification settings",
+    "title": "Notification settings",
+    "description": "Choose which notification groups reach your devices and appear as in-app web alerts. Inbox notifications remain available when these channels are off.",
+    "pushFor": "Enabled",
+    "loadError": "Couldn't load notification settings."
+  }
+}

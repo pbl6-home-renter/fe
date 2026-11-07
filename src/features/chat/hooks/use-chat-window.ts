@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSocket } from '@/features/realtime/hooks/use-socket';
 import type { SocketConnectionStatus } from '@/features/realtime/context/socket-session.context';
 import { useAuthStore } from '@/stores/auth-store';
+import { useMediaObjectUrl } from '@/features/media/hooks/use-media-object-url-query';
+import { MEDIA_API_ROUTES } from '@/features/media/constants/media.constants';
 import { REALTIME_SOCKET_EVENTS } from '@/features/realtime/constants/realtime.constants';
 import {
   CHAT_LIST_QUERY_KEY,
@@ -38,6 +40,11 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
   const countedMessageIds = useRef(new Set<string>());
   const detail = useConversationQuery(conversationId);
   const history = useMessagesQuery(conversationId);
+  const avatar = useMediaObjectUrl(
+    detail.data?.kind === 'group' && detail.data.avatarMediaId
+      ? MEDIA_API_ROUTES.BY_ID(detail.data.avatarMediaId)
+      : undefined,
+  );
   const { refetch: refetchDetail } = detail;
   const { refetch: refetchHistory } = history;
   const { mutate: markReadMessage } = useMarkReadMutation();
@@ -206,6 +213,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
     history,
     messages,
     title,
+    avatarSrc: avatar.src,
     currentMember,
     lastSequence,
     newCount,

@@ -59,5 +59,26 @@
   "historyError": "Không thể tải lịch sử tin nhắn",
   "tryLoadAgain": "Thử tải lại",
   "loadOlder": "Tải tin cũ hơn",
-  "peopleError": "Không thể tải danh sách người dùng"
+  "peopleError": "Không thể tải danh sách người dùng",
+  "groupManagement": {
+    "open": "Quản lý nhóm",
+    "title": "Quản lý nhóm chat",
+    "loadError": "Không thể tải thông tin nhóm.",
+    "name": "Tên nhóm",
+    "save": "Lưu tên",
+    "changePhoto": "Đổi ảnh nhóm",
+    "removePhoto": "Gỡ ảnh",
+    "members": "Thành viên ({{count}})",
+    "admin": "Quản trị viên",
+    "promote": "Đặt làm quản trị viên",
+    "demote": "Đổi thành viên",
+    "remove": "Xóa thành viên",
+    "removeConfirm": "Xóa {{name}} khỏi nhóm?",
+    "confirmTitle": "Xác nhận thay đổi",
+    "confirm": "Xác nhận",
+    "leave": "Rời nhóm",
+    "leaveConfirm": "Bạn có chắc muốn rời nhóm này?",
+    "addMembers": "Thêm thành viên",
+    "addSelected": "Thêm {{count}} người"
+  }
 }

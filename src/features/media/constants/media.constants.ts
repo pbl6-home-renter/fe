@@ -92,6 +92,12 @@ export const MEDIA_PURPOSE_RULES: Readonly<Record<MediaPurpose, MediaPurposeRule
     contentTypes: IMAGE_AND_PDF_CONTENT_TYPES,
     visibility: 'private',
   },
+  [MediaPurpose.CONVERSATION_AVATAR]: {
+    ownerTypes: [MediaOwnerType.CONVERSATION],
+    contentTypes: IMAGE_CONTENT_TYPES,
+    visibility: 'private',
+    singlePerOwner: true,
+  },
 };
 
 /** Value for `<input type="file" accept>` of a purpose. */

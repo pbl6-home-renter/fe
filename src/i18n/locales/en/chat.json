@@ -59,5 +59,26 @@
   "historyError": "Couldn't load message history",
   "tryLoadAgain": "Try again",
   "loadOlder": "Load older messages",
-  "peopleError": "Couldn't load users"
+  "peopleError": "Couldn't load users",
+  "groupManagement": {
+    "open": "Manage group",
+    "title": "Manage group chat",
+    "loadError": "Couldn't load group details.",
+    "name": "Group name",
+    "save": "Save name",
+    "changePhoto": "Change group photo",
+    "removePhoto": "Remove photo",
+    "members": "Members ({{count}})",
+    "admin": "Admin",
+    "promote": "Make admin",
+    "demote": "Change to member",
+    "remove": "Remove member",
+    "removeConfirm": "Remove {{name}} from this group?",
+    "confirmTitle": "Confirm action",
+    "confirm": "Confirm",
+    "leave": "Leave group",
+    "leaveConfirm": "Are you sure you want to leave this group?",
+    "addMembers": "Add members",
+    "addSelected": "Add {{count}} people"
+  }
 }

@@ -97,6 +97,28 @@ export interface ConversationMember {
   leftAt: string | null;
 }
 
+export interface UpdateConversationMetadataRequest {
+  title?: string | null;
+  avatarMediaId?: string | null;
+}
+
+export interface ConversationMetadataResponse {
+  id: string;
+  kind: ConversationKind;
+  contextType: 'contract' | 'building' | null;
+  contextId: string | null;
+  title: string | null;
+  avatarMediaId: string | null;
+}
+
+export interface AddConversationMembersRequest {
+  userIds: string[];
+}
+
+export interface UpdateConversationMemberRoleRequest {
+  role: 'admin' | 'member';
+}
+
 export interface SentMessage {
   id: string;
   conversationId: string;

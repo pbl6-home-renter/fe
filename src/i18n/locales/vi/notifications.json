@@ -1,0 +1,21 @@
+{
+  "title": "Thông báo",
+  "description": "Các cập nhật liên quan đến bạn.",
+  "loading": "Đang tải thông báo...",
+  "loadError": "Không thể tải thông báo.",
+  "loadMoreError": "Không thể tải thêm thông báo.",
+  "retry": "Thử lại",
+  "loadMore": "Tải thêm",
+  "empty": "Bạn chưa có thông báo nào.",
+  "emptyUnread": "Không có thông báo chưa đọc.",
+  "markAllRead": "Đánh dấu tất cả đã đọc",
+  "filters": { "label": "Lọc thông báo", "all": "Tất cả", "unread": "Chưa đọc" },
+  "categories": { "chat": "Tin nhắn", "invoice": "Hóa đơn", "issue": "Sự cố" },
+  "preferences": {
+    "button": "Cài đặt thông báo",
+    "title": "Cài đặt thông báo",
+    "description": "Chọn nhóm thông báo muốn nhận qua push trên thiết bị và thông báo nổi trong Web. Inbox vẫn lưu thông báo khi tắt các kênh này.",
+    "pushFor": "Bật",
+    "loadError": "Không thể tải cài đặt thông báo."
+  }
+}
