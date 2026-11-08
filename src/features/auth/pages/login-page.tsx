@@ -12,23 +12,14 @@ import { useLoginForm } from '../forms/use-login-form';
 
 export const LoginPage = () => {
   const { t } = useTranslation('auth');
-  const {
-    register,
-    errors,
-    isSubmitting,
-    handleSubmit,
-  } = useLoginForm();
+  const { register, errors, isSubmitting, handleSubmit } = useLoginForm();
 
   return (
     <Card className="w-full max-w-[440px] p-8 md:p-10 shadow-spotlight rounded-hero">
       {/* Brand Logo & Header */}
       <div className="flex flex-col items-center text-center mb-8">
         <div className="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center p-2 mb-4 shadow-xs">
-          <img
-            src={landlordLogo}
-            alt="Rentify"
-            className="w-full h-full object-contain"
-          />
+          <img src={landlordLogo} alt="Rentify" className="w-full h-full object-contain" />
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-rentify-text-primary">{t('login')}</h1>
         <p className="text-sm text-rentify-text-secondary mt-1.5 leading-relaxed">{t('loginSubtitle')}</p>
@@ -49,7 +40,7 @@ export const LoginPage = () => {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
         <Input
           label={t('identifier')}
-          type="email"
+          type="text"
           placeholder={t('placeholders.identifier')}
           autoComplete="username"
           error={errors.identifier}
@@ -58,17 +49,15 @@ export const LoginPage = () => {
           {...register('identifier')}
         />
 
-        <div className="flex flex-col gap-1.5">
-          <PasswordInput
-            label={t('password')}
-            placeholder={t('placeholders.password')}
-            autoComplete="current-password"
-            error={errors.password}
-            disabled={isSubmitting}
-            required
-            {...register('password')}
-          />
-        </div>
+        <PasswordInput
+          label={t('password')}
+          placeholder={t('placeholders.password')}
+          autoComplete="current-password"
+          error={errors.password}
+          disabled={isSubmitting}
+          required
+          {...register('password')}
+        />
 
         <div className="flex items-center justify-between text-xs pt-0.5">
           <Checkbox

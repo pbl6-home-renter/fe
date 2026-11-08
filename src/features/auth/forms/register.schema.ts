@@ -7,12 +7,7 @@ export type RegisterRole = typeof Role.TENANT | typeof Role.LANDLORD;
 export const registerSchema = z
   .object({
     role: z.enum([Role.TENANT, Role.LANDLORD] as const),
-    name: z
-      .string()
-      .trim()
-      .min(1, AUTH_VALIDATION_KEYS.NAME_REQUIRED)
-      .min(2, AUTH_VALIDATION_KEYS.NAME_MIN)
-      .max(254),
+    name: z.string().trim().min(1, AUTH_VALIDATION_KEYS.NAME_REQUIRED).min(2, AUTH_VALIDATION_KEYS.NAME_MIN).max(254),
     phone: z
       .string()
       .trim()
@@ -28,7 +23,10 @@ export const registerSchema = z
     password: z
       .string()
       .min(1, AUTH_VALIDATION_KEYS.PASSWORD_REQUIRED)
-      .min(6, AUTH_VALIDATION_KEYS.PASSWORD_MIN),
+      .min(8, AUTH_VALIDATION_KEYS.PASSWORD_MIN)
+      .regex(/[a-z]/, AUTH_VALIDATION_KEYS.PASSWORD_LOWERCASE)
+      .regex(/[A-Z]/, AUTH_VALIDATION_KEYS.PASSWORD_UPPERCASE)
+      .regex(/[0-9]/, AUTH_VALIDATION_KEYS.PASSWORD_NUMBER),
     confirmPassword: z.string().min(1, AUTH_VALIDATION_KEYS.CONFIRM_PASSWORD_REQUIRED),
   })
   .refine((data) => data.password === data.confirmPassword, {

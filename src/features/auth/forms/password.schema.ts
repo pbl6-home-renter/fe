@@ -20,7 +20,10 @@ export const resetPasswordSchema = z
     newPassword: z
       .string()
       .min(1, AUTH_VALIDATION_KEYS.PASSWORD_REQUIRED)
-      .min(6, AUTH_VALIDATION_KEYS.PASSWORD_MIN),
+      .min(8, AUTH_VALIDATION_KEYS.PASSWORD_MIN)
+      .regex(/[a-z]/, AUTH_VALIDATION_KEYS.PASSWORD_LOWERCASE)
+      .regex(/[A-Z]/, AUTH_VALIDATION_KEYS.PASSWORD_UPPERCASE)
+      .regex(/[0-9]/, AUTH_VALIDATION_KEYS.PASSWORD_NUMBER),
     confirmPassword: z.string().min(1, AUTH_VALIDATION_KEYS.CONFIRM_PASSWORD_REQUIRED),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
@@ -35,8 +38,11 @@ export const changePasswordSchema = z
     currentPassword: z.string().min(1, AUTH_VALIDATION_KEYS.CURRENT_PASSWORD_REQUIRED),
     newPassword: z
       .string()
-      .min(1, AUTH_VALIDATION_KEYS.NEW_PASSWORD_REQUIRED)
-      .min(6, AUTH_VALIDATION_KEYS.PASSWORD_MIN),
+      .min(1, AUTH_VALIDATION_KEYS.PASSWORD_REQUIRED)
+      .min(8, AUTH_VALIDATION_KEYS.PASSWORD_MIN)
+      .regex(/[a-z]/, AUTH_VALIDATION_KEYS.PASSWORD_LOWERCASE)
+      .regex(/[A-Z]/, AUTH_VALIDATION_KEYS.PASSWORD_UPPERCASE)
+      .regex(/[0-9]/, AUTH_VALIDATION_KEYS.PASSWORD_NUMBER),
     confirmPassword: z.string().min(1, AUTH_VALIDATION_KEYS.CONFIRM_PASSWORD_REQUIRED),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {

@@ -4,6 +4,10 @@
   "createContract": "Tạo hợp đồng",
   "editContract": "Sửa hợp đồng",
   "editVehicleAndNotes": "Sửa số xe & ghi chú",
+  "actions": {
+    "cancel": "Hủy",
+    "checkout": "Trả phòng"
+  },
   "status": {
     "draft": "Bản nháp",
     "signed": "Đã ký",
@@ -11,6 +15,74 @@
     "suspended": "Tạm dừng",
     "expired": "Hết hạn",
     "terminated": "Đã chấm dứt"
+  },
+  "roomStatus": {
+    "available": "Còn trống",
+    "occupied": "Đang thuê",
+    "maintenance": "Bảo trì",
+    "cleaning": "Đang dọn dẹp",
+    "pending_cleanup": "Chờ dọn dẹp"
+  },
+  "tabs": {
+    "documents": "Tài liệu hợp đồng",
+    "members": "Thành viên"
+  },
+  "members": {
+    "title": "Thành viên hợp đồng",
+    "description": "Danh sách người ở cùng và lịch sử thành viên trong hợp đồng",
+    "addBtn": "Thêm thành viên",
+    "addTitle": "Thêm người ở ghép",
+    "submitAdd": "Thêm thành viên",
+    "nameLabel": "Họ và tên",
+    "namePlaceholder": "Ví dụ: Trần Thị B",
+    "phoneLabel": "Số điện thoại",
+    "phonePlaceholder": "09xxxxxxxx hoặc +84xxxxxxxx",
+    "joinedAtLabel": "Ngày vào ở",
+    "notActiveNotice": "Hợp đồng chưa hiệu lực",
+    "notActiveDesc": "Chỉ có thể thêm hoặc ghi nhận rời đi khi hợp đồng đang ở trạng thái Đang hiệu lực (Active).",
+    "activeGroup": "Đang ở",
+    "leftGroup": "Đã rời",
+    "emptyActiveTitle": "Chưa có thành viên nào khác",
+    "emptyActiveDesc": "Bấm nút Thêm thành viên để ghi nhận người ở cùng vào hợp đồng này.",
+    "joinedDate": "Vào ở từ",
+    "leaveBtn": "Rời đi",
+    "leaveTitle": "Ghi nhận thành viên rời đi",
+    "leftDateLabel": "Ngày rời đi",
+    "submitLeave": "Xác nhận rời đi",
+    "leftBadge": "Đã rời",
+    "stayDuration": "Ở từ {{from}} đến {{to}}"
+  },
+  "checkout": {
+    "title": "Trả phòng (Checkout)",
+    "guidanceTitle": "Điều kiện trả phòng",
+    "guidanceDesc": "Cần phát hành hóa đơn của kỳ chứa ngày trả phòng; tiền đền bù/chênh lệch phát sinh thêm vào phí khác của hóa đơn đó.",
+    "completedOnLabel": "Ngày trả phòng",
+    "submitBtn": "Xác nhận trả phòng",
+    "settlementNotReadyTitle": "Kỳ hóa đơn chưa sẵn sàng quyết toán",
+    "settlementNotReadyDesc": "Hóa đơn kỳ {{period}} chưa được phát hành. Vui lòng phát hành hóa đơn của kỳ này trước khi hoàn tất thủ tục trả phòng.",
+    "openInvoiceBtn": "Mở hóa đơn kỳ {{period}}"
+  },
+  "markReady": {
+    "btn": "Sẵn sàng cho thuê",
+    "title": "Xác nhận phòng sẵn sàng cho thuê",
+    "desc": "Xác nhận phòng {{room}} đã hoàn tất dọn dẹp/bảo trì và sẵn sàng đón khách thuê mới?",
+    "consequence": "Trạng thái phòng sẽ chuyển từ Bảo trì (Maintenance) sang Còn trống (Available).",
+    "confirmBtn": "Xác nhận sẵn sàng"
+  },
+  "errors": {
+    "tenantNameRequired": "Vui lòng nhập họ và tên",
+    "tenantNameTooLong": "Họ tên không được vượt quá 254 ký tự",
+    "phoneInvalid": "Số điện thoại không hợp lệ (10 số bắt đầu bằng 0 hoặc +84)",
+    "joinedAtRequired": "Vui lòng chọn ngày vào ở",
+    "leftOnRequired": "Vui lòng chọn ngày rời đi",
+    "completedOnRequired": "Vui lòng chọn ngày trả phòng",
+    "memberAlreadyExists": "Số điện thoại này đã có trong hợp đồng",
+    "leftDateBeforeJoined": "Ngày rời đi không được trước ngày vào ở",
+    "leftDateAfterEnd": "Ngày rời đi không được sau ngày kết thúc hợp đồng",
+    "leftDateInvalid": "Ngày rời đi không hợp lệ",
+    "checkoutBeforeStart": "Ngày trả phòng không được trước ngày bắt đầu hợp đồng",
+    "checkoutFutureDate": "Ngày trả phòng không được ở tương lai",
+    "checkoutDateInvalid": "Ngày trả phòng không hợp lệ"
   },
   "filter": {
     "all": "Tất cả",
@@ -134,7 +206,11 @@
     "CONTRACT_UPDATED": "Cập nhật hợp đồng thành công",
     "CONTRACT_TEMPLATE_APPLIED": "Áp mẫu hợp đồng thành công",
     "CONTRACT_DRAFT_GENERATED": "Sinh tài liệu nháp thành công",
-    "CONTRACT_ACTIVATED": "Kích hoạt hợp đồng thành công"
+    "CONTRACT_ACTIVATED": "Kích hoạt hợp đồng thành công",
+    "CONTRACT_MEMBER_ADDED": "Thêm thành viên thành công",
+    "CONTRACT_MEMBER_LEFT": "Ghi nhận thành viên rời đi thành công",
+    "CONTRACT_CHECKOUT_COMPLETED": "Hoàn tất thủ tục trả phòng thành công",
+    "ROOM_MARKED_READY": "Chuyển trạng thái phòng sang sẵn sàng thành công"
   },
   "apiErrors": {
     "ACTIVE_CONTRACT_EXISTS": "Phòng này hiện đã có hợp đồng đang hiệu lực",
@@ -143,6 +219,13 @@
     "SIGNED_FILE_MISSING": "Vui lòng tải lên bản hợp đồng đã ký trước khi kích hoạt",
     "TEMPLATE_NOT_FOUND": "Không tìm thấy mẫu hợp đồng",
     "TEMPLATE_DATA_INVALID": "Thông tin hợp đồng chưa đủ để sinh tài liệu mẫu",
-    "CONTRACT_NOT_FOUND": "Không tìm thấy hợp đồng"
+    "CONTRACT_NOT_FOUND": "Không tìm thấy hợp đồng",
+    "MEMBER_ALREADY_EXISTS": "Số điện thoại này đã tồn tại trong danh sách thành viên hợp đồng",
+    "MEMBER_ALREADY_LEFT": "Thành viên này đã rời khỏi hợp đồng trước đó",
+    "LEFT_DATE_INVALID": "Ngày rời đi không hợp lệ so với thời hạn hợp đồng",
+    "CONTRACT_NOT_ACTIVE": "Chỉ có thể thao tác khi hợp đồng đang hiệu lực",
+    "SETTLEMENT_NOT_READY": "Hóa đơn kỳ trả phòng chưa được phát hành",
+    "CONTRACT_ID_REQUIRED": "Thiếu mã hợp đồng",
+    "INVALID_ROOM_TRANSITION": "Không thể chuyển trạng thái phòng"
   }
 }

@@ -4,6 +4,10 @@
   "createContract": "Create contract",
   "editContract": "Edit contract",
   "editVehicleAndNotes": "Edit vehicle & notes",
+  "actions": {
+    "cancel": "Cancel",
+    "checkout": "Checkout"
+  },
   "status": {
     "draft": "Draft",
     "signed": "Signed",
@@ -11,6 +15,74 @@
     "suspended": "Suspended",
     "expired": "Expired",
     "terminated": "Terminated"
+  },
+  "roomStatus": {
+    "available": "Available",
+    "occupied": "Occupied",
+    "maintenance": "Maintenance",
+    "cleaning": "Cleaning",
+    "pending_cleanup": "Pending cleanup"
+  },
+  "tabs": {
+    "documents": "Contract documents",
+    "members": "Members"
+  },
+  "members": {
+    "title": "Contract members",
+    "description": "List of roommates and member history under this contract",
+    "addBtn": "Add member",
+    "addTitle": "Add roommate",
+    "submitAdd": "Add member",
+    "nameLabel": "Full name",
+    "namePlaceholder": "e.g. Jane Doe",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "09xxxxxxxx or +84xxxxxxxx",
+    "joinedAtLabel": "Move-in date",
+    "notActiveNotice": "Contract is not active",
+    "notActiveDesc": "Roommates can only be added or recorded as departed when the contract is Active.",
+    "activeGroup": "Active roommates",
+    "leftGroup": "Departed members",
+    "emptyActiveTitle": "No other roommates yet",
+    "emptyActiveDesc": "Click Add member to record roommates staying under this contract.",
+    "joinedDate": "Moved in",
+    "leaveBtn": "Leave",
+    "leaveTitle": "Record member departure",
+    "leftDateLabel": "Departure date",
+    "submitLeave": "Confirm departure",
+    "leftBadge": "Departed",
+    "stayDuration": "Stayed from {{from}} to {{to}}"
+  },
+  "checkout": {
+    "title": "Checkout room",
+    "guidanceTitle": "Checkout conditions",
+    "guidanceDesc": "The invoice for the billing period containing the checkout date must be issued; any compensations or adjustments should be added to other fees of that invoice.",
+    "completedOnLabel": "Checkout date",
+    "submitBtn": "Confirm checkout",
+    "settlementNotReadyTitle": "Billing period invoice is not ready",
+    "settlementNotReadyDesc": "Invoice for period {{period}} has not been issued yet. Please issue this invoice before completing checkout.",
+    "openInvoiceBtn": "Open invoice for period {{period}}"
+  },
+  "markReady": {
+    "btn": "Mark ready",
+    "title": "Confirm room ready for lease",
+    "desc": "Confirm that room {{room}} has completed cleaning/maintenance and is ready for new tenants?",
+    "consequence": "The room status will transition from Maintenance to Available.",
+    "confirmBtn": "Confirm ready"
+  },
+  "errors": {
+    "tenantNameRequired": "Please enter full name",
+    "tenantNameTooLong": "Name must not exceed 254 characters",
+    "phoneInvalid": "Invalid phone number format (10 digits starting with 0 or +84)",
+    "joinedAtRequired": "Please select move-in date",
+    "leftOnRequired": "Please select departure date",
+    "completedOnRequired": "Please select checkout date",
+    "memberAlreadyExists": "This phone number is already registered in the contract",
+    "leftDateBeforeJoined": "Departure date cannot be earlier than move-in date",
+    "leftDateAfterEnd": "Departure date cannot be after contract end date",
+    "leftDateInvalid": "Departure date is invalid",
+    "checkoutBeforeStart": "Checkout date cannot be earlier than contract start date",
+    "checkoutFutureDate": "Checkout date cannot be in the future",
+    "checkoutDateInvalid": "Checkout date is invalid"
   },
   "filter": {
     "all": "All",
@@ -134,7 +206,11 @@
     "CONTRACT_UPDATED": "Contract updated successfully",
     "CONTRACT_TEMPLATE_APPLIED": "Contract template applied successfully",
     "CONTRACT_DRAFT_GENERATED": "Draft document generated successfully",
-    "CONTRACT_ACTIVATED": "Contract activated successfully"
+    "CONTRACT_ACTIVATED": "Contract activated successfully",
+    "CONTRACT_MEMBER_ADDED": "Member added successfully",
+    "CONTRACT_MEMBER_LEFT": "Member departure recorded successfully",
+    "CONTRACT_CHECKOUT_COMPLETED": "Checkout completed successfully",
+    "ROOM_MARKED_READY": "Room marked ready successfully"
   },
   "apiErrors": {
     "ACTIVE_CONTRACT_EXISTS": "An active contract already exists for this room",
@@ -143,6 +219,13 @@
     "SIGNED_FILE_MISSING": "Please upload the signed contract file before activating",
     "TEMPLATE_NOT_FOUND": "Contract template not found",
     "TEMPLATE_DATA_INVALID": "Contract data is insufficient to generate template document",
-    "CONTRACT_NOT_FOUND": "Contract not found"
+    "CONTRACT_NOT_FOUND": "Contract not found",
+    "MEMBER_ALREADY_EXISTS": "This phone number already exists in the contract member list",
+    "MEMBER_ALREADY_LEFT": "This member has already left the contract",
+    "LEFT_DATE_INVALID": "Departure date is invalid for the contract duration",
+    "CONTRACT_NOT_ACTIVE": "Actions can only be performed when contract is active",
+    "SETTLEMENT_NOT_READY": "Checkout period invoice has not been issued yet",
+    "CONTRACT_ID_REQUIRED": "Contract ID is required",
+    "INVALID_ROOM_TRANSITION": "Invalid room status transition"
   }
 }

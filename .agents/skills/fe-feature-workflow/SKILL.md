@@ -3,7 +3,7 @@ name: fe-feature-workflow
 description: Step-by-step workflow for building a feature or screen in the Rentify landlord web (fe/) — from the pm issue and the api-docs contract, through DTOs, api, query keys, hooks, forms, components, routes, menu and i18n, to verification and the pull request. Use when starting a pm/phase-N issue that touches fe/, when adding a new screen or CRUD flow, or when asked to "implement" something in fe/.
 license: Apache-2.0
 metadata:
-  version: "1.0.0"
+  version: '1.0.0'
   category: workflow
   author: Rentify FE
 ---
@@ -35,16 +35,17 @@ git switch -c feat/<issue-id>-<slug>     # vd feat/p6-03c-room-list
 ## Bước 2 — Tầng dữ liệu (từ dưới lên)
 
 1. `types/<f>.dto.ts`: chép DTO từ api-docs, giữ nguyên tên field.
-2. `api/<f>.api.ts`: hàm gọi qua `http.get / getPage / post / put / patch / delete`. Endpoint chỉ gọi từ form thì đặt `skipErrorToast`.
+2. `api/<f>.api.ts`: hàm gọi qua `http.get / getPage / post / put / patch / delete`. Không gán `skipErrorToast: true` vô cớ (chỉ dùng khi background fetch không cần báo lỗi).
 3. `constants/<f>.constants.ts`: `<F>_QUERY_KEYS` (`ALL`, `LIST(params)`, `DETAIL(id)`).
-4. `hooks/`: một file cho mỗi query/mutation. Mutation invalidate `ALL`.
+4. `hooks/`: một file cho mỗi query/mutation. Query nhận ID non-nullable (`string`), không hardcode `pageSize` (nhận `params?: ListParams`). Mutation invalidate `ALL`.
 5. Namespace mới → khai báo ở `src/i18n/i18n.d.ts` và `API_CODE_NAMESPACES`; thêm `apiSuccess.<CODE>` / `apiErrors.<CODE>` cho các mã backend trả về.
 
 ## Bước 3 — Form (nếu có)
 
-1. `forms/<noun>.schema.ts`: Zod + `z.infer`; message là i18n key.
-2. `forms/use-<noun>-form.ts`: `useForm` + mutation + đóng dialog/điều hướng khi thành công; lỗi 422 → `setFormApiErrors`.
+1. `forms/<noun>.schema.ts`: Zod schema (`forms/` CHỈ chứa schema, không chứa hook).
+2. `hooks/use-<noun>-form.ts`: `useForm` + mutation + đóng dialog/điều hướng khi thành công. Client-side validate thoải mái trên FE; response lỗi từ API do hệ thống Toast xử lý (`useNotify()` hoặc `apiClient` interceptor), tuyệt đối không dùng `form.setError` hay `setFormApiErrors`.
 3. Tạo và sửa dùng chung schema và component form khi có thể.
+4. Form thêm người dùng/thành viên liên kết: luôn hỗ trợ 2 chế độ (chọn tài khoản hệ thống + tự điền SĐT; và nhập tay thủ công).
 
 ## Bước 4 — Giao diện
 
@@ -89,18 +90,23 @@ Không viết file `*.test.ts` (dự án không dùng test ở fe).
 
 ```markdown
 ## Tóm tắt
+
 <màn hình/luồng gì, cho ai, issue nào (P6-xx)>
 
 ## Thay đổi chính
+
 - …
 
 ## Ảnh chụp
+
 <desktop + mobile>
 
 ## Còn tồn đọng
+
 <phụ thuộc backend, giới hạn đã biết>
 
 ## Kiểm thử
+
 - [x] npm run build / lint / i18n:check
 - [ ] <các bước test tay>
 ```
