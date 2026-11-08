@@ -10,6 +10,7 @@ import viContracts from './locales/vi/contracts.json';
 import viChat from './locales/vi/chat.json';
 import viNotifications from './locales/vi/notifications.json';
 import viMeterReadings from './locales/vi/meterReadings.json';
+import viUsers from './locales/vi/users.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
 import enMedia from './locales/en/media.json';
@@ -20,6 +21,7 @@ import enContracts from './locales/en/contracts.json';
 import enChat from './locales/en/chat.json';
 import enNotifications from './locales/en/notifications.json';
 import enMeterReadings from './locales/en/meterReadings.json';
+import enUsers from './locales/en/users.json';
 
 export const defaultNS = 'common';
 export const resources = {
@@ -34,6 +36,7 @@ export const resources = {
     chat: viChat,
     notifications: viNotifications,
     meterReadings: viMeterReadings,
+    users: viUsers,
   },
   en: {
     common: enCommon,
@@ -46,6 +49,7 @@ export const resources = {
     chat: enChat,
     notifications: enNotifications,
     meterReadings: enMeterReadings,
+    users: enUsers,
   },
 } as const;
 

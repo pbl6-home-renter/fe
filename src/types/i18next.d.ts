@@ -9,6 +9,7 @@ import viContracts from '@/i18n/locales/vi/contracts.json';
 import viChat from '@/i18n/locales/vi/chat.json';
 import viNotifications from '@/i18n/locales/vi/notifications.json';
 import viMeterReadings from '@/i18n/locales/vi/meterReadings.json';
+import viUsers from '@/i18n/locales/vi/users.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -24,6 +25,7 @@ declare module 'i18next' {
       chat: typeof viChat;
       notifications: typeof viNotifications;
       meterReadings: typeof viMeterReadings;
+      users: typeof viUsers;
     };
   }
 }

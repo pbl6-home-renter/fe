@@ -1,0 +1,137 @@
+{
+  "list": {
+    "title": "Quản lý người dùng",
+    "subtitle": "Tra cứu, cập nhật thông tin và kiểm soát trạng thái tài khoản người dùng",
+    "totalBadge": "{{count}} người dùng"
+  },
+  "detail": {
+    "personalInfoTitle": "Thông tin cá nhân",
+    "activityTitle": "Hoạt động & Trạng thái hệ thống",
+    "managedBuildings": "Tòa nhà quản lý",
+    "activeContracts": "Hợp đồng đang hiệu lực",
+    "payoutAccountTitle": "Tài khoản nhận tiền (Payout Account)",
+    "bankCode": "Ngân hàng",
+    "accountNumber": "Số tài khoản",
+    "accountName": "Tên chủ tài khoản",
+    "lockDetailsTitle": "Chi tiết khóa tài khoản",
+    "lockedAt": "Thời điểm khóa",
+    "noLockReason": "Không có lý do cụ thể",
+    "accountInGoodStandingTitle": "Tài khoản đang hoạt động bình thường",
+    "accountInGoodStandingDesc": "Người dùng có thể đăng nhập và sử dụng đầy đủ các tính năng theo vai trò.",
+    "notFoundTitle": "Không tìm thấy người dùng",
+    "notFoundDesc": "Tài khoản không tồn tại hoặc đã bị xóa khỏi hệ thống.",
+    "backToList": "Quay lại danh sách"
+  },
+  "fields": {
+    "name": "Họ và tên",
+    "namePlaceholder": "Nhập họ và tên...",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "Nhập số điện thoại (ví dụ: 0901234567)...",
+    "role": "Vai trò",
+    "status": "Trạng thái",
+    "lockReason": "Lý do khóa tài khoản",
+    "lockReasonPlaceholder": "Nhập lý do khóa tài khoản vi phạm...",
+    "lockReasonHelper": "Tối đa 500 ký tự. Lý do sẽ được lưu vào lịch sử tài khoản."
+  },
+  "roles": {
+    "admin": "Quản trị viên",
+    "landlord": "Chủ nhà",
+    "tenant": "Khách thuê"
+  },
+  "status": {
+    "active": "Đang hoạt động",
+    "locked": "Bị khóa"
+  },
+  "filters": {
+    "searchPlaceholder": "Tìm kiếm theo tên, email, số điện thoại...",
+    "allRoles": "Tất cả vai trò",
+    "allStatuses": "Tất cả trạng thái",
+    "reset": "Đặt lại bộ lọc"
+  },
+  "columns": {
+    "name": "Người dùng",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "role": "Vai trò",
+    "status": "Trạng thái",
+    "actions": "Thao tác"
+  },
+  "actions": {
+    "more": "Thao tác",
+    "viewDetail": "Xem chi tiết",
+    "edit": "Chỉnh sửa",
+    "lock": "Khóa tài khoản",
+    "unlock": "Mở khóa",
+    "delete": "Xóa tài khoản",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "retry": "Thử lại",
+    "close": "Đóng"
+  },
+  "dialogs": {
+    "detail": {
+      "title": "Thông tin chi tiết người dùng",
+      "openFullPage": "Xem trang riêng"
+    },
+    "edit": {
+      "title": "Chỉnh sửa thông tin người dùng",
+      "description": "Cập nhật họ tên và số điện thoại cho tài khoản {{email}}"
+    },
+    "lock": {
+      "title": "Khóa tài khoản người dùng",
+      "description": "Bạn có chắc chắn muốn khóa tài khoản {{name}} ({{email}}) không?",
+      "warningTitle": "Cảnh báo truy cập",
+      "warningDescription": "Khi bị khóa, người dùng sẽ không thể đăng nhập hoặc thực hiện bất kỳ giao dịch nào trên hệ thống.",
+      "confirmButton": "Khóa tài khoản"
+    },
+    "unlock": {
+      "title": "Mở khóa tài khoản",
+      "description": "Xác nhận mở khóa cho người dùng {{name}} ({{email}})?",
+      "message": "Người dùng sẽ có thể đăng nhập và tiếp tục sử dụng hệ thống bình thường.",
+      "confirmButton": "Mở khóa tài khoản"
+    },
+    "delete": {
+      "title": "Xóa tài khoản người dùng",
+      "description": "Xác nhận xóa tài khoản {{name}} ({{email}})?",
+      "warningTitle": "Hành động quan trọng",
+      "warningDescription": "Tài khoản sẽ bị xóa mềm khỏi hệ thống. Nếu người dùng đang có hợp đồng thuê hiệu lực, yêu cầu xóa sẽ bị từ chối.",
+      "message": "Vui lòng kiểm tra kỹ trước khi tiếp tục.",
+      "confirmButton": "Xóa tài khoản"
+    }
+  },
+  "empty": {
+    "title": "Chưa có người dùng nào",
+    "description": "Chưa có tài khoản người dùng nào được tạo trong hệ thống.",
+    "filteredTitle": "Không tìm thấy người dùng",
+    "filteredDescription": "Không có tài khoản nào khớp với từ khóa tìm kiếm hoặc bộ lọc hiện tại."
+  },
+  "validations": {
+    "nameRequired": "Vui lòng nhập họ và tên",
+    "nameMin": "Họ và tên phải có ít nhất 2 ký tự",
+    "nameMax": "Họ và tên không được vượt quá 254 ký tự",
+    "phoneRequired": "Vui lòng nhập số điện thoại",
+    "phoneInvalid": "Số điện thoại không hợp lệ (ví dụ: 0901234567 hoặc +84901234567)",
+    "lockReasonRequired": "Vui lòng nhập lý do khóa tài khoản",
+    "lockReasonMax": "Lý do khóa không được vượt quá 500 ký tự"
+  },
+  "apiSuccess": {
+    "USER_LIST_FETCHED": "Tải danh sách người dùng thành công",
+    "USER_DETAIL_FETCHED": "Tải thông tin người dùng thành công",
+    "USER_UPDATED": "Cập nhật thông tin người dùng thành công",
+    "USER_ACCOUNT_LOCKED": "Đã khóa tài khoản người dùng thành công",
+    "USER_ACCOUNT_UNLOCKED": "Đã mở khóa tài khoản người dùng thành công"
+  },
+  "apiErrors": {
+    "USER_NOT_FOUND": "Không tìm thấy người dùng trong hệ thống",
+    "USER_LOCK_CANNOT_SELF": "Bạn không thể tự khóa tài khoản của chính mình",
+    "USER_LOCK_ALREADY_LOCKED": "Tài khoản này đã bị khóa từ trước",
+    "LOCK_REASON_REQUIRED": "Bắt buộc phải nhập lý do khóa tài khoản",
+    "USER_UNLOCK_NOT_LOCKED": "Tài khoản này hiện không bị khóa",
+    "USER_DELETE_CANNOT_SELF": "Bạn không thể tự xóa tài khoản của chính mình",
+    "USER_DELETE_ALREADY_DELETED": "Tài khoản này đã bị xóa từ trước",
+    "USER_DELETE_HAS_ACTIVE_CONTRACT": "Không thể xóa: người dùng đang có hợp đồng thuê còn hiệu lực",
+    "DUPLICATE_PHONE": "Số điện thoại này đã được đăng ký bởi tài khoản khác",
+    "FORBIDDEN": "Bạn không có quyền thực hiện thao tác này"
+  }
+}

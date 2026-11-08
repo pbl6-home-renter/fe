@@ -1,0 +1,137 @@
+{
+  "list": {
+    "title": "User Management",
+    "subtitle": "Search, update profile, and manage user account statuses",
+    "totalBadge": "{{count}} users"
+  },
+  "detail": {
+    "personalInfoTitle": "Personal Information",
+    "activityTitle": "Activity & System Status",
+    "managedBuildings": "Managed Buildings",
+    "activeContracts": "Active Contracts",
+    "payoutAccountTitle": "Payout Account",
+    "bankCode": "Bank Code",
+    "accountNumber": "Account Number",
+    "accountName": "Account Holder",
+    "lockDetailsTitle": "Account Lock Details",
+    "lockedAt": "Locked At",
+    "noLockReason": "No reason specified",
+    "accountInGoodStandingTitle": "Account is in Good Standing",
+    "accountInGoodStandingDesc": "The user can log in and access all authorized features.",
+    "notFoundTitle": "User Not Found",
+    "notFoundDesc": "The account does not exist or has been deleted.",
+    "backToList": "Back to User List"
+  },
+  "fields": {
+    "name": "Full Name",
+    "namePlaceholder": "Enter full name...",
+    "email": "Email",
+    "phone": "Phone Number",
+    "phonePlaceholder": "Enter phone number...",
+    "role": "Role",
+    "status": "Status",
+    "lockReason": "Lock Reason",
+    "lockReasonPlaceholder": "Enter reason for locking account...",
+    "lockReasonHelper": "Maximum 500 characters. Reason will be recorded in account history."
+  },
+  "roles": {
+    "admin": "Administrator",
+    "landlord": "Landlord",
+    "tenant": "Tenant"
+  },
+  "status": {
+    "active": "Active",
+    "locked": "Locked"
+  },
+  "filters": {
+    "searchPlaceholder": "Search by name, email, phone...",
+    "allRoles": "All roles",
+    "allStatuses": "All statuses",
+    "reset": "Reset filters"
+  },
+  "columns": {
+    "name": "User",
+    "email": "Email",
+    "phone": "Phone Number",
+    "role": "Role",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "actions": {
+    "more": "More actions",
+    "viewDetail": "View details",
+    "edit": "Edit",
+    "lock": "Lock account",
+    "unlock": "Unlock account",
+    "delete": "Delete account",
+    "cancel": "Cancel",
+    "save": "Save",
+    "retry": "Retry",
+    "close": "Close"
+  },
+  "dialogs": {
+    "detail": {
+      "title": "User Details",
+      "openFullPage": "Open dedicated page"
+    },
+    "edit": {
+      "title": "Edit User Information",
+      "description": "Update name and phone number for {{email}}"
+    },
+    "lock": {
+      "title": "Lock User Account",
+      "description": "Are you sure you want to lock account {{name}} ({{email}})?",
+      "warningTitle": "Access Warning",
+      "warningDescription": "Once locked, the user will not be able to log in or perform any actions.",
+      "confirmButton": "Lock Account"
+    },
+    "unlock": {
+      "title": "Unlock User Account",
+      "description": "Confirm unlocking account for {{name}} ({{email}})?",
+      "message": "The user will regain access and be able to log in normally.",
+      "confirmButton": "Unlock Account"
+    },
+    "delete": {
+      "title": "Delete User Account",
+      "description": "Confirm deleting account for {{name}} ({{email}})?",
+      "warningTitle": "Important Action",
+      "warningDescription": "The account will be soft-deleted. If the user has active contracts, the deletion will be rejected.",
+      "message": "Please review carefully before continuing.",
+      "confirmButton": "Delete Account"
+    }
+  },
+  "empty": {
+    "title": "No users yet",
+    "description": "No user accounts have been created in the system.",
+    "filteredTitle": "No users found",
+    "filteredDescription": "No accounts match the search keyword or selected filters."
+  },
+  "validations": {
+    "nameRequired": "Please enter full name",
+    "nameMin": "Name must be at least 2 characters",
+    "nameMax": "Name cannot exceed 254 characters",
+    "phoneRequired": "Please enter phone number",
+    "phoneInvalid": "Invalid phone number format",
+    "lockReasonRequired": "Please enter lock reason",
+    "lockReasonMax": "Lock reason cannot exceed 500 characters"
+  },
+  "apiSuccess": {
+    "USER_LIST_FETCHED": "User list fetched successfully",
+    "USER_DETAIL_FETCHED": "User details fetched successfully",
+    "USER_UPDATED": "User information updated successfully",
+    "USER_ACCOUNT_LOCKED": "User account locked successfully",
+    "USER_ACCOUNT_UNLOCKED": "User account unlocked successfully"
+  },
+  "apiErrors": {
+    "USER_NOT_FOUND": "User not found in system",
+    "USER_LOCK_CANNOT_SELF": "You cannot lock your own account",
+    "USER_LOCK_ALREADY_LOCKED": "This account is already locked",
+    "LOCK_REASON_REQUIRED": "Lock reason is required",
+    "USER_UNLOCK_NOT_LOCKED": "This account is not currently locked",
+    "USER_DELETE_CANNOT_SELF": "You cannot delete your own account",
+    "USER_DELETE_ALREADY_DELETED": "This account is already deleted",
+    "USER_DELETE_HAS_ACTIVE_CONTRACT": "Cannot delete: user has active rental contracts",
+    "DUPLICATE_PHONE": "This phone number is already registered",
+    "FORBIDDEN": "You do not have permission to perform this action"
+  }
+}
