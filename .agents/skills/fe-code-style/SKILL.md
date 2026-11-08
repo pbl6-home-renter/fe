@@ -3,7 +3,7 @@ name: fe-code-style
 description: Code style for the Rentify landlord web (fe/) — TypeScript, React components and hooks, TanStack Query, react-hook-form + zod, Tailwind with design tokens, URL/table state, error handling and comments. Use whenever writing, refactoring or reviewing .ts/.tsx code in fe/src, so new code reads like the existing code and avoids the bugs found in past reviews.
 license: Apache-2.0
 metadata:
-  version: "1.0.0"
+  version: '1.0.0'
   category: conventions
   author: Rentify FE
 ---
@@ -50,7 +50,7 @@ Vị trí file: xem skill `fe-structure`. Mẫu chi tiết của từng tầng: 
 
 - Giá trị mặc định dạng object/mảng (`= {}`, `= []`) tạo object mới mỗi render và phá `useMemo`/`useCallback`. Khai báo hằng ở cấp module:
   ```ts
-  const DEFAULT_FILTERS = { status: 'all' };   // ✅ module level
+  const DEFAULT_FILTERS = { status: 'all' }; // ✅ module level
   useDataTableState({ defaultFilters: DEFAULT_FILTERS });
   // ❌ useDataTableState({ defaultFilters: { status: 'all' } })
   ```
@@ -61,14 +61,19 @@ Vị trí file: xem skill `fe-structure`. Mẫu chi tiết của từng tầng: 
 
 - Mọi dữ liệu server qua TanStack Query; không lưu bản sao vào `useState`/Zustand.
 - Query key từ `<FEATURE>_QUERY_KEYS`, chứa mọi tham số làm dữ liệu khác đi (id, filter, trang). Danh sách dùng `placeholderData: keepPreviousData`.
+- ID tài nguyên chính trong hook query (`contractId`, `buildingId`...) BẮT BUỘC non-nullable (`string`). Không để `string | null | undefined` khi component/caller đã đảm bảo có ID.
+- Tuyệt đối không hardcode kích thước trang (như `pageSize: 100`). Luôn nhận tham số phân trang tuỳ chọn (`params?: ListParams`) và đưa `params` vào query key (`QUERY_KEYS.LIST(params)`).
 - Mutation nhận `options?: MutationHookOptions`, spread sau cấu hình mặc định, và gọi lại `options?.onSuccess` nếu tự định nghĩa `onSuccess`. Invalidate theo `ALL` của feature.
-- **Không** `try/catch` để `console.error` hay tự `toast.error` lỗi API — interceptor đã toast. Lỗi 422 của form: `setFormApiErrors(form.setError, error)`.
+- **Lỗi API & Toast:** Mọi phản hồi lỗi từ API đều đi qua hệ thống thông báo Toast (interceptor trong `src/lib/api/client.ts` tự động toast hoặc dùng hook `useNotify()`). **Tuyệt đối không** dùng `form.setError` hay `setFormApiErrors` để nhồi lỗi từ API response vào form input. Không tự `toast.error` trùng lặp khi interceptor đã toast.
 - Không bịa số liệu: chỉ hiển thị field có trong DTO. Tính năng chưa có API thì chưa làm UI.
 
 ## 6. Form
 
 - Schema Zod trong `forms/<noun>.schema.ts`; message lỗi là i18n key (`errors.*`), dịch bằng `getFieldError`.
+- Hook form đặt trong `hooks/use-<noun>-form.ts` (thư mục `forms/` CHỈ chứa schema).
 - `useForm({ resolver: zodResolver(schema), mode: 'onTouched' })` — báo lỗi khi rời ô, không báo khi đang gõ lần đầu.
+- **Client-side vs Server Error:** FE tự do kiểm tra và hiển thị lỗi inline cho client-side validation (Zod schema, logic trước khi gửi). Response trả về từ API thì **không** gán vào form error mà dùng Toast (`useNotify()` / interceptor).
+- Khi có form/modal thêm thành viên/người dùng: hỗ trợ cả 2 chế độ (chọn từ tài khoản hệ thống hoặc nhập tay thủ công). Khi chọn tài khoản hệ thống, tự động điền/gán thông tin sẵn có (SĐT, họ tên...).
 - Trim chuỗi **khi tạo payload**, không trim giá trị đang hiển thị trong input.
 - Form sửa: chỉ gửi field đã thay đổi; không có gì đổi thì báo `messages.noChanges` và đóng.
 - Nút submit dùng `isLoading={isSubmitting}`; không cho submit 2 lần.
@@ -110,6 +115,8 @@ Vị trí file: xem skill `fe-structure`. Mẫu chi tiết của từng tầng: 
 - [ ] Không hex, không text hardcode, không `any`, không `index.ts`.
 - [ ] Giá trị từ URL/storage đã validate; storage có `try/catch`.
 - [ ] Default object/mảng là hằng module; state truyền cho thư viện đã memo.
-- [ ] Không `try/catch` + toast lỗi API thủ công.
+- [ ] Không nhồi server error vào form input (response từ API dùng Toast / `useNotify`).
+- [ ] Query hook có ID non-nullable, không hardcode `pageSize`.
+- [ ] Không tự `toast.error` trùng lặp với interceptor.
 - [ ] Không còn export/prop/dependency thừa.
 - [ ] Không viết file `*.test.ts`.

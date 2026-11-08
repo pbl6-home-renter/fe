@@ -69,14 +69,14 @@ Trang không có form thì gọi thẳng hook trong `hooks/`.
 
 Kiểu envelope nằm ở [`src/types/api.ts`](../src/types/api.ts) và khớp `api-docs/src/responses/wrappers/*`:
 
-| Kiểu | Ý nghĩa |
-|---|---|
-| `ApiResponse<T>` | `{ statusCode, code, data: T }` — envelope một đối tượng |
-| `PaginatedApiResponse<T>` | `ApiResponse<T[]>` + `pagination: PaginationMeta` |
-| `Paginated<T>` | `{ items: T[], pagination }` — kết quả của `http.getPage()` sau khi bóc envelope |
-| `ApiErrorResponse` | `{ statusCode, code }` — body lỗi |
-| `PaginationParams` | `pageNo`, `pageSize`, `sort`, `order` |
-| `ListParams<TFilter>` | `PaginationParams` + `filter` (deepObject, ví dụ `filter[status]=available`) |
+| Kiểu                      | Ý nghĩa                                                                          |
+| ------------------------- | -------------------------------------------------------------------------------- |
+| `ApiResponse<T>`          | `{ statusCode, code, data: T }` — envelope một đối tượng                         |
+| `PaginatedApiResponse<T>` | `ApiResponse<T[]>` + `pagination: PaginationMeta`                                |
+| `Paginated<T>`            | `{ items: T[], pagination }` — kết quả của `http.getPage()` sau khi bóc envelope |
+| `ApiErrorResponse`        | `{ statusCode, code }` — body lỗi                                                |
+| `PaginationParams`        | `pageNo`, `pageSize`, `sort`, `order`                                            |
+| `ListParams<TFilter>`     | `PaginationParams` + `filter` (deepObject, ví dụ `filter[status]=available`)     |
 
 `http.*` tự bóc `{ statusCode, code, data }` nên ở feature chỉ cần khai báo kiểu payload:
 
@@ -101,7 +101,7 @@ FE **không khai báo hằng** cho mã mà backend trả về. Backend trả `co
 
 - **Thành công:** sau mỗi request ghi (POST/PUT/PATCH/DELETE), tra `<ns>:apiSuccess.<CODE>`. Có bản dịch thì toast, không có thì bỏ qua. Muốn một mã thành công hiện toast thì chỉ cần thêm bản dịch.
 - **Lỗi:** mọi request lỗi (trừ request bị huỷ) đều được toast bằng `getErrorMessage(error)`. Hàm này tra `<ns>:apiErrors.<CODE>` (lần lượt `auth` → `media` → `common`); nếu mã không có bản dịch thì dùng câu theo HTTP status. Một 401 đã được refresh token xử lý xong thì không toast.
-- **Tắt toast cho một request:** truyền `{ skipSuccessToast: true }` / `{ skipErrorToast: true }` vào config. Endpoint chỉ được gọi từ form (đăng nhập, đăng ký…) đặt sẵn `skipErrorToast` trong file `*.api.ts`, vì form đã hiện lỗi ngay trong form.
+- **Tắt toast cho một request:** truyền `{ skipSuccessToast: true }` / `{ skipErrorToast: true }` vào config. Không gán `skipErrorToast: true` vô cớ; chỉ dùng khi thật sự không cần thông báo lỗi cho người dùng (ví dụ tác vụ ngầm im lặng). Response từ API luôn ưu tiên thông báo qua hệ thống Toast.
 - Hằng mã lỗi chỉ dùng cho mã **do FE tự tạo ra** (validate file, lỗi PUT lên storage, huỷ upload…), xem `MEDIA_ERROR_CODES`. Những lỗi này không đi qua axios, nên nơi tạo ra chúng tự toast (xem `uploadMedia`).
 
 ## 4. Query key & hook query/mutation
@@ -116,9 +116,9 @@ Key phải chứa **mọi thứ làm dữ liệu khác đi** (id, filter, số t
 
 ```ts
 export const ROOM_QUERY_KEYS = {
-  ALL: ['rooms'],                                                          // tiền tố chung, để invalidate cả nhóm
-  LIST: (params?: ListParams<RoomFilter>) => ['rooms', 'list', params],    // mỗi bộ lọc/trang một cache
-  DETAIL: (id: string) => ['rooms', 'detail', id],                         // mỗi phòng một cache
+  ALL: ['rooms'], // tiền tố chung, để invalidate cả nhóm
+  LIST: (params?: ListParams<RoomFilter>) => ['rooms', 'list', params], // mỗi bộ lọc/trang một cache
+  DETAIL: (id: string) => ['rooms', 'detail', id], // mỗi phòng một cache
 } as const;
 ```
 
@@ -132,9 +132,7 @@ export const useRoomsQuery = (params?: ListParams<RoomFilter>) =>
     placeholderData: keepPreviousData, // giữ trang cũ khi chuyển trang
   });
 
-export const useCreateRoomMutation = (
-  options?: MutationHookOptions<RoomDetailDto, CreateRoomRequestDto>
-) => {
+export const useCreateRoomMutation = (options?: MutationHookOptions<RoomDetailDto, CreateRoomRequestDto>) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: roomsApi.create,
@@ -149,12 +147,11 @@ export const useCreateRoomMutation = (
 
 ## 5. Form
 
-Mỗi form gồm hai file trong `forms/`:
+Cấu trúc form theo quy chuẩn:
 
-- `xxx.schema.ts`: schema Zod và `XxxFormData = z.infer<...>`. Message lỗi là i18n key dạng `errors.*` (khai báo trong `<TÊN>_VALIDATION_KEYS`).
-- `use-xxx-form.ts`: tạo `useForm`, gọi hook mutation, xử lý submit/điều hướng. Hook trả về đúng những gì trang cần: `register`, `errors` (đã dịch, có `serverError`), `isSubmitting`, `handleSubmit`.
-
-Helper dùng chung ở `lib/form.ts`: `getFieldError(error, t)` dịch message của field; `setFormApiErrors(setError, err)` đưa lỗi API vào `root.serverError`. Các input trong `components/ui` dùng `forwardRef`, nên chỉ cần `{...register('field')}`.
+- `forms/xxx.schema.ts`: schema Zod và `XxxFormData = z.infer<...>`. Message lỗi là i18n key dạng `errors.*` (khai báo trong `<TÊN>_VALIDATION_KEYS`). Thư mục `forms/` CHỈ chứa schema.
+- `hooks/use-xxx-form.ts`: tạo `useForm`, gọi hook mutation, xử lý submit/điều hướng. Hook trả về đúng những gì trang cần: `register`, `errors` (đã dịch cho client-side validation), `isSubmitting`, `handleSubmit`.
+- **Xử lý lỗi:** Client-side validation trên FE (Zod, logic kiểm tra) hiển thị lỗi inline bằng `getFieldError(error, t)`. Khi nhận response lỗi từ API, **không nhồi server error vào form input/state**; phản hồi từ API được hiển thị qua hệ thống Toast (interceptor của `apiClient` hoặc hook `useNotify()`). Các input trong `components/ui` dùng `forwardRef`, nên chỉ cần `{...register('field')}`.
 
 ## 6. Component
 

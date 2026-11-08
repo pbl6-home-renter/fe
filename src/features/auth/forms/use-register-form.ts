@@ -4,13 +4,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
 import { Role } from '@/types/role';
-import { getFieldError, setFormApiErrors } from '@/lib/form';
+import { getFieldError } from '@/lib/form';
+import { useNotify } from '@/lib/notifications/use-notify';
+import { getErrorMessage } from '@/lib/api/errors';
 import { useRegisterMutation } from '../hooks/use-register-mutation';
 import { registerSchema, type RegisterFormData, type RegisterRole } from './register.schema';
+import { isAllPasswordCriteriaMet } from '../utils/password-criteria';
 
 export const useRegisterForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('auth');
+  const notify = useNotify();
   const registerMutation = useRegisterMutation();
 
   const form = useForm<RegisterFormData>({
@@ -27,17 +31,22 @@ export const useRegisterForm = () => {
   });
   const { errors } = form.formState;
   const role = useWatch({ control: form.control, name: 'role' });
+  const password = useWatch({ control: form.control, name: 'password' }) || '';
+  const isPasswordCriteriaMet = isAllPasswordCriteriaMet(password);
 
   const setRole = (newRole: RegisterRole) => {
     form.setValue('role', newRole, { shouldValidate: true });
   };
 
-  const handleSubmit = form.handleSubmit(async ({ name, phone, email, password, role }) => {
+  const handleSubmit = form.handleSubmit(async ({ name, phone, email, password: pwd, role: userRole }) => {
+    if (!isAllPasswordCriteriaMet(pwd)) {
+      return;
+    }
     try {
-      await registerMutation.mutateAsync({ name, phone, email, password, role });
+      await registerMutation.mutateAsync({ name, phone, email, password: pwd, role: userRole });
       navigate(ROUTES.LOGIN, { replace: true });
     } catch (error) {
-      setFormApiErrors(form.setError, error);
+      notify.error(getErrorMessage(error));
     }
   });
 
@@ -57,5 +66,7 @@ export const useRegisterForm = () => {
     isLandlord: role === Role.LANDLORD,
     isSubmitting: registerMutation.isPending || form.formState.isSubmitting,
     handleSubmit,
+    password,
+    isPasswordCriteriaMet,
   };
 };

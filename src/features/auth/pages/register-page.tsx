@@ -1,11 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
-import {
-  Home,
-  Building2,
-  AlertCircle,
-} from 'lucide-react';
+import { Home, Building2, AlertCircle } from 'lucide-react';
 import landlordLogo from '@/assets/landlord-logo.png';
 import tenantLogo from '@/assets/tenant-logo.png';
 import { Button } from '@/components/ui/button';
@@ -15,6 +11,7 @@ import { Card } from '@/components/ui/card';
 import { Role } from '@/types/role';
 import { cn } from '@/lib/utils/cn';
 import { useRegisterForm } from '../forms/use-register-form';
+import { PasswordChecklist } from '../components/password-checklist';
 
 export const RegisterPage = () => {
   const { t } = useTranslation('auth');
@@ -26,6 +23,8 @@ export const RegisterPage = () => {
     isLandlord,
     isTenant,
     handleSubmit,
+    password,
+    isPasswordCriteriaMet,
   } = useRegisterForm();
 
   return (
@@ -33,11 +32,7 @@ export const RegisterPage = () => {
       {/* Brand Logo & Header */}
       <div className="flex flex-col items-center text-center mb-6">
         <div className="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center p-2 mb-4 shadow-xs">
-          <img
-            src={isTenant ? tenantLogo : landlordLogo}
-            alt="Rentify"
-            className="w-full h-full object-contain"
-          />
+          <img src={isTenant ? tenantLogo : landlordLogo} alt="Rentify" className="w-full h-full object-contain" />
         </div>
 
         <h1 className="text-2xl font-bold tracking-tight text-rentify-text-primary">
@@ -62,7 +57,7 @@ export const RegisterPage = () => {
               'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer',
               isLandlord
                 ? 'bg-rentify-surface text-rentify-primary shadow-xs border border-rentify-divider'
-                : 'text-rentify-text-secondary hover:text-rentify-text-primary'
+                : 'text-rentify-text-secondary hover:text-rentify-text-primary',
             )}
           >
             <Building2 className="w-4 h-4 shrink-0" />
@@ -77,7 +72,7 @@ export const RegisterPage = () => {
               'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer',
               isTenant
                 ? 'bg-rentify-surface text-rentify-primary shadow-xs border border-rentify-divider'
-                : 'text-rentify-text-secondary hover:text-rentify-text-primary'
+                : 'text-rentify-text-secondary hover:text-rentify-text-primary',
             )}
           >
             <Home className="w-4 h-4 shrink-0" />
@@ -131,15 +126,19 @@ export const RegisterPage = () => {
         <PasswordInput
           label={t('password')}
           placeholder={t('placeholders.password')}
+          autoComplete="new-password"
           error={errors.password}
           disabled={isSubmitting}
           required
           {...register('password')}
         />
 
+        <PasswordChecklist password={password} className="my-1" />
+
         <PasswordInput
           label={t('confirmPassword')}
           placeholder={t('placeholders.confirmPassword')}
+          autoComplete="new-password"
           error={errors.confirmPassword}
           disabled={isSubmitting}
           required
@@ -150,7 +149,7 @@ export const RegisterPage = () => {
           type="submit"
           variant="primary"
           isLoading={isSubmitting}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !isPasswordCriteriaMet}
           className="w-full h-11 mt-2 font-medium rounded-xl"
         >
           {t('register')}

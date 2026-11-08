@@ -8,15 +8,12 @@ export const CONTRACT_QUERY_KEYS = {
   DETAIL: (id?: string) => ['contracts', 'detail', id] as const,
   TEMPLATES: (params?: unknown) => ['contracts', 'templates', params] as const,
   TEMPLATE_DETAIL: (key?: string) => ['contracts', 'templates', key] as const,
+  MEMBERS: (contractId: string, params?: ListParams) =>
+    params ? (['contracts', 'members', contractId, params] as const) : (['contracts', 'members', contractId] as const),
 };
 
 export type ContractStatusLabelKey =
-  | 'status.draft'
-  | 'status.signed'
-  | 'status.active'
-  | 'status.suspended'
-  | 'status.expired'
-  | 'status.terminated';
+  'status.draft' | 'status.signed' | 'status.active' | 'status.suspended' | 'status.expired' | 'status.terminated';
 
 export const CONTRACT_STATUS_CONFIG: Record<
   ContractStatus,

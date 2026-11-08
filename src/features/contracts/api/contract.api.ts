@@ -13,13 +13,20 @@ import type {
   ContractTemplateListItemDto,
   ContractUpdateRequestDto,
 } from '../types/contract.dto';
+import type {
+  AddContractMemberRequestDto,
+  CompleteContractCheckoutRequestDto,
+  ContractCheckoutCompleteResponseDto,
+  ContractMemberListItemDto,
+  ContractMemberListFilter,
+  LeaveContractMemberRequestDto,
+} from '../types/contract-member.dto';
 
 export const contractApi = {
   getContracts: (params?: ListParams<ContractFilter>): Promise<Paginated<ContractListItemDto>> =>
     http.getPage<ContractListItemDto, ContractFilter>('/contracts', params),
 
-  getContract: (id: string): Promise<ContractDetailDto> =>
-    http.get<ContractDetailDto>(`/contracts/${id}`),
+  getContract: (id: string): Promise<ContractDetailDto> => http.get<ContractDetailDto>(`/contracts/${id}`),
 
   createContract: (payload: ContractCreateRequestDto): Promise<ContractDetailDto> =>
     http.post<ContractDetailDto>('/contracts', payload),
@@ -41,7 +48,28 @@ export const contractApi = {
 
   generateDraftDocument: (
     id: string,
-    payload: ContractGenerateDraftRequestDto
+    payload: ContractGenerateDraftRequestDto,
   ): Promise<ContractGenerateDraftResponseDto> =>
     http.post<ContractGenerateDraftResponseDto>(`/contracts/${id}/generate-draft-document`, payload),
+
+  getContractMembers: (contractId: string, params?: ListParams): Promise<Paginated<ContractMemberListItemDto>> =>
+    http.getPage<ContractMemberListItemDto, ContractMemberListFilter>('/contract-members', {
+      ...params,
+      filter: { contractId },
+    }),
+
+  addContractMember: (payload: AddContractMemberRequestDto): Promise<ContractMemberListItemDto> =>
+    http.post<ContractMemberListItemDto>('/contract-members', payload),
+
+  updateContractMember: (id: string, payload: { tenantPhone: string }): Promise<ContractMemberListItemDto> =>
+    http.patch<ContractMemberListItemDto>(`/contract-members/${id}`, payload),
+
+  leaveContractMember: (id: string, payload: LeaveContractMemberRequestDto): Promise<ContractMemberListItemDto> =>
+    http.post<ContractMemberListItemDto>(`/contract-members/${id}/leave-contract`, payload),
+
+  completeCheckout: (
+    contractId: string,
+    payload: CompleteContractCheckoutRequestDto,
+  ): Promise<ContractCheckoutCompleteResponseDto> =>
+    http.post<ContractCheckoutCompleteResponseDto>(`/contracts/${contractId}/complete-checkout`, payload),
 };

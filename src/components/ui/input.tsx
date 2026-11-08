@@ -1,4 +1,5 @@
 import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react';
+import { AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -16,19 +17,8 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    {
-      label,
-      error,
-      helperText,
-      leadingIcon,
-      trailingIcon,
-      className,
-      containerClassName,
-      id,
-      disabled,
-      ...props
-    },
-    ref
+    { label, error, helperText, leadingIcon, trailingIcon, className, containerClassName, id, disabled, ...props },
+    ref,
   ) => {
     const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
     const errorId = inputId && error ? `${inputId}-error` : undefined;
@@ -37,10 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={cn('flex flex-col gap-1.5 w-full text-left', containerClassName)}>
         {label && (
-          <label
-            htmlFor={inputId}
-            className="text-sm font-medium text-rentify-text-primary"
-          >
+          <label htmlFor={inputId} className="text-sm font-medium text-rentify-text-primary">
             {label}
           </label>
         )}
@@ -69,16 +56,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               leadingIcon && 'pl-10',
               trailingIcon && 'pr-10',
               error &&
-                'border-rentify-error focus:border-rentify-error focus:ring-rentify-error/20',
-              className
+                'border-rentify-error hover:border-rentify-error focus:border-rentify-error focus:ring-2 focus:ring-rentify-error/20',
+              className,
             )}
             {...props}
           />
 
           {trailingIcon && (
-            <div className="absolute right-3.5 flex items-center text-rentify-text-secondary">
-              {trailingIcon}
-            </div>
+            <div className="absolute right-3.5 flex items-center text-rentify-text-secondary">{trailingIcon}</div>
           )}
         </div>
 
@@ -86,22 +71,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <p
             id={errorId}
             role="alert"
-            className="text-xs font-medium text-rentify-error mt-0.5"
+            className="flex items-start gap-1.5 text-xs font-medium text-rentify-error mt-0.5"
           >
-            {error}
+            <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" aria-hidden="true" />
+            <span>{error}</span>
           </p>
         ) : helperText ? (
-          <p
-            id={helperId}
-            className="text-xs text-rentify-text-secondary mt-0.5"
-          >
+          <p id={helperId} className="text-xs text-rentify-text-secondary mt-0.5">
             {helperText}
           </p>
         ) : null}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = 'Input';
-
