@@ -13,6 +13,7 @@ const API_CODE_NAMESPACES = [
   'contracts',
   'meterReadings',
   'chat',
+  'users',
   'common',
 ] as const;
 
@@ -65,6 +66,8 @@ export const getHttpStatusErrorMessage = (status: number): string => {
       return translateKey('common:apiErrors.TOO_MANY_REQUESTS');
     case 500:
       return translateKey('common:apiErrors.INTERNAL_SERVER_ERROR');
+    case 503:
+      return translateKey('common:apiErrors.SERVICE_UNAVAILABLE');
     default:
       return translateKey('common:apiErrors.fallback');
   }

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Role } from '@/types/role';
-import { AUTH_VALIDATION_KEYS } from '../constants/auth.constants';
+import { AUTH_VALIDATION_KEYS, PASSWORD_REGEX } from '../constants/auth.constants';
 
 export type RegisterRole = typeof Role.TENANT | typeof Role.LANDLORD;
 
@@ -23,10 +23,7 @@ export const registerSchema = z
     password: z
       .string()
       .min(1, AUTH_VALIDATION_KEYS.PASSWORD_REQUIRED)
-      .min(8, AUTH_VALIDATION_KEYS.PASSWORD_MIN)
-      .regex(/[a-z]/, AUTH_VALIDATION_KEYS.PASSWORD_LOWERCASE)
-      .regex(/[A-Z]/, AUTH_VALIDATION_KEYS.PASSWORD_UPPERCASE)
-      .regex(/[0-9]/, AUTH_VALIDATION_KEYS.PASSWORD_NUMBER),
+      .regex(PASSWORD_REGEX, AUTH_VALIDATION_KEYS.PASSWORD_INVALID_FORMAT),
     confirmPassword: z.string().min(1, AUTH_VALIDATION_KEYS.CONFIRM_PASSWORD_REQUIRED),
   })
   .refine((data) => data.password === data.confirmPassword, {

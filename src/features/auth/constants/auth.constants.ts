@@ -3,6 +3,9 @@ export const AUTH_QUERY_KEYS = {
   ME: ['auth', 'me'],
 } as const;
 
+/** Regex kiểm tra mật khẩu: tối thiểu 8 ký tự, có chữ hoa, chữ thường và chữ số. */
+export const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
 /** Zod messages: i18n keys in the `auth` namespace, translated by `getFieldError`. */
 export const AUTH_VALIDATION_KEYS = {
   IDENTIFIER_REQUIRED: 'errors.identifierRequired',
@@ -13,10 +16,6 @@ export const AUTH_VALIDATION_KEYS = {
   EMAIL_REQUIRED: 'errors.emailRequired',
   EMAIL_INVALID: 'errors.invalidEmail',
   PASSWORD_REQUIRED: 'errors.passwordRequired',
-  PASSWORD_MIN: 'errors.passwordMinLength',
-  PASSWORD_LOWERCASE: 'errors.passwordLowercase',
-  PASSWORD_UPPERCASE: 'errors.passwordUppercase',
-  PASSWORD_NUMBER: 'errors.passwordNumber',
   PASSWORD_INVALID_FORMAT: 'errors.passwordInvalidFormat',
   CONFIRM_PASSWORD_REQUIRED: 'errors.confirmPasswordRequired',
   PASSWORD_MISMATCH: 'errors.passwordMismatch',

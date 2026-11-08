@@ -9,7 +9,6 @@ import { useNotify } from '@/lib/notifications/use-notify';
 import { getErrorMessage } from '@/lib/api/errors';
 import { useRegisterMutation } from '../hooks/use-register-mutation';
 import { registerSchema, type RegisterFormData, type RegisterRole } from './register.schema';
-import { isAllPasswordCriteriaMet } from '../utils/password-criteria';
 
 export const useRegisterForm = () => {
   const navigate = useNavigate();
@@ -31,17 +30,12 @@ export const useRegisterForm = () => {
   });
   const { errors } = form.formState;
   const role = useWatch({ control: form.control, name: 'role' });
-  const password = useWatch({ control: form.control, name: 'password' }) || '';
-  const isPasswordCriteriaMet = isAllPasswordCriteriaMet(password);
 
   const setRole = (newRole: RegisterRole) => {
     form.setValue('role', newRole, { shouldValidate: true });
   };
 
   const handleSubmit = form.handleSubmit(async ({ name, phone, email, password: pwd, role: userRole }) => {
-    if (!isAllPasswordCriteriaMet(pwd)) {
-      return;
-    }
     try {
       await registerMutation.mutateAsync({ name, phone, email, password: pwd, role: userRole });
       navigate(ROUTES.LOGIN, { replace: true });
@@ -66,7 +60,5 @@ export const useRegisterForm = () => {
     isLandlord: role === Role.LANDLORD,
     isSubmitting: registerMutation.isPending || form.formState.isSubmitting,
     handleSubmit,
-    password,
-    isPasswordCriteriaMet,
   };
 };

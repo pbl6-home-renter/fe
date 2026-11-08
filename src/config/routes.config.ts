@@ -72,6 +72,7 @@ export const ROUTES = {
     BUILDING_DETAIL: (id: string) => `/admin/buildings/${id}`,
     APPROVALS: '/admin/approvals',
     USERS: '/admin/users',
+    USER_DETAIL: (id: string) => `/admin/users/${id}`,
     SETTINGS: '/admin/settings',
     NOTIFICATIONS: '/admin/notifications',
     AUDIT_LOGS: '/admin/audit-logs',

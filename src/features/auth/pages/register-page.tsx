@@ -11,21 +11,10 @@ import { Card } from '@/components/ui/card';
 import { Role } from '@/types/role';
 import { cn } from '@/lib/utils/cn';
 import { useRegisterForm } from '../forms/use-register-form';
-import { PasswordChecklist } from '../components/password-checklist';
 
 export const RegisterPage = () => {
   const { t } = useTranslation('auth');
-  const {
-    register,
-    setRole,
-    errors,
-    isSubmitting,
-    isLandlord,
-    isTenant,
-    handleSubmit,
-    password,
-    isPasswordCriteriaMet,
-  } = useRegisterForm();
+  const { register, setRole, errors, isSubmitting, isLandlord, isTenant, handleSubmit } = useRegisterForm();
 
   return (
     <Card className="w-full max-w-[480px] p-8 sm:p-10 shadow-spotlight rounded-hero transition-all duration-300">
@@ -128,12 +117,11 @@ export const RegisterPage = () => {
           placeholder={t('placeholders.password')}
           autoComplete="new-password"
           error={errors.password}
+          helperText={!errors.password ? t('passwordHint') : undefined}
           disabled={isSubmitting}
           required
           {...register('password')}
         />
-
-        <PasswordChecklist password={password} className="my-1" />
 
         <PasswordInput
           label={t('confirmPassword')}
@@ -149,7 +137,7 @@ export const RegisterPage = () => {
           type="submit"
           variant="primary"
           isLoading={isSubmitting}
-          disabled={isSubmitting || !isPasswordCriteriaMet}
+          disabled={isSubmitting}
           className="w-full h-11 mt-2 font-medium rounded-xl"
         >
           {t('register')}
