@@ -1,3 +1,4 @@
+import type { BaseEntity } from '@/types/api';
 import type { ContractStatus } from '../enums/contract-status.enum';
 
 export interface ContractFilter {
@@ -6,8 +7,7 @@ export interface ContractFilter {
   roomId?: string;
 }
 
-export interface ContractListItemDto {
-  id: string;
+export interface ContractListItemDto extends BaseEntity {
   contractCode: string;
   roomId: string;
   roomName: string;
@@ -20,8 +20,7 @@ export interface ContractListItemDto {
   endDate: string;
 }
 
-export interface ContractDetailDto {
-  id: string;
+export interface ContractDetailDto extends BaseEntity {
   roomId: string;
   buildingId?: string | null;
   roomName?: string | null;

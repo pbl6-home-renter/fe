@@ -2,6 +2,14 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
+import { useDisclosure } from '@/hooks/use-disclosure';
+import { useRatePoliciesQuery } from '@/features/billing/hooks/use-rate-policies-query';
+import { useBillingSettingsQuery } from '@/features/billing/hooks/use-billing-settings-query';
+import { useDeactivateRatePolicyMutation } from '@/features/billing/hooks/use-deactivate-rate-policy-mutation';
+import { RatePolicyCard } from '@/features/billing/components/rate-policy-card';
+import { RatePolicyDialog } from '@/features/billing/components/rate-policy-dialog';
+import { BillingSettingCard } from '@/features/billing/components/billing-setting-card';
+import { BillingSettingDialog } from '@/features/billing/components/billing-setting-dialog';
 import { useRoomQuery } from '../hooks/use-room-query';
 import { useMarkRoomReadyMutation } from '../hooks/use-mark-room-ready-mutation';
 import { RoomHeader } from '../components/detail/room-header';
@@ -26,9 +34,38 @@ export const RoomDetailPage = () => {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const rateDialog = useDisclosure();
+  const billingDialog = useDisclosure();
 
   const { data: room, isLoading, isError, refetch } = useRoomQuery(roomId);
   const markReadyMutation = useMarkRoomReadyMutation();
+  const deactivateRateMutation = useDeactivateRatePolicyMutation();
+
+  const {
+    data: ratePoliciesData,
+    isLoading: isRateLoading,
+    refetch: refetchRate,
+  } = useRatePoliciesQuery(room?.id ? { 'filter[scope]': 'room', 'filter[roomId]': room.id } : undefined, {
+    enabled: Boolean(room?.id),
+  });
+
+  const {
+    data: billingSettingsData,
+    isLoading: isBillingLoading,
+    refetch: refetchBilling,
+  } = useBillingSettingsQuery(room?.id ? { 'filter[scope]': 'room', 'filter[roomId]': room.id } : undefined, {
+    enabled: Boolean(room?.id),
+  });
+
+  const activeRatePolicy = ratePoliciesData?.items?.[0] ?? null;
+  const activeBillingSetting = billingSettingsData?.items?.[0] ?? null;
+
+  const handleDeactivateRate = () => {
+    if (!activeRatePolicy?.id || deactivateRateMutation.isPending) return;
+    deactivateRateMutation.mutate(activeRatePolicy.id, {
+      onSuccess: () => void refetchRate(),
+    });
+  };
 
   const handleMarkReady = () => {
     if (!roomId || markReadyMutation.isPending) return;
@@ -68,17 +105,28 @@ export const RoomDetailPage = () => {
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column: Specs & Amenities */}
+        {/* Left Column: Specs & Amenities, Rate Policy & Billing Settings */}
         <div className="lg:col-span-7 space-y-6">
           <RoomSpecsCard room={room} />
+          <RatePolicyCard
+            scope="room"
+            policy={activeRatePolicy}
+            isLoading={isRateLoading}
+            onConfigure={rateDialog.open}
+            onDeactivate={handleDeactivateRate}
+            isDeactivating={deactivateRateMutation.isPending}
+          />
+          <BillingSettingCard
+            scope="room"
+            setting={activeBillingSetting}
+            isLoading={isBillingLoading}
+            onConfigure={billingDialog.open}
+          />
         </div>
 
         {/* Right Column: Contract & Tenant info + Meter readings */}
         <div className="lg:col-span-5 space-y-6">
-          <RoomTenantContractCard
-            contract={room.currentContract}
-            members={room.currentMembers}
-          />
+          <RoomTenantContractCard contract={room.currentContract} members={room.currentMembers} />
           <RoomMeterReadingsCard meterReadings={room.latestMeterReadings} />
         </div>
       </div>
@@ -98,6 +146,26 @@ export const RoomDetailPage = () => {
         onSuccess={() => {
           navigate(ROUTES.LANDLORD.BUILDING_DETAIL(room.buildingId), { replace: true });
         }}
+      />
+
+      <RatePolicyDialog
+        open={rateDialog.isOpen}
+        onClose={rateDialog.close}
+        scope="room"
+        buildingId={room.buildingId}
+        roomId={room.id}
+        existingPolicy={activeRatePolicy}
+        onSuccess={() => void refetchRate()}
+      />
+
+      <BillingSettingDialog
+        open={billingDialog.isOpen}
+        onClose={billingDialog.close}
+        scope="room"
+        buildingId={room.buildingId}
+        roomId={room.id}
+        existingSetting={activeBillingSetting}
+        onSuccess={() => void refetchBilling()}
       />
     </div>
   );

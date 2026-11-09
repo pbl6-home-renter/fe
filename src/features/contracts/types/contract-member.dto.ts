@@ -1,7 +1,8 @@
+import type { BaseEntity } from '@/types/api';
+
 export type ContractMemberStatus = 'active' | 'left';
 
-export interface ContractMemberListItemDto {
-  id: string;
+export interface ContractMemberListItemDto extends BaseEntity {
   contractId: string;
   tenantId: string | null;
   tenantName: string | null;

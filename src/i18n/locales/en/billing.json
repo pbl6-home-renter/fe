@@ -1,0 +1,109 @@
+{
+  "rateTypes": {
+    "electricity": "Electricity",
+    "water": "Water",
+    "wifi": "Internet / Wifi",
+    "cleaning": "Cleaning",
+    "parking": "Parking",
+    "maintenance": "Maintenance",
+    "other": "Other"
+  },
+  "rateKinds": {
+    "flat": "Flat rate",
+    "tiered": "Tiered rate",
+    "fixed_per_period": "Fixed per period",
+    "per_head": "Per person",
+    "per_area_m2": "Per m²",
+    "per_vehicle": "Per vehicle"
+  },
+  "billingUnits": {
+    "kwh": "kWh",
+    "m3": "m³",
+    "room": "room",
+    "person": "person",
+    "m2": "m²",
+    "vehicle": "vehicle",
+    "day": "day",
+    "occurrence": "occurrence"
+  },
+  "ratePolicy": {
+    "title": "Service Rate Policy",
+    "subtitle": "Rate policy applied for electricity, water, and recurring utilities",
+    "inheritedBadge": "Inherited from building",
+    "revertInherit": "Inherit from building",
+    "editButton": "Edit rate policy",
+    "setupButton": "Set up rate policy",
+    "roomInheritNotice": "This room inherits utility rates from the building. You can configure custom rates if this room has special pricing.",
+    "missingRatesTitle": "No service rates configured",
+    "missingRatesDesc": "In accordance with system policy (P6-D72), invoices will be blocked if electricity or water rates are missing. Please set up rates before creating invoices."
+  },
+  "dialog": {
+    "serviceIndex": "Service #{{index}}",
+    "removeService": "Remove",
+    "typeLabel": "Service type",
+    "nameLabel": "Display name",
+    "namePlaceholder": "e.g. Electricity fee",
+    "nameRequired": "Service name is required",
+    "kindLabel": "Calculation method",
+    "unitLabel": "Billing unit",
+    "priceLabel": "Unit price (VND)",
+    "priceInvalid": "Invalid unit price",
+    "tieredNotice": "Tiered pricing applies based on existing building tiers.",
+    "editPolicyTitle": "Edit Service Rate Policy",
+    "createPolicyTitle": "Set Up Service Rate Policy",
+    "buildingPolicyDesc": "This rate policy applies by default to all rooms in the building (except rooms with custom rates).",
+    "roomPolicyDesc": "Configure custom rates for this room. When active, the system prioritizes these rates over building rates.",
+    "addServiceButton": "Add another service"
+  },
+  "setting": {
+    "title": "Billing & Reminder Settings",
+    "subtitle": "Configure monthly due dates and automatic notifications",
+    "inheritedBadge": "Inherited from building",
+    "editButton": "Edit settings",
+    "setupButton": "Set up billing",
+    "roomInheritNotice": "This room inherits payment due dates and reminder settings from the building.",
+    "dueDayLabel": "Payment Due Day",
+    "remindDayLabel": "Reminder Day",
+    "dayOfMonth": "of every month",
+    "dueDayHelp": "Suggested monthly payment collection day",
+    "remindDayHelp": "Sends automated reminder to tenants",
+    "noRemindHelp": "No automatic reminder sent",
+    "botLabel": "Automated Reminder Bot",
+    "botEnabled": "Enabled",
+    "botDisabled": "Disabled",
+    "botHelp": "Automatically sends reminder cards into the room chat",
+    "dialogEditTitle": "Edit Billing Settings",
+    "dialogCreateTitle": "Set Up Billing Settings",
+    "dialogBuildingDesc": "Settings apply to all rooms in the building.",
+    "dialogRoomDesc": "Custom billing settings for this room.",
+    "dueDayFieldLabel": "Payment due day (1 - 28)",
+    "dueDayFieldHelper": "Day of the month for invoice collection",
+    "remindDayFieldLabel": "Reminder day (1 - 28, optional)",
+    "remindDayFieldHelper": "Leave blank if you do not want reminders sent",
+    "botFieldLabel": "Enable automated reminder bot",
+    "botFieldHelper": "Allow bot to send payment reminder messages in room chat",
+    "dayRangeError": "Day must be between 1 and 28"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save changes"
+  },
+  "apiSuccess": {
+    "RATE_POLICIES_FETCHED": "Rate policies fetched successfully",
+    "RATE_POLICY_CREATED": "Rate policy created successfully",
+    "RATE_POLICY_UPDATED": "Rate policy updated successfully",
+    "RATE_POLICY_DEACTIVATED": "Reverted to building rate policy",
+    "RATE_POLICIES_BATCH_CREATED": "Building rate policies saved successfully",
+    "BILLING_SETTINGS_FETCHED": "Billing settings fetched successfully",
+    "BILLING_SETTING_CREATED": "Billing setting created successfully",
+    "BILLING_SETTING_UPDATED": "Billing setting updated successfully"
+  },
+  "apiErrors": {
+    "RATE_POLICIES_REQUIRED": "At least one rate item is required",
+    "INVALID_RATE_KIND": "Invalid rate calculation method",
+    "TIER_CONFIG_INVALID": "Invalid tier configuration",
+    "RATE_POLICY_NOT_FOUND": "Rate policy not found",
+    "BILLING_SETTING_NOT_FOUND": "Billing setting not found",
+    "RATE_MISSING": "Electricity or water rate is missing"
+  }
+}

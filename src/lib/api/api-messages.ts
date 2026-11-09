@@ -14,6 +14,7 @@ const API_CODE_NAMESPACES = [
   'meterReadings',
   'chat',
   'users',
+  'billing',
   'common',
 ] as const;
 

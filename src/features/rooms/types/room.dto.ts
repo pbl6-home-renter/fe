@@ -1,3 +1,4 @@
+import type { BaseEntity } from '@/types/api';
 import { RoomStatus } from '../enums/room-status.enum';
 import { GenderPolicy } from '../enums/gender-policy.enum';
 
@@ -12,8 +13,7 @@ export interface RoomAmenities {
   [key: string]: boolean | undefined;
 }
 
-export interface RoomMyListItemDto {
-  id: string;
+export interface RoomMyListItemDto extends BaseEntity {
   buildingId: string;
   name: string;
   area?: string | null;
@@ -25,24 +25,21 @@ export interface RoomMyListItemDto {
   activeIssuesCount: number;
 }
 
-export interface RoomCurrentContractDto {
-  id: string;
+export interface RoomCurrentContractDto extends BaseEntity {
   contractCode: string;
   startDate: string;
   endDate: string;
   status: string;
 }
 
-export interface RoomMemberDto {
-  id: string;
+export interface RoomMemberDto extends BaseEntity {
   name: string;
   phone?: string | null;
   avatarUrl?: string | null;
   isRepresentative: boolean;
 }
 
-export interface RoomDetailDto {
-  id: string;
+export interface RoomDetailDto extends BaseEntity {
   buildingId: string;
   buildingName: string;
   name: string;
@@ -98,7 +95,6 @@ export interface RoomFilter {
   status?: RoomStatus | string;
 }
 
-export interface RoomMarkReadyResponseDto {
-  id: string;
+export interface RoomMarkReadyResponseDto extends BaseEntity {
   status: RoomStatus;
 }

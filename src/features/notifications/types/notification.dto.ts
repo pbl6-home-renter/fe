@@ -1,4 +1,4 @@
-import type { CursorPaginationMeta } from '@/types/api';
+import type { BaseEntity, CursorPaginationMeta } from '@/types/api';
 
 export type NotificationCategory = 'chat' | 'invoice' | 'issue';
 export type BusinessNotificationCategory = Exclude<NotificationCategory, 'chat'>;
@@ -13,8 +13,7 @@ export interface NotificationCreatedEvent {
   createdAt: string;
 }
 
-export interface NotificationItem {
-  id: string;
+export interface NotificationItem extends BaseEntity {
   recipientUserId: string;
   sourceService: string;
   eventId: string;
