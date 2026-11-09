@@ -31,6 +31,7 @@ interface SingleMeterReadingModalProps {
   isSubmitting: boolean;
   formError?: string | null;
   consumption: string;
+  onSwitchType?: (type: MeterType) => void;
 }
 
 export const SingleMeterReadingModal = ({
@@ -48,6 +49,7 @@ export const SingleMeterReadingModal = ({
   isSubmitting,
   formError,
   consumption,
+  onSwitchType,
 }: SingleMeterReadingModalProps) => {
   const { t } = useTranslation('meterReadings');
   const { fileInputRef, isProcessing, ocrWarning, handleProcessFile, openCameraPicker } = useMeterReadingOcr({
@@ -77,13 +79,42 @@ export const SingleMeterReadingModal = ({
       }
     >
       <div className="space-y-4 py-1">
-        <div className="flex items-center gap-2">
-          <Badge
-            variant={isElectricity ? 'warning' : 'primary'}
-            leadingIcon={isElectricity ? <Zap className="w-3.5 h-3.5" /> : <Droplets className="w-3.5 h-3.5" />}
-          >
-            {isElectricity ? t('types.electricity') : t('types.water')}
-          </Badge>
+        <div className="flex items-center justify-between gap-2">
+          {onSwitchType ? (
+            <div className="flex items-center bg-surface-container-low p-1 rounded-xl gap-1">
+              <button
+                type="button"
+                onClick={() => onSwitchType(MeterType.ELECTRICITY)}
+                className={`px-2.5 py-1 text-xs rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
+                  isElectricity
+                    ? 'bg-rentify-surface text-amber-600 shadow-xs'
+                    : 'text-rentify-text-secondary hover:text-rentify-text-primary'
+                }`}
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span>{t('types.electricity')}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => onSwitchType(MeterType.WATER)}
+                className={`px-2.5 py-1 text-xs rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
+                  !isElectricity
+                    ? 'bg-rentify-surface text-blue-600 shadow-xs'
+                    : 'text-rentify-text-secondary hover:text-rentify-text-primary'
+                }`}
+              >
+                <Droplets className="w-3.5 h-3.5" />
+                <span>{t('types.water')}</span>
+              </button>
+            </div>
+          ) : (
+            <Badge
+              variant={isElectricity ? 'warning' : 'primary'}
+              leadingIcon={isElectricity ? <Zap className="w-3.5 h-3.5" /> : <Droplets className="w-3.5 h-3.5" />}
+            >
+              {isElectricity ? t('types.electricity') : t('types.water')}
+            </Badge>
+          )}
           <span className="text-xs text-rentify-text-secondary">
             {t('modal.periodLabel')}: <strong className="text-rentify-text-primary">{target.period}</strong>
           </span>
@@ -130,7 +161,6 @@ export const SingleMeterReadingModal = ({
           <label className="text-xs font-semibold text-rentify-text-primary">
             {t('modal.evidencePhotoLabel')} <span className="text-rentify-error">*</span>
           </label>
-
           <input
             ref={fileInputRef}
             type="file"

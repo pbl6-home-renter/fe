@@ -37,6 +37,7 @@ export const useMeterReadingPage = () => {
         currentReading: readingItem.currentReading,
         evidenceMediaId: readingItem.evidenceMediaId,
         previewUrl: readingItem.evidencePreviewUrl,
+        row,
       });
     },
     [matrix.selectedPeriod, singleModal],

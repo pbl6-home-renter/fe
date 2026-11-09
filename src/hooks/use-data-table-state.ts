@@ -40,10 +40,8 @@ interface UseDataTableStateOptions {
   requiredColumnIds?: string[];
 }
 
-const applyUpdater = <T,>(updater: Updater<T>, current: T): T =>
-  typeof updater === 'function'
-    ? (updater as (value: T) => T)(current)
-    : updater;
+const applyUpdater = <T>(updater: Updater<T>, current: T): T =>
+  typeof updater === 'function' ? (updater as (value: T) => T)(current) : updater;
 
 const readPositiveInt = (value: string | null, fallback: number) => {
   const parsed = Number(value);
@@ -75,16 +73,24 @@ const readPreferences = (
       Object.entries(stored.columnVisibility ?? {}).filter(([id]) => validIds.has(id)),
     );
     const pinning = {
-      left: (stored.columnPinning?.left ?? []).filter((id) => validIds.has(id)),
-      right: (stored.columnPinning?.right ?? []).filter((id) => validIds.has(id)),
+      left: (stored.columnPinning?.left && stored.columnPinning.left.length > 0
+        ? stored.columnPinning.left
+        : (defaultColumnPinning.left ?? [])
+      ).filter((id) => validIds.has(id)),
+      right: (stored.columnPinning?.right && stored.columnPinning.right.length > 0
+        ? stored.columnPinning.right
+        : (defaultColumnPinning.right ?? [])
+      ).filter((id) => validIds.has(id)),
     };
-    requiredColumnIds.forEach((id) => { visibility[id] = true; });
-    [...pinning.left, ...pinning.right].forEach((id) => { visibility[id] = true; });
-    const sizing = Object.fromEntries(
-      Object.entries(stored.columnSizing ?? {}).filter(([id]) => validIds.has(id)),
-    );
+    requiredColumnIds.forEach((id) => {
+      visibility[id] = true;
+    });
+    [...pinning.left, ...pinning.right].forEach((id) => {
+      visibility[id] = true;
+    });
+    const sizing = Object.fromEntries(Object.entries(stored.columnSizing ?? {}).filter(([id]) => validIds.has(id)));
     const density = ['compact', 'standard', 'comfortable'].includes(stored.density ?? '')
-      ? stored.density as DataTableDensity
+      ? (stored.density as DataTableDensity)
       : 'standard';
 
     return {
@@ -116,140 +122,159 @@ export const useDataTableState = ({
   );
 
   const rawPageSize = readPositiveInt(searchParams.get('pageSize'), defaultPageSize);
-  const pageSize = PAGE_SIZES.includes(rawPageSize as (typeof PAGE_SIZES)[number])
-    ? rawPageSize
-    : defaultPageSize;
+  const pageSize = PAGE_SIZES.includes(rawPageSize as (typeof PAGE_SIZES)[number]) ? rawPageSize : defaultPageSize;
   const pageNo = readPositiveInt(searchParams.get('page'), 1);
   const sortParam = searchParams.get('sort');
-  const sortId = sortParam && allowedSorts.includes(sortParam)
-    ? sortParam
-    : defaultSort?.id;
+  const sortId = sortParam && allowedSorts.includes(sortParam) ? sortParam : defaultSort?.id;
   const orderParam = searchParams.get('order');
-  const sortDesc = orderParam === 'asc' || orderParam === 'desc'
-    ? orderParam === 'desc'
-    : defaultSort?.desc ?? false;
+  const sortDesc = orderParam === 'asc' || orderParam === 'desc' ? orderParam === 'desc' : (defaultSort?.desc ?? false);
 
-  const sorting = useMemo<SortingState>(
-    () => sortId ? [{ id: sortId, desc: sortDesc }] : [],
-    [sortDesc, sortId],
-  );
-  const pagination = useMemo<PaginationState>(
-    () => ({ pageIndex: pageNo - 1, pageSize }),
-    [pageNo, pageSize],
+  const sorting = useMemo<SortingState>(() => (sortId ? [{ id: sortId, desc: sortDesc }] : []), [sortDesc, sortId]);
+  const pagination = useMemo<PaginationState>(() => ({ pageIndex: pageNo - 1, pageSize }), [pageNo, pageSize]);
+
+  const updateUrl = useCallback(
+    (updates: Record<string, string | undefined>, replace = false) => {
+      setSearchParams(
+        (current) => {
+          const next = new URLSearchParams(current);
+          Object.entries(updates).forEach(([key, value]) => {
+            if (!value) next.delete(key);
+            else next.set(key, value);
+          });
+          return next;
+        },
+        { replace },
+      );
+    },
+    [setSearchParams],
   );
 
-  const updateUrl = useCallback((updates: Record<string, string | undefined>, replace = false) => {
-    setSearchParams((current) => {
-      const next = new URLSearchParams(current);
-      Object.entries(updates).forEach(([key, value]) => {
-        if (!value) next.delete(key);
-        else next.set(key, value);
+  const onPaginationChange = useCallback(
+    (updater: Updater<PaginationState>) => {
+      const next = applyUpdater(updater, pagination);
+      const pageSizeChanged = next.pageSize !== pagination.pageSize;
+      setRowSelection({});
+      updateUrl({
+        page: String(pageSizeChanged ? 1 : next.pageIndex + 1),
+        pageSize: String(next.pageSize),
       });
-      return next;
-    }, { replace });
-  }, [setSearchParams]);
+    },
+    [pagination, updateUrl],
+  );
 
-  const onPaginationChange = useCallback((updater: Updater<PaginationState>) => {
-    const next = applyUpdater(updater, pagination);
-    const pageSizeChanged = next.pageSize !== pagination.pageSize;
-    setRowSelection({});
-    updateUrl({
-      page: String(pageSizeChanged ? 1 : next.pageIndex + 1),
-      pageSize: String(next.pageSize),
-    });
-  }, [pagination, updateUrl]);
+  const onSortingChange = useCallback(
+    (updater: Updater<SortingState>) => {
+      const next = applyUpdater(updater, sorting).slice(0, 1);
+      setRowSelection({});
+      updateUrl({
+        page: '1',
+        sort: next[0]?.id,
+        order: next[0] ? (next[0].desc ? 'desc' : 'asc') : undefined,
+      });
+    },
+    [sorting, updateUrl],
+  );
 
-  const onSortingChange = useCallback((updater: Updater<SortingState>) => {
-    const next = applyUpdater(updater, sorting).slice(0, 1);
-    setRowSelection({});
-    updateUrl({
-      page: '1',
-      sort: next[0]?.id,
-      order: next[0] ? (next[0].desc ? 'desc' : 'asc') : undefined,
-    });
-  }, [sorting, updateUrl]);
-
-  const updatePreference = useCallback(<K extends keyof StoredPreferences>(
-    key: K,
-    updater: Updater<StoredPreferences[K]>,
-  ) => {
-    setPreferences((current) => ({
-      ...current,
-      [key]: applyUpdater(updater, current[key]),
-    }));
-  }, []);
+  const updatePreference = useCallback(
+    <K extends keyof StoredPreferences>(key: K, updater: Updater<StoredPreferences[K]>) => {
+      setPreferences((current) => ({
+        ...current,
+        [key]: applyUpdater(updater, current[key]),
+      }));
+    },
+    [],
+  );
 
   useEffect(() => {
-    window.localStorage.setItem(
-      `rentify:data-table:${tableId}:v2`,
-      JSON.stringify(preferences),
-    );
+    window.localStorage.setItem(`rentify:data-table:${tableId}:v2`, JSON.stringify(preferences));
   }, [preferences, tableId]);
 
-  const setSearch = useCallback((value: string) => {
-    setRowSelection({});
-    updateUrl({ page: '1', q: value || undefined }, true);
-  }, [updateUrl]);
+  const setSearch = useCallback(
+    (value: string) => {
+      setRowSelection({});
+      updateUrl({ page: '1', q: value || undefined }, true);
+    },
+    [updateUrl],
+  );
 
-  const setFilter = useCallback((key: string, value?: string) => {
-    setRowSelection({});
-    updateUrl({ page: '1', [key]: value });
-  }, [updateUrl]);
+  const setFilter = useCallback(
+    (key: string, value?: string) => {
+      setRowSelection({});
+      updateUrl({ page: '1', [key]: value });
+    },
+    [updateUrl],
+  );
 
   const clearFilters = useCallback(() => {
     const updates: Record<string, undefined> = { page: undefined, q: undefined };
-    Object.keys(defaultFilters).forEach((key) => { updates[key] = undefined; });
+    Object.keys(defaultFilters).forEach((key) => {
+      updates[key] = undefined;
+    });
     setRowSelection({});
     updateUrl(updates);
   }, [defaultFilters, updateUrl]);
 
-  const state = useMemo<DataTableControlledState>(() => ({
-    pagination,
-    sorting,
-    rowSelection,
-    columnVisibility: preferences.columnVisibility,
-    columnOrder: preferences.columnOrder,
-    columnPinning: preferences.columnPinning,
-    columnSizing: preferences.columnSizing,
-    density: preferences.density,
-  }), [pagination, preferences, rowSelection, sorting]);
+  const state = useMemo<DataTableControlledState>(
+    () => ({
+      pagination,
+      sorting,
+      rowSelection,
+      columnVisibility: preferences.columnVisibility,
+      columnOrder: preferences.columnOrder,
+      columnPinning: preferences.columnPinning,
+      columnSizing: preferences.columnSizing,
+      density: preferences.density,
+    }),
+    [pagination, preferences, rowSelection, sorting],
+  );
 
-  const handlers = useMemo<DataTableStateHandlers>(() => ({
-    onPaginationChange,
-    onSortingChange,
-    onRowSelectionChange: setRowSelection,
-    onColumnVisibilityChange: (updater) => setPreferences((current) => {
-      const columnVisibility = {
-        ...applyUpdater(updater, current.columnVisibility),
-      };
-      const protectedIds = new Set([
-        ...requiredColumnIds,
-        ...(current.columnPinning.left ?? []),
-        ...(current.columnPinning.right ?? []),
-      ]);
-      protectedIds.forEach((id) => { columnVisibility[id] = true; });
-      return { ...current, columnVisibility };
+  const handlers = useMemo<DataTableStateHandlers>(
+    () => ({
+      onPaginationChange,
+      onSortingChange,
+      onRowSelectionChange: setRowSelection,
+      onColumnVisibilityChange: (updater) =>
+        setPreferences((current) => {
+          const columnVisibility = {
+            ...applyUpdater(updater, current.columnVisibility),
+          };
+          const protectedIds = new Set([
+            ...requiredColumnIds,
+            ...(current.columnPinning.left ?? []),
+            ...(current.columnPinning.right ?? []),
+          ]);
+          protectedIds.forEach((id) => {
+            columnVisibility[id] = true;
+          });
+          return { ...current, columnVisibility };
+        }),
+      onColumnOrderChange: (updater) => updatePreference('columnOrder', updater),
+      onColumnPinningChange: (updater) =>
+        setPreferences((current) => {
+          const columnPinning = applyUpdater(updater, current.columnPinning);
+          const columnVisibility = { ...current.columnVisibility };
+          [...(columnPinning.left ?? []), ...(columnPinning.right ?? [])].forEach((id) => {
+            columnVisibility[id] = true;
+          });
+          return { ...current, columnPinning, columnVisibility };
+        }),
+      onColumnSizingChange: (updater) => updatePreference('columnSizing', updater),
     }),
-    onColumnOrderChange: (updater) => updatePreference('columnOrder', updater),
-    onColumnPinningChange: (updater) => setPreferences((current) => {
-      const columnPinning = applyUpdater(updater, current.columnPinning);
-      const columnVisibility = { ...current.columnVisibility };
-      [...(columnPinning.left ?? []), ...(columnPinning.right ?? [])]
-        .forEach((id) => { columnVisibility[id] = true; });
-      return { ...current, columnPinning, columnVisibility };
-    }),
-    onColumnSizingChange: (updater) => updatePreference('columnSizing', updater),
-  }), [onPaginationChange, onSortingChange, requiredColumnIds, updatePreference]);
+    [onPaginationChange, onSortingChange, requiredColumnIds, updatePreference],
+  );
 
   const filters = useMemo(
-    () => Object.fromEntries(
-      Object.entries(defaultFilters).map(([key, fallback]) => [key, searchParams.get(key) ?? fallback]),
-    ),
+    () =>
+      Object.fromEntries(
+        Object.entries(defaultFilters).map(([key, fallback]) => [key, searchParams.get(key) ?? fallback]),
+      ),
     [defaultFilters, searchParams],
   );
 
-  const setDensity = useCallback((density: DataTableDensity) =>
-    setPreferences((current) => ({ ...current, density })), []);
+  const setDensity = useCallback(
+    (density: DataTableDensity) => setPreferences((current) => ({ ...current, density })),
+    [],
+  );
 
   return {
     state,
@@ -264,4 +289,3 @@ export const useDataTableState = ({
     setDensity,
   };
 };
-

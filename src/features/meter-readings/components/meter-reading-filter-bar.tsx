@@ -67,12 +67,21 @@ export const MeterReadingFilterBar = ({
             <ChevronLeft className="w-4 h-4 text-rentify-text-secondary" />
           </Button>
 
-          <div className="flex items-center gap-1.5 px-2 min-w-28 justify-center">
-            <Calendar className="w-3.5 h-3.5 text-rentify-primary" />
-            <span className="text-xs font-semibold text-rentify-text-primary">
+          <label className="relative flex items-center gap-1.5 px-2.5 py-1 min-w-28 justify-center cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors">
+            <Calendar className="w-3.5 h-3.5 text-rentify-primary pointer-events-none" />
+            <span className="text-xs font-semibold text-rentify-text-primary pointer-events-none">
               {formatMonth(selectedPeriod) || selectedPeriod}
             </span>
-          </div>
+            <input
+              type="month"
+              value={selectedPeriod}
+              onChange={(e) => {
+                if (e.target.value) onPeriodChange(e.target.value);
+              }}
+              className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+              aria-label={t('page.title')}
+            />
+          </label>
 
           <Button
             type="button"
