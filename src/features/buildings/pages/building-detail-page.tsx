@@ -8,10 +8,16 @@ import { Card } from '@/components/ui/card';
 import { AlertBanner } from '@/components/feedback/alert-banner';
 import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
+import { useDisclosure } from '@/hooks/use-disclosure';
+import { useRatePoliciesQuery } from '@/features/billing/hooks/use-rate-policies-query';
+import { useBillingSettingsQuery } from '@/features/billing/hooks/use-billing-settings-query';
+import { RatePolicyCard } from '@/features/billing/components/rate-policy-card';
+import { RatePolicyDialog } from '@/features/billing/components/rate-policy-dialog';
+import { BillingSettingCard } from '@/features/billing/components/billing-setting-card';
+import { BillingSettingDialog } from '@/features/billing/components/billing-setting-dialog';
 import { BuildingStatus } from '../enums/building-status.enum';
 import { BuildingDetailHeader } from '../components/building-detail-header';
 import { BuildingOverviewCard } from '../components/building-overview-card';
-import { BuildingRatePoliciesCard } from '../components/building-rate-policies-card';
 import { BuildingDocumentsCard } from '../components/building-documents-card';
 import { BuildingRoomsNavCard } from '../components/building-rooms-nav-card';
 import { BuildingAmenitiesCard } from '../components/building-amenities-card';
@@ -26,9 +32,32 @@ export const BuildingDetailPage = () => {
   const navigate = useNavigate();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const rateDialog = useDisclosure();
+  const billingDialog = useDisclosure();
 
   const { data: building, isLoading, isError, error, refetch } = useMyBuildingQuery(id);
   const errorStatus = isAxiosError(error) ? error.response?.status : undefined;
+
+  const {
+    data: ratePoliciesData,
+    isLoading: isRateLoading,
+    refetch: refetchRate,
+  } = useRatePoliciesQuery(
+    building?.id ? { 'filter[scope]': 'building', 'filter[buildingId]': building.id } : undefined,
+    { enabled: Boolean(building?.id) },
+  );
+
+  const {
+    data: billingSettingsData,
+    isLoading: isBillingLoading,
+    refetch: refetchBilling,
+  } = useBillingSettingsQuery(
+    building?.id ? { 'filter[scope]': 'building', 'filter[buildingId]': building.id } : undefined,
+    { enabled: Boolean(building?.id) },
+  );
+
+  const activeRatePolicy = ratePoliciesData?.items?.[0] ?? null;
+  const activeBillingSetting = billingSettingsData?.items?.[0] ?? null;
 
   useEffect(() => {
     if (errorStatus === 403) {
@@ -92,10 +121,7 @@ export const BuildingDetailPage = () => {
       />
 
       {isRejected && (
-        <AlertBanner
-          variant="error"
-          title={t('detail.rejectedTitle')}
-        >
+        <AlertBanner variant="error" title={t('detail.rejectedTitle')}>
           <div className="flex items-start gap-2 mt-1 text-xs">
             <ShieldAlert className="w-4 h-4 text-rentify-error shrink-0 mt-0.5" />
             <p>{building.reviewNote || t('detail.rejectedDefaultReason')}</p>
@@ -106,7 +132,18 @@ export const BuildingDetailPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div className="lg:col-span-8 flex flex-col gap-6">
           <BuildingOverviewCard building={building} />
-          <BuildingRatePoliciesCard ratePolicies={building.ratePolicies} />
+          <RatePolicyCard
+            scope="building"
+            policy={activeRatePolicy}
+            isLoading={isRateLoading}
+            onConfigure={rateDialog.open}
+          />
+          <BillingSettingCard
+            scope="building"
+            setting={activeBillingSetting}
+            isLoading={isBillingLoading}
+            onConfigure={billingDialog.open}
+          />
           <BuildingDocumentsCard certificateUrls={building.ownershipCertificateUrls} />
         </div>
 
@@ -117,11 +154,7 @@ export const BuildingDetailPage = () => {
       </div>
 
       <div className="pt-2">
-        <BuildingRoomList
-          buildingId={building.id}
-          buildingName={building.name}
-          buildingStatus={building.status}
-        />
+        <BuildingRoomList buildingId={building.id} buildingName={building.name} buildingStatus={building.status} />
       </div>
 
       <BuildingEditModal
@@ -136,6 +169,24 @@ export const BuildingDetailPage = () => {
         onClose={() => setIsDeleteDialogOpen(false)}
         buildingId={building.id}
         buildingName={building.name}
+      />
+
+      <RatePolicyDialog
+        open={rateDialog.isOpen}
+        onClose={rateDialog.close}
+        scope="building"
+        buildingId={building.id}
+        existingPolicy={activeRatePolicy}
+        onSuccess={() => void refetchRate()}
+      />
+
+      <BillingSettingDialog
+        open={billingDialog.isOpen}
+        onClose={billingDialog.close}
+        scope="building"
+        buildingId={building.id}
+        existingSetting={activeBillingSetting}
+        onSuccess={() => void refetchBilling()}
       />
     </div>
   );

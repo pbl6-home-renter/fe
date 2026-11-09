@@ -1,20 +1,17 @@
+import type { BaseEntity, PaginationParams } from '@/types/api';
 import type { Role } from '@/types/role';
 import type { PayoutAccount, UserStatus } from '@/types/user';
 
 export type UserSortField = 'createdAt' | 'name' | 'email';
 
-export interface UserListAdminParams {
-  pageNo?: number;
-  pageSize?: number;
+export interface UserListAdminParams extends PaginationParams {
   sort?: UserSortField;
-  order?: 'asc' | 'desc';
   role?: Role;
   status?: UserStatus;
   q?: string;
 }
 
-export interface UserListAdminItemDto {
-  id: string;
+export interface UserListAdminItemDto extends BaseEntity {
   name: string;
   email: string;
   phone: string;
@@ -22,13 +19,7 @@ export interface UserListAdminItemDto {
   status: UserStatus;
 }
 
-export interface UserDetailAdminDto {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  role: Role;
-  status: UserStatus;
+export interface UserDetailAdminDto extends UserListAdminItemDto {
   lockReason: string | null;
   lockedAt: string | null;
   payoutAccount: PayoutAccount | null;

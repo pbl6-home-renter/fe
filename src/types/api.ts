@@ -53,6 +53,14 @@ export interface CursorPaginationParams {
   pageSize?: number;
 }
 
+/** Common entity fields based on api-doc `common/base-entity.yaml`. */
+export interface BaseEntity {
+  id: string;
+  createdAt?: string;
+  updatedAt?: string;
+  isDeleted?: boolean;
+}
+
 export type SortOrder = 'asc' | 'desc';
 
 export interface PaginationParams {

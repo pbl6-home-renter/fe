@@ -1,3 +1,4 @@
+import type { BaseEntity } from './api';
 import type { Role } from './role';
 
 export const UserStatus = {
@@ -19,8 +20,7 @@ export interface PayoutAccount {
   accountName: string;
 }
 
-export interface User {
-  id: string;
+export interface User extends BaseEntity {
   phone: string;
   email: string;
   name: string;
@@ -29,7 +29,4 @@ export interface User {
   payoutAccount?: PayoutAccount | null;
   lockReason?: string | null;
   lockedAt?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
-  isDeleted?: boolean;
 }

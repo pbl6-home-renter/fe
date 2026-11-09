@@ -1,20 +1,13 @@
+import type { BaseEntity } from '@/types/api';
 import type { BuildingStatus } from '../enums/building-status.enum';
 
-/**
- * DTO for items returned by GET /me/buildings
- */
-export interface BuildingMyListItemDto {
-  id: string;
+export interface BuildingMyListItemDto extends BaseEntity {
   name: string;
   address?: string;
   status: BuildingStatus;
   occupiedRooms: number;
   occupancyRate: string;
   rejectionReason?: string | null;
-  createdAt?: string;
-  /**
-   * Optional field; note: rentify.json API spec omits totalRooms from /me/buildings response
-   */
   totalRooms?: number;
 }
 
@@ -27,11 +20,7 @@ export interface BuildingRatePolicyDto {
   unitPrice?: number | null;
 }
 
-/**
- * DTO for GET /me/buildings/{buildingId}
- */
-export interface BuildingMyDetailDto {
-  id: string;
+export interface BuildingMyDetailDto extends BaseEntity {
   name: string;
   province: string;
   ward: string;
@@ -45,14 +34,7 @@ export interface BuildingMyDetailDto {
   ownershipCertificateUrls?: string[];
   vietQrConfigured: boolean;
   ratePolicies?: BuildingRatePolicyDto[];
-  createdAt?: string;
-  /**
-   * Optional field; note: district was removed from /me/buildings/{id} response in PR #23
-   */
   district?: string;
-  /**
-   * Optional field; note: totalRooms was removed from /me/buildings/{id} response in PR #23
-   */
   totalRooms?: number;
 }
 
@@ -60,9 +42,6 @@ export interface BuildingFilter {
   status?: BuildingStatus;
 }
 
-/**
- * DTO for POST /buildings
- */
 export interface BuildingCreateRequestDto {
   name: string;
   province: string;
@@ -70,33 +49,24 @@ export interface BuildingCreateRequestDto {
   address: string;
 }
 
-export interface BuildingCreateResponseDto {
-  id: string;
+export interface BuildingCreateResponseDto extends BaseEntity {
   status: BuildingStatus;
   latitude: string;
   longitude: string;
   ownershipCertificateMediaIds?: string[];
-  createdAt: string;
 }
 
-/**
- * DTO for PATCH /buildings/{buildingId}
- */
 export interface BuildingUpdateRequestDto {
   name?: string;
   address?: string;
 }
 
-export interface BuildingUpdateResponseDto {
-  id: string;
+export interface BuildingUpdateResponseDto extends BaseEntity {
   name: string;
   address: string;
   status: BuildingStatus;
 }
 
-/**
- * DTOs for PUT /buildings/{buildingId}/vietqr-config
- */
 export interface BuildingVietQrConfigRequestDto {
   bankCode: string;
   bankName: string;
@@ -106,8 +76,7 @@ export interface BuildingVietQrConfigRequestDto {
   isDefault?: boolean | null;
 }
 
-export interface BuildingVietQrConfigResponseDto {
-  id: string;
+export interface BuildingVietQrConfigResponseDto extends BaseEntity {
   buildingId: string;
   bankCode: string;
   bankName: string;
@@ -115,13 +84,8 @@ export interface BuildingVietQrConfigResponseDto {
   accountHolderName: string;
   branch?: string | null;
   qrSampleUrl: string;
-  createdAt: string;
-  updatedAt?: string;
 }
 
-/**
- * DTOs for POST /buildings/{buildingId}/rate-policies/batch
- */
 export interface BuildingRatePolicyStepDto {
   fromStep: number;
   toStep?: number | null;
@@ -143,19 +107,14 @@ export interface BuildingRatePoliciesBatchCreateRequestDto {
   ratePolicies: BuildingRatePolicyItemRequestDto[];
 }
 
-/**
- * Public DTOs for GET /buildings & GET /buildings/{buildingId}
- */
-export interface BuildingPublicListItemDto {
-  id: string;
+export interface BuildingPublicListItemDto extends BaseEntity {
   name: string;
   province: string;
   ward: string;
   address: string;
 }
 
-export interface BuildingPublicDetailDto {
-  id: string;
+export interface BuildingPublicDetailDto extends BaseEntity {
   name: string;
   province: string;
   ward: string;
@@ -163,15 +122,11 @@ export interface BuildingPublicDetailDto {
   status: BuildingStatus;
 }
 
-/**
- * Admin action DTOs
- */
 export interface BuildingApproveRequestDto {
   note: string;
 }
 
-export interface BuildingApproveResponseDto {
-  id: string;
+export interface BuildingApproveResponseDto extends BaseEntity {
   status: BuildingStatus;
   reviewedAt: string;
 }
@@ -180,15 +135,13 @@ export interface BuildingRejectRequestDto {
   note: string;
 }
 
-export interface BuildingRejectResponseDto {
-  id: string;
+export interface BuildingRejectResponseDto extends BaseEntity {
   status: BuildingStatus;
   reviewNote: string;
   reviewedAt: string;
 }
 
-export interface BuildingAdminListItemDto {
-  id: string;
+export interface BuildingAdminListItemDto extends BaseEntity {
   name: string;
   landlordId: string;
   landlordName: string;
@@ -196,18 +149,15 @@ export interface BuildingAdminListItemDto {
   status: BuildingStatus;
   totalRooms: number;
   documentsCount: number;
-  createdAt: string;
 }
 
-export interface BuildingAdminOwnershipDocument {
-  id: string;
+export interface BuildingAdminOwnershipDocument extends BaseEntity {
   url: string;
   name?: string;
   uploadedAt?: string;
 }
 
-export interface BuildingAdminDetailDto {
-  id: string;
+export interface BuildingAdminDetailDto extends BaseEntity {
   name: string;
   province: string;
   district?: string;
@@ -230,7 +180,6 @@ export interface BuildingAdminDetailDto {
   status: BuildingStatus;
   reviewNote?: string | null;
   submittedAt?: string;
-  createdAt: string;
 }
 
 export interface BuildingAdminFilter {

@@ -1,4 +1,4 @@
-import type { CursorPaginationMeta, PaginationMeta } from '@/types/api';
+import type { BaseEntity, CursorPaginationMeta, PaginationMeta } from '@/types/api';
 
 export type ConversationKind = 'direct' | 'group';
 export type MessageType = 'text' | 'image' | 'system' | 'bot';
@@ -43,8 +43,7 @@ export type SystemMessagePayload =
       newAvatarMediaId: string | null;
     });
 
-export interface ChatMessage {
-  id: string;
+export interface ChatMessage extends BaseEntity {
   conversationId: string;
   senderUserId: string | null;
   senderName: string;
@@ -68,8 +67,7 @@ export interface LastMessage {
   payload: SystemMessagePayload | null;
 }
 
-export interface ConversationSummary {
-  id: string;
+export interface ConversationSummary extends BaseEntity {
   kind: ConversationKind;
   contextType: 'contract' | 'building' | null;
   contextId: string | null;
@@ -79,12 +77,9 @@ export interface ConversationSummary {
   unreadCount: number;
   lastMessage: LastMessage | null;
   memberCount?: number;
-  createdAt?: string;
-  updatedAt?: string;
 }
 
-export interface ConversationMember {
-  id: string;
+export interface ConversationMember extends BaseEntity {
   conversationId: string;
   userId: string | null;
   displayName: string;

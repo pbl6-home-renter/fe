@@ -1,0 +1,109 @@
+{
+  "rateTypes": {
+    "electricity": "Điện",
+    "water": "Nước",
+    "wifi": "Internet / Wifi",
+    "cleaning": "Vệ sinh",
+    "parking": "Giữ xe",
+    "maintenance": "Bảo trì",
+    "other": "Khác"
+  },
+  "rateKinds": {
+    "flat": "Cố định / đơn vị",
+    "tiered": "Bậc thang lũy tiến",
+    "fixed_per_period": "Cố định theo kỳ",
+    "per_head": "Theo người",
+    "per_area_m2": "Theo m²",
+    "per_vehicle": "Theo xe"
+  },
+  "billingUnits": {
+    "kwh": "kWh",
+    "m3": "m³",
+    "room": "phòng",
+    "person": "người",
+    "m2": "m²",
+    "vehicle": "xe",
+    "day": "ngày",
+    "occurrence": "lần"
+  },
+  "ratePolicy": {
+    "title": "Biểu giá dịch vụ",
+    "subtitle": "Biểu giá áp dụng để tính tiền điện, nước và các dịch vụ định kỳ",
+    "inheritedBadge": "Kế thừa tòa nhà",
+    "revertInherit": "Kế thừa từ tòa",
+    "editButton": "Chỉnh sửa biểu giá",
+    "setupButton": "Thiết lập biểu giá",
+    "roomInheritNotice": "Phòng này đang kế thừa biểu giá dịch vụ chung từ tòa nhà. Bạn có thể thiết lập biểu giá riêng nếu phòng có thỏa thuận giá khác.",
+    "missingRatesTitle": "Chưa thiết lập biểu giá dịch vụ",
+    "missingRatesDesc": "Theo quy tắc hệ thống (P6-D72), hóa đơn sẽ bị chặn phát hành nếu thiếu đơn giá điện hoặc nước. Vui lòng thiết lập biểu giá trước khi tạo hóa đơn."
+  },
+  "dialog": {
+    "serviceIndex": "Dịch vụ #{{index}}",
+    "removeService": "Xóa",
+    "typeLabel": "Loại dịch vụ",
+    "nameLabel": "Tên hiển thị",
+    "namePlaceholder": "vd: Tiền điện sinh hoạt",
+    "nameRequired": "Tên dịch vụ không được để trống",
+    "kindLabel": "Cách tính",
+    "unitLabel": "Đơn vị tính",
+    "priceLabel": "Đơn giá (VNĐ)",
+    "priceInvalid": "Đơn giá không hợp lệ",
+    "tieredNotice": "Biểu giá bậc thang sẽ áp dụng theo cấu hình bậc hiện hữu của tòa nhà.",
+    "editPolicyTitle": "Chỉnh sửa biểu giá dịch vụ",
+    "createPolicyTitle": "Thiết lập biểu giá dịch vụ",
+    "buildingPolicyDesc": "Biểu giá này sẽ áp dụng mặc định cho toàn bộ các phòng trong tòa nhà (trừ các phòng có cấu hình riêng).",
+    "roomPolicyDesc": "Cấu hình đơn giá riêng cho phòng này. Khi được bật, hệ thống sẽ ưu tiên dùng biểu giá này thay vì biểu giá tòa nhà.",
+    "addServiceButton": "Thêm dịch vụ khác"
+  },
+  "setting": {
+    "title": "Cài đặt thanh toán & nhắc nợ",
+    "subtitle": "Quy định ngày chốt/thu tiền định kỳ và thông báo tự động",
+    "inheritedBadge": "Kế thừa tòa nhà",
+    "editButton": "Chỉnh sửa cài đặt",
+    "setupButton": "Thiết lập thanh toán",
+    "roomInheritNotice": "Phòng này đang kế thừa ngày thu tiền và thiết lập nhắc nợ từ tòa nhà.",
+    "dueDayLabel": "Ngày thu tiền",
+    "remindDayLabel": "Ngày nhắc nộp",
+    "dayOfMonth": "hàng tháng",
+    "dueDayHelp": "Gợi ý ngày gửi và thu tiền phòng",
+    "remindDayHelp": "Gửi thông báo nhắc nhở khách thuê",
+    "noRemindHelp": "Không gửi nhắc nộp tiền",
+    "botLabel": "Bot nhắc nợ tự động",
+    "botEnabled": "Đang bật",
+    "botDisabled": "Đã tắt",
+    "botHelp": "Tự động gửi card nhắc nợ vào nhóm chat của phòng",
+    "dialogEditTitle": "Chỉnh sửa cài đặt thanh toán",
+    "dialogCreateTitle": "Thiết lập ngày thanh toán & nhắc nợ",
+    "dialogBuildingDesc": "Cài đặt áp dụng chung cho tất cả các phòng trong tòa nhà.",
+    "dialogRoomDesc": "Cài đặt ngày thu tiền riêng cho phòng này.",
+    "dueDayFieldLabel": "Ngày thu tiền dự kiến (1 - 28)",
+    "dueDayFieldHelper": "Ngày trong tháng gợi ý thu tiền phòng",
+    "remindDayFieldLabel": "Ngày nhắc nộp tiền (1 - 28, tùy chọn)",
+    "remindDayFieldHelper": "Để trống nếu không muốn gửi thông báo nhắc nộp tiền",
+    "botFieldLabel": "Bật Bot nhắc nộp tiền tự động",
+    "botFieldHelper": "Cho phép bot gửi tin nhắn nhắc nộp tiền vào chat phòng khi đến hạn",
+    "dayRangeError": "Ngày phải từ 1 đến 28"
+  },
+  "common": {
+    "cancel": "Hủy",
+    "save": "Lưu thay đổi"
+  },
+  "apiSuccess": {
+    "RATE_POLICIES_FETCHED": "Đã tải danh sách biểu giá",
+    "RATE_POLICY_CREATED": "Tạo biểu giá thành công",
+    "RATE_POLICY_UPDATED": "Cập nhật biểu giá thành công",
+    "RATE_POLICY_DEACTIVATED": "Đã chuyển về kế thừa biểu giá tòa nhà",
+    "RATE_POLICIES_BATCH_CREATED": "Thiết lập biểu giá tòa nhà thành công",
+    "BILLING_SETTINGS_FETCHED": "Đã tải cài đặt thanh toán",
+    "BILLING_SETTING_CREATED": "Tạo cài đặt thanh toán thành công",
+    "BILLING_SETTING_UPDATED": "Cập nhật cài đặt thanh toán thành công"
+  },
+  "apiErrors": {
+    "RATE_POLICIES_REQUIRED": "Cần ít nhất một đơn giá dịch vụ",
+    "INVALID_RATE_KIND": "Phương thức tính đơn giá không hợp lệ",
+    "TIER_CONFIG_INVALID": "Cấu hình bậc thang không hợp lệ",
+    "RATE_POLICY_NOT_FOUND": "Không tìm thấy biểu giá dịch vụ",
+    "BILLING_SETTING_NOT_FOUND": "Không tìm thấy cài đặt thanh toán",
+    "RATE_MISSING": "Thiếu đơn giá điện hoặc nước"
+  }
+}

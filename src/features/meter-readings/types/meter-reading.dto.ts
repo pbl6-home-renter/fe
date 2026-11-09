@@ -1,7 +1,7 @@
+import type { BaseEntity } from '@/types/api';
 import type { MeterType } from '../enums/meter-type.enum';
 
-export interface MeterReadingDto {
-  id: string;
+export interface MeterReadingDto extends BaseEntity {
   roomId: string;
   buildingId: string;
   type: MeterType;
@@ -11,7 +11,6 @@ export interface MeterReadingDto {
   consumption: string;
   isBaseline: boolean;
   evidenceMediaId: string | null;
-  createdAt: string;
 }
 
 export interface MeterReadingFilter {
