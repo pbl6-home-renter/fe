@@ -10,7 +10,9 @@ export interface MeterReadingDto extends BaseEntity {
   currentReading: string;
   consumption: string;
   isBaseline: boolean;
-  evidenceMediaId: string | null;
+  evidenceMediaId?: string | null;
+  evidenceMediaIds?: string[];
+  evidenceMediaUrls?: string[];
 }
 
 export interface MeterReadingFilter {
@@ -71,6 +73,15 @@ export interface UpdateMeterReadingRequestDto {
 export interface AiMeterReadingOcrResponseDto {
   value: string | null;
   confidence: number;
+}
+
+export interface CellOcrSuccessData {
+  currentReading?: string;
+  evidenceMediaId: string;
+  previewUrl: string;
+  source: 'manual' | 'ocr';
+  ocrValue?: string | null;
+  ocrConfidence?: number;
 }
 
 export interface MeterCellState {

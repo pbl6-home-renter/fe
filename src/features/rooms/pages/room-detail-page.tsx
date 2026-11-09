@@ -127,7 +127,7 @@ export const RoomDetailPage = () => {
         {/* Right Column: Contract & Tenant info + Meter readings */}
         <div className="lg:col-span-5 space-y-6">
           <RoomTenantContractCard contract={room.currentContract} members={room.currentMembers} />
-          <RoomMeterReadingsCard meterReadings={room.latestMeterReadings} />
+          <RoomMeterReadingsCard meterReadings={room.latestMeterReadings} buildingId={room.buildingId} />
         </div>
       </div>
 

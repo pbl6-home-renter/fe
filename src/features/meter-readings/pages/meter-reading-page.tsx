@@ -116,6 +116,7 @@ export const MeterReadingPage = () => {
         isSubmitting={singleModal.isSubmitting}
         formError={singleModal.formError}
         consumption={singleModal.consumption}
+        onSwitchType={singleModal.handleSwitchType}
       />
 
       {/* Full Image Preview Dialog */}

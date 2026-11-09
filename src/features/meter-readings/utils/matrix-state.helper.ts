@@ -17,10 +17,12 @@ const resolveCell = (
   const previousReading = currentServer?.previousReading || prevServer?.currentReading || '0';
   const currentReading = edit?.currentReading !== undefined ? edit.currentReading : currentServer?.currentReading || '';
 
-  const evidenceMediaId =
-    edit?.evidenceMediaId !== undefined ? edit.evidenceMediaId : currentServer?.evidenceMediaId || null;
+  const serverMediaId = currentServer?.evidenceMediaId || currentServer?.evidenceMediaIds?.[0] || null;
+  const serverMediaUrl =
+    currentServer?.evidenceMediaUrls?.[0] || (serverMediaId ? `/api/v1/media/${serverMediaId}` : null);
 
-  const evidencePreviewUrl = edit?.evidencePreviewUrl !== undefined ? edit.evidencePreviewUrl : null;
+  const evidenceMediaId = edit?.evidenceMediaId !== undefined ? edit.evidenceMediaId : serverMediaId;
+  const evidencePreviewUrl = edit?.evidencePreviewUrl !== undefined ? edit.evidencePreviewUrl : serverMediaUrl;
 
   const isSaved = Boolean(currentServer?.id) && edit?.currentReading === undefined;
 

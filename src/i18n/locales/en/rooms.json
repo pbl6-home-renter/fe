@@ -96,7 +96,9 @@
     "idLabel": "Room ID",
     "meterTitle": "Latest Recorded Meters",
     "electricity": "Electricity",
-    "water": "Water"
+    "water": "Water",
+    "noMetersRecorded": "No meter readings recorded for this room yet.",
+    "recordMetersAction": "Record meter readings"
   },
   "units": {
     "currency": "VND",

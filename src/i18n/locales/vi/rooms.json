@@ -96,7 +96,9 @@
     "idLabel": "Mã phòng",
     "meterTitle": "Chỉ số chốt kỳ gần nhất",
     "electricity": "Số điện",
-    "water": "Số nước"
+    "water": "Số nước",
+    "noMetersRecorded": "Chưa có chỉ số được ghi nhận cho phòng này.",
+    "recordMetersAction": "Ghi chỉ số điện nước"
   },
   "units": {
     "currency": "đ",

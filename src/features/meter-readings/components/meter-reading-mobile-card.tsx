@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Zap, Droplets, SlidersHorizontal } from 'lucide-react';
+import { Zap, Droplets, Eye } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/config/routes.config';
 import { MeterReadingCellInput } from './meter-reading-cell-input';
 import { MeterType } from '../enums/meter-type.enum';
 import type { RoomReadingRowState } from '../types/meter-reading.dto';
@@ -33,20 +35,28 @@ export const MeterReadingMobileCard = ({
   onViewImage,
 }: MeterReadingMobileCardProps) => {
   const { t } = useTranslation('meterReadings');
+  const navigate = useNavigate();
+  const isSaved = row.electricity.isSaved || row.water.isSaved;
 
   return (
     <Card className="p-4 border-rentify-divider bg-rentify-surface rounded-2xl shadow-xs space-y-3">
       <div className="flex items-center justify-between border-b border-rentify-divider pb-2.5">
-        <h4 className="font-bold text-sm text-rentify-text-primary">{row.roomName}</h4>
+        <button
+          type="button"
+          onClick={() => navigate(ROUTES.LANDLORD.ROOM_DETAIL(row.roomId))}
+          className="font-bold text-sm text-rentify-primary hover:underline text-left cursor-pointer"
+        >
+          {row.roomName}
+        </button>
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => onOpenSingleModal(row, MeterType.ELECTRICITY)}
-          className="h-7 text-[11px] gap-1 text-rentify-text-secondary"
+          className="h-7 text-[11px] gap-1 text-rentify-primary hover:bg-rentify-primary/10"
         >
-          <SlidersHorizontal className="w-3.5 h-3.5" />
-          <span>{t('actions.detailEntry')}</span>
+          <Eye className="w-3.5 h-3.5" />
+          <span>{isSaved ? t('actions.viewDetails') : t('actions.detailEntry')}</span>
         </Button>
       </div>
 

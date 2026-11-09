@@ -4,6 +4,7 @@ import { useDisclosure } from '@/hooks/use-disclosure';
 import { useCreateMeterReadingMutation } from './use-create-meter-reading-mutation';
 import { MeterType } from '../enums/meter-type.enum';
 import { calculateConsumption } from '../utils/meter-reading.helper';
+import type { RoomReadingRowState } from '../types/meter-reading.dto';
 
 export interface SingleMeterReadingModalTarget {
   roomId: string;
@@ -14,6 +15,7 @@ export interface SingleMeterReadingModalTarget {
   currentReading?: string;
   evidenceMediaId?: string | null;
   previewUrl?: string | null;
+  row?: RoomReadingRowState;
 }
 
 export const useSingleMeterReadingModal = (onSuccessCallback?: () => void) => {
@@ -51,6 +53,34 @@ export const useSingleMeterReadingModal = (onSuccessCallback?: () => void) => {
     closeDialog();
     setTarget(null);
   }, [closeDialog]);
+
+  const handleSwitchType = useCallback(
+    (newType: MeterType) => {
+      if (!target) return;
+      const cell = target.row
+        ? newType === MeterType.ELECTRICITY
+          ? target.row.electricity
+          : target.row.water
+        : undefined;
+      setTarget((prev) =>
+        prev
+          ? {
+              ...prev,
+              type: newType,
+              previousReading: cell?.previousReading || '0',
+              currentReading: cell?.currentReading || '',
+              evidenceMediaId: cell?.evidenceMediaId || null,
+              previewUrl: cell?.evidencePreviewUrl || null,
+            }
+          : null,
+      );
+      setCurrentReading(cell?.currentReading || '');
+      setEvidenceMediaId(cell?.evidenceMediaId || null);
+      setPreviewUrl(cell?.evidencePreviewUrl || null);
+      setFormError(null);
+    },
+    [target],
+  );
 
   const handleSubmit = useCallback(() => {
     if (!target) return;
@@ -104,6 +134,7 @@ export const useSingleMeterReadingModal = (onSuccessCallback?: () => void) => {
     consumption,
     openModal,
     closeModal,
+    handleSwitchType,
     handleSubmit,
     isSubmitting: createMutation.isPending,
   };
