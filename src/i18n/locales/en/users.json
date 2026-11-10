@@ -113,14 +113,69 @@
     "phoneRequired": "Please enter phone number",
     "phoneInvalid": "Invalid phone number format",
     "lockReasonRequired": "Please enter lock reason",
-    "lockReasonMax": "Lock reason cannot exceed 500 characters"
+    "lockReasonMax": "Lock reason cannot exceed 500 characters",
+    "bankCodeRequired": "Enter the bank code.",
+    "bankCodeLength": "Bank code must be between 4 and 20 characters.",
+    "accountNumberRequired": "Enter the account number.",
+    "accountNumberInvalid": "Account number must be 6 to 20 digits.",
+    "accountNameRequired": "Enter the account holder name.",
+    "accountNameMax": "Account holder name cannot exceed 254 characters."
+  },
+  "profile": {
+    "title": "Personal profile",
+    "subtitle": "View and update your account details and profile photo",
+    "avatar": {
+      "uploadAction": "Upload photo",
+      "changeAction": "Change photo",
+      "uploading": "Uploading photo",
+      "cancelUpload": "Cancel upload",
+      "hint": "Supports JPG, PNG, or WEBP images up to 10 MB."
+    },
+    "lockedNotice": {
+      "title": "Account locked",
+      "defaultReason": "This account is currently locked. Contact an administrator for assistance."
+    },
+    "sections": {
+      "personalInfo": "Account information",
+      "personalInfoDesc": "Update your display name and primary contact phone number.",
+      "payoutAccount": "Payout account",
+      "payoutAccountDesc": "Bank account used to receive rental payments from tenants."
+    },
+    "fields": {
+      "emailReadOnlyHint": "Your login email is a permanent identifier and cannot be changed."
+    },
+    "placeholders": {
+      "name": "Example: Le Van An",
+      "phone": "Example: 0901234567",
+      "bankCode": "Example: 970422",
+      "accountNumber": "Example: 9876543210",
+      "accountName": "Example: LE VAN AN"
+    },
+    "conflict": {
+      "title": "Profile changed elsewhere",
+      "description": "Your profile was updated on the server while you were editing. Reload the latest data before saving to avoid overwriting it.",
+      "reloadAction": "Reload latest data"
+    },
+    "actions": {
+      "clearPayout": "Clear bank account",
+      "discardChanges": "Discard changes",
+      "saveChanges": "Save changes"
+    },
+    "messages": {
+      "noChanges": "No changes to save."
+    },
+    "error": {
+      "title": "Could not load profile",
+      "description": "Unable to load your account details. Check your network connection and try again."
+    }
   },
   "apiSuccess": {
     "USER_LIST_FETCHED": "User list fetched successfully",
     "USER_DETAIL_FETCHED": "User details fetched successfully",
     "USER_UPDATED": "User information updated successfully",
     "USER_ACCOUNT_LOCKED": "User account locked successfully",
-    "USER_ACCOUNT_UNLOCKED": "User account unlocked successfully"
+    "USER_ACCOUNT_UNLOCKED": "User account unlocked successfully",
+    "CURRENT_USER_PROFILE_UPDATED": "Profile changes saved."
   },
   "apiErrors": {
     "USER_NOT_FOUND": "User not found in system",
@@ -132,6 +187,7 @@
     "USER_DELETE_ALREADY_DELETED": "This account is already deleted",
     "USER_DELETE_HAS_ACTIVE_CONTRACT": "Cannot delete: user has active rental contracts",
     "DUPLICATE_PHONE": "This phone number is already registered",
+    "USER_UPDATE_PAYOUT_NOT_ALLOWED": "Only landlord accounts can configure a payout account.",
     "FORBIDDEN": "You do not have permission to perform this action"
   }
 }

@@ -3,6 +3,7 @@ import type { UserListAdminParams, UserSortField } from '../types/users.dto';
 
 export const USERS_QUERY_KEYS = {
   ALL: ['users'] as const,
+  ME: (userId?: string | null) => [...USERS_QUERY_KEYS.ALL, 'me', userId ?? 'anonymous'] as const,
   LIST: (params?: UserListAdminParams) => [...USERS_QUERY_KEYS.ALL, 'list', params] as const,
   DETAIL: (id: string) => [...USERS_QUERY_KEYS.ALL, 'detail', id] as const,
 };

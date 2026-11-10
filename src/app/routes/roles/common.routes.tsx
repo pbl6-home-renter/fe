@@ -5,6 +5,7 @@ import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-pag
 import { ROUTES } from '@/config/routes.config';
 import { ChatRoute } from '@/app/routes/chat-route';
 import { NotificationsPage } from '@/features/notifications/pages/notifications-page';
+import { ProfilePage } from '@/features/users/pages/profile-page';
 
 export const commonRoutes: RouteObject[] = [
   {
@@ -71,7 +72,7 @@ export const commonRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.PROFILE,
-    element: <DashboardOverview titleKey="routes.profile.title" descKey="routes.profile.desc" />,
+    element: <ProfilePage />,
   },
   {
     path: ROUTES.SETTINGS,

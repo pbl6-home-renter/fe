@@ -26,6 +26,7 @@ export interface User extends BaseEntity {
   name: string;
   role: Role;
   status: UserStatus;
+  avatarUrl?: string | null;
   payoutAccount?: PayoutAccount | null;
   lockReason?: string | null;
   lockedAt?: string | null;

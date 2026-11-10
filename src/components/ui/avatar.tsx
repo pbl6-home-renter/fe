@@ -2,7 +2,7 @@ import { useState, type HTMLAttributes } from 'react';
 import { User } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
-export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl';
+export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   src?: string | null;
@@ -17,6 +17,12 @@ const sizeMap: Record<AvatarSize, { box: string; text: string; icon: string; dot
   md: { box: 'w-10 h-10', text: 'text-sm', icon: 'w-5 h-5', dot: 'w-2.5 h-2.5' },
   lg: { box: 'w-12 h-12', text: 'text-base', icon: 'w-6 h-6', dot: 'w-3 h-3' },
   xl: { box: 'w-16 h-16', text: 'text-xl', icon: 'w-8 h-8', dot: 'w-3.5 h-3.5' },
+  '2xl': {
+    box: 'w-36 h-36 sm:w-44 sm:h-44',
+    text: 'text-4xl sm:text-5xl',
+    icon: 'w-14 h-14 sm:w-16 sm:h-16',
+    dot: 'w-4 h-4',
+  },
 };
 
 const getInitials = (name?: string): string => {
@@ -26,16 +32,9 @@ const getInitials = (name?: string): string => {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 };
 
-export const Avatar = ({
-  src,
-  alt = 'Avatar',
-  name,
-  size = 'md',
-  status,
-  className,
-  ...props
-}: AvatarProps) => {
-  const [imageError, setImageError] = useState(false);
+export const Avatar = ({ src, alt = 'Avatar', name, size = 'md', status, className, ...props }: AvatarProps) => {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const imageError = Boolean(src) && failedSrc === src;
   const sizeConfig = sizeMap[size] || sizeMap.md;
   const initials = getInitials(name);
 
@@ -50,7 +49,7 @@ export const Avatar = ({
       className={cn(
         'relative inline-flex items-center justify-center shrink-0 rounded-full select-none',
         sizeConfig.box,
-        className
+        className,
       )}
       {...props}
     >
@@ -58,7 +57,7 @@ export const Avatar = ({
         <img
           src={src}
           alt={alt}
-          onError={() => setImageError(true)}
+          onError={() => setFailedSrc(src ?? null)}
           className="w-full h-full rounded-full object-cover"
         />
       ) : initials ? (
@@ -76,7 +75,7 @@ export const Avatar = ({
           className={cn(
             'absolute bottom-0 right-0 rounded-full ring-2 ring-white',
             sizeConfig.dot,
-            statusColorMap[status]
+            statusColorMap[status],
           )}
           aria-label={status}
         />

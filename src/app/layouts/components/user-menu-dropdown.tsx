@@ -1,15 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  ChevronDown,
-  User,
-  Settings,
-  LogOut,
-  Shield,
-  Home,
-  Building2,
-} from 'lucide-react';
+import { ChevronDown, User, Settings, LogOut, Shield, Home, Building2 } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -33,10 +25,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
   // Close when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -70,12 +59,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
         aria-haspopup="menu"
         className="flex items-center gap-2.5 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl hover:bg-rentify-background border border-transparent hover:border-rentify-divider transition-all cursor-pointer"
       >
-        <Avatar
-          name={user?.name}
-          size="sm"
-          status="online"
-          className="shrink-0"
-        />
+        <Avatar src={user?.avatarUrl} name={user?.name} size="sm" status="online" className="shrink-0" />
 
         <div className="hidden sm:flex flex-col text-left min-w-0 max-w-30 md:max-w-40">
           <span className="text-sm font-semibold text-rentify-text-primary truncate leading-tight">
@@ -103,14 +87,10 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
           {/* User Profile Card */}
           <div className="p-3 bg-rentify-background rounded-xl mb-1.5">
             <div className="flex items-center gap-3">
-              <Avatar name={user?.name} size="md" />
+              <Avatar src={user?.avatarUrl} name={user?.name} size="md" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-rentify-text-primary truncate">
-                  {user?.name || t('user')}
-                </p>
-                <p className="text-xs text-rentify-text-secondary truncate">
-                  {user?.email || 'user@rentify.vn'}
-                </p>
+                <p className="text-sm font-bold text-rentify-text-primary truncate">{user?.name || t('user')}</p>
+                <p className="text-xs text-rentify-text-secondary truncate">{user?.email || 'user@rentify.vn'}</p>
                 <div className="mt-1.5 flex items-center gap-1.5">
                   <Badge variant={portalMeta.badgeVariant}>
                     {getRoleIcon()}

@@ -6,12 +6,20 @@ import type {
   UserListAdminParams,
   UserLockRequestDto,
   UserLockResponseDto,
+  UserMeResponseDto,
   UserUnlockResponseDto,
   UserUpdateAdminRequestDto,
   UserUpdateAdminResponseDto,
+  UserUpdateMeRequestDto,
+  UserUpdateMeResponseDto,
 } from '../types/users.dto';
 
 export const usersApi = {
+  getMe: (): Promise<UserMeResponseDto> => http.get<UserMeResponseDto>('/me'),
+
+  updateMe: (payload: UserUpdateMeRequestDto): Promise<UserUpdateMeResponseDto> =>
+    http.patch<UserUpdateMeResponseDto>('/me', payload),
+
   getUsersAdmin: (params?: UserListAdminParams): Promise<Paginated<UserListAdminItemDto>> =>
     http.getPageWithParams<UserListAdminItemDto, UserListAdminParams>('/users', params ?? {}),
 
