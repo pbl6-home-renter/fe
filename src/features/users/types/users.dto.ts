@@ -1,6 +1,6 @@
 import type { BaseEntity, PaginationParams } from '@/types/api';
 import type { Role } from '@/types/role';
-import type { PayoutAccount, UserStatus } from '@/types/user';
+import type { PayoutAccount, User, UserStatus } from '@/types/user';
 
 export type UserSortField = 'createdAt' | 'name' | 'email';
 
@@ -55,4 +55,19 @@ export interface UserUnlockResponseDto {
   userId: string;
   status: UserStatus;
   lockedAt: null;
+}
+
+export type UserMeResponseDto = User;
+
+export interface UserUpdateMeRequestDto {
+  name: string;
+  phone: string;
+  payoutAccount: PayoutAccount | null;
+}
+
+export interface UserUpdateMeResponseDto {
+  id: string;
+  name: string;
+  phone: string;
+  payoutAccount: PayoutAccount | null;
 }

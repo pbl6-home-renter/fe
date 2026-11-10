@@ -113,14 +113,69 @@
     "phoneRequired": "Vui lòng nhập số điện thoại",
     "phoneInvalid": "Số điện thoại không hợp lệ (ví dụ: 0901234567 hoặc +84901234567)",
     "lockReasonRequired": "Vui lòng nhập lý do khóa tài khoản",
-    "lockReasonMax": "Lý do khóa không được vượt quá 500 ký tự"
+    "lockReasonMax": "Lý do khóa không được vượt quá 500 ký tự",
+    "bankCodeRequired": "Nhập mã ngân hàng.",
+    "bankCodeLength": "Mã ngân hàng phải từ 4 đến 20 ký tự.",
+    "accountNumberRequired": "Nhập số tài khoản.",
+    "accountNumberInvalid": "Số tài khoản chỉ gồm từ 6 đến 20 chữ số.",
+    "accountNameRequired": "Nhập tên chủ tài khoản.",
+    "accountNameMax": "Tên chủ tài khoản không vượt quá 254 ký tự."
+  },
+  "profile": {
+    "title": "Hồ sơ cá nhân",
+    "subtitle": "Xem và cập nhật thông tin tài khoản, ảnh đại diện của bạn",
+    "avatar": {
+      "uploadAction": "Tải ảnh đại diện",
+      "changeAction": "Thay ảnh đại diện",
+      "uploading": "Đang tải ảnh lên",
+      "cancelUpload": "Hủy tải ảnh lên",
+      "hint": "Hỗ trợ ảnh JPG, PNG hoặc WEBP, dung lượng tối đa 10 MB."
+    },
+    "lockedNotice": {
+      "title": "Tài khoản đang bị khóa",
+      "defaultReason": "Tài khoản hiện bị tạm khóa. Vui lòng liên hệ quản trị viên để được hỗ trợ."
+    },
+    "sections": {
+      "personalInfo": "Thông tin tài khoản",
+      "personalInfoDesc": "Cập nhật họ tên và số điện thoại liên hệ chính thức của bạn.",
+      "payoutAccount": "Tài khoản nhận tiền",
+      "payoutAccountDesc": "Thông tin ngân hàng dùng để nhận tiền thanh toán từ khách thuê."
+    },
+    "fields": {
+      "emailReadOnlyHint": "Email đăng nhập là thông tin định danh cố định, không thể thay đổi."
+    },
+    "placeholders": {
+      "name": "Ví dụ: Lê Văn An",
+      "phone": "Ví dụ: 0901234567",
+      "bankCode": "Ví dụ: 970422",
+      "accountNumber": "Ví dụ: 9876543210",
+      "accountName": "Ví dụ: LE VAN AN"
+    },
+    "conflict": {
+      "title": "Thông tin vừa thay đổi ở phiên khác",
+      "description": "Dữ liệu hồ sơ trên máy chủ đã được cập nhật trong lúc bạn đang chỉnh sửa. Hãy tải lại dữ liệu mới nhất trước khi lưu để tránh ghi đè.",
+      "reloadAction": "Tải lại dữ liệu mới"
+    },
+    "actions": {
+      "clearPayout": "Xóa tài khoản ngân hàng",
+      "discardChanges": "Hủy thay đổi",
+      "saveChanges": "Lưu thay đổi"
+    },
+    "messages": {
+      "noChanges": "Bạn chưa thay đổi thông tin nào."
+    },
+    "error": {
+      "title": "Không tải được hồ sơ cá nhân",
+      "description": "Đã có lỗi xảy ra khi tải thông tin tài khoản. Kiểm tra kết nối mạng rồi thử lại."
+    }
   },
   "apiSuccess": {
     "USER_LIST_FETCHED": "Tải danh sách người dùng thành công",
     "USER_DETAIL_FETCHED": "Tải thông tin người dùng thành công",
     "USER_UPDATED": "Cập nhật thông tin người dùng thành công",
     "USER_ACCOUNT_LOCKED": "Đã khóa tài khoản người dùng thành công",
-    "USER_ACCOUNT_UNLOCKED": "Đã mở khóa tài khoản người dùng thành công"
+    "USER_ACCOUNT_UNLOCKED": "Đã mở khóa tài khoản người dùng thành công",
+    "CURRENT_USER_PROFILE_UPDATED": "Đã lưu thay đổi hồ sơ cá nhân."
   },
   "apiErrors": {
     "USER_NOT_FOUND": "Không tìm thấy người dùng trong hệ thống",
@@ -132,6 +187,7 @@
     "USER_DELETE_ALREADY_DELETED": "Tài khoản này đã bị xóa từ trước",
     "USER_DELETE_HAS_ACTIVE_CONTRACT": "Không thể xóa: người dùng đang có hợp đồng thuê còn hiệu lực",
     "DUPLICATE_PHONE": "Số điện thoại này đã được đăng ký bởi tài khoản khác",
+    "USER_UPDATE_PAYOUT_NOT_ALLOWED": "Chỉ tài khoản chủ nhà mới được cấu hình tài khoản nhận tiền.",
     "FORBIDDEN": "Bạn không có quyền thực hiện thao tác này"
   }
 }
