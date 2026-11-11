@@ -4,6 +4,7 @@ import { DashboardPage } from '@/features/dashboard/pages/dashboard-page';
 import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-page';
 import { ROUTES } from '@/config/routes.config';
 import { ChatRoute } from '@/app/routes/chat-route';
+import { InvoiceDetailRoute, InvoiceListRoute } from '@/app/routes/invoice-route';
 import { NotificationsPage } from '@/features/notifications/pages/notifications-page';
 import { ProfilePage } from '@/features/users/pages/profile-page';
 
@@ -14,24 +15,11 @@ export const commonRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.INVOICES,
-    element: (
-      <DashboardOverview
-        roleConfig={{
-          landlord: {
-            titleKey: 'routes.invoices.landlordTitle',
-            descKey: 'routes.invoices.landlordDesc',
-          },
-          tenant: {
-            titleKey: 'routes.invoices.tenantTitle',
-            descKey: 'routes.invoices.tenantDesc',
-          },
-        }}
-      />
-    ),
+    element: <InvoiceListRoute />,
   },
   {
     path: ROUTES.INVOICE_DETAIL(':id'),
-    element: <DashboardOverview titleKey="routes.invoices.detailTitle" descKey="routes.invoices.detailDesc" />,
+    element: <InvoiceDetailRoute />,
   },
   {
     path: ROUTES.ISSUES,

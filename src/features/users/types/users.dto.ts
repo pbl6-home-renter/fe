@@ -65,8 +65,7 @@ export interface UserUpdateMeRequestDto {
   payoutAccount: PayoutAccount | null;
 }
 
-export interface UserUpdateMeResponseDto {
-  id: string;
+export interface UserUpdateMeResponseDto extends BaseEntity {
   name: string;
   phone: string;
   payoutAccount: PayoutAccount | null;

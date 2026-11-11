@@ -1,0 +1,194 @@
+{
+  "list": {
+    "title": "Hóa đơn",
+    "subtitle": "Lập hóa đơn theo tòa và kỳ, kiểm tra chi tiết và phát hành cho khách thuê."
+  },
+  "status": {
+    "pending": "Chờ phát hành",
+    "issued": "Đã phát hành",
+    "void": "Đã hủy"
+  },
+  "filters": {
+    "buildingLabel": "Chọn tòa nhà",
+    "allBuildings": "Tất cả tòa nhà",
+    "periodLabel": "Chọn kỳ hóa đơn",
+    "allPeriods": "Tất cả kỳ",
+    "clearPeriod": "Xóa chọn kỳ",
+    "allStatuses": "Tất cả",
+    "clearFilter": "Xóa bộ lọc"
+  },
+  "columns": {
+    "select": "Chọn",
+    "selectAllPending": "Chọn tất cả hóa đơn chờ phát hành trên trang",
+    "selectRow": "Chọn hóa đơn {{code}}",
+    "code": "Mã hóa đơn",
+    "room": "Phòng",
+    "tenant": "Khách thuê",
+    "period": "Kỳ hóa đơn",
+    "status": "Trạng thái",
+    "totalAmount": "Tổng tiền",
+    "actions": "Thao tác"
+  },
+  "actions": {
+    "generate": "Lập hóa đơn",
+    "issueSelected": "Phát hành ({{count}})",
+    "issueOne": "Phát hành hóa đơn",
+    "editOtherFees": "Sửa phí khác",
+    "cancelInvoice": "Hủy hóa đơn",
+    "regeneratePeriod": "Lập lại hóa đơn kỳ này",
+    "viewDetail": "Xem chi tiết",
+    "cancel": "Hủy",
+    "close": "Đóng",
+    "retry": "Thử lại",
+    "saveChanges": "Lưu thay đổi"
+  },
+  "empty": {
+    "title": "Chưa có hóa đơn nào",
+    "description": "Chọn tòa nhà và kỳ hóa đơn rồi bấm Lập hóa đơn để bắt đầu tính tiền tháng.",
+    "filteredTitle": "Không tìm thấy hóa đơn",
+    "filteredDescription": "Không có hóa đơn nào khớp với bộ lọc tòa nhà, kỳ hoặc trạng thái hiện tại."
+  },
+  "generate": {
+    "dialogTitle": "Lập hóa đơn theo kỳ",
+    "dialogDescription": "Chọn tòa nhà và kỳ tháng cần tính tiền để tạo hóa đơn chờ phát hành.",
+    "resultTitle": "Kết quả lập hóa đơn kỳ {{period}}",
+    "resultSubtitle": "Kiểm tra danh sách hóa đơn vừa tạo, tính lại và các phòng bị thiếu dữ kiện.",
+    "roomLabel": "Phòng {{name}}",
+    "unknownRoom": "Phòng chưa xác định",
+    "emptyGroup": "Không có hóa đơn nào trong nhóm này.",
+    "noBlocked": "Tất cả phòng có hợp đồng hiệu lực đều đủ dữ kiện lập hóa đơn.",
+    "groups": {
+      "generated": "Tạo mới ({{count}})",
+      "recalculated": "Tính lại ({{count}})",
+      "blocked": "Chưa lập được ({{count}})"
+    },
+    "reasons": {
+      "READING_MISSING": "Thiếu chỉ số điện hoặc nước trong kỳ.",
+      "RATE_MISSING": "Thiếu cấu hình đơn giá điện hoặc nước.",
+      "TIER_CONFIG_INVALID": "Cấu hình đơn giá bậc thang chưa hợp lệ.",
+      "AREA_MISSING": "Phòng chưa khai báo diện tích để tính phí theo m².",
+      "HEADCOUNT_ZERO": "Hợp đồng chưa có thành viên để tính phí theo đầu người.",
+      "VEHICLE_COUNT_MISSING": "Hợp đồng chưa khai báo số lượng xe.",
+      "TOTAL_NEGATIVE": "Tổng hóa đơn đang âm do khoản giảm trừ lớn hơn tiền dịch vụ.",
+      "UNKNOWN": "Không lập được hóa đơn (mã: {{code}})."
+    },
+    "blockActions": {
+      "enterReadings": "Nhập chỉ số",
+      "configureRates": "Cấu hình đơn giá",
+      "updateRoomArea": "Cập nhật diện tích",
+      "addContractMembers": "Thêm thành viên",
+      "updateVehicleCount": "Cập nhật số xe"
+    }
+  },
+  "detail": {
+    "backToList": "Quay lại danh sách",
+    "notFoundTitle": "Không tìm thấy hóa đơn",
+    "notFoundDesc": "Hóa đơn không tồn tại hoặc bạn không có quyền xem.",
+    "periodValue": "Kỳ {{period}}",
+    "issuedAtValue": "Phát hành lúc {{date}}",
+    "voidBannerTitle": "Hóa đơn đã bị hủy",
+    "noVoidReason": "Không có lý do hủy cụ thể.",
+    "replacementTitle": "Hóa đơn thay thế",
+    "replacementDesc": "Hóa đơn này được lập để thay thế cho hóa đơn đã hủy trước đó.",
+    "viewVoidedInvoice": "Xem hóa đơn đã hủy",
+    "breakdownTitle": "Chi tiết dịch vụ",
+    "breakdownRoundingHint": "Thành tiền từng dòng giữ tối đa 4 chữ số thập phân trước khi làm tròn tổng hóa đơn.",
+    "breakdownCols": {
+      "item": "Khoản mục",
+      "quantity": "Số lượng",
+      "unitPrice": "Đơn giá",
+      "prorate": "Tỷ lệ kỳ",
+      "amount": "Thành tiền"
+    },
+    "rentLabel": "Tiền thuê phòng",
+    "tieredLabel": "Theo bậc thang",
+    "tierStep": "Bậc {{step}} ({{from}}–{{to}}): {{qty}} × {{price}} = {{amount}}",
+    "otherFeesTitle": "Phí khác & Giảm trừ",
+    "noOtherFees": "Không có khoản phí khác hay giảm trừ nào.",
+    "noteLabel": "Ghi chú",
+    "totalLabel": "Tổng cộng hóa đơn"
+  },
+  "rateKinds": {
+    "flat": "Đơn giá cố định",
+    "tiered": "Đơn giá bậc thang",
+    "fixed_per_period": "Cố định theo kỳ",
+    "per_head": "Theo đầu người",
+    "per_area_m2": "Theo diện tích",
+    "per_vehicle": "Theo số xe"
+  },
+  "billingUnits": {
+    "kwh": "kWh",
+    "m3": "m³",
+    "room": "phòng",
+    "person": "người",
+    "m2": "m²",
+    "vehicle": "xe",
+    "day": "ngày",
+    "occurrence": "lần"
+  },
+  "otherFeesDialog": {
+    "title": "Sửa phí khác và ghi chú",
+    "description": "Thêm khoản phụ thu hoặc giảm trừ cho hóa đơn đang chờ phát hành.",
+    "itemsLabel": "Danh sách phí khác",
+    "addFee": "Thêm khoản phí",
+    "emptyFees": "Chưa có khoản phí khác nào. Bấm Thêm khoản phí nếu cần điều chỉnh.",
+    "feeName": "Nội dung",
+    "feeNamePlaceholder": "Ví dụ: Giảm trừ tiền phòng",
+    "feeAmount": "Số tiền (đ)",
+    "feeAmountPlaceholder": "Ví dụ: -100000 hoặc 50000",
+    "feeAmountHelper": "Nhập số nguyên đồng; số âm là khoản giảm trừ.",
+    "removeFee": "Xóa khoản phí",
+    "notePlaceholder": "Nhập ghi chú gửi khách thuê (không bắt buộc)...",
+    "totalNegativeTitle": "Tổng hóa đơn không được âm",
+    "totalNegativeDesc": "Khoản giảm trừ hiện vượt quá tổng tiền phòng và dịch vụ. Hãy điều chỉnh lại số tiền trước khi lưu."
+  },
+  "issueDialog": {
+    "title": "Phát hành {{count}} hóa đơn?",
+    "description": "Xác nhận phát hành các hóa đơn chờ đã chọn cho khách thuê.",
+    "warningTitle": "Lưu ý quan trọng",
+    "warningDescription": "Sau khi phát hành không sửa được. Nếu phát hiện sai sót, bạn phải hủy hóa đơn và lập lại hóa đơn mới.",
+    "confirmButton": "Phát hành ({{count}})",
+    "partialTitle": "Kết quả phát hành hóa đơn",
+    "succeededSummary": "Đã phát hành thành công {{count}} hóa đơn.",
+    "failedSummary": "Có {{count}} hóa đơn không thể phát hành:"
+  },
+  "cancelDialog": {
+    "title": "Hủy hóa đơn {{code}}?",
+    "description": "Hóa đơn sẽ chuyển sang trạng thái đã hủy.",
+    "warningTitle": "Không thể hoàn tác",
+    "warningDescription": "Sau khi hủy, bạn có thể bấm Lập lại hóa đơn kỳ này để tạo bản nháp mới cho phòng.",
+    "reasonLabel": "Lý do hủy",
+    "reasonPlaceholder": "Nhập lý do hủy hóa đơn (ví dụ: Nhập nhầm chỉ số công tơ nước)...",
+    "reasonHelper": "Bắt buộc từ 1 đến 500 ký tự.",
+    "confirmButton": "Hủy hóa đơn"
+  },
+  "validations": {
+    "feeNameRequired": "Nhập nội dung khoản phí.",
+    "feeNameMax": "Nội dung không vượt quá 100 ký tự.",
+    "feeAmountRequired": "Nhập số tiền.",
+    "feeAmountInvalid": "Nhập số nguyên đồng khác 0 (hỗ trợ dấu - cho giảm trừ).",
+    "otherFeesMax": "Tối đa 20 khoản phí khác trên một hóa đơn.",
+    "noteMax": "Ghi chú không vượt quá 500 ký tự.",
+    "cancelReasonRequired": "Nhập lý do hủy hóa đơn.",
+    "cancelReasonMax": "Lý do hủy không vượt quá 500 ký tự."
+  },
+  "apiSuccess": {
+    "INVOICES_GENERATED": "Đã lập hóa đơn cho kỳ đã chọn.",
+    "INVOICE_UPDATED": "Đã cập nhật phí khác và ghi chú hóa đơn.",
+    "INVOICES_ISSUE_REQUESTED": "Đã xử lý yêu cầu phát hành hóa đơn.",
+    "INVOICE_CANCELLED": "Đã hủy hóa đơn."
+  },
+  "apiErrors": {
+    "INVOICE_NOT_FOUND": "Không tìm thấy hóa đơn.",
+    "INVOICE_BUILDING_NOT_FOUND": "Không tìm thấy tòa nhà hoặc bạn không có quyền quản lý.",
+    "INVOICE_ALREADY_ISSUED": "Hóa đơn đã phát hành, không thể chỉnh sửa.",
+    "INVOICE_ALREADY_VOIDED": "Hóa đơn này đã bị hủy trước đó.",
+    "INVOICE_NOT_PENDING": "Chỉ có thể thực hiện trên hóa đơn đang chờ phát hành.",
+    "TOTAL_NEGATIVE": "Tổng hóa đơn không được âm. Kiểm tra lại các khoản giảm trừ.",
+    "IDEMPOTENCY_KEY_REUSED": "Mã yêu cầu phát hành đã được dùng cho danh sách khác. Vui lòng thử lại.",
+    "INVOICE_IDS_REQUIRED": "Chọn ít nhất một hóa đơn để phát hành.",
+    "INVOICE_IDS_TOO_LARGE": "Chỉ phát hành tối đa 100 hóa đơn mỗi lần.",
+    "INVOICE_FORBIDDEN": "Bạn không có quyền thao tác trên hóa đơn này.",
+    "FORBIDDEN": "Bạn không có quyền thực hiện thao tác này."
+  }
+}

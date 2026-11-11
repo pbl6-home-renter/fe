@@ -25,6 +25,7 @@ interface DataTableProps<TData> {
   emptyState: DataTableEmptyState;
   filteredEmptyState?: DataTableEmptyState;
   isFiltered?: boolean;
+  selectionActions?: ReactNode;
   renderMobileRow?: (row: Row<TData>) => ReactNode;
   onRowClick?: (row: TData) => void;
   maxHeight?: number;
@@ -44,6 +45,7 @@ export const DataTable = <TData,>({
   emptyState,
   filteredEmptyState,
   isFiltered = false,
+  selectionActions,
   renderMobileRow,
   onRowClick,
   maxHeight,
@@ -80,11 +82,14 @@ export const DataTable = <TData,>({
         </div>
       )}
       {selectedCount > 0 && (
-        <div className="flex items-center justify-between border-b border-rentify-divider bg-rentify-primary-container px-4 py-2 text-xs font-semibold text-rentify-text-primary">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rentify-divider bg-rentify-primary-container px-4 py-2 text-xs font-semibold text-rentify-text-primary">
           <span>{t('dataTable.selectedOnPage', { count: selectedCount })}</span>
-          <Button variant="ghost" size="sm" onClick={() => table.resetRowSelection()}>
-            {t('dataTable.clearSelection')}
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            {selectionActions}
+            <Button variant="ghost" size="sm" onClick={() => table.resetRowSelection()}>
+              {t('dataTable.clearSelection')}
+            </Button>
+          </div>
         </div>
       )}
       {error ? (
