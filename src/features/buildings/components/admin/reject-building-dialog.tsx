@@ -22,19 +22,11 @@ export const RejectBuildingDialog = ({
   onSuccess,
 }: RejectBuildingDialogProps) => {
   const { t } = useTranslation('buildings');
-  const {
-    note,
-    error,
-    isPending,
-    presetReasons,
-    handleNoteChange,
-    handleSelectPreset,
-    handleSubmit,
-    handleClose,
-  } = useRejectBuildingDialog({ buildingId, onClose, onSuccess });
+  const { note, error, isPending, presetReasons, handleNoteChange, handleSelectPreset, handleSubmit, handleClose } =
+    useRejectBuildingDialog({ buildingId, onClose, onSuccess });
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="xl">
+    <Dialog open={open} onClose={handleClose} accessibleTitle={t('admin.rejectTitle')} maxWidth="xl">
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Header */}
         <div className="flex items-start gap-3">
@@ -42,9 +34,7 @@ export const RejectBuildingDialog = ({
             <AlertTriangle className="w-5 h-5" />
           </div>
           <div className="flex flex-col">
-            <h2 className="text-lg font-bold text-rentify-text-primary">
-              {t('admin.rejectTitle')}
-            </h2>
+            <h2 className="text-lg font-bold text-rentify-text-primary">{t('admin.rejectTitle')}</h2>
             <p className="text-xs text-rentify-text-secondary mt-0.5">
               {landlordName
                 ? t('admin.rejectTarget', {
@@ -86,8 +76,7 @@ export const RejectBuildingDialog = ({
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs">
             <label htmlFor="rejectionNote" className="font-semibold text-rentify-text-primary">
-              {t('admin.rejectNoteField')}{' '}
-              <span className="text-rentify-error">*</span>
+              {t('admin.rejectNoteField')} <span className="text-rentify-error">*</span>
             </label>
             <span className="text-rentify-text-secondary">{note.length} / 500</span>
           </div>
@@ -119,12 +108,7 @@ export const RejectBuildingDialog = ({
             {t('cancel')}
           </Button>
 
-          <Button
-            type="submit"
-            variant="danger"
-            isLoading={isPending}
-            disabled={isPending}
-          >
+          <Button type="submit" variant="danger" isLoading={isPending} disabled={isPending}>
             {t('admin.confirmReject')}
           </Button>
         </div>

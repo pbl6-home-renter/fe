@@ -63,7 +63,16 @@ export const DataTable = <TData,>({
   }, [isPageOutOfRange, pageCount, table]);
 
   return (
-    <Card className="overflow-hidden rounded-2xl border-rentify-divider bg-rentify-surface shadow-xs">
+    <Card className="relative overflow-hidden rounded-2xl border-rentify-divider bg-rentify-surface shadow-xs">
+      {isFetching && !isLoading && (
+        <div
+          className="absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-rentify-primary-container"
+          role="progressbar"
+          aria-label={t('loadingData')}
+        >
+          <div className="ui-table-progress h-full w-1/3 rounded-full bg-rentify-primary" />
+        </div>
+      )}
       {(toolbar || table.getAllLeafColumns().length > 1) && (
         <div className="flex flex-col gap-3 border-b border-rentify-divider p-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0 flex-1">{toolbar}</div>
@@ -76,11 +85,6 @@ export const DataTable = <TData,>({
           <Button variant="ghost" size="sm" onClick={() => table.resetRowSelection()}>
             {t('dataTable.clearSelection')}
           </Button>
-        </div>
-      )}
-      {isFetching && !isLoading && (
-        <div className="h-0.5 overflow-hidden bg-rentify-primary-container" role="progressbar" aria-label={t('loadingData')}>
-          <div className="h-full w-1/3 animate-pulse rounded-full bg-rentify-primary" />
         </div>
       )}
       {error ? (
@@ -110,4 +114,3 @@ export const DataTable = <TData,>({
     </Card>
   );
 };
-

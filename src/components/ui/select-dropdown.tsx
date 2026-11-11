@@ -1,13 +1,21 @@
 import {
-  useState,
-  useRef,
+  useCallback,
   useEffect,
+  useId,
+  useLayoutEffect,
   useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
   type ReactNode,
 } from 'react';
+import { AnimatePresence } from 'motion/react';
+import * as m from 'motion/react-m';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown, Search, Check, X } from 'lucide-react';
+import { Check, ChevronDown, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
+import { MOTION_DURATION, MOTION_EASE, MOTION_EXIT_EASE } from '@/lib/motion';
+import { IconButton } from './icon-button';
 
 export interface SelectOption {
   value: string | number;
@@ -35,6 +43,15 @@ export interface SelectDropdownProps {
   onSelectOption?: (option: SelectOption) => void;
 }
 
+const enabledIndex = (options: readonly SelectOption[], start: number, step: 1 | -1) => {
+  if (options.length === 0) return -1;
+  for (let offset = 0; offset < options.length; offset += 1) {
+    const index = (start + offset * step + options.length * 2) % options.length;
+    if (!options[index].disabled) return index;
+  }
+  return -1;
+};
+
 export const SelectDropdown = ({
   id,
   name,
@@ -42,7 +59,7 @@ export const SelectDropdown = ({
   error,
   helperText,
   options,
-  placeholder = 'Chọn một mục...',
+  placeholder,
   value: controlledValue,
   defaultValue,
   disabled = false,
@@ -55,254 +72,274 @@ export const SelectDropdown = ({
   onSelectOption,
 }: SelectDropdownProps) => {
   const { t } = useTranslation('common');
+  const generatedId = useId();
+  const inputId = id ?? `select-${generatedId}`;
+  const listboxId = `${inputId}-listbox`;
+  const messageId = `${inputId}-message`;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string | number>(defaultValue ?? '');
   const [searchQuery, setSearchQuery] = useState('');
-  const containerRef = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const currentValue = controlledValue !== undefined ? controlledValue : internalValue;
+  const shouldSearch = searchable && options.length > 5;
 
-  const isControlled = controlledValue !== undefined;
-  const currentValue = isControlled ? controlledValue : internalValue;
-
-  // Tìm option đang được chọn
   const selectedOption = useMemo(
-    () => options.find((opt) => String(opt.value) === String(currentValue)),
-    [options, currentValue]
+    () => options.find((option) => String(option.value) === String(currentValue)),
+    [options, currentValue],
   );
-
-  // Lọc options theo tìm kiếm
   const filteredOptions = useMemo(() => {
-    if (!searchQuery.trim()) return options;
-    const query = searchQuery.toLowerCase();
-    return options.filter((opt) => opt.label.toLowerCase().includes(query));
+    const query = searchQuery.trim().toLowerCase();
+    return query ? options.filter((option) => option.label.toLowerCase().includes(query)) : options;
   }, [options, searchQuery]);
+  const resolvedActiveIndex =
+    filteredOptions[activeIndex] && !filteredOptions[activeIndex].disabled
+      ? activeIndex
+      : enabledIndex(filteredOptions, 0, 1);
+  const activeOptionId = resolvedActiveIndex >= 0 ? `${listboxId}-option-${resolvedActiveIndex}` : undefined;
 
-  const handleClose = () => {
+  const handleClose = useCallback((restoreFocus = false) => {
     setIsOpen(false);
     setSearchQuery('');
+    setActiveIndex(-1);
+    if (restoreFocus) triggerRef.current?.focus();
+  }, []);
+
+  const handleOpen = () => {
+    if (disabled) return;
+    const selectedIndex = options.findIndex(
+      (option) => String(option.value) === String(currentValue) && !option.disabled,
+    );
+    setActiveIndex(selectedIndex >= 0 ? selectedIndex : enabledIndex(options, 0, 1));
+    setIsOpen(true);
   };
 
-  // Đóng khi click ngoài component
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        handleClose();
-      }
+    if (!isOpen) return;
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) handleClose();
     };
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [isOpen, handleClose]);
 
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen]);
+  useLayoutEffect(() => {
+    if (!isOpen) return;
+    if (shouldSearch) searchInputRef.current?.focus();
+    else listboxRef.current?.focus();
+  }, [isOpen, shouldSearch]);
 
-  // Focus ô tìm kiếm khi mở popover
   useEffect(() => {
-    if (isOpen && searchable) {
-      const timer = setTimeout(() => {
-        searchInputRef.current?.focus();
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen, searchable]);
-
-  // Phím tắt ESC để đóng
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        handleClose();
-      }
-    };
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-    }
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]);
+    if (!disabled || !isOpen) return;
+    const timer = window.setTimeout(() => handleClose(), 0);
+    return () => window.clearTimeout(timer);
+  }, [disabled, isOpen, handleClose]);
 
   const handleSelect = (option: SelectOption) => {
     if (option.disabled) return;
-
-    if (!isControlled) {
-      setInternalValue(option.value);
-    }
-
-    if (onChange) {
-      onChange({ target: { value: String(option.value), name } });
-    }
-
-    if (onSelectOption) {
-      onSelectOption(option);
-    }
-
-    handleClose();
+    if (controlledValue === undefined) setInternalValue(option.value);
+    onChange?.({ target: { value: String(option.value), name } });
+    onSelectOption?.(option);
+    handleClose(true);
   };
 
-  const handleClear = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (disabled) return;
-
-    if (!isControlled) {
-      setInternalValue('');
-    }
-
-    if (onChange) {
-      onChange({ target: { value: '', name } });
+  const handlePopupKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      handleClose(true);
+    } else if (event.key === 'Tab') {
+      handleClose();
+    } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const step = event.key === 'ArrowDown' ? 1 : -1;
+      const start =
+        resolvedActiveIndex < 0 ? (step === 1 ? 0 : filteredOptions.length - 1) : resolvedActiveIndex + step;
+      setActiveIndex(enabledIndex(filteredOptions, start, step));
+    } else if (event.key === 'Home' || event.key === 'End') {
+      if (event.target === searchInputRef.current) return;
+      event.preventDefault();
+      const step = event.key === 'Home' ? 1 : -1;
+      setActiveIndex(enabledIndex(filteredOptions, step === 1 ? 0 : filteredOptions.length - 1, step));
+    } else if (event.key === 'Enter' && resolvedActiveIndex >= 0) {
+      event.preventDefault();
+      handleSelect(filteredOptions[resolvedActiveIndex]);
     }
   };
-
-  const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
 
   return (
-    <div
-      ref={containerRef}
-      className={cn('flex flex-col gap-1.5 w-full text-left relative', containerClassName)}
-    >
-      {/* Label */}
+    <div ref={containerRef} className={cn('relative flex w-full flex-col gap-1.5 text-left', containerClassName)}>
       {label && (
-        <label
-          htmlFor={inputId}
-          className="text-xs sm:text-sm font-semibold text-rentify-text-primary select-none"
-        >
+        <label htmlFor={inputId} className="select-none text-xs font-semibold text-rentify-text-primary sm:text-sm">
           {label}
         </label>
       )}
-
-      {/* Main Select Trigger Box */}
       <div
-        id={inputId}
-        role="button"
-        tabIndex={disabled ? -1 : 0}
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-        aria-disabled={disabled}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
-        onKeyDown={(e) => {
-          if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            setIsOpen(!isOpen);
-          }
-        }}
         className={cn(
-          'w-full h-11 px-3.5 py-2.5 rounded-xl border text-sm transition-all duration-150',
-          'flex items-center justify-between gap-2 select-none cursor-pointer',
-          'bg-rentify-surface text-rentify-text-primary',
-          isOpen
-            ? 'border-rentify-primary ring-2 ring-rentify-primary/15 shadow-xs'
-            : 'border-rentify-divider hover:border-slate-300',
-          disabled && 'bg-slate-100 opacity-60 cursor-not-allowed border-slate-200',
-          error && 'border-rentify-error ring-2 ring-rentify-error/15',
-          className
+          'flex h-11 w-full items-center rounded-xl border bg-rentify-surface text-sm text-rentify-text-primary',
+          'focus-within:ring-2 focus-within:ring-rentify-primary/15',
+          isOpen ? 'border-rentify-primary shadow-xs' : 'border-rentify-divider hover:border-rentify-primary/40',
+          disabled && 'cursor-not-allowed opacity-60',
+          error && 'border-rentify-error focus-within:ring-rentify-error/15',
+          className,
         )}
       >
-        <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          {leadingIcon && (
-            <span className="text-rentify-text-secondary shrink-0">{leadingIcon}</span>
-          )}
-
-          {selectedOption ? (
-            <span className="truncate font-medium text-rentify-text-primary">
-              {selectedOption.label}
+        <button
+          ref={triggerRef}
+          id={inputId}
+          type="button"
+          disabled={disabled}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-controls={isOpen ? listboxId : undefined}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error || helperText ? messageId : undefined}
+          onClick={() => (isOpen ? handleClose(true) : handleOpen())}
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+              event.preventDefault();
+              handleOpen();
+            }
+          }}
+          className="flex h-full min-w-0 flex-1 cursor-pointer items-center justify-between gap-2 rounded-xl px-3.5 text-left focus-visible:outline-none disabled:cursor-not-allowed"
+        >
+          <span className="flex min-w-0 items-center gap-2.5">
+            {leadingIcon && <span className="shrink-0 text-rentify-text-secondary">{leadingIcon}</span>}
+            <span className={cn('truncate', selectedOption ? 'font-medium' : 'text-rentify-text-secondary')}>
+              {selectedOption?.label ?? placeholder ?? t('selectPlaceholder')}
             </span>
-          ) : (
-            <span className="truncate text-rentify-text-secondary font-normal">
-              {placeholder}
-            </span>
-          )}
-        </div>
-
-        <div className="flex items-center gap-1 shrink-0 text-rentify-text-secondary">
-          {clearable && selectedOption && !disabled && (
-            <button
-              type="button"
-              onClick={handleClear}
-              className="p-1 hover:text-rentify-text-primary rounded-full transition-colors"
-              title={t('clear')}
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
+          </span>
           <ChevronDown
             className={cn(
-              'w-4 h-4 transition-transform duration-200',
-              isOpen && 'rotate-180 text-rentify-primary'
+              'h-4 w-4 shrink-0 text-rentify-text-secondary transition-transform duration-150',
+              isOpen && 'rotate-180 text-rentify-primary',
             )}
+            aria-hidden="true"
           />
-        </div>
+        </button>
+        {clearable && selectedOption && !disabled && (
+          <IconButton
+            size="sm"
+            variant="ghost"
+            aria-label={t('clear')}
+            onClick={() => {
+              if (controlledValue === undefined) setInternalValue('');
+              onChange?.({ target: { value: '', name } });
+              handleClose();
+            }}
+            className="mr-1"
+          >
+            <X className="h-3.5 w-3.5" aria-hidden="true" />
+          </IconButton>
+        )}
       </div>
-
-      {/* Error / Helper Text */}
-      {error ? (
-        <span className="text-xs text-rentify-error font-medium mt-0.5">{error}</span>
-      ) : helperText ? (
-        <span className="text-xs text-rentify-text-secondary mt-0.5">{helperText}</span>
-      ) : null}
-
-      {/* Floating Popover Dropdown Menu */}
-      {isOpen && !disabled && (
-        <div
-          role="listbox"
-          className={cn(
-            'absolute left-0 right-0 top-full mt-1.5 z-50',
-            'bg-rentify-surface rounded-xl border border-rentify-divider',
-            'shadow-[0_12px_32px_-4px_rgba(20,42,76,0.12),0_4px_12px_-2px_rgba(20,42,76,0.06)]',
-            'py-1.5 overflow-hidden animate-in fade-in-50 zoom-in-95 duration-150'
-          )}
+      {(error || helperText) && (
+        <span
+          id={messageId}
+          className={cn('mt-0.5 text-xs', error ? 'font-medium text-rentify-error' : 'text-rentify-text-secondary')}
         >
-          {/* Search filter input inside popover */}
-          {searchable && options.length > 5 && (
-            <div className="px-2.5 pt-1 pb-2 border-b border-rentify-divider/60">
-              <div className="relative flex items-center">
-                <Search className="w-3.5 h-3.5 text-rentify-text-secondary absolute left-2.5 pointer-events-none" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t('search')}
-                  className="w-full h-8.5 pl-8 pr-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-rentify-text-primary placeholder:text-rentify-text-secondary focus:outline-none focus:bg-rentify-surface focus:border-rentify-primary"
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Options list */}
-          <div className="max-h-60 overflow-y-auto py-1">
-            {filteredOptions.length === 0 ? (
-              <div className="py-4 px-3 text-center text-xs text-rentify-text-secondary">
-                {t('noResults')}
-              </div>
-            ) : (
-              filteredOptions.map((opt) => {
-                const isSelected = String(opt.value) === String(currentValue);
-
-                return (
-                  <div
-                    key={String(opt.value)}
-                    role="option"
-                    aria-selected={isSelected}
-                    onClick={() => handleSelect(opt)}
-                    className={cn(
-                      'px-3.5 py-2 text-xs sm:text-sm flex items-center justify-between cursor-pointer transition-colors',
-                      opt.disabled
-                        ? 'opacity-40 cursor-not-allowed bg-transparent text-rentify-text-secondary'
-                        : isSelected
-                        ? 'bg-rentify-primary-container/20 text-rentify-primary font-semibold'
-                        : 'text-rentify-text-primary hover:bg-slate-50 hover:text-rentify-primary'
-                    )}
-                  >
-                    <span className="truncate">{opt.label}</span>
-                    {isSelected && (
-                      <Check className="w-4 h-4 text-rentify-primary shrink-0 ml-2" />
-                    )}
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </div>
+          {error || helperText}
+        </span>
       )}
+
+      <AnimatePresence>
+        {isOpen && !disabled && (
+          <m.div
+            key="popover"
+            initial={{ opacity: 0, y: 4, scale: 0.99 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              transition: { duration: MOTION_DURATION.menuEnter, ease: MOTION_EASE },
+            }}
+            exit={{
+              opacity: 0,
+              y: 4,
+              scale: 0.99,
+              pointerEvents: 'none',
+              transition: { duration: MOTION_DURATION.menuExit, ease: MOTION_EXIT_EASE },
+            }}
+            onKeyDown={handlePopupKeyDown}
+            className="absolute left-0 right-0 top-full z-50 mt-1.5 overflow-hidden rounded-xl border border-rentify-divider bg-rentify-surface py-1.5 shadow-spotlight"
+          >
+            {shouldSearch && (
+              <div className="border-b border-rentify-divider px-2.5 pb-2 pt-1">
+                <div className="relative flex items-center">
+                  <Search
+                    className="pointer-events-none absolute left-2.5 h-3.5 w-3.5 text-rentify-text-secondary"
+                    aria-hidden="true"
+                  />
+                  <input
+                    ref={searchInputRef}
+                    type="search"
+                    value={searchQuery}
+                    aria-label={t('search')}
+                    aria-controls={listboxId}
+                    aria-activedescendant={activeOptionId}
+                    onChange={(event) => {
+                      const query = event.target.value;
+                      setSearchQuery(query);
+                      setActiveIndex(
+                        enabledIndex(
+                          options.filter((option) => option.label.toLowerCase().includes(query.trim().toLowerCase())),
+                          0,
+                          1,
+                        ),
+                      );
+                    }}
+                    placeholder={t('search')}
+                    className="h-9 w-full rounded-lg border border-rentify-divider bg-rentify-background pl-8 pr-3 text-sm text-rentify-text-primary placeholder:text-rentify-text-secondary focus:border-rentify-primary focus:bg-rentify-surface focus:outline-none"
+                  />
+                </div>
+              </div>
+            )}
+            <div
+              ref={listboxRef}
+              id={listboxId}
+              role="listbox"
+              tabIndex={shouldSearch ? undefined : -1}
+              aria-label={label ?? t('selectPlaceholder')}
+              aria-activedescendant={shouldSearch ? undefined : activeOptionId}
+              className="max-h-60 overflow-y-auto py-1 focus:outline-none"
+            >
+              {filteredOptions.length === 0 ? (
+                <div className="px-3 py-4 text-center text-sm text-rentify-text-secondary">{t('noResults')}</div>
+              ) : (
+                filteredOptions.map((option, index) => {
+                  const isSelected = String(option.value) === String(currentValue);
+                  return (
+                    <div
+                      key={String(option.value)}
+                      id={`${listboxId}-option-${index}`}
+                      role="option"
+                      aria-selected={isSelected}
+                      aria-disabled={option.disabled || undefined}
+                      onClick={() => handleSelect(option)}
+                      className={cn(
+                        'flex min-h-10 cursor-pointer items-center justify-between px-3.5 py-2 text-sm',
+                        option.disabled
+                          ? 'cursor-not-allowed opacity-40'
+                          : index === resolvedActiveIndex
+                            ? 'bg-rentify-primary-container/40 text-rentify-primary'
+                            : 'hover:bg-rentify-background',
+                        isSelected && 'font-semibold text-rentify-primary',
+                      )}
+                    >
+                      <span className="truncate">{option.label}</span>
+                      {isSelected && (
+                        <Check className="ml-2 h-4 w-4 shrink-0 text-rentify-primary" aria-hidden="true" />
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </m.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

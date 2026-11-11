@@ -4,6 +4,8 @@ import { Menu, Bell, Globe, Search, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { ROUTES } from '@/config/routes.config';
 import { changeLanguage } from '@/i18n/i18n';
+import { Button } from '@/components/ui/button';
+import { IconButton } from '@/components/ui/icon-button';
 import { UserMenuDropdown } from './user-menu-dropdown';
 import { getNavigationByRole, getPortalMetaByRole } from '@/config/navigation.config';
 import { useUnreadNotificationsQuery } from '@/features/notifications/hooks/use-unread-notifications-query';
@@ -49,16 +51,17 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
       {/* Left side: Mobile menu toggle & Breadcrumbs / Session Indicator */}
       <div className="flex items-center gap-3">
         {/* Mobile Sidebar Hamburger Toggle */}
-        <button
-          type="button"
+        <IconButton
+          variant="ghost"
+          size="md"
           onClick={onToggleSidebar}
           aria-label={t('menuTitle')}
           aria-expanded={sidebarOpen}
           aria-controls="app-sidebar"
-          className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-xl text-rentify-text-secondary hover:bg-rentify-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary md:hidden cursor-pointer"
+          className="md:hidden"
         >
           <Menu className="w-5 h-5" />
-        </button>
+        </IconButton>
 
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs sm:text-sm">
@@ -73,38 +76,42 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
       {/* Right side: Quick Search, Notifications, Language, User Dropdown */}
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Quick Search */}
-        <button
-          type="button"
+        <IconButton
+          variant="ghost"
+          size="md"
           onClick={() => navigate(ROUTES.LANDLORD.ROOMS)}
           aria-label={t('search')}
-          className="hidden min-h-10 min-w-10 items-center justify-center rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer sm:flex"
+          className="hidden sm:inline-flex"
         >
           <Search className="w-4 h-4" />
-        </button>
+        </IconButton>
 
         {/* Notifications Bell */}
-        <button
-          type="button"
+        <IconButton
+          variant="ghost"
+          size="md"
           onClick={() => navigate(ROUTES.NOTIFICATIONS)}
           aria-label={t('notifications')}
-          className="relative inline-flex min-h-10 min-w-10 items-center justify-center rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer"
         >
           <Bell className="w-4 h-4" />
           {hasUnreadNotifications && (
             <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-rentify-error ring-2 ring-white" />
           )}
-        </button>
+        </IconButton>
 
         {/* Language Switcher */}
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="sm"
           onClick={toggleLanguage}
           title={t('switchLanguage')}
-          className="inline-flex min-h-10 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-rentify-text-secondary hover:bg-rentify-background border border-rentify-divider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer"
+          aria-label={t('switchLanguage')}
+          className="min-h-10 px-3 text-xs"
         >
           <Globe className="w-3.5 h-3.5 text-rentify-primary" />
           <span className="uppercase">{currentLanguage}</span>
-        </button>
+        </Button>
 
         <div className="h-5 w-px bg-rentify-divider mx-0.5" />
 

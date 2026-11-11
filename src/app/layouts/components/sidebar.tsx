@@ -1,11 +1,16 @@
+import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AnimatePresence } from 'motion/react';
+import * as m from 'motion/react-m';
 import { useTranslation } from 'react-i18next';
 import { X, LogOut } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Role } from '@/types/role';
 import { cn } from '@/lib/utils/cn';
+import { MOTION_DURATION, MOTION_EASE, MOTION_EXIT_EASE } from '@/lib/motion';
 import { RentifyLogo } from '@/components/ui/rentify-logo';
 import { Avatar } from '@/components/ui/avatar';
+import { IconButton } from '@/components/ui/icon-button';
 import { getNavigationByRole } from '@/config/navigation.config';
 import { useUnreadSummaryQuery } from '@/features/chat/hooks/use-chat-queries';
 import { CHAT_UNREAD_BADGE_MAX } from '@/features/chat/constants/chat.constants';
@@ -17,11 +22,53 @@ export interface SidebarProps {
 }
 
 export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
+  const sidebarRef = useRef<HTMLElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const { user, role } = useAuth();
   const { t } = useTranslation('common');
 
   const menuItems = getNavigationByRole(role);
   const unread = useUnreadSummaryQuery(role === Role.LANDLORD || role === Role.TENANT);
+
+  useEffect(() => {
+    if (!open || window.matchMedia('(min-width: 768px)').matches) return;
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      } else if (event.key === 'Tab') {
+        const focusable = Array.from(
+          sidebarRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? [],
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    const handleResize = () => {
+      if (window.matchMedia('(min-width: 768px)').matches) onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleResize);
+      if (previousFocus?.isConnected) previousFocus.focus();
+    };
+  }, [open, onClose]);
 
   const getRoleLabel = () => {
     if (role === Role.LANDLORD) return t('userRoles.landlord');
@@ -32,22 +79,34 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
   return (
     <>
       {/* Mobile Drawer Backdrop Scrim */}
-      {open && (
-        <div
-          role="presentation"
-          aria-hidden="true"
-          onClick={onClose}
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs md:hidden transition-opacity"
-        />
-      )}
+      <AnimatePresence>
+        {open && (
+          <m.div
+            key="sidebar-backdrop"
+            role="presentation"
+            aria-hidden="true"
+            onClick={onClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: MOTION_DURATION.drawer, ease: MOTION_EASE } }}
+            exit={{
+              opacity: 0,
+              pointerEvents: 'none',
+              transition: { duration: MOTION_DURATION.dialogExit, ease: MOTION_EXIT_EASE },
+            }}
+            className="fixed inset-0 z-40 bg-rentify-text-primary/40 backdrop-blur-xs md:hidden"
+          />
+        )}
+      </AnimatePresence>
 
       {/* Main Sidebar Aside */}
       <aside
+        ref={sidebarRef}
         id="app-sidebar"
+        data-open={open}
         className={cn(
           'fixed inset-y-0 left-0 z-50 w-64 bg-rentify-surface border-r border-rentify-divider',
-          'flex flex-col justify-between transition-transform duration-300 ease-in-out md:static md:translate-x-0',
-          open ? 'visible translate-x-0 shadow-2xl' : 'invisible -translate-x-full md:visible md:translate-x-0',
+          'ui-mobile-drawer flex flex-col justify-between md:static',
+          open && 'shadow-2xl',
         )}
       >
         <div className="flex flex-col flex-1 overflow-y-auto">
@@ -56,14 +115,16 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
             <RentifyLogo role={role} size="md" />
 
             {/* Close button for mobile */}
-            <button
-              type="button"
+            <IconButton
+              ref={closeButtonRef}
+              variant="ghost"
+              size="md"
               onClick={onClose}
               aria-label={t('closeDialog')}
-              className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg text-rentify-text-secondary hover:bg-rentify-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary md:hidden cursor-pointer"
+              className="md:hidden"
             >
               <X className="w-5 h-5" />
-            </button>
+            </IconButton>
           </div>
 
           {/* Navigation Links */}
@@ -131,15 +192,16 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
               </div>
             </div>
 
-            <button
-              type="button"
+            <IconButton
+              variant="ghost"
+              size="md"
               onClick={onOpenLogoutModal}
               title={t('logout')}
               aria-label={t('logout')}
-              className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg text-rentify-text-secondary hover:text-rentify-error hover:bg-rentify-error/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors shrink-0"
+              className="hover:bg-rentify-error/10 hover:text-rentify-error"
             >
               <LogOut className="w-4 h-4" />
-            </button>
+            </IconButton>
           </div>
         </div>
       </aside>

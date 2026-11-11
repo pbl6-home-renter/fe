@@ -36,6 +36,7 @@ export const ImagePreviewDialog = ({
       open={open}
       onClose={onClose}
       title={title}
+      accessibleTitle={alt || t('imagePreview')}
       maxWidth={maxWidth}
       className={className}
       footer={
@@ -50,7 +51,7 @@ export const ImagePreviewDialog = ({
         {imageUrl ? (
           <img
             src={imageUrl}
-            alt={alt || (typeof title === 'string' ? title : 'Preview')}
+            alt={alt || (typeof title === 'string' ? title : t('imagePreview'))}
             className={cn(
               'max-h-[65vh] max-w-full rounded-xl object-contain border border-rentify-divider shadow-xs',
               imageClassName,

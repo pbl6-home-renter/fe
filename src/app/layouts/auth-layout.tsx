@@ -2,6 +2,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
 import { RentifyLogo } from '@/components/ui/rentify-logo';
+import { RouteFade } from '@/components/ui/route-fade';
 import { Role } from '@/types/role';
 
 export const AuthLayout = () => {
@@ -22,14 +23,16 @@ export const AuthLayout = () => {
 
       {/* Main Content Card */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 my-auto">
-        <div className="w-full flex justify-center">
+        <RouteFade pathname={location.pathname} className="w-full flex justify-center">
           <Outlet />
-        </div>
+        </RouteFade>
       </main>
 
       {/* Simple Footer */}
       <footer className="w-full max-w-6xl mx-auto px-6 py-5 text-center text-xs text-rentify-text-secondary">
-        <p>© {new Date().getFullYear()} Rentify. {t('brandTagline')}.</p>
+        <p>
+          © {new Date().getFullYear()} Rentify. {t('brandTagline')}.
+        </p>
       </footer>
     </div>
   );

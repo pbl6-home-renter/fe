@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/config/routes.config';
+import { RouteFade } from '@/components/ui/route-fade';
 import { useLogoutMutation } from '@/features/auth/hooks/use-logout-mutation';
 import { Sidebar } from './components/sidebar';
 import { Header } from './components/header';
@@ -15,6 +16,15 @@ export const DashboardLayout = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
+  const handleOpenLogoutModal = useCallback(() => {
+    if (sidebarOpen) {
+      setSidebarOpen(false);
+      window.requestAnimationFrame(() => setLogoutModalOpen(true));
+    } else {
+      setLogoutModalOpen(true);
+    }
+  }, [sidebarOpen]);
 
   const handleConfirmLogout = async () => {
     try {
@@ -30,11 +40,7 @@ export const DashboardLayout = () => {
   return (
     <div className="min-h-screen bg-rentify-background flex flex-col md:flex-row antialiased text-rentify-text-primary selection:bg-rentify-primary-container selection:text-white">
       {/* Role-based Responsive Navigation Sidebar */}
-      <Sidebar
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        onOpenLogoutModal={() => setLogoutModalOpen(true)}
-      />
+      <Sidebar open={sidebarOpen} onClose={handleCloseSidebar} onOpenLogoutModal={handleOpenLogoutModal} />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
@@ -42,7 +48,7 @@ export const DashboardLayout = () => {
         <Header
           sidebarOpen={sidebarOpen}
           onToggleSidebar={() => setSidebarOpen(true)}
-          onOpenLogoutModal={() => setLogoutModalOpen(true)}
+          onOpenLogoutModal={handleOpenLogoutModal}
         />
 
         {/* Standardized Content Container for Features */}
@@ -53,9 +59,13 @@ export const DashboardLayout = () => {
               : 'flex-1 overflow-y-auto bg-rentify-background p-4 sm:p-6 lg:p-8'
           }
         >
-          <div className={isChatRoute ? 'h-full min-h-0 w-full' : 'max-w-360 mx-auto w-full'}>
+          <RouteFade
+            pathname={location.pathname}
+            disabled={isChatRoute}
+            className={isChatRoute ? 'h-full min-h-0 w-full' : 'max-w-360 mx-auto w-full'}
+          >
             <Outlet />
-          </div>
+          </RouteFade>
         </main>
       </div>
 

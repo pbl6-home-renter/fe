@@ -10,31 +10,20 @@ export interface LogoutModalProps {
   isLoading?: boolean;
 }
 
-export const LogoutModal = ({
-  open,
-  onClose,
-  onConfirm,
-  isLoading = false,
-}: LogoutModalProps) => {
+export const LogoutModal = ({ open, onClose, onConfirm, isLoading = false }: LogoutModalProps) => {
   const { t } = useTranslation('common');
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
+      accessibleTitle={t('logoutModal.title')}
       maxWidth="sm"
       closeOnOutsideClick={!isLoading}
       closeOnEsc={!isLoading}
       footer={
         <div className="flex items-center justify-end gap-2.5 w-full pt-1">
-          <Button
-            type="button"
-            variant="outline"
-            size="md"
-            onClick={onClose}
-            disabled={isLoading}
-            className="px-4"
-          >
+          <Button type="button" variant="outline" size="md" onClick={onClose} disabled={isLoading} className="px-4">
             {t('logoutModal.cancel')}
           </Button>
 
@@ -57,12 +46,8 @@ export const LogoutModal = ({
           <LogOut className="w-5 h-5" />
         </div>
         <div className="space-y-1">
-          <h2 className="text-base font-bold text-rentify-text-primary">
-            {t('logoutModal.title')}
-          </h2>
-          <p className="text-xs text-rentify-text-secondary leading-relaxed">
-            {t('logoutModal.description')}
-          </p>
+          <h2 className="text-base font-bold text-rentify-text-primary">{t('logoutModal.title')}</h2>
+          <p className="text-xs text-rentify-text-secondary leading-relaxed">{t('logoutModal.description')}</p>
         </div>
       </div>
     </Dialog>

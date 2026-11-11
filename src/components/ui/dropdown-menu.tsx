@@ -1,11 +1,7 @@
-import {
-  forwardRef,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-} from "react";
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { Check, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils/cn";
+import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import { Check, ChevronRight } from 'lucide-react';
+import { cn } from '@/lib/utils/cn';
 
 export const DropdownMenu = DropdownMenuPrimitive.Root;
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
@@ -23,15 +19,15 @@ export const DropdownMenuContent = forwardRef<
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
       className={cn(
-        "z-50 min-w-52 rounded-xl border border-rentify-divider bg-rentify-surface p-1.5 text-rentify-text-primary shadow-spotlight",
-        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+        'z-50 min-w-52 rounded-xl border border-rentify-divider bg-rentify-surface p-1.5 text-rentify-text-primary shadow-spotlight',
+        'ui-menu-surface',
         className,
       )}
       {...props}
     />
   </DropdownMenuPrimitive.Portal>
 ));
-DropdownMenuContent.displayName = "DropdownMenuContent";
+DropdownMenuContent.displayName = 'DropdownMenuContent';
 
 export const DropdownMenuItem = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.Item>,
@@ -40,14 +36,14 @@ export const DropdownMenuItem = forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex min-h-9 cursor-pointer select-none items-center rounded-lg px-2.5 py-2 text-sm outline-none",
-      "focus:bg-rentify-primary-container data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
+      'relative flex min-h-9 cursor-pointer select-none items-center rounded-lg px-2.5 py-2 text-sm outline-none',
+      'focus:bg-rentify-primary-container data-[disabled]:pointer-events-none data-[disabled]:opacity-40',
       className,
     )}
     {...props}
   />
 ));
-DropdownMenuItem.displayName = "DropdownMenuItem";
+DropdownMenuItem.displayName = 'DropdownMenuItem';
 
 export const DropdownMenuCheckboxItem = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
@@ -57,8 +53,8 @@ export const DropdownMenuCheckboxItem = forwardRef<
     ref={ref}
     checked={checked}
     className={cn(
-      "relative flex min-h-9 cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-2.5 text-sm outline-none",
-      "focus:bg-rentify-primary-container data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
+      'relative flex min-h-9 cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-2.5 text-sm outline-none',
+      'focus:bg-rentify-primary-container data-[disabled]:pointer-events-none data-[disabled]:opacity-40',
       className,
     )}
     {...props}
@@ -71,7 +67,7 @@ export const DropdownMenuCheckboxItem = forwardRef<
     {children}
   </DropdownMenuPrimitive.CheckboxItem>
 ));
-DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem";
+DropdownMenuCheckboxItem.displayName = 'DropdownMenuCheckboxItem';
 
 export const DropdownMenuRadioItem = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
@@ -80,8 +76,8 @@ export const DropdownMenuRadioItem = forwardRef<
   <DropdownMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      "relative flex min-h-9 cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-2.5 text-sm outline-none",
-      "focus:bg-rentify-primary-container data-[state=checked]:bg-rentify-primary-container data-[state=checked]:font-semibold data-[state=checked]:text-rentify-primary",
+      'relative flex min-h-9 cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-2.5 text-sm outline-none',
+      'focus:bg-rentify-primary-container data-[state=checked]:bg-rentify-primary-container data-[state=checked]:font-semibold data-[state=checked]:text-rentify-primary',
       className,
     )}
     {...props}
@@ -94,7 +90,7 @@ export const DropdownMenuRadioItem = forwardRef<
     {children}
   </DropdownMenuPrimitive.RadioItem>
 ));
-DropdownMenuRadioItem.displayName = "DropdownMenuRadioItem";
+DropdownMenuRadioItem.displayName = 'DropdownMenuRadioItem';
 
 export const DropdownMenuLabel = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.Label>,
@@ -102,14 +98,11 @@ export const DropdownMenuLabel = forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
-    className={cn(
-      "px-2.5 py-1.5 text-xs font-semibold text-rentify-text-secondary",
-      className,
-    )}
+    className={cn('px-2.5 py-1.5 text-xs font-semibold text-rentify-text-secondary', className)}
     {...props}
   />
 ));
-DropdownMenuLabel.displayName = "DropdownMenuLabel";
+DropdownMenuLabel.displayName = 'DropdownMenuLabel';
 
 export const DropdownMenuSeparator = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.Separator>,
@@ -117,11 +110,11 @@ export const DropdownMenuSeparator = forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1.5 my-1.5 h-px bg-rentify-divider", className)}
+    className={cn('-mx-1.5 my-1.5 h-px bg-rentify-divider', className)}
     {...props}
   />
 ));
-DropdownMenuSeparator.displayName = "DropdownMenuSeparator";
+DropdownMenuSeparator.displayName = 'DropdownMenuSeparator';
 
 export const DropdownMenuSubTrigger = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
@@ -130,7 +123,7 @@ export const DropdownMenuSubTrigger = forwardRef<
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex min-h-9 cursor-pointer select-none items-center rounded-lg px-2.5 py-2 text-sm outline-none focus:bg-rentify-primary-container",
+      'flex min-h-9 cursor-pointer select-none items-center rounded-lg px-2.5 py-2 text-sm outline-none focus:bg-rentify-primary-container',
       className,
     )}
     {...props}
@@ -139,7 +132,7 @@ export const DropdownMenuSubTrigger = forwardRef<
     <ChevronRight className="ml-auto h-4 w-4" />
   </DropdownMenuPrimitive.SubTrigger>
 ));
-DropdownMenuSubTrigger.displayName = "DropdownMenuSubTrigger";
+DropdownMenuSubTrigger.displayName = 'DropdownMenuSubTrigger';
 
 export const DropdownMenuSubContent = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.SubContent>,
@@ -150,11 +143,11 @@ export const DropdownMenuSubContent = forwardRef<
       ref={ref}
       collisionPadding={collisionPadding}
       className={cn(
-        "z-50 min-w-44 rounded-xl border border-rentify-divider bg-rentify-surface p-1.5 shadow-spotlight",
+        'ui-menu-surface z-50 min-w-44 rounded-xl border border-rentify-divider bg-rentify-surface p-1.5 shadow-spotlight',
         className,
       )}
       {...props}
     />
   </DropdownMenuPrimitive.Portal>
 ));
-DropdownMenuSubContent.displayName = "DropdownMenuSubContent";
+DropdownMenuSubContent.displayName = 'DropdownMenuSubContent';
