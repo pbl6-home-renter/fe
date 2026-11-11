@@ -1,0 +1,194 @@
+{
+  "list": {
+    "title": "Invoices",
+    "subtitle": "Generate invoices by building and period, review breakdown, and issue to tenants."
+  },
+  "status": {
+    "pending": "Pending",
+    "issued": "Issued",
+    "void": "Void"
+  },
+  "filters": {
+    "buildingLabel": "Select building",
+    "allBuildings": "All buildings",
+    "periodLabel": "Select billing period",
+    "allPeriods": "All periods",
+    "clearPeriod": "Clear period",
+    "allStatuses": "All",
+    "clearFilter": "Clear filters"
+  },
+  "columns": {
+    "select": "Select",
+    "selectAllPending": "Select all pending invoices on this page",
+    "selectRow": "Select invoice {{code}}",
+    "code": "Invoice code",
+    "room": "Room",
+    "tenant": "Tenant",
+    "period": "Period",
+    "status": "Status",
+    "totalAmount": "Total amount",
+    "actions": "Actions"
+  },
+  "actions": {
+    "generate": "Generate invoices",
+    "issueSelected": "Issue ({{count}})",
+    "issueOne": "Issue invoice",
+    "editOtherFees": "Edit other fees",
+    "cancelInvoice": "Cancel invoice",
+    "regeneratePeriod": "Regenerate this period",
+    "viewDetail": "View details",
+    "cancel": "Cancel",
+    "close": "Close",
+    "retry": "Retry",
+    "saveChanges": "Save changes"
+  },
+  "empty": {
+    "title": "No invoices yet",
+    "description": "Select a building and period, then click Generate invoices to calculate monthly charges.",
+    "filteredTitle": "No invoices found",
+    "filteredDescription": "No invoices match the current building, period, or status filter."
+  },
+  "generate": {
+    "dialogTitle": "Generate invoices by period",
+    "dialogDescription": "Select a building and billing month to generate pending invoices.",
+    "resultTitle": "Invoice generation results for {{period}}",
+    "resultSubtitle": "Review newly created invoices, recalculated pending invoices, and blocked rooms.",
+    "roomLabel": "Room {{name}}",
+    "unknownRoom": "Unknown room",
+    "emptyGroup": "No invoices in this group.",
+    "noBlocked": "All rooms with active contracts have complete billing data.",
+    "groups": {
+      "generated": "Created ({{count}})",
+      "recalculated": "Recalculated ({{count}})",
+      "blocked": "Blocked ({{count}})"
+    },
+    "reasons": {
+      "READING_MISSING": "Missing electricity or water meter reading for this period.",
+      "RATE_MISSING": "Missing electricity or water rate policy.",
+      "TIER_CONFIG_INVALID": "Invalid tiered rate policy configuration.",
+      "AREA_MISSING": "Room area is missing for per-area billing.",
+      "HEADCOUNT_ZERO": "Contract has no active members for per-head billing.",
+      "VEHICLE_COUNT_MISSING": "Contract vehicle count has not been configured.",
+      "TOTAL_NEGATIVE": "Invoice total is negative because discounts exceed charges.",
+      "UNKNOWN": "Could not generate invoice (code: {{code}})."
+    },
+    "blockActions": {
+      "enterReadings": "Enter readings",
+      "configureRates": "Configure rates",
+      "updateRoomArea": "Update room area",
+      "addContractMembers": "Add members",
+      "updateVehicleCount": "Update vehicle count"
+    }
+  },
+  "detail": {
+    "backToList": "Back to list",
+    "notFoundTitle": "Invoice not found",
+    "notFoundDesc": "The invoice does not exist or you do not have permission to view it.",
+    "periodValue": "Period {{period}}",
+    "issuedAtValue": "Issued at {{date}}",
+    "voidBannerTitle": "This invoice has been voided",
+    "noVoidReason": "No cancellation reason provided.",
+    "replacementTitle": "Replacement invoice",
+    "replacementDesc": "This invoice was generated to replace a previously voided invoice.",
+    "viewVoidedInvoice": "View voided invoice",
+    "breakdownTitle": "Service breakdown",
+    "breakdownRoundingHint": "Line amounts keep up to 4 decimal places before the invoice total is rounded.",
+    "breakdownCols": {
+      "item": "Item",
+      "quantity": "Quantity",
+      "unitPrice": "Unit price",
+      "prorate": "Prorate ratio",
+      "amount": "Amount"
+    },
+    "rentLabel": "Room rent",
+    "tieredLabel": "Tiered",
+    "tierStep": "Tier {{step}} ({{from}}–{{to}}): {{qty}} × {{price}} = {{amount}}",
+    "otherFeesTitle": "Other fees & Discounts",
+    "noOtherFees": "No additional fees or discounts.",
+    "noteLabel": "Note",
+    "totalLabel": "Total amount"
+  },
+  "rateKinds": {
+    "flat": "Flat rate",
+    "tiered": "Tiered rate",
+    "fixed_per_period": "Fixed per period",
+    "per_head": "Per person",
+    "per_area_m2": "Per area (m²)",
+    "per_vehicle": "Per vehicle"
+  },
+  "billingUnits": {
+    "kwh": "kWh",
+    "m3": "m³",
+    "room": "room",
+    "person": "person",
+    "m2": "m²",
+    "vehicle": "vehicle",
+    "day": "day",
+    "occurrence": "occurrence"
+  },
+  "otherFeesDialog": {
+    "title": "Edit other fees and note",
+    "description": "Add surcharges or discounts while the invoice is still pending.",
+    "itemsLabel": "Other fee items",
+    "addFee": "Add fee",
+    "emptyFees": "No other fees added. Click Add fee to adjust.",
+    "feeName": "Description",
+    "feeNamePlaceholder": "Example: Rent discount",
+    "feeAmount": "Amount (VND)",
+    "feeAmountPlaceholder": "Example: -100000 or 50000",
+    "feeAmountHelper": "Whole VND amount; negative values act as discounts.",
+    "removeFee": "Remove fee",
+    "notePlaceholder": "Enter a note for the tenant (optional)...",
+    "totalNegativeTitle": "Invoice total cannot be negative",
+    "totalNegativeDesc": "Discounts currently exceed rent and utility charges. Please adjust the amounts before saving."
+  },
+  "issueDialog": {
+    "title": "Issue {{count}} invoice(s)?",
+    "description": "Confirm issuing the selected pending invoices to tenants.",
+    "warningTitle": "Important notice",
+    "warningDescription": "Issued invoices cannot be edited. If there is a mistake, you must void the invoice and regenerate a new one.",
+    "confirmButton": "Issue ({{count}})",
+    "partialTitle": "Invoice issue results",
+    "succeededSummary": "Successfully issued {{count}} invoice(s).",
+    "failedSummary": "{{count}} invoice(s) failed to issue:"
+  },
+  "cancelDialog": {
+    "title": "Void invoice {{code}}?",
+    "description": "The invoice status will change to void.",
+    "warningTitle": "This action cannot be undone",
+    "warningDescription": "Once voided, you can regenerate the invoice for this period to create a new pending draft.",
+    "reasonLabel": "Cancellation reason",
+    "reasonPlaceholder": "Enter cancellation reason (e.g., Incorrect water meter reading)...",
+    "reasonHelper": "Required, 1 to 500 characters.",
+    "confirmButton": "Void invoice"
+  },
+  "validations": {
+    "feeNameRequired": "Enter fee description.",
+    "feeNameMax": "Description cannot exceed 100 characters.",
+    "feeAmountRequired": "Enter amount.",
+    "feeAmountInvalid": "Enter a non-zero integer VND amount (prefix - for discount).",
+    "otherFeesMax": "Maximum 20 other fee items per invoice.",
+    "noteMax": "Note cannot exceed 500 characters.",
+    "cancelReasonRequired": "Enter cancellation reason.",
+    "cancelReasonMax": "Cancellation reason cannot exceed 500 characters."
+  },
+  "apiSuccess": {
+    "INVOICES_GENERATED": "Invoices generated for the selected period.",
+    "INVOICE_UPDATED": "Invoice fees and note updated.",
+    "INVOICES_ISSUE_REQUESTED": "Invoice issue request processed.",
+    "INVOICE_CANCELLED": "Invoice has been voided."
+  },
+  "apiErrors": {
+    "INVOICE_NOT_FOUND": "Invoice not found.",
+    "INVOICE_BUILDING_NOT_FOUND": "Building not found or you do not manage it.",
+    "INVOICE_ALREADY_ISSUED": "Issued invoice cannot be modified.",
+    "INVOICE_ALREADY_VOIDED": "This invoice has already been voided.",
+    "INVOICE_NOT_PENDING": "This action is only allowed for pending invoices.",
+    "TOTAL_NEGATIVE": "Invoice total cannot be negative. Check your discount items.",
+    "IDEMPOTENCY_KEY_REUSED": "Idempotency key was reused for a different payload. Please retry.",
+    "INVOICE_IDS_REQUIRED": "Select at least one invoice to issue.",
+    "INVOICE_IDS_TOO_LARGE": "You can issue at most 100 invoices per batch.",
+    "INVOICE_FORBIDDEN": "You do not have permission to access this invoice.",
+    "FORBIDDEN": "You do not have permission to perform this action."
+  }
+}

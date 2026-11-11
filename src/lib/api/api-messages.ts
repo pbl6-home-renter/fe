@@ -15,6 +15,7 @@ const API_CODE_NAMESPACES = [
   'chat',
   'users',
   'billing',
+  'invoices',
   'common',
 ] as const;
 

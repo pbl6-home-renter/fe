@@ -4,11 +4,9 @@ import {
   getSortedRowModel,
   useReactTable,
   type ColumnDef,
+  type Row,
 } from '@tanstack/react-table';
-import type {
-  DataTableControlledState,
-  DataTableStateHandlers,
-} from '@/components/ui/data-table/data-table.types';
+import type { DataTableControlledState, DataTableStateHandlers } from '@/components/ui/data-table/data-table.types';
 
 interface UseDataTableOptions<TData> {
   data: TData[];
@@ -19,7 +17,7 @@ interface UseDataTableOptions<TData> {
   state: DataTableControlledState;
   handlers: DataTableStateHandlers;
   features?: {
-    selection?: boolean;
+    selection?: boolean | ((row: Row<TData>) => boolean);
     columnVisibility?: boolean;
     columnOrder?: boolean;
     columnResize?: boolean;
@@ -27,7 +25,7 @@ interface UseDataTableOptions<TData> {
   };
 }
 
-export const useDataTable = <TData,>({
+export const useDataTable = <TData>({
   data,
   columns,
   getRowId,
@@ -40,35 +38,34 @@ export const useDataTable = <TData,>({
   // TanStack Table intentionally returns mutable accessors; React Compiler skips this hook safely.
   // eslint-disable-next-line react-hooks/incompatible-library
   return useReactTable({
-  data,
-  columns,
-  getRowId,
-  rowCount,
-  state: {
-    pagination: state.pagination,
-    sorting: state.sorting,
-    rowSelection: state.rowSelection,
-    columnVisibility: state.columnVisibility,
-    columnOrder: state.columnOrder,
-    columnPinning: state.columnPinning,
-    columnSizing: state.columnSizing,
-  },
-  onPaginationChange: handlers.onPaginationChange,
-  onSortingChange: handlers.onSortingChange,
-  onRowSelectionChange: handlers.onRowSelectionChange,
-  onColumnVisibilityChange: handlers.onColumnVisibilityChange,
-  onColumnOrderChange: handlers.onColumnOrderChange,
-  onColumnPinningChange: handlers.onColumnPinningChange,
-  onColumnSizingChange: handlers.onColumnSizingChange,
-  getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: mode === 'client' ? getSortedRowModel() : undefined,
-  getPaginationRowModel: mode === 'client' ? getPaginationRowModel() : undefined,
-  manualPagination: mode === 'server',
-  manualSorting: mode === 'server',
-  enableMultiSort: false,
-  enableRowSelection: features?.selection ?? false,
-  enableColumnResizing: features?.columnResize ?? true,
-  columnResizeMode: 'onChange',
+    data,
+    columns,
+    getRowId,
+    rowCount,
+    state: {
+      pagination: state.pagination,
+      sorting: state.sorting,
+      rowSelection: state.rowSelection,
+      columnVisibility: state.columnVisibility,
+      columnOrder: state.columnOrder,
+      columnPinning: state.columnPinning,
+      columnSizing: state.columnSizing,
+    },
+    onPaginationChange: handlers.onPaginationChange,
+    onSortingChange: handlers.onSortingChange,
+    onRowSelectionChange: handlers.onRowSelectionChange,
+    onColumnVisibilityChange: handlers.onColumnVisibilityChange,
+    onColumnOrderChange: handlers.onColumnOrderChange,
+    onColumnPinningChange: handlers.onColumnPinningChange,
+    onColumnSizingChange: handlers.onColumnSizingChange,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: mode === 'client' ? getSortedRowModel() : undefined,
+    getPaginationRowModel: mode === 'client' ? getPaginationRowModel() : undefined,
+    manualPagination: mode === 'server',
+    manualSorting: mode === 'server',
+    enableMultiSort: false,
+    enableRowSelection: features?.selection ?? false,
+    enableColumnResizing: features?.columnResize ?? true,
+    columnResizeMode: 'onChange',
   });
 };
-
