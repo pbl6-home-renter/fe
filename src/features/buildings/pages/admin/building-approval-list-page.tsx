@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { PageHeader } from '@/components/ui/page-header';
+import { Badge } from '@/components/ui/badge';
 import { ApprovalTable } from '../../components/admin/approval-table';
 import { useBuildingApprovalList } from '../../hooks/admin/use-building-approval-list';
 
@@ -12,12 +13,7 @@ export const BuildingApprovalListPage = () => {
       <PageHeader
         title={t('admin.queueTitle')}
         description={t('admin.queueSubtitle')}
-        actions={
-          <div className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-rentify-divider bg-rentify-surface px-3 text-xs font-semibold text-rentify-text-primary shadow-xs">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-rentify-warning" />
-            <span>{t('admin.totalPendingBadge', { count: totalItems })}</span>
-          </div>
-        }
+        actions={<Badge variant="warning">{t('admin.totalPendingBadge', { count: totalItems })}</Badge>}
       />
 
       <ApprovalTable {...tableProps} />

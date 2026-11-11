@@ -28,7 +28,7 @@ export const RatePolicyCard = ({
 
   if (isLoading) {
     return (
-      <Card className="p-6 border-rentify-divider space-y-4 rounded-2xl">
+      <Card className="space-y-4">
         <Skeleton className="h-6 w-48 rounded-lg" />
         <Skeleton className="h-28 w-full rounded-xl" />
       </Card>
@@ -38,7 +38,7 @@ export const RatePolicyCard = ({
   const hasRates = Boolean(policy?.isActive && policy?.rates?.length);
 
   return (
-    <div className="bg-rentify-surface rounded-2xl p-6 border border-rentify-divider shadow-xs flex flex-col gap-5">
+    <Card className="flex flex-col gap-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-rentify-divider">
         <div>
           <div className="flex items-center gap-2">
@@ -146,6 +146,6 @@ export const RatePolicyCard = ({
           ))}
         </div>
       )}
-    </div>
+    </Card>
   );
 };

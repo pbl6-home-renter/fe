@@ -24,6 +24,7 @@
     "pending_cleanup": "Pending cleanup"
   },
   "tabs": {
+    "label": "Contract sections",
     "documents": "Contract documents",
     "members": "Members"
   },

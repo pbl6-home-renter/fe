@@ -28,7 +28,7 @@ export const RoomMeterReadingsCard = ({ meterReadings, buildingId }: RoomMeterRe
   };
 
   return (
-    <Card className="p-6 border-rentify-divider bg-rentify-surface rounded-2xl shadow-xs space-y-3">
+    <Card className="space-y-3">
       <div className="flex items-center justify-between pb-2 border-b border-rentify-divider">
         <h4 className="font-bold text-base text-rentify-text-primary">{t('detail.meterTitle')}</h4>
         {hasReadings && meterReadings?.recordedAt && (

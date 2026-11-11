@@ -5,6 +5,7 @@
   },
   "filter": {
     "selectBuilding": "Select building...",
+    "selectMonth": "Select reading month",
     "previousMonth": "Previous month",
     "nextMonth": "Next month"
   },

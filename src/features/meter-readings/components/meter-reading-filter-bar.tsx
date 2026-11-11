@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { Building2, Calendar, ChevronLeft, ChevronRight, Save } from 'lucide-react';
+import { Building2, ChevronLeft, ChevronRight, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { IconButton } from '@/components/ui/icon-button';
+import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
 import { SelectDropdown } from '@/components/ui/select-dropdown';
 import { getNextPeriod, getPreviousPeriod } from '../utils/meter-reading.helper';
-import { formatMonth } from '@/lib/utils/format';
 import type { BuildingMyListItemDto } from '@/features/buildings/types/building.dto';
 
 interface MeterReadingFilterBarProps {
@@ -41,7 +43,7 @@ export const MeterReadingFilterBar = ({
   };
 
   return (
-    <div className="bg-rentify-surface border border-rentify-divider rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 shadow-xs">
+    <Card className="flex flex-col items-stretch justify-between gap-4 lg:flex-row lg:items-center">
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1 min-w-0">
         {/* Building Selector */}
         <div className="w-full sm:w-64 min-w-0">
@@ -56,43 +58,36 @@ export const MeterReadingFilterBar = ({
 
         {/* Period (Month) Navigator */}
         <div className="flex items-center gap-1.5 bg-rentify-background border border-rentify-divider rounded-xl px-2 py-1">
-          <Button
+          <IconButton
             type="button"
             variant="ghost"
             size="sm"
             onClick={handlePrevMonth}
             aria-label={t('filter.previousMonth')}
-            className="h-8 w-8 p-0"
           >
             <ChevronLeft className="w-4 h-4 text-rentify-text-secondary" />
-          </Button>
+          </IconButton>
 
-          <label className="relative flex items-center gap-1.5 px-2.5 py-1 min-w-28 justify-center cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors">
-            <Calendar className="w-3.5 h-3.5 text-rentify-primary pointer-events-none" />
-            <span className="text-xs font-semibold text-rentify-text-primary pointer-events-none">
-              {formatMonth(selectedPeriod) || selectedPeriod}
-            </span>
-            <input
-              type="month"
-              value={selectedPeriod}
-              onChange={(e) => {
-                if (e.target.value) onPeriodChange(e.target.value);
-              }}
-              className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-              aria-label={t('page.title')}
-            />
-          </label>
+          <Input
+            type="month"
+            value={selectedPeriod}
+            onChange={(e) => {
+              if (e.target.value) onPeriodChange(e.target.value);
+            }}
+            aria-label={t('filter.selectMonth')}
+            containerClassName="w-36"
+            className="min-h-10 border-0 bg-transparent px-1.5 text-xs font-semibold"
+          />
 
-          <Button
+          <IconButton
             type="button"
             variant="ghost"
             size="sm"
             onClick={handleNextMonth}
             aria-label={t('filter.nextMonth')}
-            className="h-8 w-8 p-0"
           >
             <ChevronRight className="w-4 h-4 text-rentify-text-secondary" />
-          </Button>
+          </IconButton>
         </div>
       </div>
 
@@ -109,6 +104,6 @@ export const MeterReadingFilterBar = ({
           <span>{t('actions.saveAll')}</span>
         </Button>
       </div>
-    </div>
+    </Card>
   );
 };

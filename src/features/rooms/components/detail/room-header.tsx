@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, CheckCircle2, Edit3, Trash2 } from 'lucide-react';
+import { CheckCircle2, Edit3, Trash2 } from 'lucide-react';
 import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { BackLink } from '@/components/ui/back-link';
 import { RoomStatusBadge } from '../room-status-badge';
 import { RoomStatus } from '../../enums/room-status.enum';
 import type { RoomDetailDto } from '../../types/room.dto';
@@ -15,46 +16,25 @@ interface RoomHeaderProps {
   isMarkingReady: boolean;
 }
 
-export const RoomHeader = ({
-  room,
-  onEdit,
-  onDelete,
-  onMarkReady,
-  isMarkingReady,
-}: RoomHeaderProps) => {
+export const RoomHeader = ({ room, onEdit, onDelete, onMarkReady, isMarkingReady }: RoomHeaderProps) => {
   const { t } = useTranslation('rooms');
-  const navigate = useNavigate();
 
   const canMarkReady =
     room.status === RoomStatus.CLEANING ||
     room.status === RoomStatus.MAINTENANCE ||
     room.status === RoomStatus.PENDING_CLEANUP;
 
-  const handleBack = () => {
-    navigate(ROUTES.LANDLORD.BUILDING_DETAIL(room.buildingId));
-  };
-
   return (
     <div className="space-y-4">
-      {/* Top back button */}
-      <div className="flex items-center gap-2 text-xs text-rentify-text-secondary">
-        <button
-          type="button"
-          onClick={handleBack}
-          className="inline-flex items-center gap-1.5 hover:text-rentify-primary transition-colors cursor-pointer font-medium"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>{t('detail.backToBuilding', { building: room.buildingName })}</span>
-        </button>
-      </div>
+      <BackLink to={ROUTES.LANDLORD.BUILDING_DETAIL(room.buildingId)}>
+        {t('detail.backToBuilding', { building: room.buildingName })}
+      </BackLink>
 
       {/* Main Bar */}
-      <div className="bg-rentify-surface p-5 rounded-2xl border border-rentify-divider shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <Card className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="space-y-1 min-w-0">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <h1 className="font-bold text-xl text-rentify-text-primary tracking-tight truncate">
-              {room.name}
-            </h1>
+            <h1 className="font-bold text-xl text-rentify-text-primary tracking-tight truncate">{room.name}</h1>
             <RoomStatusBadge status={room.status} />
           </div>
           <p className="text-xs text-rentify-text-secondary">
@@ -80,13 +60,7 @@ export const RoomHeader = ({
             </Button>
           )}
 
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={onEdit}
-            className="flex items-center gap-1.5"
-          >
+          <Button type="button" variant="outline" size="sm" onClick={onEdit} className="flex items-center gap-1.5">
             <Edit3 className="w-4 h-4" />
             <span>{t('detail.editAction')}</span>
           </Button>
@@ -102,7 +76,7 @@ export const RoomHeader = ({
             <span>{t('detail.deleteAction')}</span>
           </Button>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

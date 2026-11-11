@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Check, Minus } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
@@ -13,7 +13,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     { label, helperText, indeterminate = false, className, id, disabled, checked, defaultChecked, onChange, ...props },
     ref,
   ) => {
-    const inputId = id || (typeof label === 'string' ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+    const generatedId = useId();
+    const inputId = id ?? generatedId;
 
     return (
       <label
@@ -34,10 +35,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             onChange={onChange}
             className={cn(
               'peer appearance-none w-[18px] h-[18px] rounded-[4px] border border-rentify-divider',
-              'bg-rentify-surface transition-all duration-150',
+              'bg-rentify-surface transition-[background-color,border-color,box-shadow] duration-150 motion-reduce:transition-none',
               'checked:bg-rentify-primary checked:border-rentify-primary',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary/30 focus-visible:ring-offset-1',
               'group-hover:border-rentify-primary/60',
+              indeterminate && 'border-rentify-primary bg-rentify-primary',
               disabled && 'border-outline-variant checked:bg-rentify-neutral group-hover:border-outline-variant',
               className,
             )}
@@ -48,7 +50,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <Check
             className={cn(
               'w-3.5 h-3.5 text-white pointer-events-none absolute transition-opacity duration-150 stroke-[3]',
-              checked && !indeterminate ? 'opacity-100' : 'opacity-0',
+              indeterminate ? 'opacity-0' : 'opacity-0 peer-checked:opacity-100',
             )}
             aria-hidden="true"
           />

@@ -8,6 +8,7 @@ export interface ProgressMeterProps extends HTMLAttributes<HTMLDivElement> {
   showValue?: boolean;
   warningThreshold?: number; // default 100
   size?: 'sm' | 'md' | 'lg';
+  tone?: 'primary' | 'success' | 'warning';
 }
 
 export const ProgressMeterTrack = ({
@@ -17,16 +18,17 @@ export const ProgressMeterTrack = ({
   showValue = false,
   warningThreshold = 100,
   size = 'md',
+  tone = 'primary',
   className,
   ...props
 }: ProgressMeterProps) => {
-  const percentage = Math.max(0, Math.min(100, (value / max) * 100));
+  const percentage = Number.isFinite(value) && max > 0 ? Math.max(0, Math.min(100, (value / max) * 100)) : 0;
   const isOverThreshold = percentage >= warningThreshold;
 
   const heightMap = {
     sm: 'h-1.5', // 6px
-    md: 'h-2',   // 8px
-    lg: 'h-3',   // 12px
+    md: 'h-2', // 8px
+    lg: 'h-3', // 12px
   };
 
   return (
@@ -44,18 +46,22 @@ export const ProgressMeterTrack = ({
 
       <div
         role="progressbar"
+        aria-label={label}
         aria-valuenow={value}
         aria-valuemin={0}
         aria-valuemax={max}
-        className={cn(
-          'w-full bg-rentify-divider rounded-full overflow-hidden',
-          heightMap[size]
-        )}
+        className={cn('w-full bg-rentify-divider rounded-full overflow-hidden', heightMap[size])}
       >
         <div
           className={cn(
-            'h-full rounded-full transition-all duration-300 ease-out',
-            isOverThreshold ? 'bg-rentify-error' : 'bg-rentify-primary'
+            'h-full rounded-full transition-[width] duration-200 ease-out motion-reduce:transition-none',
+            isOverThreshold
+              ? 'bg-rentify-error'
+              : tone === 'success'
+                ? 'bg-rentify-success'
+                : tone === 'warning'
+                  ? 'bg-rentify-warning'
+                  : 'bg-rentify-primary',
           )}
           style={{ width: `${percentage}%` }}
         />

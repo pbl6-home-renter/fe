@@ -5,11 +5,11 @@ import { Home, Building2 } from 'lucide-react';
 import landlordLogo from '@/assets/landlord-logo.png';
 import tenantLogo from '@/assets/tenant-logo.png';
 import { Button } from '@/components/ui/button';
+import { SegmentedControl } from '@/components/ui/segmented-control';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import { Card } from '@/components/ui/card';
 import { Role } from '@/types/role';
-import { cn } from '@/lib/utils/cn';
 import { useRegisterForm } from '../forms/use-register-form';
 
 export const RegisterPage = () => {
@@ -37,37 +37,19 @@ export const RegisterPage = () => {
         <label className="text-xs font-semibold uppercase tracking-wider text-rentify-text-secondary block mb-2">
           {t('selectRole')}
         </label>
-        <div className="grid grid-cols-2 gap-3 p-1.5 bg-surface-container-low border border-rentify-divider rounded-2xl">
-          <button
-            type="button"
-            onClick={() => setRole(Role.LANDLORD)}
-            disabled={isSubmitting}
-            className={cn(
-              'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer',
-              isLandlord
-                ? 'bg-rentify-surface text-rentify-primary shadow-xs border border-rentify-divider'
-                : 'text-rentify-text-secondary hover:text-rentify-text-primary',
-            )}
-          >
-            <Building2 className="w-4 h-4 shrink-0" />
-            <span>{t('landlordRole')}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setRole(Role.TENANT)}
-            disabled={isSubmitting}
-            className={cn(
-              'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer',
-              isTenant
-                ? 'bg-rentify-surface text-rentify-primary shadow-xs border border-rentify-divider'
-                : 'text-rentify-text-secondary hover:text-rentify-text-primary',
-            )}
-          >
-            <Home className="w-4 h-4 shrink-0" />
-            <span>{t('tenantRole')}</span>
-          </button>
-        </div>
+        <SegmentedControl
+          label={t('selectRole')}
+          value={isLandlord ? Role.LANDLORD : Role.TENANT}
+          onChange={setRole}
+          disabled={isSubmitting}
+          size="md"
+          className="grid w-full grid-cols-2 border border-rentify-divider p-1.5"
+          itemClassName="w-full"
+          options={[
+            { value: Role.LANDLORD, label: t('landlordRole'), icon: <Building2 className="h-4 w-4" /> },
+            { value: Role.TENANT, label: t('tenantRole'), icon: <Home className="h-4 w-4" /> },
+          ]}
+        />
       </div>
 
       {/* Form */}

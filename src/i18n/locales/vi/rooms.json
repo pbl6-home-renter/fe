@@ -40,6 +40,9 @@
   },
   "empty": {
     "title": "Chưa có phòng nào",
+    "filteredTitle": "Không tìm thấy phòng phù hợp",
+    "filteredDesc": "Hãy thay đổi hoặc xóa bộ lọc để xem các phòng khác.",
+    "clearFilters": "Xóa bộ lọc",
     "approvedDesc": "Bắt đầu bằng cách thêm phòng trọ đầu tiên vào cơ sở này.",
     "unapprovedDesc": "Tòa nhà cần được phê duyệt trước khi tạo phòng."
   },

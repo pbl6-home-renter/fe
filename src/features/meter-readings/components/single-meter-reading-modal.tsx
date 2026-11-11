@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { Camera, Image as ImageIcon, Zap, Droplets, Loader2 } from 'lucide-react';
+import { Camera, Image as ImageIcon, Zap, Droplets } from 'lucide-react';
 import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
+import { SegmentedControl } from '@/components/ui/segmented-control';
 import { useMeterReadingOcr } from '../hooks/use-meter-reading-ocr';
 import { MeterType } from '../enums/meter-type.enum';
 import type { SingleMeterReadingModalTarget } from '../hooks/use-single-meter-reading-modal';
@@ -81,32 +82,15 @@ export const SingleMeterReadingModal = ({
       <div className="space-y-4 py-1">
         <div className="flex items-center justify-between gap-2">
           {onSwitchType ? (
-            <div className="flex items-center bg-surface-container-low p-1 rounded-xl gap-1">
-              <button
-                type="button"
-                onClick={() => onSwitchType(MeterType.ELECTRICITY)}
-                className={`px-2.5 py-1 text-xs rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
-                  isElectricity
-                    ? 'bg-rentify-surface text-rentify-warning shadow-xs'
-                    : 'text-rentify-text-secondary hover:text-rentify-text-primary'
-                }`}
-              >
-                <Zap className="w-3.5 h-3.5" />
-                <span>{t('types.electricity')}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => onSwitchType(MeterType.WATER)}
-                className={`px-2.5 py-1 text-xs rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
-                  !isElectricity
-                    ? 'bg-rentify-surface text-rentify-primary shadow-xs'
-                    : 'text-rentify-text-secondary hover:text-rentify-text-primary'
-                }`}
-              >
-                <Droplets className="w-3.5 h-3.5" />
-                <span>{t('types.water')}</span>
-              </button>
-            </div>
+            <SegmentedControl
+              label={t('modal.singleTitle', { room: target.roomName })}
+              value={target.type}
+              onChange={onSwitchType}
+              options={[
+                { value: MeterType.ELECTRICITY, label: t('types.electricity'), icon: <Zap className="h-3.5 w-3.5" /> },
+                { value: MeterType.WATER, label: t('types.water'), icon: <Droplets className="h-3.5 w-3.5" /> },
+              ]}
+            />
           ) : (
             <Badge
               variant={isElectricity ? 'warning' : 'primary'}
@@ -181,13 +165,16 @@ export const SingleMeterReadingModal = ({
                   alt={t('modal.evidencePhotoLabel')}
                   className="w-16 h-16 rounded-xl object-cover border border-rentify-divider shadow-xs"
                 />
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={openCameraPicker}
-                  className="absolute inset-0 bg-black/40 text-white rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[10px]"
+                  disabled={isProcessing}
+                  className="absolute inset-0 h-full w-full rounded-xl bg-rentify-text-primary/60 p-0 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-rentify-text-primary/70 hover:text-white focus-visible:opacity-100"
                 >
                   {t('actions.retake')}
-                </button>
+                </Button>
               </div>
             ) : (
               <Button
@@ -195,15 +182,11 @@ export const SingleMeterReadingModal = ({
                 variant="outline"
                 size="sm"
                 onClick={openCameraPicker}
-                disabled={isProcessing}
+                isLoading={isProcessing}
                 className="gap-1.5 text-xs"
               >
-                {isProcessing ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-rentify-primary" />
-                ) : (
-                  <Camera className="w-4 h-4 text-rentify-primary" />
-                )}
-                <span>{isProcessing ? t('status.processingOcr') : t('actions.capturePhoto')}</span>
+                <Camera className="w-4 h-4 text-rentify-primary" />
+                <span>{t('actions.capturePhoto')}</span>
               </Button>
             )}
 

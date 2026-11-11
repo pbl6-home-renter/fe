@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, ShieldAlert } from 'lucide-react';
+import { ShieldAlert } from 'lucide-react';
 import { isAxiosError } from 'axios';
 import { ROUTES } from '@/config/routes.config';
 import { Card } from '@/components/ui/card';
+import { BackLink } from '@/components/ui/back-link';
 import { AlertBanner } from '@/components/feedback/alert-banner';
 import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
@@ -103,16 +104,7 @@ export const BuildingDetailPage = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <button
-          type="button"
-          onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-rentify-text-secondary hover:text-rentify-text-primary transition-colors cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>{t('backToList')}</span>
-        </button>
-      </div>
+      <BackLink to={ROUTES.LANDLORD.BUILDINGS}>{t('backToList')}</BackLink>
 
       <BuildingDetailHeader
         building={building}

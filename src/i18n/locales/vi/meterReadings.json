@@ -5,6 +5,7 @@
   },
   "filter": {
     "selectBuilding": "Chọn tòa nhà...",
+    "selectMonth": "Chọn tháng ghi chỉ số",
     "previousMonth": "Tháng trước",
     "nextMonth": "Tháng sau"
   },

@@ -35,9 +35,9 @@ export const Badge = ({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-tag border transition-all duration-150 select-none leading-none',
+        'inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-tag border transition-colors duration-150 select-none leading-none',
         variantStyles[effectiveVariant],
-        interactive && 'cursor-pointer hover:border-rentify-primary/60 active:scale-95',
+        interactive && 'cursor-pointer hover:border-rentify-primary/60',
         className,
       )}
       {...props}

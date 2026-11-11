@@ -69,11 +69,7 @@ export const AlertBanner = ({
   return (
     <div
       role="alert"
-      className={cn(
-        'w-full flex items-start gap-3 p-4 rounded-xl border text-left transition-all duration-200',
-        container,
-        className,
-      )}
+      className={cn('w-full flex items-start gap-3 p-4 rounded-xl border text-left', container, className)}
       {...props}
     >
       <Icon className={cn('w-5 h-5 shrink-0 mt-0.5', iconColor)} aria-hidden="true" />

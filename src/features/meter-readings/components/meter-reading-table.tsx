@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Zap, Droplets, Eye } from 'lucide-react';
 import type { ColumnDef, ColumnPinningState } from '@tanstack/react-table';
@@ -8,6 +7,7 @@ import { DataTable } from '@/components/ui/data-table/data-table';
 import { useDataTable } from '@/hooks/use-data-table';
 import { useDataTableState } from '@/hooks/use-data-table-state';
 import { ROUTES } from '@/config/routes.config';
+import { TextLink } from '@/components/ui/text-link';
 import { MeterReadingCellInput } from './meter-reading-cell-input';
 import { MeterReadingMobileCard } from './meter-reading-mobile-card';
 import { MeterType } from '../enums/meter-type.enum';
@@ -35,7 +35,6 @@ export const MeterReadingTable = ({
   onViewImage,
 }: MeterReadingTableProps) => {
   const { t } = useTranslation('meterReadings');
-  const navigate = useNavigate();
 
   const { state, handlers, setDensity } = useDataTableState({
     tableId: 'landlord-meter-readings',
@@ -55,16 +54,15 @@ export const MeterReadingTable = ({
         minSize: 120,
         meta: { label: t('columns.room') },
         cell: ({ row }) => (
-          <button
-            type="button"
+          <TextLink
+            to={ROUTES.LANDLORD.ROOM_DETAIL(row.original.roomId)}
             onClick={(e) => {
               e.stopPropagation();
-              navigate(ROUTES.LANDLORD.ROOM_DETAIL(row.original.roomId));
             }}
-            className="font-bold text-rentify-primary hover:underline text-sm py-2 text-left cursor-pointer transition-colors"
+            className="font-bold"
           >
             {row.original.roomName}
-          </button>
+          </TextLink>
         ),
       },
       {
@@ -163,7 +161,7 @@ export const MeterReadingTable = ({
         },
       },
     ],
-    [t, navigate, onReadingChange, onCellOcrSuccess, onOpenSingleModal, onViewImage],
+    [t, onReadingChange, onCellOcrSuccess, onOpenSingleModal, onViewImage],
   );
 
   const table = useDataTable({

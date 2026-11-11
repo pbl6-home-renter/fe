@@ -1,8 +1,9 @@
 import { Bell, CheckCheck, Settings2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardButton } from '@/components/ui/card';
 import { PageHeader } from '@/components/ui/page-header';
+import { SegmentedControl } from '@/components/ui/segmented-control';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { ErrorState } from '@/components/feedback/error-state';
 import { NotificationPreferencesDialog } from '../components/notification-preferences-dialog';
@@ -39,24 +40,16 @@ export const NotificationsPage = () => {
         }
       />
 
-      <div className="flex gap-2" aria-label={t('filters.label')}>
-        <Button
-          variant={!page.unreadOnly ? 'secondary' : 'ghost'}
-          size="md"
-          aria-pressed={!page.unreadOnly}
-          onClick={() => page.onSetUnreadOnly(false)}
-        >
-          {t('filters.all')}
-        </Button>
-        <Button
-          variant={page.unreadOnly ? 'secondary' : 'ghost'}
-          size="md"
-          aria-pressed={page.unreadOnly}
-          onClick={() => page.onSetUnreadOnly(true)}
-        >
-          {t('filters.unread')}
-        </Button>
-      </div>
+      <SegmentedControl
+        label={t('filters.label')}
+        value={page.unreadOnly ? 'unread' : 'all'}
+        onChange={(value) => page.onSetUnreadOnly(value === 'unread')}
+        size="md"
+        options={[
+          { value: 'all', label: t('filters.all') },
+          { value: 'unread', label: t('filters.unread') },
+        ]}
+      />
 
       <section className="min-h-0 flex-1 overflow-y-auto" aria-live="polite">
         {page.query.isLoading ? (
@@ -80,34 +73,29 @@ export const NotificationsPage = () => {
         ) : (
           <div className="space-y-3">
             {page.items.map((item) => (
-              <button
+              <CardButton
                 key={item.id}
-                type="button"
                 onClick={() => page.onOpenNotification(item)}
-                className="w-full rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary"
+                className={`flex gap-3 p-4 hover:bg-rentify-background ${item.readAt ? '' : 'border-rentify-primary/30 bg-rentify-primary-container/20'}`}
               >
-                <Card
-                  className={`flex gap-3 p-4 transition-colors hover:bg-rentify-background ${item.readAt ? '' : 'border-rentify-primary/30 bg-rentify-primary-container/20'}`}
-                >
-                  <span
-                    className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${item.readAt ? 'bg-rentify-neutral/40' : 'bg-rentify-primary'}`}
-                    aria-hidden="true"
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                      <span className="font-semibold text-rentify-text-primary">{item.title}</span>
-                      <time className="text-xs text-rentify-text-secondary" dateTime={item.createdAt}>
-                        {new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(
-                          new Date(item.createdAt),
-                        )}
-                      </time>
-                    </span>
-                    <span className="mt-1 block whitespace-pre-wrap text-sm text-rentify-text-secondary">
-                      {item.body}
-                    </span>
+                <span
+                  className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${item.readAt ? 'bg-rentify-neutral/40' : 'bg-rentify-primary'}`}
+                  aria-hidden="true"
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                    <span className="font-semibold text-rentify-text-primary">{item.title}</span>
+                    <time className="text-xs text-rentify-text-secondary" dateTime={item.createdAt}>
+                      {new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(
+                        new Date(item.createdAt),
+                      )}
+                    </time>
                   </span>
-                </Card>
-              </button>
+                  <span className="mt-1 block whitespace-pre-wrap text-sm text-rentify-text-secondary">
+                    {item.body}
+                  </span>
+                </span>
+              </CardButton>
             ))}
             {page.query.hasNextPage && (
               <div className="py-2 text-center">

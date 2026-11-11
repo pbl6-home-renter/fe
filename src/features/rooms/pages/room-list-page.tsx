@@ -6,9 +6,12 @@ import { ROUTES } from '@/config/routes.config';
 import { BuildingRoomList } from '../components/building-room-list';
 import { useMyBuildingsQuery } from '@/features/buildings/hooks/use-my-buildings-query';
 import { EmptyState } from '@/components/feedback/empty-state';
+import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { SelectDropdown } from '@/components/ui/select-dropdown';
+import { PageHeader } from '@/components/ui/page-header';
 
 export const RoomListPage = () => {
   const { id: pathBuildingId } = useParams<{ id?: string }>();
@@ -19,7 +22,7 @@ export const RoomListPage = () => {
   const queryBuildingId = searchParams.get('buildingId');
   const [selectedBuildingId, setSelectedBuildingId] = useState<string>(pathBuildingId || queryBuildingId || '');
 
-  const { data: buildingsData, isLoading } = useMyBuildingsQuery({ pageSize: 50 });
+  const { data: buildingsData, isLoading, isError, refetch } = useMyBuildingsQuery({ pageSize: 50 });
   const buildings = buildingsData?.items ?? [];
 
   const effectiveBuildingId = selectedBuildingId || (buildings.length > 0 ? buildings[0].id : '');
@@ -34,6 +37,7 @@ export const RoomListPage = () => {
   if (isLoading) {
     return (
       <div className="space-y-6" role="status" aria-label={t('list.title')}>
+        {!pathBuildingId && <PageHeader title={t('list.title')} description={t('list.subtitle')} />}
         <Skeleton className="h-14 w-full rounded-2xl" />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }, (_, index) => (
@@ -44,24 +48,37 @@ export const RoomListPage = () => {
     );
   }
 
+  if (isError && !buildingsData) {
+    return (
+      <div className="space-y-6">
+        {!pathBuildingId && <PageHeader title={t('list.title')} description={t('list.subtitle')} />}
+        <ErrorState onRetry={() => void refetch()} />
+      </div>
+    );
+  }
+
   if (buildings.length === 0) {
     return (
-      <EmptyState icon={Building2} title={t('list.noBuildingsTitle')} description={t('list.noBuildingsDesc')}>
-        <div className="mt-4">
-          <Button type="button" variant="primary" onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}>
-            <Building2 className="w-4 h-4 mr-1.5" />
-            <span>{t('list.goToBuildings')}</span>
-          </Button>
-        </div>
-      </EmptyState>
+      <div className="space-y-6">
+        {!pathBuildingId && <PageHeader title={t('list.title')} description={t('list.subtitle')} />}
+        <EmptyState icon={Building2} title={t('list.noBuildingsTitle')} description={t('list.noBuildingsDesc')}>
+          <div className="mt-4">
+            <Button type="button" variant="primary" onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}>
+              <Building2 className="w-4 h-4 mr-1.5" />
+              <span>{t('list.goToBuildings')}</span>
+            </Button>
+          </div>
+        </EmptyState>
+      </div>
     );
   }
 
   return (
     <div className="space-y-6">
+      {!pathBuildingId && <PageHeader title={t('list.title')} description={t('list.subtitle')} />}
       {/* Building Switcher dropdown (if not in /buildings/:id/rooms) */}
       {!pathBuildingId && buildings.length > 1 && (
-        <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-rentify-divider bg-rentify-surface p-3.5">
+        <Card variant="flat" className="flex min-w-0 items-center gap-3 p-3.5">
           <Building2 className="w-4 h-4 text-rentify-primary shrink-0" />
           <div className="min-w-0 w-full sm:w-72">
             <SelectDropdown
@@ -73,7 +90,7 @@ export const RoomListPage = () => {
               }))}
             />
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Building Room List */}

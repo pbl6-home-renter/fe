@@ -82,7 +82,7 @@ export const BuildingApprovalDetailPage = () => {
           <ApprovalSpecsCard building={building} />
 
           {building.amenities && Object.keys(building.amenities).length > 0 && (
-            <Card className="p-6 border-rentify-divider bg-rentify-surface rounded-2xl shadow-xs space-y-3">
+            <Card className="space-y-3">
               <h3 className="text-base font-bold text-rentify-text-primary pb-2 border-b border-rentify-divider flex items-center gap-2">
                 <Layers className="w-4 h-4 text-rentify-primary" />
                 <span>{t('admin.amenitiesTitle')}</span>

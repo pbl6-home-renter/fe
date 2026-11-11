@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react';
 import { AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
@@ -20,7 +20,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     { label, error, helperText, leadingIcon, trailingIcon, className, containerClassName, id, disabled, ...props },
     ref,
   ) => {
-    const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+    const generatedId = useId();
+    const inputId = id ?? generatedId;
     const errorId = inputId && error ? `${inputId}-error` : undefined;
     const helperId = inputId && helperText ? `${inputId}-helper` : undefined;
 
@@ -50,7 +51,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'bg-rentify-surface text-rentify-text-primary',
               'border border-rentify-divider',
               'placeholder:text-rentify-neutral',
-              'transition-all duration-200 outline-none',
+              'transition-[border-color,box-shadow] duration-150 outline-none motion-reduce:transition-none',
               'focus:border-rentify-primary focus:ring-2 focus:ring-rentify-primary/20',
               disabled && 'bg-surface-container-low opacity-60 cursor-not-allowed',
               leadingIcon && 'pl-10',

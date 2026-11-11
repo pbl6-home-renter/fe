@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
+import { PageHeader } from '@/components/ui/page-header';
 import { ProfileAvatarCard } from '../components/profile-avatar-card';
 import { ProfileFormCard } from '../components/profile-form-card';
 import { useMyProfileQuery } from '../hooks/use-my-profile-query';
@@ -28,12 +29,7 @@ export const ProfilePage = () => {
   if (query.isError || !user) {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-rentify-text-primary sm:text-2xl">
-            {t('profile.title')}
-          </h1>
-          <p className="text-sm text-rentify-text-secondary">{t('profile.subtitle')}</p>
-        </div>
+        <PageHeader title={t('profile.title')} description={t('profile.subtitle')} />
         <ErrorState
           title={t('profile.error.title')}
           message={t('profile.error.description')}
@@ -46,10 +42,7 @@ export const ProfilePage = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-rentify-text-primary sm:text-2xl">{t('profile.title')}</h1>
-        <p className="text-sm text-rentify-text-secondary">{t('profile.subtitle')}</p>
-      </div>
+      <PageHeader title={t('profile.title')} description={t('profile.subtitle')} />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-1">

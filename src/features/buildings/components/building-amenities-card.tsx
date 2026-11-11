@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Sparkles } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 
 interface BuildingAmenitiesCardProps {
   amenities?: Record<string, unknown> | null;
@@ -11,7 +12,7 @@ export const BuildingAmenitiesCard = ({ amenities }: BuildingAmenitiesCardProps)
   const hasAnyAmenity = Boolean(amenities && Object.values(amenities).some(Boolean));
 
   return (
-    <div className="bg-rentify-surface rounded-2xl p-6 border border-rentify-divider shadow-xs flex flex-col gap-4">
+    <Card className="flex flex-col gap-4">
       <div className="flex items-center justify-between pb-3 border-b border-rentify-divider">
         <h3 className="text-sm font-bold text-rentify-text-primary">{t('detail.amenitiesTitle')}</h3>
         <Sparkles className="w-4 h-4 text-rentify-primary" />
@@ -38,10 +39,8 @@ export const BuildingAmenitiesCard = ({ amenities }: BuildingAmenitiesCardProps)
             {t('amenities.fingerprintLock')}
           </span>
         )}
-        {!hasAnyAmenity && (
-          <span className="text-xs text-rentify-text-secondary">{t('detail.noAmenities')}</span>
-        )}
+        {!hasAnyAmenity && <span className="text-xs text-rentify-text-secondary">{t('detail.noAmenities')}</span>}
       </div>
-    </div>
+    </Card>
   );
 };

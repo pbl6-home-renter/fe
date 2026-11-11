@@ -11,15 +11,13 @@ export const ApprovalDocumentsCard = ({ documents }: ApprovalDocumentsCardProps)
   const { t } = useTranslation('buildings');
 
   return (
-    <Card className="p-6 border-rentify-divider bg-rentify-surface rounded-2xl shadow-xs space-y-4">
+    <Card className="space-y-4">
       <div className="pb-3 border-b border-rentify-divider">
         <h3 className="text-base font-bold text-rentify-text-primary flex items-center gap-2">
           <FileCheck className="w-4 h-4 text-rentify-primary" />
           <span>{t('admin.documentsTitle')}</span>
         </h3>
-        <p className="text-xs text-rentify-text-secondary mt-0.5">
-          {t('admin.documentsDesc')}
-        </p>
+        <p className="text-xs text-rentify-text-secondary mt-0.5">{t('admin.documentsDesc')}</p>
       </div>
 
       {documents.length === 0 ? (

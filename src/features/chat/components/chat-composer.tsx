@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useRef, type KeyboardEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
+import { Skeleton } from '@/components/feedback/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { MediaPurpose } from '@/features/media/types/media.dto';
 import { getMediaAccept } from '@/features/media/constants/media.constants';
@@ -66,7 +67,7 @@ export const ChatComposer = ({
           {imagePreviewUrl ? (
             <img src={imagePreviewUrl} alt={t('photoSent')} className="h-14 w-14 rounded-lg object-cover" />
           ) : (
-            <span className="h-14 w-14 animate-pulse rounded-lg bg-rentify-background" />
+            <Skeleton className="h-14 w-14 rounded-lg" />
           )}
           <span className="min-w-0 flex-1 truncate text-sm">{imageFile.name}</span>
           <IconButton type="button" variant="ghost" size="sm" aria-label={t('removeImage')} onClick={onRemoveImage}>

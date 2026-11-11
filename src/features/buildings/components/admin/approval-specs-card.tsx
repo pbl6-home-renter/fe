@@ -11,15 +11,13 @@ export const ApprovalSpecsCard = ({ building }: ApprovalSpecsCardProps) => {
   const { t } = useTranslation('buildings');
 
   return (
-    <Card className="p-6 border-rentify-divider bg-rentify-surface rounded-2xl shadow-xs space-y-4">
+    <Card className="space-y-4">
       <div className="pb-3 border-b border-rentify-divider">
         <h3 className="text-base font-bold text-rentify-text-primary flex items-center gap-2">
           <Building2 className="w-4 h-4 text-rentify-primary" />
           <span>{t('admin.buildingInfoTitle')}</span>
         </h3>
-        <p className="text-xs text-rentify-text-secondary mt-0.5">
-          {t('admin.buildingInfoDesc')}
-        </p>
+        <p className="text-xs text-rentify-text-secondary mt-0.5">{t('admin.buildingInfoDesc')}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -45,9 +43,7 @@ export const ApprovalSpecsCard = ({ building }: ApprovalSpecsCardProps) => {
         {building.description && (
           <div className="sm:col-span-2 p-3.5 rounded-xl bg-surface-container-low/60 space-y-1">
             <span className="text-rentify-text-secondary">{t('admin.fieldDescription')}</span>
-            <p className="text-rentify-text-primary leading-relaxed whitespace-pre-line">
-              {building.description}
-            </p>
+            <p className="text-rentify-text-primary leading-relaxed whitespace-pre-line">{building.description}</p>
           </div>
         )}
       </div>

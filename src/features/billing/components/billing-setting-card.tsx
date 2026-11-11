@@ -17,7 +17,7 @@ export const BillingSettingCard = ({ setting, scope, isLoading, onConfigure }: B
 
   if (isLoading) {
     return (
-      <Card className="p-6 border-rentify-divider space-y-4 rounded-2xl">
+      <Card className="space-y-4">
         <Skeleton className="h-6 w-48 rounded-lg" />
         <Skeleton className="h-20 w-full rounded-xl" />
       </Card>
@@ -27,7 +27,7 @@ export const BillingSettingCard = ({ setting, scope, isLoading, onConfigure }: B
   const hasSetting = Boolean(setting?.isActive);
 
   return (
-    <div className="bg-rentify-surface rounded-2xl p-6 border border-rentify-divider shadow-xs flex flex-col gap-4">
+    <Card className="flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-rentify-divider">
         <div>
           <div className="flex items-center gap-2">
@@ -110,6 +110,6 @@ export const BillingSettingCard = ({ setting, scope, isLoading, onConfigure }: B
           </div>
         </div>
       )}
-    </div>
+    </Card>
   );
 };

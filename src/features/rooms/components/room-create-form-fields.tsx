@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { UseFormReturn } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { SelectDropdown } from '@/components/ui/select-dropdown';
 import { RoomAmenitiesSelector } from './room-amenities-selector';
 import { getFieldError } from '@/lib/form';
@@ -14,7 +15,12 @@ interface RoomCreateFormFieldsProps {
 
 export const RoomCreateFormFields = ({ form }: RoomCreateFormFieldsProps) => {
   const { t } = useTranslation('rooms');
-  const { register, formState: { errors }, watch, setValue } = form;
+  const {
+    register,
+    formState: { errors },
+    watch,
+    setValue,
+  } = form;
 
   const handleDepositMatchPrice = () => {
     const rentPrice = watch('rentPrice');
@@ -65,16 +71,16 @@ export const RoomCreateFormFields = ({ form }: RoomCreateFormFieldsProps) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="text-xs font-semibold text-rentify-text-primary">
-              {t('form.depositAmount')} *
-            </label>
-            <button
+            <label className="text-xs font-semibold text-rentify-text-primary">{t('form.depositAmount')} *</label>
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
               onClick={handleDepositMatchPrice}
-              className="text-[11px] text-rentify-primary hover:underline cursor-pointer"
+              className="px-2 text-xs text-rentify-primary"
             >
               {t('form.matchRentPrice')}
-            </button>
+            </Button>
           </div>
           <Input
             type="number"
@@ -106,9 +112,7 @@ export const RoomCreateFormFields = ({ form }: RoomCreateFormFieldsProps) => {
             label: t(opt.labelKey),
           }))}
           value={watch('genderPolicy')}
-          onChange={(e) =>
-            setValue('genderPolicy', e.target.value as GenderPolicy, { shouldValidate: true })
-          }
+          onChange={(e) => setValue('genderPolicy', e.target.value as GenderPolicy, { shouldValidate: true })}
         />
       </div>
 

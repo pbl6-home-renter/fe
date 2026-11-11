@@ -7,9 +7,9 @@ import { ContractMembersCard } from '../components/members/contract-members-card
 import { ContractEditModal } from '../components/contract-edit-modal';
 import { ContractCheckoutDialog } from '../components/detail/contract-checkout-dialog';
 import { useContractDetail } from '../hooks/use-contract-detail';
-import { LoadingSpinner } from '@/components/feedback/loading-spinner';
+import { Skeleton } from '@/components/feedback/skeleton';
 import { ErrorState } from '@/components/feedback/error-state';
-import { cn } from '@/lib/utils/cn';
+import { SegmentedControl } from '@/components/ui/segmented-control';
 
 export const ContractDetailPage = () => {
   const { t } = useTranslation('contracts');
@@ -28,8 +28,13 @@ export const ContractDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-20">
-        <LoadingSpinner />
+      <div className="space-y-6" role="status" aria-label={t('title')}>
+        <Skeleton className="h-10 w-40 rounded-xl" />
+        <Skeleton className="h-28 w-full rounded-2xl" />
+        <div className="grid gap-6 lg:grid-cols-3">
+          <Skeleton className="h-80 rounded-2xl" />
+          <Skeleton className="h-80 rounded-2xl lg:col-span-2" />
+        </div>
       </div>
     );
   }
@@ -56,35 +61,15 @@ export const ContractDetailPage = () => {
         </div>
 
         <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center gap-2 border-b border-rentify-divider pb-2">
-            <button
-              type="button"
-              onClick={() => handleTabChange('documents')}
-              className={cn(
-                'inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl transition-colors cursor-pointer',
-                activeTab === 'documents'
-                  ? 'bg-rentify-primary text-white shadow-xs'
-                  : 'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-surface',
-              )}
-            >
-              <FileText className="w-4 h-4" />
-              <span>{t('tabs.documents')}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleTabChange('members')}
-              className={cn(
-                'inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl transition-colors cursor-pointer',
-                activeTab === 'members'
-                  ? 'bg-rentify-primary text-white shadow-xs'
-                  : 'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-surface',
-              )}
-            >
-              <Users className="w-4 h-4" />
-              <span>{t('tabs.members')}</span>
-            </button>
-          </div>
+          <SegmentedControl
+            label={t('tabs.label')}
+            value={activeTab}
+            onChange={handleTabChange}
+            options={[
+              { value: 'documents', label: t('tabs.documents'), icon: <FileText className="h-4 w-4" /> },
+              { value: 'members', label: t('tabs.members'), icon: <Users className="h-4 w-4" /> },
+            ]}
+          />
 
           {activeTab === 'documents' && <ContractDocumentsCard contract={contract} onRefresh={() => void refetch()} />}
 

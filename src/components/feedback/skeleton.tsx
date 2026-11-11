@@ -8,14 +8,7 @@ export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   height?: string | number;
 }
 
-export const Skeleton = ({
-  variant = 'rectangular',
-  width,
-  height,
-  className,
-  style,
-  ...props
-}: SkeletonProps) => {
+export const Skeleton = ({ variant = 'rectangular', width, height, className, style, ...props }: SkeletonProps) => {
   const { t } = useTranslation('common');
 
   const variantStyles = {
@@ -29,9 +22,9 @@ export const Skeleton = ({
       role="status"
       aria-label={t('loadingData')}
       className={cn(
-        'animate-pulse bg-rentify-surface-container-highest/60',
+        'animate-pulse bg-rentify-surface-container-highest/60 motion-reduce:animate-none',
         variantStyles[variant],
-        className
+        className,
       )}
       style={{
         width: typeof width === 'number' ? `${width}px` : width,

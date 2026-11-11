@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { AlertTriangle } from 'lucide-react';
 import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { useRejectBuildingDialog } from '../../hooks/admin/use-reject-building-dialog';
 
 export interface RejectBuildingDialogProps {
@@ -59,41 +60,36 @@ export const RejectBuildingDialog = ({
             {t('admin.presetReasonsLabel')}
           </label>
           <div className="flex flex-wrap gap-1.5">
-            {presetReasons.map((preset, idx) => (
-              <button
-                key={idx}
+            {presetReasons.map((preset) => (
+              <Button
+                key={preset}
                 type="button"
+                variant="outline"
+                size="sm"
                 onClick={() => handleSelectPreset(preset)}
-                className="text-left px-2.5 py-1.5 rounded-lg border border-rentify-divider bg-rentify-surface hover:bg-surface-container-low text-rentify-text-primary text-xs transition-colors cursor-pointer"
+                disabled={isPending}
               >
                 {preset}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
 
         {/* Textarea */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs">
-            <label htmlFor="rejectionNote" className="font-semibold text-rentify-text-primary">
-              {t('admin.rejectNoteField')} <span className="text-rentify-error">*</span>
-            </label>
-            <span className="text-rentify-text-secondary">{note.length} / 500</span>
-          </div>
-
-          <textarea
+        <div>
+          <Textarea
             id="rejectionNote"
+            label={`${t('admin.rejectNoteField')} *`}
             rows={4}
             value={note}
             onChange={(e) => handleNoteChange(e.target.value)}
             placeholder={t('admin.rejectNotePlaceholder')}
             maxLength={500}
+            showCount
             disabled={isPending}
-            className={`w-full p-3 text-sm rounded-xl border bg-rentify-surface text-rentify-text-primary placeholder:text-rentify-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-rentify-error/20 transition-all resize-none ${
-              error ? 'border-rentify-error' : 'border-rentify-divider'
-            }`}
+            error={error ?? undefined}
+            className="resize-none"
           />
-          {error && <p className="text-xs text-rentify-error mt-0.5">{error}</p>}
         </div>
 
         {/* Actions */}

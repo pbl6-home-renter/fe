@@ -40,6 +40,9 @@
   },
   "empty": {
     "title": "No rooms yet",
+    "filteredTitle": "No matching rooms",
+    "filteredDesc": "Change or clear the filters to see other rooms.",
+    "clearFilters": "Clear filters",
     "approvedDesc": "Get started by adding your first room to this property.",
     "unapprovedDesc": "This property must be approved by an administrator before adding rooms."
   },

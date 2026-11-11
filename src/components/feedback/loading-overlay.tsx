@@ -31,21 +31,16 @@ export const LoadingOverlay = ({
       aria-live="polite"
       className={cn(
         isFixed ? 'fixed inset-0 z-50' : 'absolute inset-0 z-20',
-        'flex flex-col items-center justify-center p-4 bg-white/70 transition-all duration-200',
+        'flex flex-col items-center justify-center bg-rentify-surface/70 p-4',
         blur && 'backdrop-blur-xs',
-        className
+        className,
       )}
       {...props}
     >
-      <div className="flex flex-col items-center justify-center gap-3 p-5 rounded-2xl bg-white shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-rentify-divider">
+      <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-rentify-divider bg-rentify-surface p-5 shadow-card">
         <LoadingSpinner size="lg" color="primary" />
-        {message && (
-          <p className="text-sm font-medium text-rentify-text-primary text-center max-w-xs">
-            {message}
-          </p>
-        )}
+        {message && <p className="text-sm font-medium text-rentify-text-primary text-center max-w-xs">{message}</p>}
       </div>
     </div>
   );
 };
-

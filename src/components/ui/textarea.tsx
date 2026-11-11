@@ -1,4 +1,4 @@
-import { forwardRef, type TextareaHTMLAttributes, useState, type ChangeEvent } from 'react';
+import { forwardRef, type TextareaHTMLAttributes, useState, useId, type ChangeEvent } from 'react';
 import { cn } from '@/lib/utils/cn';
 
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -29,7 +29,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref,
   ) => {
-    const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+    const generatedId = useId();
+    const inputId = id ?? generatedId;
     const errorId = inputId && error ? `${inputId}-error` : undefined;
     const helperId = inputId && helperText ? `${inputId}-helper` : undefined;
 
@@ -54,7 +55,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
           {showCount && maxLength && (
             <span className="text-xs text-rentify-text-secondary tabular-nums ml-auto">
-              {charCount}/{maxLength}
+              {value !== undefined ? String(value).length : charCount}/{maxLength}
             </span>
           )}
         </div>
@@ -75,7 +76,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             'bg-rentify-surface text-rentify-text-primary',
             'border border-rentify-divider',
             'placeholder:text-rentify-neutral',
-            'transition-all duration-200 outline-none resize-y',
+            'transition-[border-color,box-shadow] duration-150 outline-none resize-y motion-reduce:transition-none',
             'focus:border-rentify-primary focus:ring-2 focus:ring-rentify-primary/20',
             disabled && 'bg-surface-container-low opacity-60 cursor-not-allowed',
             error && 'border-rentify-error focus:border-rentify-error focus:ring-rentify-error/20',

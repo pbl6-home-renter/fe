@@ -11,19 +11,13 @@ export const RoomSpecsCard = ({ room }: RoomSpecsCardProps) => {
   const { t } = useTranslation('rooms');
 
   const formatPrice = (val?: number) =>
-    val !== undefined
-      ? `${new Intl.NumberFormat('vi-VN').format(val)} ${t('units.currency')}`
-      : '—';
+    val !== undefined ? `${new Intl.NumberFormat('vi-VN').format(val)} ${t('units.currency')}` : '—';
 
   return (
-    <Card className="p-6 border-rentify-divider bg-rentify-surface rounded-2xl shadow-xs space-y-5">
+    <Card className="space-y-5">
       <div className="pb-3 border-b border-rentify-divider">
-        <h3 className="font-bold text-base text-rentify-text-primary">
-          {t('detail.specsTitle')}
-        </h3>
-        <p className="text-xs text-rentify-text-secondary">
-          {t('detail.specsSubtitle')}
-        </p>
+        <h3 className="font-bold text-base text-rentify-text-primary">{t('detail.specsTitle')}</h3>
+        <p className="text-xs text-rentify-text-secondary">{t('detail.specsSubtitle')}</p>
       </div>
 
       {/* Grid of specs */}
@@ -35,9 +29,7 @@ export const RoomSpecsCard = ({ room }: RoomSpecsCardProps) => {
           </span>
           <p className="font-bold text-sm text-rentify-primary">
             {formatPrice(room.rentPrice)}
-            <span className="text-[11px] font-normal text-rentify-text-secondary ml-1">
-              {t('units.monthSuffix')}
-            </span>
+            <span className="text-[11px] font-normal text-rentify-text-secondary ml-1">{t('units.monthSuffix')}</span>
           </p>
         </div>
 
@@ -46,9 +38,7 @@ export const RoomSpecsCard = ({ room }: RoomSpecsCardProps) => {
             <ShieldCheck className="w-3.5 h-3.5 text-rentify-primary" />
             <span>{t('form.depositAmount')}</span>
           </span>
-          <p className="font-bold text-sm text-rentify-text-primary">
-            {formatPrice(room.depositAmount)}
-          </p>
+          <p className="font-bold text-sm text-rentify-text-primary">{formatPrice(room.depositAmount)}</p>
         </div>
 
         <div className="p-3 rounded-xl bg-surface-container-low/70 space-y-1">
@@ -77,9 +67,7 @@ export const RoomSpecsCard = ({ room }: RoomSpecsCardProps) => {
             <span>{t('form.maxOccupancy')}</span>
           </span>
           <p className="font-bold text-sm text-rentify-text-primary">
-            {room.maxOccupancy
-              ? t('units.people', { count: room.maxOccupancy})
-              : t('form.unlimited')}
+            {room.maxOccupancy ? t('units.people', { count: room.maxOccupancy }) : t('form.unlimited')}
           </p>
         </div>
 
@@ -88,18 +76,14 @@ export const RoomSpecsCard = ({ room }: RoomSpecsCardProps) => {
             <Sparkles className="w-3.5 h-3.5 text-rentify-primary" />
             <span>{t('form.genderPolicy')}</span>
           </span>
-          <p className="font-bold text-sm text-rentify-text-primary">
-            {t(`gender.${room.genderPolicy}` as never)}
-          </p>
+          <p className="font-bold text-sm text-rentify-text-primary">{t(`gender.${room.genderPolicy}` as never)}</p>
         </div>
       </div>
 
       {/* Description */}
       {room.description && (
         <div className="pt-2 border-t border-rentify-divider space-y-1.5">
-          <h4 className="font-semibold text-xs text-rentify-text-primary">
-            {t('form.description')}
-          </h4>
+          <h4 className="font-semibold text-xs text-rentify-text-primary">{t('form.description')}</h4>
           <p className="text-xs text-rentify-text-secondary leading-relaxed bg-surface-container-low/50 p-3 rounded-xl">
             {room.description}
           </p>
@@ -109,9 +93,7 @@ export const RoomSpecsCard = ({ room }: RoomSpecsCardProps) => {
       {/* Amenities */}
       {room.amenities && Object.keys(room.amenities).length > 0 && (
         <div className="pt-2 border-t border-rentify-divider space-y-2">
-          <h4 className="font-semibold text-xs text-rentify-text-primary">
-            {t('form.amenitiesTitle')}
-          </h4>
+          <h4 className="font-semibold text-xs text-rentify-text-primary">{t('form.amenitiesTitle')}</h4>
           <div className="flex flex-wrap gap-1.5">
             {Object.entries(room.amenities).map(([key, val]) =>
               val ? (
@@ -121,7 +103,7 @@ export const RoomSpecsCard = ({ room }: RoomSpecsCardProps) => {
                 >
                   {t(`amenities.${key}` as never)}
                 </span>
-              ) : null
+              ) : null,
             )}
           </div>
         </div>

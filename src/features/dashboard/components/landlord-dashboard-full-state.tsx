@@ -54,7 +54,7 @@ export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: Lan
 
       {/* Metric Cards (100% Real Data) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-5 border-rentify-divider bg-rentify-surface shadow-xs flex flex-col justify-between">
+        <Card className="flex flex-col justify-between p-5">
           <div className="flex items-center justify-between text-rentify-text-secondary">
             <span className="text-xs font-semibold">{t('full.totalBuildings')}</span>
             <Building2 className="w-5 h-5 text-rentify-primary" />
@@ -64,7 +64,7 @@ export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: Lan
           </div>
         </Card>
 
-        <Card className="p-5 border-rentify-divider bg-rentify-surface shadow-xs flex flex-col justify-between">
+        <Card className="flex flex-col justify-between p-5">
           <div className="flex items-center justify-between text-rentify-text-secondary">
             <span className="text-xs font-semibold">{t('full.activeBuildings')}</span>
             <ShieldCheck className="w-5 h-5 text-rentify-success" />
@@ -74,7 +74,7 @@ export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: Lan
           </div>
         </Card>
 
-        <Card className="p-5 border-rentify-divider bg-rentify-surface shadow-xs flex flex-col justify-between">
+        <Card className="flex flex-col justify-between p-5">
           <div className="flex items-center justify-between text-rentify-text-secondary">
             <span className="text-xs font-semibold">{t('full.pendingBuildings')}</span>
             <Clock className="w-5 h-5 text-rentify-warning" />
@@ -84,7 +84,7 @@ export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: Lan
           </div>
         </Card>
 
-        <Card className="p-5 border-rentify-divider bg-rentify-surface shadow-xs flex flex-col justify-between">
+        <Card className="flex flex-col justify-between p-5">
           <div className="flex items-center justify-between text-rentify-text-secondary">
             <span className="text-xs font-semibold">{t('full.otherBuildings')}</span>
             <AlertCircle className="w-5 h-5 text-rentify-neutral" />

@@ -4,6 +4,9 @@ import { Lock, ArrowLeft, Home, LifeBuoy } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { getHomePathByRole } from '@/app/routes/route-utils';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { RentifyLogo } from '@/components/ui/rentify-logo';
 
 export const ForbiddenPage = () => {
   const navigate = useNavigate();
@@ -21,31 +24,21 @@ export const ForbiddenPage = () => {
 
         {/* Brand header */}
         <div className="flex items-center gap-2.5 mb-6">
-          <div className="w-9 h-9 rounded-xl bg-rentify-primary text-white flex items-center justify-center font-bold text-lg shadow-sm">
-            R
-          </div>
-          <span className="text-xl font-bold text-rentify-text-primary tracking-tight">
-            {t('appName')}
-          </span>
-          <span className="text-rentify-text-secondary text-xs font-medium">
-            · {t('systemSecurity')}
-          </span>
+          <RentifyLogo role={role} size="lg" />
+          <span className="text-rentify-text-secondary text-xs font-medium">· {t('systemSecurity')}</span>
         </div>
 
         {/* Card */}
-        <div className="relative w-full bg-rentify-surface rounded-2xl border border-rentify-divider p-6 sm:p-10 shadow-[0_12px_32px_-4px_rgba(30,111,217,0.08),0_4px_12px_-2px_rgba(30,111,217,0.03)] text-center flex flex-col items-center">
+        <Card className="relative flex w-full flex-col items-center p-6 text-center sm:p-10">
           {/* Lock Icon */}
           <div className="w-16 h-16 rounded-full bg-rentify-error/10 flex items-center justify-center mb-5 text-rentify-error shadow-xs">
             <Lock className="w-8 h-8" aria-hidden="true" strokeWidth={2} />
           </div>
 
           {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-rentify-background border border-rentify-divider mb-3">
-            <span className="w-2 h-2 rounded-full bg-rentify-error" />
-            <span className="text-xs font-medium text-rentify-text-secondary">
-              {t('errors.forbidden.badge')}
-            </span>
-          </div>
+          <Badge variant="error" className="mb-3">
+            {t('errors.forbidden.badge')}
+          </Badge>
 
           {/* Title & Description */}
           <h1 className="text-2xl font-bold text-rentify-text-primary mb-2 tracking-tight">
@@ -57,45 +50,32 @@ export const ForbiddenPage = () => {
 
           {/* Actions */}
           <div className="w-full flex flex-col items-center gap-3">
-            <Button
-              className="w-full sm:w-auto min-w-55 gap-2"
-              onClick={() => navigate(homePath)}
-            >
+            <Button className="w-full sm:w-auto min-w-55 gap-2" onClick={() => navigate(homePath)}>
               <Home className="w-4 h-4" />
               <span>{t('errors.forbidden.backHome')}</span>
             </Button>
 
-            <button
-              type="button"
-              onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-sm font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-primary-container/50 transition-colors cursor-pointer"
-            >
+            <Button type="button" variant="ghost" onClick={() => navigate(-1)}>
               <ArrowLeft className="w-4 h-4" />
               <span>{t('errors.forbidden.backPrev')}</span>
-            </button>
+            </Button>
           </div>
 
           {/* Support */}
           <div className="w-full pt-5 mt-6 border-t border-rentify-divider flex items-center justify-center gap-1.5 text-rentify-text-secondary text-xs">
             <LifeBuoy className="w-4 h-4 text-rentify-primary" />
             <span>{t('support.title')}</span>
-            <a
-              href={`tel:${t('support.phone')}`}
-              className="text-rentify-primary hover:underline font-semibold"
-            >
+            <a href={`tel:${t('support.phone')}`} className="text-rentify-primary hover:underline font-semibold">
               {t('support.phone')}
             </a>
           </div>
-        </div>
+        </Card>
 
         {/* Footer info */}
         <div className="mt-4 text-center">
-          <span className="text-xs text-rentify-neutral">
-            {t('footer.platformDescription')}
-          </span>
+          <span className="text-xs text-rentify-neutral">{t('footer.platformDescription')}</span>
         </div>
       </div>
     </main>
   );
 };
-

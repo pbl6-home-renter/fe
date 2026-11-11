@@ -1,9 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { Plus, AlertTriangle, DoorOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { AlertBanner } from '@/components/feedback/alert-banner';
-import { LoadingSpinner } from '@/components/feedback/loading-spinner';
+import { Skeleton } from '@/components/feedback/skeleton';
 import { EmptyState } from '@/components/feedback/empty-state';
+import { ErrorState } from '@/components/feedback/error-state';
 import { RoomCard } from './room-card';
 import { RoomCreateModal } from './room-create-modal';
 import { RoomFilterBar } from './room-filter-bar';
@@ -22,6 +25,7 @@ export const BuildingRoomList = ({ buildingId, buildingName, buildingStatus }: B
     rooms,
     totalRooms,
     isLoading,
+    isError,
     isBuildingApproved,
     selectedFloor,
     setSelectedFloor,
@@ -32,6 +36,7 @@ export const BuildingRoomList = ({ buildingId, buildingName, buildingStatus }: B
     setIsCreateOpen,
     refetch,
   } = useBuildingRoomList({ buildingId, buildingStatus });
+  const isFiltered = selectedFloor !== 'all' || selectedStatus !== 'all';
 
   return (
     <div className="space-y-4">
@@ -46,13 +51,11 @@ export const BuildingRoomList = ({ buildingId, buildingName, buildingStatus }: B
       )}
 
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-rentify-surface p-4 rounded-xl border border-rentify-divider shadow-xs">
+      <Card className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div className="space-y-0.5">
           <div className="flex items-center gap-2">
             <h3 className="font-bold text-base text-rentify-text-primary">{t('list.title')}</h3>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-surface-container-low text-rentify-text-secondary">
-              {t('list.roomCount', { count: totalRooms })}
-            </span>
+            <Badge variant="secondary">{t('list.roomCount', { count: totalRooms })}</Badge>
           </div>
           <p className="text-xs text-rentify-text-secondary">{t('list.subtitle')}</p>
         </div>
@@ -68,7 +71,7 @@ export const BuildingRoomList = ({ buildingId, buildingName, buildingStatus }: B
           <Plus className="w-4 h-4" />
           <span>{t('list.addRoom')}</span>
         </Button>
-      </div>
+      </Card>
 
       {/* Filters (Floor & Status) */}
       <RoomFilterBar
@@ -81,23 +84,44 @@ export const BuildingRoomList = ({ buildingId, buildingName, buildingStatus }: B
 
       {/* Content Area */}
       {isLoading ? (
-        <div className="py-12 flex justify-center">
-          <LoadingSpinner />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="status" aria-label={t('list.title')}>
+          {Array.from({ length: 6 }, (_, index) => (
+            <Skeleton key={index} className="h-44 rounded-2xl" />
+          ))}
         </div>
+      ) : isError ? (
+        <ErrorState onRetry={() => void refetch()} />
       ) : rooms.length === 0 ? (
         <EmptyState
           icon={DoorOpen}
-          title={t('empty.title')}
-          description={isBuildingApproved ? t('empty.approvedDesc') : t('empty.unapprovedDesc')}
+          title={t(isFiltered ? 'empty.filteredTitle' : 'empty.title')}
+          description={
+            isFiltered
+              ? t('empty.filteredDesc')
+              : isBuildingApproved
+                ? t('empty.approvedDesc')
+                : t('empty.unapprovedDesc')
+          }
         >
-          {isBuildingApproved && (
+          {isFiltered ? (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setSelectedFloor('all');
+                setSelectedStatus('all');
+              }}
+            >
+              {t('empty.clearFilters')}
+            </Button>
+          ) : isBuildingApproved ? (
             <div className="mt-4">
               <Button type="button" variant="primary" size="md" onClick={() => setIsCreateOpen(true)}>
                 <Plus className="w-4 h-4 mr-1" />
                 {t('list.addRoom')}
               </Button>
             </div>
-          )}
+          ) : null}
         </EmptyState>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

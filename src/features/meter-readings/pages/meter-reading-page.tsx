@@ -34,7 +34,10 @@ export const MeterReadingPage = () => {
 
   if (!isLoading && buildings.length === 0) {
     return (
-      <EmptyState icon={Gauge} title={t('warnings.noBuildingsTitle')} description={t('warnings.noBuildingsDesc')} />
+      <div className="space-y-6">
+        <PageHeader title={t('page.title')} description={t('page.subtitle')} />
+        <EmptyState icon={Gauge} title={t('warnings.noBuildingsTitle')} description={t('warnings.noBuildingsDesc')} />
+      </div>
     );
   }
 
@@ -60,7 +63,7 @@ export const MeterReadingPage = () => {
             disabled={isLoading}
             className="gap-1.5 border-rentify-divider"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin motion-reduce:animate-none' : ''}`} />
             <span>{t('actions.refresh')}</span>
           </Button>
         }

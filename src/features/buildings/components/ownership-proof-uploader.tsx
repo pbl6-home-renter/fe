@@ -1,13 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import {
-  UploadCloud,
-  FileText,
-  Image as ImageIcon,
-  CheckCircle2,
-  AlertCircle,
-  X,
-  RotateCcw,
-} from 'lucide-react';
+import { UploadCloud, FileText, Image as ImageIcon, CheckCircle2, AlertCircle, X, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
 import { cn } from '@/lib/utils/cn';
@@ -16,20 +8,10 @@ import { MediaPurpose } from '@/features/media/types/media.dto';
 import type { OwnershipProofUploaderProps } from '../types/ownership-proof.types';
 import { useOwnershipProofUploader } from '../hooks/use-ownership-proof-uploader';
 
-export const OwnershipProofUploader = ({
-  onChange,
-  disabled = false,
-}: OwnershipProofUploaderProps) => {
+export const OwnershipProofUploader = ({ onChange, disabled = false }: OwnershipProofUploaderProps) => {
   const { t } = useTranslation('buildings');
-  const {
-    items,
-    fileInputRef,
-    handleFiles,
-    handleInputChange,
-    handleRemove,
-    handleRetry,
-    triggerBrowse,
-  } = useOwnershipProofUploader({ onChange });
+  const { items, fileInputRef, handleFiles, handleInputChange, handleRemove, handleRetry, triggerBrowse } =
+    useOwnershipProofUploader({ onChange });
 
   return (
     <div className="space-y-4">
@@ -48,18 +30,14 @@ export const OwnershipProofUploader = ({
           'border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition cursor-pointer select-none',
           disabled
             ? 'opacity-50 cursor-not-allowed border-rentify-border'
-            : 'border-rentify-divider hover:border-rentify-primary hover:bg-rentify-primary/5 bg-surface-container-low/50'
+            : 'border-rentify-divider hover:border-rentify-primary hover:bg-rentify-primary/5 bg-surface-container-low/50',
         )}
       >
         <div className="w-12 h-12 rounded-full bg-rentify-primary/10 text-rentify-primary flex items-center justify-center mb-3">
           <UploadCloud className="w-6 h-6" />
         </div>
-        <h4 className="text-sm font-medium text-rentify-text-primary mb-1">
-          {t('uploader.dragDropOrBrowse')}
-        </h4>
-        <p className="text-xs text-rentify-text-secondary max-w-sm mb-3">
-          {t('uploader.supportedTypes')}
-        </p>
+        <h4 className="text-sm font-medium text-rentify-text-primary mb-1">{t('uploader.dragDropOrBrowse')}</h4>
+        <p className="text-xs text-rentify-text-secondary max-w-sm mb-3">{t('uploader.supportedTypes')}</p>
         <Button
           type="button"
           variant="outline"
@@ -107,18 +85,14 @@ export const OwnershipProofUploader = ({
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-medium text-rentify-text-primary truncate">
-                        {item.file.name}
-                      </p>
-                      <p className="text-[11px] text-rentify-text-secondary">
-                        {sizeInMb} MB
-                      </p>
+                      <p className="text-xs font-medium text-rentify-text-primary truncate">{item.file.name}</p>
+                      <p className="text-[11px] text-rentify-text-secondary">{sizeInMb} MB</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
                     {item.status === 'uploading' && (
-                      <span className="text-xs text-rentify-primary animate-pulse flex items-center gap-1">
+                      <span className="flex items-center gap-1 text-xs text-rentify-primary animate-pulse motion-reduce:animate-none">
                         {t('uploader.statusUploading')}
                       </span>
                     )}

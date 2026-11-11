@@ -1,4 +1,4 @@
-import { forwardRef, type HTMLAttributes } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type HTMLAttributes } from 'react';
 import { cn } from '@/lib/utils/cn';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -15,7 +15,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       default: 'bg-rentify-surface border border-rentify-divider shadow-card',
       flat: 'bg-rentify-surface border border-rentify-divider',
       interactive:
-        'bg-rentify-surface border border-rentify-divider shadow-card hover:shadow-spotlight hover:border-rentify-primary/40 transition-all duration-200',
+        'bg-rentify-surface border border-rentify-divider shadow-card hover:shadow-spotlight hover:border-rentify-primary/40 transition-[box-shadow,border-color] duration-200 motion-reduce:transition-none',
     };
 
     return (
@@ -27,6 +27,24 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 );
 
 Card.displayName = 'Card';
+
+export const CardButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
+  ({ className, type = 'button', ...props }, ref) => (
+    <button
+      ref={ref}
+      type={type}
+      className={cn(
+        'ui-press w-full cursor-pointer rounded-2xl border border-rentify-divider bg-rentify-surface p-5 text-left shadow-card',
+        'transition-[box-shadow,border-color,background-color] duration-200 hover:border-rentify-primary/40 hover:shadow-spotlight motion-reduce:transition-none',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary focus-visible:ring-offset-2',
+        'disabled:cursor-not-allowed disabled:opacity-60',
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
+CardButton.displayName = 'CardButton';
 
 export const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
   <div

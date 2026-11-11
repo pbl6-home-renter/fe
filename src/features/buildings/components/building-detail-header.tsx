@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { MapPin, Share2, Pencil, Trash2 } from 'lucide-react';
+import { MapPin, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { BuildingStatusBadge } from './building-status-badge';
 import type { BuildingMyDetailDto } from '../types/building.dto';
 
@@ -10,30 +11,19 @@ interface BuildingDetailHeaderProps {
   onDelete: () => void;
 }
 
-export const BuildingDetailHeader = ({
-  building,
-  onEdit,
-  onDelete,
-}: BuildingDetailHeaderProps) => {
+export const BuildingDetailHeader = ({ building, onEdit, onDelete }: BuildingDetailHeaderProps) => {
   const { t } = useTranslation('buildings');
 
-  const fullAddress = [
-    building.address,
-    building.ward,
-    building.district,
-    building.province,
-  ]
+  const fullAddress = [building.address, building.ward, building.district, building.province]
     .filter(Boolean)
     .join(', ');
 
   return (
-    <div className="bg-rentify-surface rounded-2xl p-6 border border-rentify-divider shadow-xs flex flex-col gap-4">
+    <Card className="flex flex-col gap-4">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-bold text-rentify-text-primary tracking-tight">
-              {building.name}
-            </h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-rentify-text-primary tracking-tight">{building.name}</h1>
             <BuildingStatusBadge status={building.status} variant="pill" />
           </div>
 
@@ -44,14 +34,6 @@ export const BuildingDetailHeader = ({
         </div>
 
         <div className="flex items-center gap-2.5 self-start lg:self-center">
-          <button
-            type="button"
-            className="h-10 px-3.5 rounded-xl bg-surface-container-low border border-rentify-divider text-rentify-text-primary hover:bg-surface-container text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
-          >
-            <Share2 className="w-4 h-4 text-rentify-text-secondary" />
-            <span>{t('detail.shareProfile')}</span>
-          </button>
-
           <Button
             variant="outline"
             size="sm"
@@ -84,6 +66,6 @@ export const BuildingDetailHeader = ({
           {t('detail.roomsCount', { count: building.totalRooms ?? 0 })}
         </span>
       </div>
-    </div>
+    </Card>
   );
 };
