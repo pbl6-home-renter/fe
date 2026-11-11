@@ -11,9 +11,16 @@ interface TokenPair {
 
 type RetriableRequestConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
-const AUTH_ENDPOINTS = ['/auth/login', '/auth/refresh', '/auth/register', '/auth/password-reset'];
+const AUTH_ENDPOINTS = [
+  '/auth/login',
+  '/auth/refresh',
+  '/auth/register',
+  '/auth/password-reset',
+  '/auth/email-verifications',
+  '/auth/email-verification-requests',
+];
 
-const isAuthEndpoint = (url = '') => AUTH_ENDPOINTS.some((endpoint) => url.includes(endpoint));
+export const isAuthEndpoint = (url = '') => AUTH_ENDPOINTS.some((endpoint) => url.includes(endpoint));
 
 const redirectToLogin = () => {
   if (typeof window === 'undefined' || window.location.pathname.startsWith(ROUTES.LOGIN)) {

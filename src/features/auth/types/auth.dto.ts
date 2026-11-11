@@ -25,7 +25,21 @@ export interface AuthRegisterRequestDto {
   role: 'tenant' | 'landlord';
 }
 
-export type AuthRegisterResponseDto = AuthSessionResponseDto;
+export interface AuthRegisterResponseDto {
+  id: string;
+  email: string;
+  role: 'tenant' | 'landlord';
+  status: 'pending_verification';
+  verificationRequired: true;
+}
+
+export interface AuthVerifyEmailRequestDto {
+  token: string;
+}
+
+export interface AuthRequestEmailVerificationRequestDto {
+  email: string;
+}
 
 export interface AuthRefreshResponseDto {
   accessToken: string;
