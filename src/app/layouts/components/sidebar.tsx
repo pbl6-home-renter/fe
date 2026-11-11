@@ -43,10 +43,11 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
 
       {/* Main Sidebar Aside */}
       <aside
+        id="app-sidebar"
         className={cn(
           'fixed inset-y-0 left-0 z-50 w-64 bg-rentify-surface border-r border-rentify-divider',
           'flex flex-col justify-between transition-transform duration-300 ease-in-out md:static md:translate-x-0',
-          open ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0',
+          open ? 'visible translate-x-0 shadow-2xl' : 'invisible -translate-x-full md:visible md:translate-x-0',
         )}
       >
         <div className="flex flex-col flex-1 overflow-y-auto">
@@ -59,14 +60,14 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
               type="button"
               onClick={onClose}
               aria-label={t('closeDialog')}
-              className="p-1.5 rounded-lg text-rentify-text-secondary hover:bg-rentify-background md:hidden cursor-pointer"
+              className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg text-rentify-text-secondary hover:bg-rentify-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary md:hidden cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Navigation Links */}
-          <nav className="p-3.5 space-y-1">
+          <nav aria-label={t('menuTitle')} className="p-3.5 space-y-1">
             <p className="px-3 py-1.5 text-[11px] font-bold text-rentify-neutral uppercase tracking-wider">
               {t('menuTitle')}
             </p>
@@ -81,7 +82,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
                   onClick={onClose}
                   className={({ isActive }) =>
                     cn(
-                      'flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150',
+                      'flex min-h-10 items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary',
                       isActive
                         ? 'bg-rentify-primary-container text-white shadow-xs font-semibold'
                         : 'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background',
@@ -135,7 +136,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
               onClick={onOpenLogoutModal}
               title={t('logout')}
               aria-label={t('logout')}
-              className="p-1.5 rounded-lg text-rentify-text-secondary hover:text-rentify-error hover:bg-rentify-error/10 transition-colors shrink-0"
+              className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg text-rentify-text-secondary hover:text-rentify-error hover:bg-rentify-error/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors shrink-0"
             >
               <LogOut className="w-4 h-4" />
             </button>

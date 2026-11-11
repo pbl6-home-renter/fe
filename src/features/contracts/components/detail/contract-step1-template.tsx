@@ -13,14 +13,9 @@ interface ContractStep1TemplateProps {
   onRefresh: () => void;
 }
 
-export const ContractStep1Template = ({
-  contract,
-  onRefresh,
-}: ContractStep1TemplateProps) => {
+export const ContractStep1Template = ({ contract, onRefresh }: ContractStep1TemplateProps) => {
   const { t } = useTranslation('contracts');
-  const [selectedTemplateKey, setSelectedTemplateKey] = useState(
-    contract.templateKey || ''
-  );
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState(contract.templateKey || '');
 
   const isDraft = contract.status === ContractStatus.DRAFT;
   const templatesQuery = useContractTemplatesQuery();
@@ -47,15 +42,11 @@ export const ContractStep1Template = ({
     <div className="space-y-3 rounded-xl border border-rentify-divider p-4">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <h3 className="text-sm font-semibold text-rentify-text-primary">
-            {t('detail.step1Title')}
-          </h3>
-          <p className="text-xs text-rentify-text-secondary">
-            {t('detail.step1Desc')}
-          </p>
+          <h3 className="text-sm font-semibold text-rentify-text-primary">{t('detail.step1Title')}</h3>
+          <p className="text-xs text-rentify-text-secondary">{t('detail.step1Desc')}</p>
         </div>
         {contract.templateKey && (
-          <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
+          <span className="inline-flex items-center gap-1 text-xs font-medium text-rentify-success">
             <CheckCircle2 className="h-4 w-4" />
             {t('detail.step1Applied')} {contract.templateKey}
           </span>

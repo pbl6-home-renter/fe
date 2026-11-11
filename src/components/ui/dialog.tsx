@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useRef,
-  type ReactNode,
-  type HTMLAttributes,
-} from 'react';
+import { useEffect, useRef, type ReactNode, type HTMLAttributes } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
@@ -88,17 +83,12 @@ export const Dialog = ({
           'flex flex-col gap-4 text-left animate-in zoom-in-95 duration-200 my-auto',
           'max-h-[calc(100vh-3rem)] overflow-y-auto',
           maxWidthMap[maxWidth],
-          className
+          className,
         )}
       >
         {/* Close Button */}
         <div className="absolute right-4 top-4">
-          <IconButton
-            variant="ghost"
-            size="sm"
-            aria-label={t('closeDialog')}
-            onClick={onClose}
-          >
+          <IconButton variant="ghost" size="md" aria-label={t('closeDialog')} onClick={onClose}>
             <X className="w-4 h-4" aria-hidden="true" />
           </IconButton>
         </div>
@@ -106,16 +96,8 @@ export const Dialog = ({
         {/* Header */}
         {(title || description) && (
           <div className="flex flex-col gap-1 pr-8">
-            {title && (
-              <h2 className="text-xl font-bold text-rentify-text-primary tracking-tight">
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p className="text-sm text-rentify-text-secondary leading-relaxed">
-                {description}
-              </p>
-            )}
+            {title && <h2 className="text-xl font-bold text-rentify-text-primary tracking-tight">{title}</h2>}
+            {description && <p className="text-sm text-rentify-text-secondary leading-relaxed">{description}</p>}
           </div>
         )}
 
@@ -124,13 +106,11 @@ export const Dialog = ({
 
         {/* Footer Actions */}
         {footer && (
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-rentify-divider">
-            {footer}
-          </div>
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-rentify-divider">{footer}</div>
         )}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };
 

@@ -20,11 +20,7 @@ export const SUPPORTED_ROOM_AMENITIES = [
 ] as const;
 
 export type RoomStatusLabelKey =
-  | 'status.available'
-  | 'status.occupied'
-  | 'status.maintenance'
-  | 'status.cleaning'
-  | 'status.pending_cleanup';
+  'status.available' | 'status.occupied' | 'status.maintenance' | 'status.cleaning' | 'status.pending_cleanup';
 
 export type GenderPolicyLabelKey = 'gender.any' | 'gender.male' | 'gender.female';
 
@@ -39,11 +35,15 @@ export const GENDER_POLICY_OPTIONS: Array<{
 
 export const ROOM_STATUS_CONFIG: Record<
   RoomStatus,
-  { labelKey: RoomStatusLabelKey; dotClass: string; badgeVariant: 'default' | 'success' | 'warning' | 'destructive' | 'secondary' | 'outline' }
+  {
+    labelKey: RoomStatusLabelKey;
+    dotClass: string;
+    badgeVariant: 'default' | 'success' | 'warning' | 'destructive' | 'secondary' | 'outline';
+  }
 > = {
   [RoomStatus.AVAILABLE]: {
     labelKey: 'status.available',
-    dotClass: 'bg-rentify-primary',
+    dotClass: 'bg-rentify-neutral',
     badgeVariant: 'secondary',
   },
   [RoomStatus.OCCUPIED]: {

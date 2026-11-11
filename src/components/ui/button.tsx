@@ -1,10 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/utils/cn';
-import {
-  LoadingSpinner,
-  type SpinnerColor,
-  type SpinnerSize,
-} from '@/components/feedback/loading-spinner';
+import { LoadingSpinner, type SpinnerColor, type SpinnerSize } from '@/components/feedback/loading-spinner';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -20,15 +16,13 @@ const BASE_STYLES =
   'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-rentify-primary focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer select-none';
 
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
-  primary:
-    'bg-rentify-primary text-rentify-on-primary hover:bg-rentify-primary-hover active:scale-[0.99] shadow-sm',
+  primary: 'bg-rentify-primary text-rentify-on-primary hover:bg-rentify-primary-hover active:scale-[0.99] shadow-sm',
   secondary:
     'bg-rentify-primary-container text-rentify-on-primary-container hover:bg-primary-fixed active:scale-[0.99]',
   outline:
     'border border-rentify-divider bg-rentify-surface text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary',
-  ghost:
-    'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-primary-container/50',
-  danger: 'bg-rentify-error text-white hover:bg-red-700 active:scale-[0.99] shadow-sm',
+  ghost: 'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-primary-container/50',
+  danger: 'bg-rentify-error text-white hover:bg-rentify-error/90 active:scale-[0.99] shadow-sm',
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
@@ -65,15 +59,8 @@ export const Button = ({
       aria-busy={isLoading}
       {...props}
     >
-      {isLoading && (
-        <LoadingSpinner
-          size={SPINNER_SIZES[size]}
-          color={SPINNER_COLORS[variant]}
-          aria-hidden="true"
-        />
-      )}
+      {isLoading && <LoadingSpinner size={SPINNER_SIZES[size]} color={SPINNER_COLORS[variant]} aria-hidden="true" />}
       {children}
     </button>
   );
 };
-

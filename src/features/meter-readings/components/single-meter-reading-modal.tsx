@@ -87,7 +87,7 @@ export const SingleMeterReadingModal = ({
                 onClick={() => onSwitchType(MeterType.ELECTRICITY)}
                 className={`px-2.5 py-1 text-xs rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
                   isElectricity
-                    ? 'bg-rentify-surface text-amber-600 shadow-xs'
+                    ? 'bg-rentify-surface text-rentify-warning shadow-xs'
                     : 'text-rentify-text-secondary hover:text-rentify-text-primary'
                 }`}
               >
@@ -99,7 +99,7 @@ export const SingleMeterReadingModal = ({
                 onClick={() => onSwitchType(MeterType.WATER)}
                 className={`px-2.5 py-1 text-xs rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
                   !isElectricity
-                    ? 'bg-rentify-surface text-blue-600 shadow-xs'
+                    ? 'bg-rentify-surface text-rentify-primary shadow-xs'
                     : 'text-rentify-text-secondary hover:text-rentify-text-primary'
                 }`}
               >

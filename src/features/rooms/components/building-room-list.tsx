@@ -16,11 +16,7 @@ interface BuildingRoomListProps {
   buildingStatus?: BuildingStatus;
 }
 
-export const BuildingRoomList = ({
-  buildingId,
-  buildingName,
-  buildingStatus,
-}: BuildingRoomListProps) => {
+export const BuildingRoomList = ({ buildingId, buildingName, buildingStatus }: BuildingRoomListProps) => {
   const { t } = useTranslation('rooms');
   const {
     rooms,
@@ -41,10 +37,7 @@ export const BuildingRoomList = ({
     <div className="space-y-4">
       {/* Unapproved notice */}
       {!isBuildingApproved && (
-        <AlertBanner
-          variant="warning"
-          title={t('unapprovedAlertTitle')}
-        >
+        <AlertBanner variant="warning" title={t('unapprovedAlertTitle')}>
           <div className="flex items-center gap-2 mt-1 text-xs">
             <AlertTriangle className="w-4 h-4 text-rentify-warning shrink-0" />
             <p>{t('unapprovedAlertDesc')}</p>
@@ -56,22 +49,18 @@ export const BuildingRoomList = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-rentify-surface p-4 rounded-xl border border-rentify-divider shadow-xs">
         <div className="space-y-0.5">
           <div className="flex items-center gap-2">
-            <h3 className="font-bold text-base text-rentify-text-primary">
-              {t('list.title')}
-            </h3>
+            <h3 className="font-bold text-base text-rentify-text-primary">{t('list.title')}</h3>
             <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-surface-container-low text-rentify-text-secondary">
               {t('list.roomCount', { count: totalRooms })}
             </span>
           </div>
-          <p className="text-xs text-rentify-text-secondary">
-            {t('list.subtitle')}
-          </p>
+          <p className="text-xs text-rentify-text-secondary">{t('list.subtitle')}</p>
         </div>
 
         <Button
           type="button"
           variant="primary"
-          size="sm"
+          size="md"
           disabled={!isBuildingApproved}
           onClick={() => setIsCreateOpen(true)}
           className="flex items-center gap-1.5 self-start sm:self-auto"
@@ -99,20 +88,11 @@ export const BuildingRoomList = ({
         <EmptyState
           icon={DoorOpen}
           title={t('empty.title')}
-          description={
-            isBuildingApproved
-              ? t('empty.approvedDesc')
-              : t('empty.unapprovedDesc')
-          }
+          description={isBuildingApproved ? t('empty.approvedDesc') : t('empty.unapprovedDesc')}
         >
           {isBuildingApproved && (
             <div className="mt-4">
-              <Button
-                type="button"
-                variant="primary"
-                size="sm"
-                onClick={() => setIsCreateOpen(true)}
-              >
+              <Button type="button" variant="primary" size="md" onClick={() => setIsCreateOpen(true)}>
                 <Plus className="w-4 h-4 mr-1" />
                 {t('list.addRoom')}
               </Button>

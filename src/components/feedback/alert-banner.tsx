@@ -1,12 +1,6 @@
 import { useState, type ReactNode, type HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  CheckCircle2,
-  AlertTriangle,
-  AlertCircle,
-  Info,
-  X,
-} from 'lucide-react';
+import { CheckCircle2, AlertTriangle, AlertCircle, Info, X } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
 export type AlertVariant = 'success' | 'error' | 'warning' | 'info';
@@ -29,17 +23,17 @@ const variantConfig: Record<
   }
 > = {
   success: {
-    container: 'bg-green-50/80 border-green-200 text-green-900',
+    container: 'bg-rentify-success/10 border-rentify-success/20 text-rentify-text-primary',
     iconColor: 'text-rentify-success',
     Icon: CheckCircle2,
   },
   error: {
-    container: 'bg-red-50/80 border-red-200 text-red-900',
+    container: 'bg-rentify-error/10 border-rentify-error/20 text-rentify-error',
     iconColor: 'text-rentify-error',
     Icon: AlertTriangle,
   },
   warning: {
-    container: 'bg-amber-50/80 border-amber-200 text-amber-900',
+    container: 'bg-rentify-warning/10 border-rentify-warning/20 text-rentify-text-primary',
     iconColor: 'text-rentify-warning',
     Icon: AlertCircle,
   },
@@ -78,7 +72,7 @@ export const AlertBanner = ({
       className={cn(
         'w-full flex items-start gap-3 p-4 rounded-xl border text-left transition-all duration-200',
         container,
-        className
+        className,
       )}
       {...props}
     >
@@ -86,7 +80,7 @@ export const AlertBanner = ({
 
       <div className="flex-1 flex flex-col gap-0.5 text-sm">
         {title && <span className="font-semibold tracking-tight">{title}</span>}
-        <div className="text-xs sm:text-sm leading-relaxed opacity-90">{children}</div>
+        <div className="text-sm leading-relaxed opacity-90">{children}</div>
       </div>
 
       {action && <div className="shrink-0 ml-2">{action}</div>}
@@ -95,7 +89,7 @@ export const AlertBanner = ({
         <button
           type="button"
           onClick={handleDismiss}
-          className="shrink-0 p-1 rounded-md opacity-60 hover:opacity-100 hover:bg-black/5 transition-opacity cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary"
+          className="inline-flex min-h-10 min-w-10 shrink-0 items-center justify-center rounded-md opacity-60 hover:opacity-100 hover:bg-black/5 transition-opacity cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary"
           aria-label={t('closeAlert')}
         >
           <X className="w-4 h-4" aria-hidden="true" />

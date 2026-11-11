@@ -16,6 +16,7 @@ import type { CellOcrSuccessData, RoomReadingRowState } from '../types/meter-rea
 interface MeterReadingTableProps {
   rows: RoomReadingRowState[];
   selectedPeriod: string;
+  isLoading: boolean;
   onReadingChange: (roomId: string, type: MeterType, val: string) => void;
   onCellOcrSuccess: (roomId: string, type: MeterType, data: CellOcrSuccessData) => void;
   onOpenSingleModal: (row: RoomReadingRowState, type: MeterType) => void;
@@ -27,6 +28,7 @@ const REQUIRED_COLUMNS = ['roomName', 'actions'];
 
 export const MeterReadingTable = ({
   rows,
+  isLoading,
   onReadingChange,
   onCellOcrSuccess,
   onOpenSingleModal,
@@ -68,7 +70,7 @@ export const MeterReadingTable = ({
       {
         id: 'electricity',
         header: () => (
-          <div className="flex items-center gap-1.5 text-amber-600 font-bold">
+          <div className="flex items-center gap-1.5 text-rentify-warning font-bold">
             <Zap className="w-3.5 h-3.5" />
             <span>{t('types.electricity')} (kWh)</span>
           </div>
@@ -98,7 +100,7 @@ export const MeterReadingTable = ({
       {
         id: 'water',
         header: () => (
-          <div className="flex items-center gap-1.5 text-blue-600 font-bold">
+          <div className="flex items-center gap-1.5 text-rentify-primary font-bold">
             <Droplets className="w-3.5 h-3.5" />
             <span>{t('types.water')} (m³)</span>
           </div>
@@ -181,6 +183,7 @@ export const MeterReadingTable = ({
       caption={t('page.title')}
       density={state.density}
       onDensityChange={setDensity}
+      isLoading={isLoading}
       onRowClick={(row) => onOpenSingleModal(row, MeterType.ELECTRICITY)}
       emptyState={{ title: t('warnings.noRoomsInBuilding') }}
       renderMobileRow={(row) => (

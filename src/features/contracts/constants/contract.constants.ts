@@ -30,27 +30,27 @@ export const CONTRACT_STATUS_CONFIG: Record<
   },
   [ContractStatus.SIGNED]: {
     labelKey: 'status.signed',
-    dotClass: 'bg-blue-500',
-    pillClass: 'bg-blue-50 text-blue-700 border-blue-200',
+    dotClass: 'bg-rentify-primary',
+    pillClass: 'bg-rentify-primary-container text-rentify-primary border-rentify-primary/20',
   },
   [ContractStatus.ACTIVE]: {
     labelKey: 'status.active',
-    dotClass: 'bg-emerald-500',
-    pillClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    dotClass: 'bg-rentify-success',
+    pillClass: 'bg-rentify-success/10 text-rentify-success border-rentify-success/20',
   },
   [ContractStatus.SUSPENDED]: {
     labelKey: 'status.suspended',
-    dotClass: 'bg-amber-500',
-    pillClass: 'bg-amber-50 text-amber-700 border-amber-200',
+    dotClass: 'bg-rentify-warning',
+    pillClass: 'bg-rentify-warning/10 text-rentify-warning border-rentify-warning/20',
   },
   [ContractStatus.EXPIRED]: {
     labelKey: 'status.expired',
-    dotClass: 'bg-gray-400',
-    pillClass: 'bg-gray-50 text-gray-600 border-gray-200',
+    dotClass: 'bg-rentify-neutral',
+    pillClass: 'bg-rentify-neutral/10 text-rentify-text-secondary border-rentify-neutral/20',
   },
   [ContractStatus.TERMINATED]: {
     labelKey: 'status.terminated',
-    dotClass: 'bg-rose-400',
-    pillClass: 'bg-rose-50 text-rose-700 border-rose-200',
+    dotClass: 'bg-rentify-error',
+    pillClass: 'bg-rentify-error/10 text-rentify-error border-rentify-error/20',
   },
 };

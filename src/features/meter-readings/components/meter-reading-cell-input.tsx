@@ -91,7 +91,7 @@ export const MeterReadingCellInput = ({
           containerClassName="w-full flex-1 min-w-0"
           className={cn(
             'h-9 min-h-9 px-2.5 py-1 text-xs rounded-xl',
-            isLessThanPrev && 'border-amber-400 focus:border-amber-400 focus:ring-amber-400/20',
+            isLessThanPrev && 'border-rentify-warning focus:border-rentify-warning focus:ring-rentify-warning/20',
             isSaved && 'opacity-80 bg-rentify-background',
           )}
         />
@@ -146,13 +146,15 @@ export const MeterReadingCellInput = ({
         )}
 
         {ocrWarning && (
-          <span className="inline-flex items-center gap-1 text-amber-600">
+          <span className="inline-flex items-center gap-1 text-rentify-warning">
             <AlertCircle className="w-3 h-3 shrink-0" />
             <span className="truncate max-w-[170px]">{ocrWarning}</span>
           </span>
         )}
 
-        {isLessThanPrev && <span className="text-amber-600 font-medium">{t('errors.readingLessThanPrevious')}</span>}
+        {isLessThanPrev && (
+          <span className="text-rentify-warning font-medium">{t('errors.readingLessThanPrevious')}</span>
+        )}
       </div>
     </div>
   );

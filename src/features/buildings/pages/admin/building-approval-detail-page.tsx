@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Layers, ShieldAlert } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { ErrorState } from '@/components/feedback/error-state';
+import { Skeleton } from '@/components/feedback/skeleton';
 import { ApprovalDetailHeader } from '../../components/admin/approval-detail-header';
 import { RejectBuildingDialog } from '../../components/admin/reject-building-dialog';
 import { ApprovalDocumentsCard } from '../../components/admin/approval-documents-card';
@@ -35,32 +35,31 @@ export const BuildingApprovalDetailPage = () => {
       },
       {
         onSuccess: () => void refetch(),
-      }
+      },
     );
   };
 
   if (isLoading) {
     return (
-      <div className="py-20 flex justify-center">
-        <LoadingSpinner />
+      <div className="space-y-6">
+        <Skeleton className="h-8 w-48 rounded-xl" />
+        <Skeleton className="h-36 w-full rounded-2xl" />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <Skeleton className="h-96 rounded-2xl lg:col-span-7" />
+          <Skeleton className="h-96 rounded-2xl lg:col-span-5" />
+        </div>
       </div>
     );
   }
 
   if (isError || !building) {
     return (
-      <div className="p-6">
-        <ErrorState
-          title={t('emptyState.title')}
-          message={t('emptyState.description')}
-          onRetry={() => void refetch()}
-        />
-      </div>
+      <ErrorState title={t('emptyState.title')} message={t('emptyState.description')} onRetry={() => void refetch()} />
     );
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="space-y-6">
       <ApprovalDetailHeader
         building={building}
         isApproving={approveMutation.isPending}
@@ -72,12 +71,8 @@ export const BuildingApprovalDetailPage = () => {
         <Card className="p-4 border-rentify-error/30 bg-rentify-error/5 rounded-2xl flex items-start gap-3">
           <ShieldAlert className="w-5 h-5 text-rentify-error shrink-0 mt-0.5" />
           <div className="space-y-0.5">
-            <h4 className="text-xs font-bold text-rentify-error">
-              {t('admin.rejectedNoticeTitle')}
-            </h4>
-            <p className="text-xs text-rentify-text-primary leading-relaxed">
-              {building.reviewNote}
-            </p>
+            <h4 className="text-xs font-bold text-rentify-error">{t('admin.rejectedNoticeTitle')}</h4>
+            <p className="text-xs text-rentify-text-primary leading-relaxed">{building.reviewNote}</p>
           </div>
         </Card>
       )}
@@ -102,7 +97,7 @@ export const BuildingApprovalDetailPage = () => {
                     >
                       {t(`amenities.${key}` as never)}
                     </span>
-                  ) : null
+                  ) : null,
                 )}
               </div>
             </Card>

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { Gauge, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { EmptyState } from '@/components/feedback/empty-state';
+import { PageHeader } from '@/components/ui/page-header';
 import { useMeterReadingPage } from '../hooks/use-meter-reading-page';
 import { MeterReadingFilterBar } from '../components/meter-reading-filter-bar';
 import { MeterReadingTable } from '../components/meter-reading-table';
@@ -34,40 +34,37 @@ export const MeterReadingPage = () => {
 
   if (!isLoading && buildings.length === 0) {
     return (
-      <div className="p-6">
-        <EmptyState icon={Gauge} title={t('warnings.noBuildingsTitle')} description={t('warnings.noBuildingsDesc')} />
-      </div>
+      <EmptyState icon={Gauge} title={t('warnings.noBuildingsTitle')} description={t('warnings.noBuildingsDesc')} />
     );
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-rentify-primary-container text-rentify-primary flex items-center justify-center shrink-0">
+      <PageHeader
+        title={
+          <span className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rentify-primary-container text-rentify-primary">
               <Gauge className="w-5 h-5" />
-            </div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-rentify-text-primary">
-              {t('page.title')}
-            </h1>
-          </div>
-          <p className="text-xs text-rentify-text-secondary pl-11">{t('page.subtitle')}</p>
-        </div>
-
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => handlePeriodChange(selectedPeriod)}
-          disabled={isLoading}
-          className="self-start sm:self-auto gap-1.5 text-xs border-rentify-divider"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-          <span>{t('actions.refresh')}</span>
-        </Button>
-      </div>
+            </span>
+            {t('page.title')}
+          </span>
+        }
+        description={t('page.subtitle')}
+        actions={
+          <Button
+            type="button"
+            variant="outline"
+            size="md"
+            onClick={() => handlePeriodChange(selectedPeriod)}
+            disabled={isLoading}
+            className="gap-1.5 border-rentify-divider"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+            <span>{t('actions.refresh')}</span>
+          </Button>
+        }
+      />
 
       {/* Filter Bar */}
       <MeterReadingFilterBar
@@ -81,20 +78,15 @@ export const MeterReadingPage = () => {
       />
 
       {/* Body Table */}
-      {isLoading ? (
-        <div className="py-20 flex justify-center">
-          <LoadingSpinner size="lg" />
-        </div>
-      ) : (
-        <MeterReadingTable
-          rows={rows}
-          selectedPeriod={selectedPeriod}
-          onReadingChange={handleReadingChange}
-          onCellOcrSuccess={handleCellOcrSuccess}
-          onOpenSingleModal={handleOpenSingleModal}
-          onViewImage={handleOpenPreview}
-        />
-      )}
+      <MeterReadingTable
+        rows={rows}
+        selectedPeriod={selectedPeriod}
+        isLoading={isLoading}
+        onReadingChange={handleReadingChange}
+        onCellOcrSuccess={handleCellOcrSuccess}
+        onOpenSingleModal={handleOpenSingleModal}
+        onViewImage={handleOpenPreview}
+      />
 
       {/* Single Room Reading Modal */}
       <SingleMeterReadingModal

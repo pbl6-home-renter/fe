@@ -63,7 +63,7 @@ export const MeterReadingMobileCard = ({
       <div className="space-y-3">
         {/* Electricity Section */}
         <div className="space-y-1">
-          <div className="flex items-center gap-1.5 text-amber-600 font-bold text-xs">
+          <div className="flex items-center gap-1.5 text-rentify-warning font-bold text-xs">
             <Zap className="w-3.5 h-3.5" />
             <span>{t('types.electricity')} (kWh)</span>
           </div>
@@ -87,7 +87,7 @@ export const MeterReadingMobileCard = ({
 
         {/* Water Section */}
         <div className="space-y-1">
-          <div className="flex items-center gap-1.5 text-blue-600 font-bold text-xs">
+          <div className="flex items-center gap-1.5 text-rentify-primary font-bold text-xs">
             <Droplets className="w-3.5 h-3.5" />
             <span>{t('types.water')} (m³)</span>
           </div>

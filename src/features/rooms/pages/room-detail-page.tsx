@@ -18,8 +18,8 @@ import { RoomTenantContractCard } from '../components/detail/room-tenant-contrac
 import { RoomMeterReadingsCard } from '../components/detail/room-meter-readings-card';
 import { RoomEditModal } from '../components/room-edit-modal';
 import { DeleteRoomDialog } from '../components/delete-room-dialog';
-import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { ErrorState } from '@/components/feedback/error-state';
+import { Skeleton } from '@/components/feedback/skeleton';
 
 export const RoomDetailPage = () => {
   const { id: routeBuildingId, roomId: routeRoomId } = useParams<{
@@ -76,26 +76,25 @@ export const RoomDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="py-20 flex justify-center">
-        <LoadingSpinner />
+      <div className="space-y-6">
+        <Skeleton className="h-8 w-48 rounded-xl" />
+        <Skeleton className="h-36 w-full rounded-2xl" />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <Skeleton className="h-96 rounded-2xl lg:col-span-7" />
+          <Skeleton className="h-96 rounded-2xl lg:col-span-5" />
+        </div>
       </div>
     );
   }
 
   if (isError || !room) {
     return (
-      <div className="p-6">
-        <ErrorState
-          title={t('detail.notFoundTitle')}
-          message={t('detail.notFoundDesc')}
-          onRetry={() => void refetch()}
-        />
-      </div>
+      <ErrorState title={t('detail.notFoundTitle')} message={t('detail.notFoundDesc')} onRetry={() => void refetch()} />
     );
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="space-y-6">
       <RoomHeader
         room={room}
         onEdit={() => setIsEditOpen(true)}

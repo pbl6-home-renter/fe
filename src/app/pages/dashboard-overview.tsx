@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import type { ParseKeys } from 'i18next';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import type { Role } from '@/types/role';
+import { PageHeader } from '@/components/ui/page-header';
 
 export interface DashboardOverviewConfig {
   title?: string;
@@ -18,13 +19,7 @@ export interface DashboardOverviewProps {
   roleConfig?: Partial<Record<Role, DashboardOverviewConfig>>;
 }
 
-export const DashboardOverview = ({
-  title,
-  desc,
-  titleKey,
-  descKey,
-  roleConfig,
-}: DashboardOverviewProps) => {
+export const DashboardOverview = ({ title, desc, titleKey, descKey, roleConfig }: DashboardOverviewProps) => {
   const { role } = useAuth();
   const { t } = useTranslation();
 
@@ -42,15 +37,8 @@ export const DashboardOverview = ({
     : roleSpecific?.desc || desc || t('routes.dashboard.defaultDesc');
 
   return (
-    <div className="space-y-4">
-      <div className="bg-rentify-surface rounded-2xl p-6 sm:p-8 border border-rentify-divider shadow-xs">
-        <h1 className="text-2xl font-bold text-rentify-text-primary tracking-tight">
-          {displayTitle}
-        </h1>
-        <p className="text-sm text-rentify-text-secondary mt-1">
-          {displayDesc}
-        </p>
-      </div>
+    <div className="space-y-6">
+      <PageHeader title={displayTitle} description={displayDesc} />
     </div>
   );
 };

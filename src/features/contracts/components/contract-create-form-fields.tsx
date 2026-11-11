@@ -18,18 +18,13 @@ export const ContractCreateFormFields = ({ form }: ContractCreateFormFieldsProps
     setValue,
   } = form;
 
-  const {
-    selectedBuildingId,
-    selectedRoomId,
-    buildingOptions,
-    roomOptions,
-    isLoadingRooms,
-  } = useContractCreateRoomOptions(form);
+  const { selectedBuildingId, selectedRoomId, buildingOptions, roomOptions, isLoadingRooms } =
+    useContractCreateRoomOptions(form);
 
   return (
     <div className="space-y-4">
       {errors.root?.serverError && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-rentify-error">
+        <div className="rounded-xl border border-rentify-error/20 bg-rentify-error/10 p-3 text-sm text-rentify-error">
           {errors.root.serverError.message}
         </div>
       )}
@@ -141,9 +136,7 @@ export const ContractCreateFormFields = ({ form }: ContractCreateFormFieldsProps
             setValueAs: (v) => (v === '' || v === null ? null : Number(v)),
           })}
         />
-        <p className="text-[11px] text-rentify-text-secondary">
-          {t('form.vehicleCountHint')}
-        </p>
+        <p className="text-[11px] text-rentify-text-secondary">{t('form.vehicleCountHint')}</p>
       </div>
     </div>
   );

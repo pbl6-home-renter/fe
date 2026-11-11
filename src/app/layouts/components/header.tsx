@@ -9,11 +9,12 @@ import { getNavigationByRole, getPortalMetaByRole } from '@/config/navigation.co
 import { useUnreadNotificationsQuery } from '@/features/notifications/hooks/use-unread-notifications-query';
 
 export interface HeaderProps {
+  sidebarOpen: boolean;
   onToggleSidebar: () => void;
   onOpenLogoutModal: () => void;
 }
 
-export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
+export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
   const { role } = useAuth();
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -51,8 +52,10 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
         <button
           type="button"
           onClick={onToggleSidebar}
-          aria-label="Toggle navigation drawer"
-          className="p-2 rounded-xl text-rentify-text-secondary hover:bg-rentify-background md:hidden cursor-pointer"
+          aria-label={t('menuTitle')}
+          aria-expanded={sidebarOpen}
+          aria-controls="app-sidebar"
+          className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-xl text-rentify-text-secondary hover:bg-rentify-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary md:hidden cursor-pointer"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -74,7 +77,7 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
           type="button"
           onClick={() => navigate(ROUTES.LANDLORD.ROOMS)}
           aria-label={t('search')}
-          className="p-2 rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary transition-colors cursor-pointer hidden sm:flex items-center justify-center"
+          className="hidden min-h-10 min-w-10 items-center justify-center rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer sm:flex"
         >
           <Search className="w-4 h-4" />
         </button>
@@ -84,7 +87,7 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
           type="button"
           onClick={() => navigate(ROUTES.NOTIFICATIONS)}
           aria-label={t('notifications')}
-          className="relative p-2 rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary transition-colors cursor-pointer"
+          className="relative inline-flex min-h-10 min-w-10 items-center justify-center rounded-xl text-rentify-text-secondary hover:bg-rentify-background hover:text-rentify-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer"
         >
           <Bell className="w-4 h-4" />
           {hasUnreadNotifications && (
@@ -97,7 +100,7 @@ export const Header = ({ onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
           type="button"
           onClick={toggleLanguage}
           title={t('switchLanguage')}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-rentify-text-secondary hover:bg-rentify-background border border-rentify-divider transition-colors cursor-pointer"
+          className="inline-flex min-h-10 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-rentify-text-secondary hover:bg-rentify-background border border-rentify-divider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer"
         >
           <Globe className="w-3.5 h-3.5 text-rentify-primary" />
           <span className="uppercase">{currentLanguage}</span>

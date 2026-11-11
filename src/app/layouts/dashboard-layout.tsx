@@ -39,7 +39,11 @@ export const DashboardLayout = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         {/* Sticky Header Topbar */}
-        <Header onToggleSidebar={() => setSidebarOpen(true)} onOpenLogoutModal={() => setLogoutModalOpen(true)} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          onToggleSidebar={() => setSidebarOpen(true)}
+          onOpenLogoutModal={() => setLogoutModalOpen(true)}
+        />
 
         {/* Standardized Content Container for Features */}
         <main

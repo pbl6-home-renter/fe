@@ -18,17 +18,14 @@ export const BUILDING_STATUS_CONFIGS: Record<BuildingStatus, BuildingStatusConfi
     labelKey: 'status.rejected',
   },
   [BuildingStatus.PENDING]: {
-    dotClass: 'bg-rentify-neutral',
-    pillClass: 'bg-surface-container-low text-rentify-text-secondary border-rentify-divider',
+    dotClass: 'bg-rentify-warning',
+    pillClass: 'bg-rentify-warning/10 text-rentify-warning border-rentify-warning/20',
     labelKey: 'status.pending',
   },
 };
 
-export const getBuildingStatusConfig = (
-  status?: BuildingStatus | string
-): BuildingStatusConfig => {
+export const getBuildingStatusConfig = (status?: BuildingStatus | string): BuildingStatusConfig => {
   return (
-    (status && BUILDING_STATUS_CONFIGS[status as BuildingStatus]) ||
-    BUILDING_STATUS_CONFIGS[BuildingStatus.PENDING]
+    (status && BUILDING_STATUS_CONFIGS[status as BuildingStatus]) || BUILDING_STATUS_CONFIGS[BuildingStatus.PENDING]
   );
 };

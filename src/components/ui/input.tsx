@@ -52,7 +52,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'placeholder:text-rentify-neutral',
               'transition-all duration-200 outline-none',
               'focus:border-rentify-primary focus:ring-2 focus:ring-rentify-primary/20',
-              disabled && 'bg-gray-50 opacity-60 cursor-not-allowed',
+              disabled && 'bg-surface-container-low opacity-60 cursor-not-allowed',
               leadingIcon && 'pl-10',
               trailingIcon && 'pr-10',
               error &&

@@ -2,8 +2,7 @@ import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Check, Minus } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
-export interface CheckboxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: ReactNode;
   helperText?: string;
   indeterminate?: boolean;
@@ -11,19 +10,8 @@ export interface CheckboxProps
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (
-    {
-      label,
-      helperText,
-      indeterminate = false,
-      className,
-      id,
-      disabled,
-      checked,
-      defaultChecked,
-      onChange,
-      ...props
-    },
-    ref
+    { label, helperText, indeterminate = false, className, id, disabled, checked, defaultChecked, onChange, ...props },
+    ref,
   ) => {
     const inputId = id || (typeof label === 'string' ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
 
@@ -32,7 +20,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         htmlFor={inputId}
         className={cn(
           'inline-flex items-start gap-2.5 select-none text-left cursor-pointer group',
-          disabled && 'cursor-not-allowed opacity-60'
+          disabled && 'cursor-not-allowed opacity-60',
         )}
       >
         <div className="relative flex items-center justify-center shrink-0 mt-0.5">
@@ -50,8 +38,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               'checked:bg-rentify-primary checked:border-rentify-primary',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary/30 focus-visible:ring-offset-1',
               'group-hover:border-rentify-primary/60',
-              disabled && 'border-gray-300 checked:bg-gray-400 group-hover:border-gray-300',
-              className
+              disabled && 'border-outline-variant checked:bg-rentify-neutral group-hover:border-outline-variant',
+              className,
             )}
             {...props}
           />
@@ -60,7 +48,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <Check
             className={cn(
               'w-3.5 h-3.5 text-white pointer-events-none absolute transition-opacity duration-150 stroke-[3]',
-              checked && !indeterminate ? 'opacity-100' : 'opacity-0'
+              checked && !indeterminate ? 'opacity-100' : 'opacity-0',
             )}
             aria-hidden="true"
           />
@@ -76,21 +64,13 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
         {(label || helperText) && (
           <div className="flex flex-col">
-            {label && (
-              <span className="text-sm font-medium text-rentify-text-primary leading-tight">
-                {label}
-              </span>
-            )}
-            {helperText && (
-              <span className="text-xs text-rentify-text-secondary mt-0.5">
-                {helperText}
-              </span>
-            )}
+            {label && <span className="text-sm font-medium text-rentify-text-primary leading-tight">{label}</span>}
+            {helperText && <span className="text-xs text-rentify-text-secondary mt-0.5">{helperText}</span>}
           </div>
         )}
       </label>
     );
-  }
+  },
 );
 
 Checkbox.displayName = 'Checkbox';

@@ -2,43 +2,47 @@ import { Bell, CheckCheck, Settings2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { PageHeader } from '@/components/ui/page-header';
+import { Skeleton } from '@/components/feedback/skeleton';
+import { ErrorState } from '@/components/feedback/error-state';
 import { NotificationPreferencesDialog } from '../components/notification-preferences-dialog';
 import { useNotificationsPage } from '../hooks/use-notifications-page';
 
 export const NotificationsPage = () => {
   const { t, i18n } = useTranslation('notifications');
+  const { t: tc } = useTranslation('common');
   const page = useNotificationsPage();
   const locale = i18n.language.startsWith('en') ? 'en-US' : 'vi-VN';
 
   return (
-    <main className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-col gap-5 p-4 sm:p-6">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-bold text-rentify-text-primary">{t('title')}</h1>
-          <p className="mt-1 text-sm text-rentify-text-secondary">{t('description')}</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={page.onOpenPreferences}>
-            <Settings2 className="h-4 w-4" aria-hidden="true" />
-            {t('preferences.button')}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={!page.hasUnread || page.isMarkingAllRead}
-            isLoading={page.isMarkingAllRead}
-            onClick={page.onMarkAllRead}
-          >
-            <CheckCheck className="h-4 w-4" aria-hidden="true" />
-            {t('markAllRead')}
-          </Button>
-        </div>
-      </header>
+    <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-col gap-5">
+      <PageHeader
+        title={t('title')}
+        description={t('description')}
+        actions={
+          <>
+            <Button variant="outline" size="md" onClick={page.onOpenPreferences}>
+              <Settings2 className="h-4 w-4" aria-hidden="true" />
+              {t('preferences.button')}
+            </Button>
+            <Button
+              variant="outline"
+              size="md"
+              disabled={!page.hasUnread || page.isMarkingAllRead}
+              isLoading={page.isMarkingAllRead}
+              onClick={page.onMarkAllRead}
+            >
+              <CheckCheck className="h-4 w-4" aria-hidden="true" />
+              {t('markAllRead')}
+            </Button>
+          </>
+        }
+      />
 
       <div className="flex gap-2" aria-label={t('filters.label')}>
         <Button
           variant={!page.unreadOnly ? 'secondary' : 'ghost'}
-          size="sm"
+          size="md"
           aria-pressed={!page.unreadOnly}
           onClick={() => page.onSetUnreadOnly(false)}
         >
@@ -46,7 +50,7 @@ export const NotificationsPage = () => {
         </Button>
         <Button
           variant={page.unreadOnly ? 'secondary' : 'ghost'}
-          size="sm"
+          size="md"
           aria-pressed={page.unreadOnly}
           onClick={() => page.onSetUnreadOnly(true)}
         >
@@ -56,14 +60,18 @@ export const NotificationsPage = () => {
 
       <section className="min-h-0 flex-1 overflow-y-auto" aria-live="polite">
         {page.query.isLoading ? (
-          <Card className="p-6 text-sm text-rentify-text-secondary">{t('loading')}</Card>
+          <div className="space-y-3" role="status" aria-label={t('loading')}>
+            {Array.from({ length: 4 }, (_, index) => (
+              <Skeleton key={index} className="h-24 w-full rounded-2xl" />
+            ))}
+          </div>
         ) : page.query.isError && !page.query.data ? (
-          <Card className="p-6 text-center">
-            <p className="mb-3 text-sm text-rentify-error">{t('loadError')}</p>
-            <Button variant="outline" size="sm" onClick={() => void page.query.refetch()}>
-              {t('retry')}
-            </Button>
-          </Card>
+          <ErrorState
+            title={tc('error')}
+            message={t('loadError')}
+            retryText={t('retry')}
+            onRetry={() => void page.query.refetch()}
+          />
         ) : page.items.length === 0 ? (
           <Card className="flex flex-col items-center p-10 text-center">
             <Bell className="mb-3 h-9 w-9 text-rentify-neutral" aria-hidden="true" />
@@ -105,7 +113,7 @@ export const NotificationsPage = () => {
               <div className="py-2 text-center">
                 <Button
                   variant="outline"
-                  size="sm"
+                  size="md"
                   isLoading={page.query.isFetchingNextPage}
                   onClick={() => void page.query.fetchNextPage()}
                 >
@@ -125,6 +133,6 @@ export const NotificationsPage = () => {
         )}
       </section>
       <NotificationPreferencesDialog open={page.preferencesOpen} onClose={page.onClosePreferences} />
-    </main>
+    </div>
   );
 };

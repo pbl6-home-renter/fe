@@ -16,12 +16,7 @@ interface ContractEditModalProps {
   onSuccess?: (contract: ContractDetailDto) => void;
 }
 
-export const ContractEditModal = ({
-  open,
-  onClose,
-  contract,
-  onSuccess,
-}: ContractEditModalProps) => {
+export const ContractEditModal = ({ open, onClose, contract, onSuccess }: ContractEditModalProps) => {
   const { t } = useTranslation('contracts');
   const isDraft = contract.status === ContractStatus.DRAFT;
 
@@ -52,9 +47,7 @@ export const ContractEditModal = ({
             <Edit3 className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <h3 className="truncate text-base font-bold text-rentify-text-primary">
-              {title}
-            </h3>
+            <h3 className="truncate text-base font-bold text-rentify-text-primary">{title}</h3>
             <p className="text-xs font-normal text-rentify-text-secondary">
               {contract.roomName ? `${contract.roomName} • ` : ''}
               {contract.tenantName || ''}
@@ -64,12 +57,7 @@ export const ContractEditModal = ({
       }
       footer={
         <div className="flex w-full items-center justify-end gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onClose}
-            disabled={isSubmitting}
-          >
+          <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
             {t('form.cancel')}
           </Button>
           <Button
@@ -86,7 +74,7 @@ export const ContractEditModal = ({
     >
       <form id="contract-edit-form" onSubmit={onSubmit} className="space-y-4 py-1">
         {errors.root?.serverError && (
-          <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-rentify-error">
+          <div className="rounded-xl border border-rentify-error/20 bg-rentify-error/10 p-3 text-sm text-rentify-error">
             {errors.root.serverError.message}
           </div>
         )}
@@ -102,9 +90,7 @@ export const ContractEditModal = ({
               setValueAs: (v) => (v === '' || v === null ? null : Number(v)),
             })}
           />
-          <p className="text-[11px] text-rentify-text-secondary">
-            {t('form.vehicleCountHint')}
-          </p>
+          <p className="text-[11px] text-rentify-text-secondary">{t('form.vehicleCountHint')}</p>
         </div>
 
         <Textarea

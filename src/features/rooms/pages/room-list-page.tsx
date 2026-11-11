@@ -5,8 +5,8 @@ import { Building2 } from 'lucide-react';
 import { ROUTES } from '@/config/routes.config';
 import { BuildingRoomList } from '../components/building-room-list';
 import { useMyBuildingsQuery } from '@/features/buildings/hooks/use-my-buildings-query';
-import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { EmptyState } from '@/components/feedback/empty-state';
+import { Skeleton } from '@/components/feedback/skeleton';
 import { Button } from '@/components/ui/button';
 import { SelectDropdown } from '@/components/ui/select-dropdown';
 
@@ -17,15 +17,12 @@ export const RoomListPage = () => {
   const { t } = useTranslation('rooms');
 
   const queryBuildingId = searchParams.get('buildingId');
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string>(
-    pathBuildingId || queryBuildingId || ''
-  );
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string>(pathBuildingId || queryBuildingId || '');
 
   const { data: buildingsData, isLoading } = useMyBuildingsQuery({ pageSize: 50 });
   const buildings = buildingsData?.items ?? [];
 
-  const effectiveBuildingId =
-    selectedBuildingId || (buildings.length > 0 ? buildings[0].id : '');
+  const effectiveBuildingId = selectedBuildingId || (buildings.length > 0 ? buildings[0].id : '');
 
   const currentBuilding = buildings.find((b) => b.id === effectiveBuildingId);
 
@@ -36,42 +33,37 @@ export const RoomListPage = () => {
 
   if (isLoading) {
     return (
-      <div className="py-20 flex justify-center">
-        <LoadingSpinner />
+      <div className="space-y-6" role="status" aria-label={t('list.title')}>
+        <Skeleton className="h-14 w-full rounded-2xl" />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }, (_, index) => (
+            <Skeleton key={index} className="h-44 w-full rounded-2xl" />
+          ))}
+        </div>
       </div>
     );
   }
 
   if (buildings.length === 0) {
     return (
-      <div className="p-6">
-        <EmptyState
-          icon={Building2}
-          title={t('list.noBuildingsTitle')}
-          description={t('list.noBuildingsDesc')}
-        >
-          <div className="mt-4">
-            <Button
-              type="button"
-              variant="primary"
-              onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}
-            >
-              <Building2 className="w-4 h-4 mr-1.5" />
-              <span>{t('list.goToBuildings')}</span>
-            </Button>
-          </div>
-        </EmptyState>
-      </div>
+      <EmptyState icon={Building2} title={t('list.noBuildingsTitle')} description={t('list.noBuildingsDesc')}>
+        <div className="mt-4">
+          <Button type="button" variant="primary" onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}>
+            <Building2 className="w-4 h-4 mr-1.5" />
+            <span>{t('list.goToBuildings')}</span>
+          </Button>
+        </div>
+      </EmptyState>
     );
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="space-y-6">
       {/* Building Switcher dropdown (if not in /buildings/:id/rooms) */}
       {!pathBuildingId && buildings.length > 1 && (
-        <div className="flex items-center gap-3 bg-rentify-surface p-3.5 rounded-xl border border-rentify-divider">
+        <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-rentify-divider bg-rentify-surface p-3.5">
           <Building2 className="w-4 h-4 text-rentify-primary shrink-0" />
-          <div className="w-72">
+          <div className="min-w-0 w-full sm:w-72">
             <SelectDropdown
               value={effectiveBuildingId}
               onChange={(e) => handleSelectBuilding(e.target.value)}

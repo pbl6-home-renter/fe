@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Users } from 'lucide-react';
+import { PageHeader } from '@/components/ui/page-header';
 import { ROUTES } from '@/config/routes.config';
 import { useDisclosure } from '@/hooks/use-disclosure';
 import { UserDeleteDialog } from '../../components/admin/user-delete-dialog';
@@ -53,16 +54,16 @@ export const UserListPage = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-rentify-text-primary sm:text-3xl">{t('list.title')}</h1>
-          <p className="mt-1 text-sm text-rentify-text-secondary">{t('list.subtitle')}</p>
-        </div>
-        <div className="inline-flex items-center gap-2 self-start rounded-xl border border-rentify-divider bg-rentify-surface px-3 py-1.5 text-xs font-semibold text-rentify-text-primary shadow-xs md:self-auto">
-          <Users className="h-4 w-4 text-rentify-primary" />
-          <span>{t('list.totalBadge', { count: totalItems })}</span>
-        </div>
-      </div>
+      <PageHeader
+        title={t('list.title')}
+        description={t('list.subtitle')}
+        actions={
+          <div className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-rentify-divider bg-rentify-surface px-3 text-xs font-semibold text-rentify-text-primary shadow-xs">
+            <Users className="h-4 w-4 text-rentify-primary" />
+            <span>{t('list.totalBadge', { count: totalItems })}</span>
+          </div>
+        }
+      />
 
       <UserListTable
         {...tableProps}

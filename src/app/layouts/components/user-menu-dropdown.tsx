@@ -57,9 +57,9 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
         aria-haspopup="menu"
-        className="flex items-center gap-2.5 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl hover:bg-rentify-background border border-transparent hover:border-rentify-divider transition-all cursor-pointer"
+        className="flex min-h-10 items-center gap-2.5 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl hover:bg-rentify-background border border-transparent hover:border-rentify-divider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-all cursor-pointer"
       >
-        <Avatar src={user?.avatarUrl} name={user?.name} size="sm" status="online" className="shrink-0" />
+        <Avatar name={user?.name} size="sm" status="online" className="shrink-0" />
 
         <div className="hidden sm:flex flex-col text-left min-w-0 max-w-30 md:max-w-40">
           <span className="text-sm font-semibold text-rentify-text-primary truncate leading-tight">
@@ -107,7 +107,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
               type="button"
               role="menuitem"
               onClick={() => handleNavigate(ROUTES.PROFILE)}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background transition-colors cursor-pointer text-left"
+              className="w-full min-h-10 flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer text-left"
             >
               <User className="w-4 h-4 text-rentify-primary shrink-0" />
               <span>{t('profile')}</span>
@@ -117,7 +117,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
               type="button"
               role="menuitem"
               onClick={() => handleNavigate(ROUTES.SETTINGS)}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background transition-colors cursor-pointer text-left"
+              className="w-full min-h-10 flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer text-left"
             >
               <Settings className="w-4 h-4 text-rentify-primary shrink-0" />
               <span>{t('settings')}</span>
@@ -134,7 +134,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
               setIsOpen(false);
               onOpenLogoutModal();
             }}
-            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rentify-error hover:bg-rentify-error/10 transition-colors cursor-pointer text-left"
+            className="w-full min-h-10 flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rentify-error hover:bg-rentify-error/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary transition-colors cursor-pointer text-left"
           >
             <LogOut className="w-4 h-4 shrink-0" />
             <span>{t('logout')}</span>
