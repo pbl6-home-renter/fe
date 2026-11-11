@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
-import { Home, Building2, AlertCircle } from 'lucide-react';
+import { Home, Building2 } from 'lucide-react';
 import landlordLogo from '@/assets/landlord-logo.png';
 import tenantLogo from '@/assets/tenant-logo.png';
 import { Button } from '@/components/ui/button';
@@ -69,17 +69,6 @@ export const RegisterPage = () => {
           </button>
         </div>
       </div>
-
-      {/* Server Error Alert */}
-      {errors.serverError && (
-        <div
-          role="alert"
-          className="flex items-center gap-2 p-3 mb-5 rounded-xl bg-rentify-error/10 border border-rentify-error/20 text-rentify-error text-xs font-medium"
-        >
-          <AlertCircle className="w-4 h-4 shrink-0 text-rentify-error" />
-          <span>{errors.serverError}</span>
-        </div>
-      )}
 
       {/* Form */}
       <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>

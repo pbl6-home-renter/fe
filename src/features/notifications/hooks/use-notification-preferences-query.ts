@@ -12,7 +12,7 @@ export const useNotificationPreferencesQuery = (options?: QueryHookOptions<Notif
 
   return useQuery({
     queryKey: NOTIFICATION_PREFERENCES_QUERY_KEY,
-    queryFn: ({ signal }) => notificationApi.getPreferences({ signal, skipErrorToast: true }),
+    queryFn: ({ signal }) => notificationApi.getPreferences({ signal }),
     staleTime: 30_000,
     ...options,
     enabled: isAuth && (options?.enabled ?? true),

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useDataTableState } from '@/hooks/use-data-table-state';
 import { useDebounce } from '@/hooks/use-debounce';
 import { isValidRole, type Role } from '@/types/role';
@@ -55,12 +55,6 @@ export const useUserList = () => {
 
   const isFiltered = Boolean(debouncedSearch || selectedRole || selectedStatus);
 
-  const handleClearFilters = useCallback(() => {
-    tableState.setSearch('');
-    tableState.setFilter('role', 'all');
-    tableState.setFilter('status', 'all');
-  }, [tableState]);
-
   return {
     totalItems: query.data?.pagination.totalItems ?? 0,
     tableProps: {
@@ -73,11 +67,11 @@ export const useUserList = () => {
       searchValue: tableState.search,
       onSearchChange: tableState.setSearch,
       selectedRole: tableState.filters.role ?? 'all',
-      onRoleChange: (role: string) => tableState.setFilter('role', role),
+      onRoleChange: (role: string) => tableState.setFilter('role', role === 'all' ? undefined : role),
       selectedStatus: tableState.filters.status ?? 'all',
-      onStatusChange: (status: string) => tableState.setFilter('status', status),
+      onStatusChange: (status: string) => tableState.setFilter('status', status === 'all' ? undefined : status),
       isFiltered,
-      onClearFilters: handleClearFilters,
+      onClearFilters: tableState.clearFilters,
       isLoading: query.isLoading,
       isFetching: query.isFetching,
       isError: query.isError,

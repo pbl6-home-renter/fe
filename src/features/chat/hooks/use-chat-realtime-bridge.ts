@@ -153,6 +153,7 @@ export const useChatRealtimeBridge = () => {
             ),
           ),
         {
+          id: payload.messageId,
           duration: 5000,
           onClick: () =>
             navigate(

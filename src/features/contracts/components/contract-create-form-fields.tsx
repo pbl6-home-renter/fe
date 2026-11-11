@@ -23,12 +23,6 @@ export const ContractCreateFormFields = ({ form }: ContractCreateFormFieldsProps
 
   return (
     <div className="space-y-4">
-      {errors.root?.serverError && (
-        <div className="rounded-xl border border-rentify-error/20 bg-rentify-error/10 p-3 text-sm text-rentify-error">
-          {errors.root.serverError.message}
-        </div>
-      )}
-
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-1">
           <label className="text-xs font-semibold text-rentify-text-primary">

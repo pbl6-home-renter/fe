@@ -47,7 +47,6 @@
   },
   "warnings": {
     "ocrUnrecognized": "Không nhận diện được số, vui lòng nhập tay",
-    "ocrFailedManualFallback": "Lỗi nhận diện AI, đã chuyển sang chế độ nhập tay",
     "noRoomsInBuilding": "Tòa nhà này hiện chưa có phòng trọ nào.",
     "noBuildingsTitle": "Chưa có tòa nhà nào",
     "noBuildingsDesc": "Vui lòng tạo tòa nhà trước khi quản lý chỉ số điện nước.",

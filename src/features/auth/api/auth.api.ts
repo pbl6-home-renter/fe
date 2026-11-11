@@ -15,18 +15,15 @@ import type {
   UserProfile,
 } from '../types/auth.dto';
 
-/** Requests that handle their own errors disable the shared error toast. */
-const FORM_REQUEST = { skipErrorToast: true };
-
 export const authApi = {
-  login: (body: AuthLoginRequestDto) => http.post<AuthLoginResponseDto>('/auth/login', body, FORM_REQUEST),
+  login: (body: AuthLoginRequestDto) => http.post<AuthLoginResponseDto>('/auth/login', body),
 
-  register: (body: AuthRegisterRequestDto) => http.post<AuthRegisterResponseDto>('/auth/register', body, FORM_REQUEST),
+  register: (body: AuthRegisterRequestDto) => http.post<AuthRegisterResponseDto>('/auth/register', body),
 
-  verifyEmail: (body: AuthVerifyEmailRequestDto) => http.post('/auth/email-verifications', body, FORM_REQUEST),
+  verifyEmail: (body: AuthVerifyEmailRequestDto) => http.post('/auth/email-verifications', body),
 
   requestEmailVerification: (body: AuthRequestEmailVerificationRequestDto) =>
-    http.post<{ accepted: boolean }>('/auth/email-verification-requests', body, FORM_REQUEST),
+    http.post<{ accepted: boolean }>('/auth/email-verification-requests', body),
 
   logout: (body?: AuthLogoutRequestDto) =>
     http.post('/auth/logout', {
@@ -36,9 +33,9 @@ export const authApi = {
   getProfile: () => http.get<UserProfile>('/me'),
 
   requestPasswordReset: (body: AuthRequestPasswordResetRequestDto) =>
-    http.post<AuthRequestPasswordResetResponseDto>('/auth/password-reset-requests', body, FORM_REQUEST),
+    http.post<AuthRequestPasswordResetResponseDto>('/auth/password-reset-requests', body, { skipSuccessToast: true }),
 
-  resetPassword: (body: AuthResetPasswordRequestDto) => http.post('/auth/password-resets', body, FORM_REQUEST),
+  resetPassword: (body: AuthResetPasswordRequestDto) => http.post('/auth/password-resets', body),
 
-  changePassword: (body: UserChangePasswordRequestDto) => http.put('/me/password', body, FORM_REQUEST),
+  changePassword: (body: UserChangePasswordRequestDto) => http.put('/me/password', body),
 };

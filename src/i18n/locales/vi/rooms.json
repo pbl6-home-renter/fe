@@ -123,8 +123,7 @@
     "depositAmountMin": "Tiền đặt cọc không được âm.",
     "maxOccupancyInt": "Số người ở phải là số nguyên.",
     "maxOccupancyMin": "Số người ở tối thiểu là 1.",
-    "descriptionMax": "Mô tả không được vượt quá 1000 ký tự.",
-    "duplicateRoom": "Tên phòng này đã tồn tại trong tòa nhà."
+    "descriptionMax": "Mô tả không được vượt quá 1000 ký tự."
   },
   "apiSuccess": {
     "ROOM_CREATED": "Tạo phòng mới thành công.",

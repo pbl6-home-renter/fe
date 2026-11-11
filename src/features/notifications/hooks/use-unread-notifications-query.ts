@@ -11,6 +11,7 @@ export const useUnreadNotificationsQuery = (options?: QueryHookOptions<Notificat
 
   return useQuery({
     queryKey: NOTIFICATION_QUERY_KEYS.unreadIndicator,
+    // A background badge should not interrupt the current screen when it fails.
     queryFn: ({ signal }) => notificationApi.list(undefined, true, { signal, skipErrorToast: true }),
     select: (page) => page.items.length > 0,
     staleTime: 15_000,

@@ -10,7 +10,7 @@ export const useNotificationsQuery = (
   useInfiniteQuery({
     queryKey: NOTIFICATION_QUERY_KEYS.list(unreadOnly),
     initialPageParam: undefined as string | undefined,
-    queryFn: ({ pageParam, signal }) => notificationApi.list(pageParam, unreadOnly, { signal, skipErrorToast: true }),
+    queryFn: ({ pageParam, signal }) => notificationApi.list(pageParam, unreadOnly, { signal }),
     getNextPageParam: (page) => (page.pagination.hasNextPage ? (page.pagination.nextCursor ?? undefined) : undefined),
     ...options,
   });

@@ -2,6 +2,7 @@ import { useRef, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { uploadMedia, validateMediaFile } from '@/features/media/utils/upload-media';
 import { MediaOwnerType, MediaPurpose } from '@/features/media/types/media.dto';
+import { useNotify } from '@/lib/notifications/use-notify';
 import { meterReadingApi } from '../api/meter-reading.api';
 
 export interface UseMeterReadingOcrProps {
@@ -14,11 +15,11 @@ export interface UseMeterReadingOcrProps {
     ocrConfidence?: number;
     source: 'manual' | 'ocr';
   }) => void;
-  onError?: (errorMessage: string) => void;
 }
 
-export const useMeterReadingOcr = ({ roomId, onSuccess, onError }: UseMeterReadingOcrProps) => {
+export const useMeterReadingOcr = ({ roomId, onSuccess }: UseMeterReadingOcrProps) => {
   const { t } = useTranslation('meterReadings');
+  const notify = useNotify();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -30,7 +31,7 @@ export const useMeterReadingOcr = ({ roomId, onSuccess, onError }: UseMeterReadi
       const validationError = validateMediaFile(file, MediaPurpose.METER_READING_EVIDENCE);
       if (validationError) {
         const msg = t('errors.invalidImage');
-        onError?.(msg);
+        notify.error(msg);
         return;
       }
 
@@ -51,7 +52,6 @@ export const useMeterReadingOcr = ({ roomId, onSuccess, onError }: UseMeterReadi
             ownerId: roomId,
             purpose: MediaPurpose.METER_READING_EVIDENCE,
             skipSuccessToast: true,
-            skipErrorToast: true,
           }),
         ]);
 
@@ -77,12 +77,12 @@ export const useMeterReadingOcr = ({ roomId, onSuccess, onError }: UseMeterReadi
         }
       } catch {
         clearTimeout(timeoutId);
-        setOcrWarning(t('warnings.ocrFailedManualFallback'));
+        URL.revokeObjectURL(previewUrl);
       } finally {
         setIsProcessing(false);
       }
     },
-    [roomId, onSuccess, onError, t],
+    [roomId, onSuccess, notify, t],
   );
 
   const openCameraPicker = useCallback(() => {

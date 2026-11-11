@@ -10,12 +10,15 @@ export interface CustomNotifyOptions extends NotifyOptions {
   onClick?: () => void;
 }
 
+const withMessageId = (message: ReactNode, options?: NotifyOptions): NotifyOptions | undefined =>
+  typeof message === 'string' ? { id: message, ...options } : options;
+
 /** Shared transient UI notification API. Persistent business notifications use the notifications feature/API. */
 export const notify = {
-  success: (message: ReactNode, options?: NotifyOptions) => toast.success(message, options),
-  error: (message: ReactNode, options?: NotifyOptions) => toast.error(message, options),
-  info: (message: ReactNode, options?: NotifyOptions) => toast.info(message, options),
-  warning: (message: ReactNode, options?: NotifyOptions) => toast.warning(message, options),
+  success: (message: ReactNode, options?: NotifyOptions) => toast.success(message, withMessageId(message, options)),
+  error: (message: ReactNode, options?: NotifyOptions) => toast.error(message, withMessageId(message, options)),
+  info: (message: ReactNode, options?: NotifyOptions) => toast.info(message, withMessageId(message, options)),
+  warning: (message: ReactNode, options?: NotifyOptions) => toast.warning(message, withMessageId(message, options)),
   custom: (render: (id: string | number) => ReactElement, options?: CustomNotifyOptions) => {
     const { onClick, ...toastOptions } = options ?? {};
     return toast.custom((id) => {

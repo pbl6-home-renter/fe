@@ -47,7 +47,6 @@
   },
   "warnings": {
     "ocrUnrecognized": "Could not recognize meter reading, please enter manually",
-    "ocrFailedManualFallback": "AI recognition failed, switched to manual input",
     "noRoomsInBuilding": "This building has no rooms yet.",
     "noBuildingsTitle": "No buildings found",
     "noBuildingsDesc": "Please create a building before managing meter readings.",

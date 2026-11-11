@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
-import { getErrorMessage } from '@/lib/api/errors';
 import { useNotify } from '@/lib/notifications/use-notify';
 import { useVerifyEmailMutation } from '../hooks/use-verify-email-mutation';
 
@@ -33,8 +32,7 @@ export const VerifyEmailRedirect = () => {
         notify.success(t('emailVerificationSuccess'));
         navigate(ROUTES.LOGIN, { replace: true });
       })
-      .catch((error: unknown) => {
-        notify.error(getErrorMessage(error));
+      .catch(() => {
         navigate(ROUTES.LOGIN, { replace: true });
       });
   }, [navigate, notify, searchParams, t, verifyEmail]);

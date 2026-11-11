@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { notify } from '@/lib/notifications/notify';
+import { useNotify } from '@/lib/notifications/use-notify';
 import { Role } from '@/types/role';
 import { profileSchema, type ProfileFormData } from '../forms/profile.schema';
 import type { UserMeResponseDto, UserUpdateMeRequestDto } from '../types/users.dto';
@@ -18,6 +18,7 @@ const toFormValues = (user?: UserMeResponseDto): ProfileFormData => ({
 
 export const useProfileForm = (user?: UserMeResponseDto) => {
   const { t } = useTranslation('users');
+  const notify = useNotify();
   const updateMutation = useUpdateMeMutation();
   const isLandlord = user?.role === Role.LANDLORD;
 

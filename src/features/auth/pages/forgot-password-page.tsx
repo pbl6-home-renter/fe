@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { ROUTES } from '@/config/routes.config';
 import landlordLogo from '@/assets/landlord-logo.png';
 import { Button } from '@/components/ui/button';
@@ -17,31 +17,12 @@ export const ForgotPasswordPage = () => {
       {/* Brand Logo & Header */}
       <div className="flex flex-col items-center text-center mb-6">
         <div className="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center p-2 mb-4 shadow-xs">
-          <img
-            src={landlordLogo}
-            alt="Rentify"
-            className="w-full h-full object-contain"
-          />
+          <img src={landlordLogo} alt="Rentify" className="w-full h-full object-contain" />
         </div>
 
-        <h1 className="text-2xl font-bold tracking-tight text-rentify-text-primary">
-          {t('forgotPasswordTitle')}
-        </h1>
-        <p className="text-sm text-rentify-text-secondary mt-1.5 leading-relaxed">
-          {t('forgotPasswordSubtitle')}
-        </p>
+        <h1 className="text-2xl font-bold tracking-tight text-rentify-text-primary">{t('forgotPasswordTitle')}</h1>
+        <p className="text-sm text-rentify-text-secondary mt-1.5 leading-relaxed">{t('forgotPasswordSubtitle')}</p>
       </div>
-
-      {/* Server Error Alert */}
-      {errors.serverError && (
-        <div
-          role="alert"
-          className="flex items-center gap-2 p-3 mb-5 rounded-xl bg-rentify-error/10 border border-rentify-error/20 text-rentify-error text-xs font-medium"
-        >
-          <AlertCircle className="w-4 h-4 shrink-0 text-rentify-error" />
-          <span>{errors.serverError}</span>
-        </div>
-      )}
 
       {isSuccess ? (
         <div className="space-y-6">
@@ -50,9 +31,7 @@ export const ForgotPasswordPage = () => {
             className="p-4 rounded-xl bg-rentify-success/10 border border-rentify-success/20 flex items-start gap-3 text-rentify-success"
           >
             <CheckCircle2 className="w-5 h-5 text-rentify-success shrink-0 mt-0.5" />
-            <p className="text-sm leading-relaxed font-medium">
-              {t('resetLinkSent')}
-            </p>
+            <p className="text-sm leading-relaxed font-medium">{t('resetLinkSent')}</p>
           </div>
 
           <Link

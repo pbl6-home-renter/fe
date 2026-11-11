@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle } from 'lucide-react';
 import { ROUTES } from '@/config/routes.config';
 import landlordLogo from '@/assets/landlord-logo.png';
 import { Button } from '@/components/ui/button';
@@ -24,17 +23,6 @@ export const LoginPage = () => {
         <h1 className="text-2xl font-bold tracking-tight text-rentify-text-primary">{t('login')}</h1>
         <p className="text-sm text-rentify-text-secondary mt-1.5 leading-relaxed">{t('loginSubtitle')}</p>
       </div>
-
-      {/* Server Error Alert */}
-      {errors.serverError && (
-        <div
-          role="alert"
-          className="flex items-center gap-2 p-3 mb-5 rounded-xl bg-rentify-error/10 border border-rentify-error/20 text-rentify-error text-xs font-medium"
-        >
-          <AlertCircle className="w-4 h-4 shrink-0 text-rentify-error" />
-          <span>{errors.serverError}</span>
-        </div>
-      )}
 
       {/* Login Form */}
       <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>

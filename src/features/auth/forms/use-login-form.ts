@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
 import { getHomePathByRole } from '@/app/routes/route-utils';
-import { getFieldError, setFormApiErrors } from '@/lib/form';
+import { getFieldError } from '@/lib/form';
 import { useLoginMutation } from '../hooks/use-login-mutation';
 import { loginSchema, type LoginFormData } from './login.schema';
 
@@ -39,8 +39,8 @@ export const useLoginForm = () => {
       });
       const role = (user || profile)?.role;
       navigate(redirectTarget || (role ? getHomePathByRole(role) : ROUTES.HOME), { replace: true });
-    } catch (error) {
-      setFormApiErrors(form.setError, error);
+    } catch {
+      // API errors are shown by the shared interceptor.
     }
   });
 
@@ -49,7 +49,6 @@ export const useLoginForm = () => {
     errors: {
       identifier: getFieldError(errors.identifier, t),
       password: getFieldError(errors.password, t),
-      serverError: errors.root?.serverError?.message,
     },
     isSubmitting: loginMutation.isPending || form.formState.isSubmitting,
     handleSubmit,

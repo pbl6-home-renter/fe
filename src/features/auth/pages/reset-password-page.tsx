@@ -17,19 +17,11 @@ export const ResetPasswordPage = () => {
       {/* Brand Logo & Header */}
       <div className="flex flex-col items-center text-center mb-6">
         <div className="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center p-2 mb-4 shadow-xs">
-          <img
-            src={landlordLogo}
-            alt="Rentify"
-            className="w-full h-full object-contain"
-          />
+          <img src={landlordLogo} alt="Rentify" className="w-full h-full object-contain" />
         </div>
 
-        <h1 className="text-2xl font-bold tracking-tight text-rentify-text-primary">
-          {t('resetPasswordTitle')}
-        </h1>
-        <p className="text-sm text-rentify-text-secondary mt-1.5 leading-relaxed">
-          {t('resetPasswordSubtitle')}
-        </p>
+        <h1 className="text-2xl font-bold tracking-tight text-rentify-text-primary">{t('resetPasswordTitle')}</h1>
+        <p className="text-sm text-rentify-text-secondary mt-1.5 leading-relaxed">{t('resetPasswordSubtitle')}</p>
       </div>
 
       {isTokenMissing ? (
@@ -39,9 +31,7 @@ export const ResetPasswordPage = () => {
         >
           <AlertCircle className="w-5 h-5 text-rentify-warning shrink-0 mt-0.5" />
           <div className="space-y-3">
-            <p className="text-sm font-medium leading-relaxed">
-              {t('errors.tokenRequired')}
-            </p>
+            <p className="text-sm font-medium leading-relaxed">{t('errors.tokenRequired')}</p>
             <Link
               to={ROUTES.FORGOT_PASSWORD}
               className="inline-flex items-center text-xs font-semibold text-rentify-primary hover:underline"
@@ -52,16 +42,6 @@ export const ResetPasswordPage = () => {
         </div>
       ) : (
         <>
-          {errors.serverError && (
-            <div
-              role="alert"
-              className="flex items-center gap-2 p-3 mb-5 rounded-xl bg-rentify-error/10 border border-rentify-error/20 text-rentify-error text-xs font-medium"
-            >
-              <AlertCircle className="w-4 h-4 shrink-0 text-rentify-error" />
-              <span>{errors.serverError}</span>
-            </div>
-          )}
-
           <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
             <PasswordInput
               label={t('newPassword')}

@@ -55,6 +55,7 @@ export const NotificationRealtimeBridge = () => {
             body: payload.body,
           }),
         {
+          id: payload.notificationId,
           duration: 6000,
           onClick: () => {
             markRead(payload.notificationId);

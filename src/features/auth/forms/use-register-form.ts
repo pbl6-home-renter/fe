@@ -5,15 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
 import { Role } from '@/types/role';
 import { getFieldError } from '@/lib/form';
-import { useNotify } from '@/lib/notifications/use-notify';
-import { getErrorMessage } from '@/lib/api/errors';
 import { useRegisterMutation } from '../hooks/use-register-mutation';
 import { registerSchema, type RegisterFormData, type RegisterRole } from './register.schema';
 
 export const useRegisterForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('auth');
-  const notify = useNotify();
   const registerMutation = useRegisterMutation();
 
   const form = useForm<RegisterFormData>({
@@ -39,8 +36,8 @@ export const useRegisterForm = () => {
     try {
       await registerMutation.mutateAsync({ name, phone, email, password: pwd, role: userRole });
       navigate(ROUTES.LOGIN, { replace: true });
-    } catch (error) {
-      notify.error(getErrorMessage(error));
+    } catch {
+      // API errors are shown by the shared interceptor.
     }
   });
 
@@ -53,7 +50,6 @@ export const useRegisterForm = () => {
       password: getFieldError(errors.password, t),
       confirmPassword: getFieldError(errors.confirmPassword, t),
       role: getFieldError(errors.role, t),
-      serverError: errors.root?.serverError?.message,
     },
     setRole,
     isTenant: role === Role.TENANT,

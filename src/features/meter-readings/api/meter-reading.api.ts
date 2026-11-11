@@ -36,6 +36,7 @@ export const meterReadingApi = {
         headers: { 'Content-Type': 'multipart/form-data' },
         timeout: 15000,
         signal,
+        skipErrorToast: true,
       });
       return response ?? { value: null, confidence: 0 };
     } catch {

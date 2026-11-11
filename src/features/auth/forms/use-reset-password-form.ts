@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
-import { getFieldError, setFormApiErrors } from '@/lib/form';
+import { getFieldError } from '@/lib/form';
 import { useResetPasswordMutation } from '../hooks/use-reset-password-mutation';
 import { resetPasswordSchema, type ResetPasswordFormData } from './password.schema';
 
@@ -26,8 +26,8 @@ export const useResetPasswordForm = () => {
     try {
       await resetMutation.mutateAsync({ token, newPassword });
       navigate(ROUTES.LOGIN, { replace: true });
-    } catch (error) {
-      setFormApiErrors(form.setError, error);
+    } catch {
+      // API errors are shown by the shared interceptor.
     }
   });
 
@@ -36,7 +36,6 @@ export const useResetPasswordForm = () => {
     errors: {
       newPassword: getFieldError(errors.newPassword, t),
       confirmPassword: getFieldError(errors.confirmPassword, t),
-      serverError: errors.root?.serverError?.message,
     },
     isTokenMissing: !token,
     isSubmitting: resetMutation.isPending || form.formState.isSubmitting,

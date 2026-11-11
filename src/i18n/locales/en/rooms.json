@@ -123,8 +123,7 @@
     "depositAmountMin": "Deposit amount cannot be negative.",
     "maxOccupancyInt": "Max occupants must be an integer.",
     "maxOccupancyMin": "Max occupants must be at least 1.",
-    "descriptionMax": "Description cannot exceed 1000 characters.",
-    "duplicateRoom": "A room with this name already exists in this property."
+    "descriptionMax": "Description cannot exceed 1000 characters."
   },
   "apiSuccess": {
     "ROOM_CREATED": "Room created successfully.",

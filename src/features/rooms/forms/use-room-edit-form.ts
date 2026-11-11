@@ -11,11 +11,7 @@ export interface UseRoomEditFormOptions {
   onCancel?: () => void;
 }
 
-export const useRoomEditForm = ({
-  room,
-  onSuccess,
-  onCancel,
-}: UseRoomEditFormOptions) => {
+export const useRoomEditForm = ({ room, onSuccess, onCancel }: UseRoomEditFormOptions) => {
   const updateMutation = useUpdateRoomMutation();
 
   const form = useForm<RoomUpdateFormData>({
@@ -65,15 +61,7 @@ export const useRoomEditForm = ({
         onSuccess: (data) => {
           onSuccess?.(data);
         },
-        onError: (error: unknown) => {
-          if ((error as { code?: string })?.code === 'DUPLICATE_ROOM') {
-            form.setError('name', {
-              type: 'server',
-              message: 'errors.duplicateRoom',
-            });
-          }
-        },
-      }
+      },
     );
   });
 

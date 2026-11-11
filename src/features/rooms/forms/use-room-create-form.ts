@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateRoomMutation } from '../hooks/use-create-room-mutation';
 import { roomCreateSchema, type RoomCreateFormData } from './room.schema';
 import { GenderPolicy } from '../enums/gender-policy.enum';
-import { getApiErrorCode } from '@/lib/api/errors';
 import type { RoomCreateRequestDto, RoomDetailDto } from '../types/room.dto';
 
 export interface UseRoomCreateFormOptions {
@@ -13,12 +12,7 @@ export interface UseRoomCreateFormOptions {
   onCancel?: () => void;
 }
 
-export const useRoomCreateForm = ({
-  buildingId,
-  defaultFloor = 1,
-  onSuccess,
-  onCancel,
-}: UseRoomCreateFormOptions) => {
+export const useRoomCreateForm = ({ buildingId, defaultFloor = 1, onSuccess, onCancel }: UseRoomCreateFormOptions) => {
   const createMutation = useCreateRoomMutation();
 
   const form = useForm<RoomCreateFormData>({
@@ -62,14 +56,6 @@ export const useRoomCreateForm = ({
       onSuccess: (data) => {
         form.reset();
         onSuccess?.(data);
-      },
-      onError: (error: unknown) => {
-        if (getApiErrorCode(error) === 'DUPLICATE_ROOM') {
-          form.setError('name', {
-            type: 'server',
-            message: 'errors.duplicateRoom',
-          });
-        }
       },
     });
   });

@@ -44,7 +44,7 @@ export interface UploadMediaParams {
   signal?: AbortSignal;
   /** Don't toast "upload completed", e.g. when uploading a batch one by one. */
   skipSuccessToast?: boolean;
-  /** Don't toast errors, e.g. when the form shows them inline. */
+  /** Don't toast errors when the caller handles the failed upload in context. */
   skipErrorToast?: boolean;
 }
 
@@ -156,7 +156,7 @@ export const uploadMedia = async (params: UploadMediaParams): Promise<MediaCompl
     // API errors are toasted by `apiClient`; the client-side ones are toasted here.
     const isClientError = error instanceof MediaUploadError && error.code !== MEDIA_ERROR_CODES.MEDIA_UPLOAD_CANCELED;
     if (isClientError && !params.skipErrorToast) {
-      notify.error(error.message, { id: error.message });
+      notify.error(error.message);
     }
     throw error;
   }

@@ -73,12 +73,6 @@ export const ContractEditModal = ({ open, onClose, contract, onSuccess }: Contra
       }
     >
       <form id="contract-edit-form" onSubmit={onSubmit} className="space-y-4 py-1">
-        {errors.root?.serverError && (
-          <div className="rounded-xl border border-rentify-error/20 bg-rentify-error/10 p-3 text-sm text-rentify-error">
-            {errors.root.serverError.message}
-          </div>
-        )}
-
         <div className="space-y-1">
           <Input
             label={t('form.vehicleCount')}

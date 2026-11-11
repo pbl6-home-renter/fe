@@ -10,7 +10,7 @@ declare module 'axios' {
   interface AxiosRequestConfig {
     /** Don't toast this request's success `code`, e.g. one file of a batch upload. */
     skipSuccessToast?: boolean;
-    /** Don't toast this request's error, e.g. when a form shows it inline. */
+    /** Don't toast an error already handled in context, such as a quiet image request. */
     skipErrorToast?: boolean;
   }
 }
@@ -39,7 +39,7 @@ apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 attachRefreshTokenInterceptor(apiClient, API_BASE_URL);
 
 // Registered after the refresh interceptor, so a 401 that gets refreshed is never toasted.
-// The toast id is the message, so a request replayed after a refresh doesn't toast twice.
+// The shared notifier deduplicates equal messages, including replayed requests.
 apiClient.interceptors.response.use(
   (response) => {
     const code = (response.data as Partial<ApiResponse<unknown>> | undefined)?.code;
@@ -48,7 +48,7 @@ apiClient.interceptors.response.use(
     if (method !== 'get' && !skipSuccessToast && typeof code === 'string') {
       const message = findApiSuccessMessage(code);
       if (message) {
-        notify.success(message, { id: message });
+        notify.success(message);
       }
     }
     return response;
@@ -57,7 +57,7 @@ apiClient.interceptors.response.use(
     const skipErrorToast = axios.isAxiosError(error) && error.config?.skipErrorToast;
     if (!isCancel(error) && !skipErrorToast) {
       const message = getErrorMessage(error);
-      notify.error(message, { id: message });
+      notify.error(message);
     }
     return Promise.reject(error);
   },
