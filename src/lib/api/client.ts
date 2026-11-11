@@ -4,7 +4,7 @@ import { notify } from '@/lib/notifications/notify';
 import type { ApiResponse } from '@/types/api';
 import { findApiSuccessMessage } from './api-messages';
 import { getErrorMessage } from './errors';
-import { attachRefreshTokenInterceptor } from './refresh-token';
+import { attachRefreshTokenInterceptor, isAuthEndpoint } from './refresh-token';
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -30,7 +30,7 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const accessToken = useAuthStore.getState().accessToken;
-  if (accessToken && !config.headers.Authorization) {
+  if (accessToken && !isAuthEndpoint(config.url) && !config.headers.Authorization) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
