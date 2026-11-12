@@ -91,6 +91,27 @@ body {
 }
 
 /* Shared interaction and overlay motion */
+@keyframes chat-message-enter {
+  from {
+    opacity: 0.96;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message-in {
+  animation: chat-message-enter 120ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-message-in {
+    animation: none;
+  }
+}
+
 .ui-press {
   transition-property: color, background-color, border-color, box-shadow, transform;
   transition-duration: 150ms;

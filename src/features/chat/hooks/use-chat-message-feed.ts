@@ -10,6 +10,8 @@ interface UseChatMessageFeedOptions {
   onLoadOlder: () => void;
   onLatestVisible: () => void;
   onAtBottomChange: (atBottom: boolean) => void;
+  highlightedMessageId?: string;
+  isAnchored?: boolean;
 }
 
 export const useChatMessageFeed = ({
@@ -21,6 +23,8 @@ export const useChatMessageFeed = ({
   onLoadOlder,
   onLatestVisible,
   onAtBottomChange,
+  highlightedMessageId,
+  isAnchored,
 }: UseChatMessageFeedOptions) => {
   const feedRef = useRef<HTMLDivElement>(null);
   const wasAtBottom = useRef(true);
@@ -39,6 +43,24 @@ export const useChatMessageFeed = ({
       if (messageCount && document.visibilityState === 'visible') onLatestVisible();
     }
   }, [messageCount, onLatestVisible]);
+
+  useEffect(() => {
+    wasAtBottom.current = !isAnchored;
+    if (!isAnchored && feedRef.current) {
+      feedRef.current.scrollTop = feedRef.current.scrollHeight;
+      onAtBottomChange(true);
+    }
+  }, [isAnchored, onAtBottomChange]);
+
+  useEffect(() => {
+    if (!highlightedMessageId) return;
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(`chat-message-${highlightedMessageId}`);
+      target?.scrollIntoView({ block: 'center' });
+      target?.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [highlightedMessageId, messageCount]);
 
   useEffect(() => {
     if (isError && !isLoadingOlder) {

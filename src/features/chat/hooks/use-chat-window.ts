@@ -18,8 +18,13 @@ import {
 import { useConversationQuery, useMessagesQuery } from './use-chat-queries';
 import { useMarkReadMutation } from './use-chat-mutations';
 import type { CursorPaginated } from '@/types/api';
-import type { ChatMessage } from '../types/chat.dto';
-import { isConversationSocketEvent, isSendMessageEvent, parseChatMessage } from '../utils/chat-message.guard';
+import type { ChatMessage, ConversationDetail } from '../types/chat.dto';
+import {
+  isConversationSocketEvent,
+  isMemberReadEvent,
+  isSendMessageEvent,
+  parseChatMessage,
+} from '../utils/chat-message.guard';
 import { upsertChatMessageCache } from '../utils/upsert-chat-message-cache';
 import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
 
@@ -27,19 +32,30 @@ interface UseChatWindowOptions {
   conversationId?: string;
   draftName?: string;
   connectionStatus: SocketConnectionStatus;
+  maxSequence?: string;
+  isContentCovered?: boolean;
 }
 
-export const useChatWindow = ({ conversationId, draftName, connectionStatus }: UseChatWindowOptions) => {
+export const useChatWindow = ({
+  conversationId,
+  draftName,
+  connectionStatus,
+  maxSequence,
+  isContentCovered,
+}: UseChatWindowOptions) => {
   const { socket } = useSocket();
   const userId = useAuthStore((state) => state.user?.id);
   const client = useQueryClient();
   const navigate = useNavigate();
   const atBottom = useRef(true);
+  const setAtBottom = useCallback((value: boolean) => {
+    atBottom.current = value;
+  }, []);
   const lastReadRequest = useRef<string | undefined>(undefined);
   const seenMessageIds = useRef(new Set<string>());
   const countedMessageIds = useRef(new Set<string>());
   const detail = useConversationQuery(conversationId);
-  const history = useMessagesQuery(conversationId);
+  const history = useMessagesQuery(conversationId, maxSequence);
   const avatar = useMediaObjectUrl(
     detail.data?.kind === 'group' && detail.data.avatarMediaId
       ? MEDIA_API_ROUTES.BY_ID(detail.data.avatarMediaId)
@@ -50,6 +66,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
   const { refetch: refetchHistory } = history;
   const { mutate: markReadMessage } = useMarkReadMutation();
   const [newCount, setNewCount] = useState(0);
+  const [liveMessageIds, setLiveMessageIds] = useState(() => new Set<string>());
   const messages = useMemo(() => history.data?.pages.flatMap((page) => page.items).reverse() ?? [], [history.data]);
   const lastSequence = messages.at(-1)?.sequence;
   const currentMember = detail.data?.members.find((member) => member.userId === userId);
@@ -61,7 +78,15 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
     '';
 
   const markLatestRead = useCallback(() => {
-    if (!conversationId || !lastSequence || document.visibilityState !== 'visible' || !atBottom.current) return;
+    if (
+      !conversationId ||
+      maxSequence ||
+      isContentCovered ||
+      !lastSequence ||
+      document.visibilityState !== 'visible' ||
+      !atBottom.current
+    )
+      return;
     setNewCount(0);
     const isUnread =
       currentMember?.status === 'active' &&
@@ -79,7 +104,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
       );
       setNewCount(0);
     }
-  }, [conversationId, currentMember, lastSequence, markReadMessage]);
+  }, [conversationId, currentMember, isContentCovered, lastSequence, markReadMessage, maxSequence]);
 
   useEffect(() => {
     if (!socket || !conversationId) return;
@@ -117,6 +142,11 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
         setNewCount((count) => count + 1);
       }
       if (alreadySeen) return;
+      setLiveMessageIds((current) => {
+        const next = new Set(current);
+        rememberMessageId(next, message.id);
+        return next;
+      });
       rememberMessageId(seenMessageIds.current, message.id);
       const historyHadData = client.getQueryData(messagesQueryKey) !== undefined;
       const historyWasFetching = client.getQueryState(messagesQueryKey)?.fetchStatus === 'fetching';
@@ -151,6 +181,11 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
         setNewCount((count) => count + 1);
       }
       if (seenMessageIds.current.has(payload.messageId) || messageIsCached) return;
+      setLiveMessageIds((current) => {
+        const next = new Set(current);
+        rememberMessageId(next, payload.messageId);
+        return next;
+      });
       logRealtimeDebug('warn', 'active conversation message missing; refreshing history', {
         conversationId,
         messageId: payload.messageId,
@@ -161,7 +196,7 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
       logRealtimeDebug('info', 'receive conversation:access-revoked', { conversationId });
       if (!isConversationSocketEvent(event) || event.conversationId !== conversationId) return;
       client.removeQueries({ queryKey: chatKeys.detail(conversationId), exact: true });
-      client.removeQueries({ queryKey: chatKeys.messages(conversationId), exact: true });
+      client.removeQueries({ queryKey: chatKeys.messageHistory(conversationId) });
       void client.invalidateQueries({ queryKey: CHAT_LIST_QUERY_KEY });
       void client.invalidateQueries({ queryKey: CHAT_UNREAD_QUERY_KEY });
       navigate(getChatPath());
@@ -175,10 +210,25 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
         void client.invalidateQueries({ queryKey: CHAT_LIST_QUERY_KEY });
       }
     };
+    const onMemberRead = (event: unknown) => {
+      if (!isMemberReadEvent(event) || event.conversationId !== conversationId) return;
+      client.setQueryData<ConversationDetail>(chatKeys.detail(conversationId), (current) => {
+        if (!current) return current;
+        return {
+          ...current,
+          members: current.members.map((member) =>
+            member.userId === event.userId && BigInt(event.lastReadSequence) > BigInt(member.lastReadSequence)
+              ? { ...member, lastReadSequence: event.lastReadSequence }
+              : member,
+          ),
+        };
+      });
+    };
     socket.on(CHAT_SOCKET_EVENTS.MESSAGE_CREATED, onMessage);
     socket.on(CHAT_SOCKET_EVENTS.MESSAGE_RECEIVED, onMessageReceived);
     socket.on(CHAT_SOCKET_EVENTS.ACCESS_REVOKED, onRevoked);
     socket.on(CHAT_SOCKET_EVENTS.READ_UPDATED, onReadUpdated);
+    socket.on(CHAT_SOCKET_EVENTS.MEMBER_READ, onMemberRead);
     socket.on(REALTIME_SOCKET_EVENTS.SESSION_READY, joinConversation);
     return () => {
       logRealtimeDebug('info', 'emit conversation:leave', { conversationId });
@@ -187,15 +237,17 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
       socket.off(CHAT_SOCKET_EVENTS.MESSAGE_RECEIVED, onMessageReceived);
       socket.off(CHAT_SOCKET_EVENTS.ACCESS_REVOKED, onRevoked);
       socket.off(CHAT_SOCKET_EVENTS.READ_UPDATED, onReadUpdated);
+      socket.off(CHAT_SOCKET_EVENTS.MEMBER_READ, onMemberRead);
       socket.off(REALTIME_SOCKET_EVENTS.SESSION_READY, joinConversation);
     };
   }, [client, conversationId, navigate, socket, userId]);
 
   useEffect(() => {
     if (connectionStatus === 'connected' && conversationId) {
+      void client.invalidateQueries({ queryKey: chatKeys.messages(conversationId), exact: true });
       void Promise.all([refetchDetail(), refetchHistory()]);
     }
-  }, [connectionStatus, conversationId, refetchDetail, refetchHistory]);
+  }, [client, connectionStatus, conversationId, refetchDetail, refetchHistory]);
 
   useEffect(() => {
     const syncReadState = () => {
@@ -218,11 +270,10 @@ export const useChatWindow = ({ conversationId, draftName, connectionStatus }: U
     currentMember,
     lastSequence,
     newCount,
+    liveMessageIds,
     currentUserId: userId,
     markLatestRead,
-    setAtBottom: (value: boolean) => {
-      atBottom.current = value;
-    },
+    setAtBottom,
     retryLoad: () => void Promise.all([refetchDetail(), refetchHistory()]),
   };
 };

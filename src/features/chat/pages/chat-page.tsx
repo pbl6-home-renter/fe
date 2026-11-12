@@ -26,11 +26,14 @@ export const ChatPage = () => {
         draft={page.draft}
         pending={page.pending}
         imageDraft={page.imageDraft}
+        replyTo={page.replyTo}
         isSending={page.isSending}
         onDraftChange={page.onDraftChange}
         onSend={page.onSend}
         onSelectImage={page.onSelectImage}
         onRemoveImage={page.onRemoveImage}
+        onReply={page.onReply}
+        onCancelReply={page.onCancelReply}
         onRetry={page.onRetry}
         onBack={page.onBack}
       />

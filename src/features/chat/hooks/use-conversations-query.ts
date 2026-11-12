@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { useDebounce } from '@/hooks/use-debounce';
 import { CHAT_PAGE_SIZE, CHAT_SEARCH_DEBOUNCE_MS, chatKeys } from '../constants/chat.constants';
 import { chatApi } from '../api/chat.api';
@@ -28,6 +28,7 @@ export const useConversationsQuery = (
         { signal },
       ),
     getNextPageParam: (lastPage) => (lastPage.pagination.hasNextPage ? lastPage.pagination.pageNo + 1 : undefined),
+    placeholderData: keepPreviousData,
     refetchOnMount: 'always',
     ...options,
   });

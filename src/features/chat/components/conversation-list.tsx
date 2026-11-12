@@ -25,17 +25,18 @@ export const ConversationList = (props: ConversationListProps) => {
   return (
     <aside className="flex min-h-0 w-full flex-col border-r border-rentify-divider bg-rentify-surface md:w-88 md:shrink-0">
       <ListHeader search={props.search} onSearchChange={props.onSearchChange} onNewChat={props.onNewChat} />
-      <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
+      <div ref={scrollRef} className="relative min-h-0 flex-1 overflow-y-auto">
         {conversations.map((conversation) => (
           <ConversationRow
             key={conversation.id}
             conversation={conversation}
             selected={props.selectedId === conversation.id}
+            disabled={query.isSearchPending || query.isPlaceholderData}
             onSelect={() => props.onSelect(conversation)}
           />
         ))}
         <ListStatus
-          isLoading={query.isLoading || query.isSearchPending}
+          isLoading={query.isLoading || query.isSearchPending || query.isPlaceholderData}
           isError={query.isError && !query.isSearchPending}
           isLoadingNext={query.isFetchingNextPage}
           isNextPageError={query.isFetchNextPageError}
@@ -90,10 +91,11 @@ const ListHeader = ({ search, onSearchChange, onNewChat }: ListHeaderProps) => {
 interface ConversationRowProps {
   conversation: ConversationSummary;
   selected: boolean;
+  disabled: boolean;
   onSelect: () => void;
 }
 
-const ConversationRow = ({ conversation, selected, onSelect }: ConversationRowProps) => {
+const ConversationRow = ({ conversation, selected, disabled, onSelect }: ConversationRowProps) => {
   const { t, i18n } = useTranslation('chat');
   const locale = i18n.language.startsWith('en') ? 'en-US' : 'vi-VN';
   const displayName = conversation.displayName ?? conversation.title ?? '';
@@ -104,7 +106,9 @@ const ConversationRow = ({ conversation, selected, onSelect }: ConversationRowPr
       type="button"
       variant="ghost"
       onClick={onSelect}
-      className={`h-auto min-h-0 w-full justify-start gap-3 rounded-none border-b border-rentify-divider/70 px-4 py-3 text-left hover:bg-rentify-background ${selected ? 'bg-rentify-primary-container/40' : ''}`}
+      disabled={disabled}
+      aria-current={selected ? 'page' : undefined}
+      className={`h-auto min-h-0 w-full justify-start gap-3 rounded-none border-b border-rentify-divider/70 px-4 py-3 text-left hover:bg-rentify-background ${selected ? 'border-l-4 border-l-rentify-primary bg-rentify-primary-container' : ''}`}
     >
       <Avatar name={displayName} size="md" />
       <span className="min-w-0 flex-1">
@@ -112,10 +116,7 @@ const ConversationRow = ({ conversation, selected, onSelect }: ConversationRowPr
           <span className="truncate text-sm font-semibold">{displayName}</span>
           {conversation.lastMessage && (
             <time className="shrink-0 text-[11px] text-rentify-neutral">
-              {new Date(conversation.lastMessage.sentAt).toLocaleTimeString(locale, {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
+              {formatConversationTime(conversation.lastMessage.sentAt, locale)}
             </time>
           )}
         </span>
@@ -134,6 +135,13 @@ const UnreadBadge = ({ count }: { count: number }) => (
   </span>
 );
 
+const formatConversationTime = (value: string, locale: string) => {
+  const date = new Date(value);
+  return date.toDateString() === new Date().toDateString()
+    ? date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
+    : date.toLocaleDateString(locale, { day: '2-digit', month: '2-digit' });
+};
+
 interface ListStatusProps {
   isLoading: boolean;
   isError: boolean;
@@ -149,6 +157,16 @@ interface ListStatusProps {
 
 const ListStatus = (props: ListStatusProps) => {
   const { t } = useTranslation('chat');
+  if (props.isLoading && props.hasConversations)
+    return (
+      <div
+        role="status"
+        aria-label={t('loadingConversations')}
+        className="pointer-events-none absolute right-2 top-2 z-10 rounded-full bg-rentify-surface px-3 py-1 text-xs text-rentify-text-secondary shadow-sm"
+      >
+        {t('loadingConversations')}
+      </div>
+    );
   if (props.isLoading) return <ConversationSkeleton />;
   if (props.isNextPageError) {
     return <StatusMessage message={t('loadMoreError')} action={t('tryLoadAgain')} onAction={props.onRetryNext} />;

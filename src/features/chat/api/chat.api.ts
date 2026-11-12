@@ -1,9 +1,10 @@
 import type { AxiosRequestConfig } from 'axios';
 import { http } from '@/lib/api/http';
 import type { Paginated } from '@/types/api';
-import { CHAT_API_ROUTES, CHAT_HISTORY_PAGE_SIZE } from '../constants/chat.constants';
+import { CHAT_API_ROUTES, CHAT_HISTORY_PAGE_SIZE, CHAT_MESSAGE_SEARCH_PAGE_SIZE } from '../constants/chat.constants';
 import type {
   ChatMessage,
+  ChatMessageSearchResult,
   ConversationDetail,
   ConversationSummary,
   CreateDirectRequest,
@@ -54,12 +55,17 @@ export const chatApi = {
   getConversation: (id: string, config?: AxiosRequestConfig) =>
     http.get<ConversationDetail>(CHAT_API_ROUTES.CONVERSATION(id), config),
 
-  getMessages: (conversationId: string, cursor?: string, config?: AxiosRequestConfig) =>
-    http.getCursorPage<ChatMessage, { conversationId: string; cursor?: string; pageSize: number }>(
-      CHAT_API_ROUTES.MESSAGES,
-      { conversationId, cursor, pageSize: CHAT_HISTORY_PAGE_SIZE },
-      config,
-    ),
+  getMessages: (conversationId: string, cursor?: string, maxSequence?: string, config?: AxiosRequestConfig) =>
+    http.getCursorPage<
+      ChatMessage,
+      { conversationId: string; cursor?: string; pageSize: number; maxSequence?: string }
+    >(CHAT_API_ROUTES.MESSAGES, { conversationId, cursor, pageSize: CHAT_HISTORY_PAGE_SIZE, maxSequence }, config),
+
+  searchMessages: (conversationId: string, q: string, cursor?: string, config?: AxiosRequestConfig) =>
+    http.getCursorPage<
+      ChatMessageSearchResult,
+      { conversationId: string; q: string; cursor?: string; pageSize: number }
+    >(CHAT_API_ROUTES.MESSAGE_SEARCH, { conversationId, q, cursor, pageSize: CHAT_MESSAGE_SEARCH_PAGE_SIZE }, config),
 
   getUnreadSummary: (config?: AxiosRequestConfig) => http.get<UnreadSummary>(CHAT_API_ROUTES.UNREAD_SUMMARY, config),
 

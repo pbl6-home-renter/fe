@@ -2,8 +2,14 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { CHAT_UNREAD_QUERY_KEY, chatKeys } from '../constants/chat.constants';
 import { chatApi } from '../api/chat.api';
 import type { InfiniteQueryHookOptions, QueryHookOptions } from '@/lib/query/types';
-import type { ConversationDetail, ConversationSummary, MessagePage, UnreadSummary } from '../types/chat.dto';
-import type { Paginated } from '@/types/api';
+import type {
+  ChatMessageSearchResult,
+  ConversationDetail,
+  ConversationSummary,
+  MessagePage,
+  UnreadSummary,
+} from '../types/chat.dto';
+import type { CursorPaginated, Paginated } from '@/types/api';
 
 export const useConversationQuery = (id?: string, options?: QueryHookOptions<ConversationDetail>) =>
   useQuery({
@@ -26,16 +32,39 @@ export const useDirectConversationQuery = (
     enabled: Boolean(userId) && (options?.enabled ?? true),
   });
 
-export const useMessagesQuery = (id?: string, options?: InfiniteQueryHookOptions<MessagePage, string | undefined>) =>
+export const useMessagesQuery = (
+  id?: string,
+  maxSequence?: string,
+  options?: InfiniteQueryHookOptions<MessagePage, string | undefined>,
+) =>
   useInfiniteQuery({
-    queryKey: id ? chatKeys.messages(id) : ['chat', 'messages', 'disabled'],
+    queryKey: id ? chatKeys.messages(id, maxSequence) : ['chat', 'messages', 'disabled'],
     initialPageParam: undefined as string | undefined,
     queryFn: ({ pageParam, signal }) =>
-      id ? chatApi.getMessages(id, pageParam, { signal }) : Promise.reject(new Error('Conversation ID is required')),
+      id
+        ? chatApi.getMessages(id, pageParam, maxSequence, { signal })
+        : Promise.reject(new Error('Conversation ID is required')),
     getNextPageParam: (page) => (page.pagination.hasNextPage ? (page.pagination.nextCursor ?? undefined) : undefined),
     ...options,
     refetchOnMount: 'always',
     enabled: Boolean(id) && (options?.enabled ?? true),
+  });
+
+export const useMessageSearchQuery = (
+  id: string | undefined,
+  query: string,
+  options?: InfiniteQueryHookOptions<CursorPaginated<ChatMessageSearchResult>, string | undefined>,
+) =>
+  useInfiniteQuery({
+    queryKey: id ? chatKeys.messageSearch(id, query) : ['chat', 'message-search', 'disabled'],
+    initialPageParam: undefined as string | undefined,
+    queryFn: ({ pageParam, signal }) =>
+      id
+        ? chatApi.searchMessages(id, query, pageParam, { signal })
+        : Promise.reject(new Error('Conversation ID is required')),
+    getNextPageParam: (page) => (page.pagination.hasNextPage ? (page.pagination.nextCursor ?? undefined) : undefined),
+    ...options,
+    enabled: Boolean(id) && query.length >= 2 && (options?.enabled ?? true),
   });
 
 export const useUnreadSummaryQuery = (enabled = true, options?: QueryHookOptions<UnreadSummary>) =>

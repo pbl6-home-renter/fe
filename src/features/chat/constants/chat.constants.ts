@@ -8,6 +8,9 @@ export const CHAT_GROUP_TITLE_MAX_LENGTH = 255;
 export const CHAT_GROUP_MINIMUM_OTHER_MEMBERS = 2;
 export const CHAT_SEARCH_MAX_LENGTH = 100;
 export const CHAT_SEARCH_DEBOUNCE_MS = 300;
+export const CHAT_MESSAGE_SEARCH_PAGE_SIZE = 20;
+export const CHAT_TYPING_THROTTLE_MS = 2000;
+export const CHAT_TYPING_EXPIRE_MS = 4000;
 export const CHAT_SEND_ATTEMPT_LIMIT = 3;
 export const CHAT_SEND_RETRY_DELAY_MS = 700;
 export const CHAT_SEND_TIMEOUT_MS = 15_000;
@@ -22,6 +25,7 @@ export const CHAT_API_ROUTES = {
   CONVERSATION: (id: string) => `/conversations/${id}`,
   UNREAD_SUMMARY: '/conversations/unread-summary',
   MESSAGES: '/messages',
+  MESSAGE_SEARCH: '/messages/search',
   MARK_READ: '/messages/mark-read',
   USER_DIRECTORY: '/users/directory',
   MEMBERS: (id: string) => `/conversations/${id}/members`,
@@ -36,6 +40,8 @@ export const CHAT_SOCKET_EVENTS = {
   MESSAGE_CREATED: 'message:created',
   MESSAGE_RECEIVED: 'chat:message-received',
   READ_UPDATED: 'conversation:read-updated',
+  MEMBER_READ: 'conversation:member-read',
+  TYPING: 'conversation:typing',
   ACCESS_REVOKED: 'conversation:access-revoked',
   AVAILABLE: 'conversation:available',
 } as const;
@@ -64,7 +70,9 @@ export const CHAT_DIRECTORY_QUERY_KEY = ['chat', 'user-directory'] as const;
 export const chatKeys = {
   list: (search: string) => [...CHAT_LIST_QUERY_KEY, search] as const,
   detail: (id: string) => ['chat', 'conversation', id] as const,
-  messages: (id: string) => ['chat', 'messages', id] as const,
+  messageHistory: (id: string) => ['chat', 'messages', id] as const,
+  messages: (id: string, maxSequence?: string) => ['chat', 'messages', id, maxSequence ?? 'latest'] as const,
+  messageSearch: (id: string, query: string) => ['chat', 'message-search', id, query] as const,
   directLookup: (userId: string) => ['chat', 'direct', userId] as const,
   directory: (search: string) => [...CHAT_DIRECTORY_QUERY_KEY, search] as const,
 };

@@ -12,7 +12,7 @@ import {
   CHAT_UNREAD_QUERY_KEY,
   chatKeys,
 } from '../constants/chat.constants';
-import type { ChatMessage, SentMessage } from '../types/chat.dto';
+import type { ChatMessage, ChatReplyReference, SentMessage } from '../types/chat.dto';
 import type { SendMessageRequest } from '../types/chat.dto';
 import { retryChatRequest } from '../utils/retry-chat-request';
 import { upsertChatMessageCache } from '../utils/upsert-chat-message-cache';
@@ -30,6 +30,7 @@ export interface PendingMessage {
   status: 'uploading' | 'sending' | 'failed';
   canRetry: boolean;
   createdAt: string;
+  replyTo?: ChatReplyReference;
 }
 
 const transientError = (error: unknown) =>
@@ -41,17 +42,26 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
   const mediaUpload = useMediaUpload();
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [imageDrafts, setImageDrafts] = useState<Record<string, File>>({});
+  const [replyDrafts, setReplyDrafts] = useState<Record<string, ChatReplyReference>>({});
   const [pendingByTarget, setPendingByTarget] = useState<Record<string, PendingMessage[]>>({});
   const [conversationByTarget, setConversationByTarget] = useState<Record<string, string>>({});
   const sendControllers = useRef(new Map<string, AbortController>());
   const draft = drafts[targetKey] ?? '';
   const imageDraft = imageDrafts[targetKey];
+  const replyTo = replyDrafts[targetKey];
   const pending = pendingByTarget[targetKey] ?? [];
   const setDraft = (value: string) => setDrafts((current) => ({ ...current, [targetKey]: value }));
   const setImageDraft = (file?: File) =>
     setImageDrafts((current) => {
       const next = { ...current };
       if (file) next[targetKey] = file;
+      else delete next[targetKey];
+      return next;
+    });
+  const setReplyTo = (reply?: ChatReplyReference) =>
+    setReplyDrafts((current) => {
+      const next = { ...current };
+      if (reply) next[targetKey] = reply;
       else delete next[targetKey];
       return next;
     });
@@ -69,6 +79,7 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
     clientMessageId: string = createUuid(),
     imageFile?: File,
     existingMediaId?: string,
+    reply?: ChatReplyReference,
   ) => {
     if (!senderUserId) throw new Error('Authenticated user is required to send chat messages');
     let activeConversationId = conversationId ?? conversationByTarget[targetKey];
@@ -78,6 +89,7 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
     const controller = new AbortController();
     sendControllers.current.set(clientMessageId, controller);
     setDraft('');
+    setReplyTo(undefined);
     const entry: PendingMessage = {
       clientMessageId,
       content: cleaned,
@@ -88,6 +100,7 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
       status: 'sending',
       canRetry: false,
       createdAt: new Date().toISOString(),
+      ...(reply ? { replyTo: reply } : {}),
     };
     setImageDraft(undefined);
     setPendingByTarget((current) => ({
@@ -163,9 +176,16 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
           type: 'image',
           content: cleaned || null,
           mediaId,
+          ...(reply ? { replyToMessageId: reply.id } : {}),
         };
       } else {
-        sendRequest = { conversationId: sendingConversationId, clientMessageId, type: 'text', content: cleaned };
+        sendRequest = {
+          conversationId: sendingConversationId,
+          clientMessageId,
+          type: 'text',
+          content: cleaned,
+          ...(reply ? { replyToMessageId: reply.id } : {}),
+        };
       }
       requestStage = 'send-message';
       requestStartedAt = performance.now();
@@ -198,6 +218,7 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
         content: message.content,
         mediaId: message.mediaId,
         payload: null,
+        replyTo: message.replyTo ?? reply ?? null,
         createdAt: message.createdAt,
       };
       const messagesQueryKey = chatKeys.messages(sendingConversationId);
@@ -249,5 +270,5 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
     }
   };
 
-  return { draft, setDraft, imageDraft, setImageDraft, pending, send };
+  return { draft, setDraft, imageDraft, setImageDraft, replyTo, setReplyTo, pending, send };
 };

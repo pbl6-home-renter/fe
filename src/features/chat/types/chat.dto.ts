@@ -2,6 +2,23 @@ import type { BaseEntity, CursorPaginationMeta, PaginationMeta } from '@/types/a
 
 export type ConversationKind = 'direct' | 'group';
 export type MessageType = 'text' | 'image' | 'system' | 'bot';
+export interface ChatReplyReference {
+  id: string;
+  sequence?: string | null;
+  senderName: string | null;
+  type: MessageType | null;
+  contentPreview: string | null;
+  isUnavailable: boolean;
+}
+
+export interface ChatMessageSearchResult {
+  id: string;
+  sequence: string;
+  senderName: string;
+  type: MessageType;
+  contentPreview: string;
+  createdAt: string;
+}
 export type MemberStatus = 'active' | 'read_only';
 export type SystemMessageAction =
   | 'members_added'
@@ -54,6 +71,7 @@ export interface ChatMessage extends BaseEntity {
   content: string | null;
   mediaId: string | null;
   payload: SystemMessagePayload | null;
+  replyTo?: ChatReplyReference | null;
   createdAt: string;
 }
 
@@ -124,6 +142,7 @@ export interface SentMessage {
   sequence: string;
   clientMessageId: string | null;
   createdAt: string;
+  replyTo?: ChatReplyReference | null;
 }
 
 export interface ConversationDetail extends Omit<ConversationSummary, 'lastMessage'> {
@@ -161,6 +180,7 @@ export interface SendTextMessageRequest {
   clientMessageId: string;
   type: 'text';
   content: string;
+  replyToMessageId?: string;
 }
 
 export interface SendImageMessageRequest {
@@ -169,6 +189,7 @@ export interface SendImageMessageRequest {
   type: 'image';
   content?: string | null;
   mediaId: string;
+  replyToMessageId?: string;
 }
 
 export type SendMessageRequest = SendTextMessageRequest | SendImageMessageRequest;
