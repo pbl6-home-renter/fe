@@ -13,11 +13,17 @@ import type {
   InvoiceListParams,
   InvoiceUpdateRequestDto,
   InvoiceUpdateResponseDto,
+  TenantInvoiceListFilter,
+  TenantInvoiceListItemDto,
+  TenantInvoiceListParams,
 } from '../types/invoices.dto';
 
 export const invoicesApi = {
   getInvoices: (params?: InvoiceListParams): Promise<Paginated<InvoiceListItemDto>> =>
     http.getPage<InvoiceListItemDto, InvoiceListFilter>('/invoices', params),
+
+  getMyInvoices: (params?: TenantInvoiceListParams): Promise<Paginated<TenantInvoiceListItemDto>> =>
+    http.getPage<TenantInvoiceListItemDto, TenantInvoiceListFilter>('/me/invoices', params),
 
   getInvoice: (invoiceId: string): Promise<InvoiceDetailDto> => http.get<InvoiceDetailDto>(`/invoices/${invoiceId}`),
 

@@ -3,6 +3,19 @@
     "title": "Hóa đơn",
     "subtitle": "Lập hóa đơn theo tòa và kỳ, kiểm tra chi tiết và phát hành cho khách thuê."
   },
+  "tenantList": {
+    "title": "Hóa đơn của tôi",
+    "subtitle": "Xem danh sách hóa đơn tiền phòng và dịch vụ đã phát hành cho bạn."
+  },
+  "tenantEmpty": {
+    "title": "Chưa có hóa đơn nào",
+    "description": "Các hóa đơn đã phát hành cho hợp đồng thuê của bạn sẽ hiển thị tại đây.",
+    "filteredDescription": "Không có hóa đơn nào trong kỳ đã chọn."
+  },
+  "tenantDetail": {
+    "unavailableTitle": "Hóa đơn không khả dụng",
+    "unavailableDesc": "Hóa đơn không tồn tại, đã bị hủy hoặc bạn không có quyền xem."
+  },
   "status": {
     "pending": "Chờ phát hành",
     "issued": "Đã phát hành",

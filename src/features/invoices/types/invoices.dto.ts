@@ -136,3 +136,23 @@ export interface InvoiceCancelResponseDto extends BaseEntity {
   invoiceStatus: typeof InvoiceStatus.VOID;
   voidReason: string;
 }
+
+export type TenantInvoiceSortField = 'period';
+
+export interface TenantInvoiceListFilter {
+  contractId?: string;
+  period?: string;
+}
+
+export type TenantInvoiceListParams = ListParams<TenantInvoiceListFilter>;
+
+export interface TenantInvoiceListItemDto {
+  id: string;
+  code: string;
+  contractId: string;
+  roomName: string;
+  period: string;
+  totalAmount: string;
+  invoiceStatus: typeof InvoiceStatus.ISSUED;
+  issuedAt: string;
+}
