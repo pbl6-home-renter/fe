@@ -15,10 +15,10 @@ export const ChatImage = ({ mediaId }: { mediaId: string }) => {
         type="button"
         variant="ghost"
         onClick={openPreview}
-        className="h-auto min-h-0 overflow-hidden rounded-xl p-0"
+        className="h-40 w-56 min-h-0 overflow-hidden rounded-xl bg-rentify-background p-0"
         aria-label={t('viewImage')}
       >
-        <img src={src} alt={t('photoSent')} className="max-h-72 max-w-72 cursor-zoom-in object-cover" />
+        <img src={src} alt={t('photoSent')} className="h-40 w-56 cursor-zoom-in object-cover" />
       </Button>
       <Dialog open={isPreviewOpen} onClose={closePreview} title={t('photoSent')} maxWidth="3xl" className="p-3">
         <img src={src} alt={t('photoSent')} className="max-h-[75vh] w-auto max-w-full object-contain" />

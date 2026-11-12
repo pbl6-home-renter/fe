@@ -62,7 +62,7 @@ export const useChatPage = () => {
     if (!content && !composer.imageDraft) return;
     const sendingTarget = targetKey;
     try {
-      const result = await composer.send(content, undefined, composer.imageDraft);
+      const result = await composer.send(content, undefined, composer.imageDraft, undefined, composer.replyTo);
       rememberConversationDraftKey(result.conversationId, sendingTarget);
       if (result.conversationId && activeTargetKey.current === sendingTarget) {
         navigate(getChatPath(result.conversationId, search), { state: { chatDraftKey: sendingTarget } });
@@ -75,7 +75,13 @@ export const useChatPage = () => {
   const retry = async (item: PendingMessage) => {
     const sendingTarget = targetKey;
     try {
-      const result = await composer.send(item.content, item.clientMessageId, item.imageFile, item.mediaId);
+      const result = await composer.send(
+        item.content,
+        item.clientMessageId,
+        item.imageFile,
+        item.mediaId,
+        item.replyTo,
+      );
       rememberConversationDraftKey(result.conversationId, sendingTarget);
       if (result.conversationId && activeTargetKey.current === sendingTarget) {
         navigate(getChatPath(result.conversationId, search), { state: { chatDraftKey: sendingTarget } });
@@ -120,6 +126,7 @@ export const useChatPage = () => {
     draft: composer.draft,
     pending: composer.pending,
     imageDraft: composer.imageDraft,
+    replyTo: composer.replyTo,
     isSending: composer.pending.some((item) => item.status === 'sending' || item.status === 'uploading'),
     onSearchChange: changeSearch,
     onSelectConversation: selectConversation,
@@ -131,6 +138,8 @@ export const useChatPage = () => {
     onSend: () => void send(),
     onSelectImage: selectImage,
     onRemoveImage: () => composer.setImageDraft(undefined),
+    onReply: composer.setReplyTo,
+    onCancelReply: () => composer.setReplyTo(undefined),
     onRetry: (item: PendingMessage) => void retry(item),
     onBack: backToList,
   };

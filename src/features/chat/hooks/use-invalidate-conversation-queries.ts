@@ -6,7 +6,7 @@ export const useInvalidateConversationQueries = () => {
   return async (conversationId: string) => {
     await Promise.all([
       client.invalidateQueries({ queryKey: chatKeys.detail(conversationId) }),
-      client.invalidateQueries({ queryKey: chatKeys.messages(conversationId) }),
+      client.invalidateQueries({ queryKey: chatKeys.messageHistory(conversationId) }),
       client.invalidateQueries({ queryKey: CHAT_LIST_QUERY_KEY }),
     ]);
   };

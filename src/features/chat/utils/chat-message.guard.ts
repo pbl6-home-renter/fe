@@ -1,4 +1,4 @@
-import type { ChatMessage, SendMessageEvent, SystemMessagePayload } from '../types/chat.dto';
+import type { ChatMessage, ChatReplyReference, SendMessageEvent, SystemMessagePayload } from '../types/chat.dto';
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -7,6 +7,17 @@ export const isConversationSocketEvent = (value: unknown): value is { conversati
   isRecord(value) && typeof value.conversationId === 'string';
 
 const isStringOrNull = (value: unknown): value is string | null => value === null || typeof value === 'string';
+
+const isReplyReference = (value: unknown): value is ChatReplyReference =>
+  isRecord(value) &&
+  typeof value.id === 'string' &&
+  (value.sequence === undefined ||
+    value.sequence === null ||
+    (typeof value.sequence === 'string' && /^\d+$/.test(value.sequence))) &&
+  isStringOrNull(value.senderName) &&
+  (value.type === null || value.type === 'text' || value.type === 'image' || value.type === 'bot') &&
+  isStringOrNull(value.contentPreview) &&
+  typeof value.isUnavailable === 'boolean';
 
 const isMemberSnapshot = (value: unknown): value is { userId: string; displayName: string } =>
   isRecord(value) && typeof value.userId === 'string' && typeof value.displayName === 'string';
@@ -39,6 +50,7 @@ export const isSystemMessagePayload = (value: unknown): value is SystemMessagePa
 export const isChatMessage = (value: unknown): value is ChatMessage => {
   if (!isRecord(value)) return false;
   const payloadValid = value.payload === null || isSystemMessagePayload(value.payload);
+  const replyValid = value.replyTo === undefined || value.replyTo === null || isReplyReference(value.replyTo);
   return (
     typeof value.id === 'string' &&
     typeof value.conversationId === 'string' &&
@@ -52,9 +64,25 @@ export const isChatMessage = (value: unknown): value is ChatMessage => {
     isStringOrNull(value.content) &&
     isStringOrNull(value.mediaId) &&
     isStringOrNull(value.clientMessageId) &&
-    payloadValid
+    payloadValid &&
+    replyValid
   );
 };
+
+export const isMemberReadEvent = (
+  value: unknown,
+): value is { conversationId: string; userId: string; lastReadSequence: string } =>
+  isRecord(value) &&
+  typeof value.conversationId === 'string' &&
+  typeof value.userId === 'string' &&
+  typeof value.lastReadSequence === 'string' &&
+  /^\d+$/.test(value.lastReadSequence);
+
+export const isTypingEvent = (value: unknown): value is { conversationId: string; userId: string; isTyping: boolean } =>
+  isRecord(value) &&
+  typeof value.conversationId === 'string' &&
+  typeof value.userId === 'string' &&
+  typeof value.isTyping === 'boolean';
 
 export const parseChatMessage = (value: unknown): ChatMessage | undefined => {
   if (isChatMessage(value)) return value;
