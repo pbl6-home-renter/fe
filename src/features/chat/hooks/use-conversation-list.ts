@@ -6,7 +6,7 @@ export const useConversationList = (search: string) => {
   const query = useConversationsQuery(search);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { fetchNextPage, hasNextPage, isFetchingNextPage, isFetchNextPageError } = query;
-  const conversations = query.data?.pages.flatMap((page) => page.items) ?? [];
+  const conversations = query.isSearchPending ? [] : (query.data?.pages.flatMap((page) => page.items) ?? []);
   const conversationCount = conversations.length;
 
   useEffect(() => {
@@ -16,6 +16,7 @@ export const useConversationList = (search: string) => {
       if (
         element.scrollTop + element.clientHeight >= element.scrollHeight - CHAT_LIST_LOAD_MORE_THRESHOLD_PX &&
         hasNextPage &&
+        !query.isSearchPending &&
         !isFetchingNextPage &&
         !isFetchNextPageError
       )
@@ -24,7 +25,7 @@ export const useConversationList = (search: string) => {
     element.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => element.removeEventListener('scroll', handleScroll);
-  }, [conversationCount, fetchNextPage, hasNextPage, isFetchingNextPage, isFetchNextPageError]);
+  }, [conversationCount, fetchNextPage, hasNextPage, query.isSearchPending, isFetchingNextPage, isFetchNextPageError]);
 
   return { query, scrollRef, conversations };
 };

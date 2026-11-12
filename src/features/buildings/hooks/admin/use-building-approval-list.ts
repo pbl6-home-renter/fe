@@ -22,7 +22,10 @@ export const useBuildingApprovalList = () => {
     defaultColumnPinning: DEFAULT_COLUMN_PINNING,
     requiredColumnIds: REQUIRED_COLUMN_IDS,
   });
-  const debouncedSearch = useDebounce(tableState.search.trim());
+  const rawSearch = tableState.search.trim();
+  const debouncedSearch = useDebounce(rawSearch, 300, true);
+  const search = rawSearch ? debouncedSearch : '';
+  const isSearchPending = rawSearch !== search;
   const selectedStatus = STATUS_VALUES.includes(tableState.filters.status)
     ? tableState.filters.status
     : BuildingStatus.PENDING;
@@ -34,7 +37,7 @@ export const useBuildingApprovalList = () => {
     order: sorting ? (sorting.desc ? 'desc' : 'asc') : undefined,
     filter: {
       status: selectedStatus,
-      q: debouncedSearch || undefined,
+      q: search || undefined,
     },
   });
 
@@ -51,13 +54,12 @@ export const useBuildingApprovalList = () => {
       onSearchChange: tableState.setSearch,
       selectedStatus,
       onStatusChange: (status: string) => tableState.setFilter('status', status),
-      isFiltered: Boolean(debouncedSearch),
+      isFiltered: Boolean(rawSearch),
       onClearFilters: () => tableState.setSearch(''),
-      isLoading: query.isLoading,
-      isFetching: query.isFetching,
-      isError: query.isError,
+      isLoading: query.isLoading || (isSearchPending && !query.data?.items.length),
+      isFetching: query.isFetching || isSearchPending,
+      isError: query.isError && !isSearchPending,
       onRetry: () => void query.refetch(),
     },
   };
 };
-

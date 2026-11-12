@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/feedback/skeleton';
 import type { ConversationMember } from '../types/chat.dto';
 import { useGroupManagement } from '../hooks/use-group-management';
 
@@ -31,7 +32,19 @@ export const GroupManagementDialog = (props: GroupManagementDialogProps) => {
       maxWidth="xl"
     >
       {group.isLoading ? (
-        <p className="py-8 text-center text-sm text-rentify-text-secondary">{t('loadingMessages')}</p>
+        <div className="space-y-6" role="status" aria-label={t('loadingMessages')}>
+          <div className="flex items-center gap-4">
+            <Skeleton variant="circular" className="h-14 w-14 shrink-0" />
+            <Skeleton className="h-9 w-40" />
+          </div>
+          <Skeleton className="h-10 w-full" />
+          <div className="space-y-3">
+            <Skeleton className="h-4 w-32" />
+            {Array.from({ length: 3 }, (_, index) => (
+              <Skeleton key={index} className="h-12 w-full" />
+            ))}
+          </div>
+        </div>
       ) : group.detail.isError || !group.conversation ? (
         <div role="alert" className="py-6 text-center">
           <p className="mb-3 text-sm text-rentify-error">{t('groupManagement.loadError')}</p>
@@ -269,7 +282,13 @@ const AddMembersSection = ({
           className="w-full rounded-lg px-2 py-2 hover:bg-rentify-background"
         />
       ))}
-      {isLoading && <p className="py-2 text-sm text-rentify-text-secondary">{t('loadingPeople')}</p>}
+      {isLoading && candidates.length === 0 && (
+        <div className="space-y-2 py-2" role="status" aria-label={t('loadingPeople')}>
+          {Array.from({ length: 3 }, (_, index) => (
+            <Skeleton key={index} className="h-10 w-full" />
+          ))}
+        </div>
+      )}
       {isError && (
         <div role="alert" className="py-2 text-sm text-rentify-error">
           {t('peopleError')}{' '}
@@ -282,7 +301,7 @@ const AddMembersSection = ({
         <p className="py-2 text-sm text-rentify-text-secondary">{t('noPeopleFound')}</p>
       )}
       {hasMore && (
-        <Button variant="ghost" size="sm" disabled={isLoading} onClick={onLoadMore}>
+        <Button variant="ghost" size="sm" isLoading={isLoading} onClick={onLoadMore}>
           {t('loadMorePeople')}
         </Button>
       )}

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Gauge, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/feedback/empty-state';
+import { ErrorState } from '@/components/feedback/error-state';
 import { PageHeader } from '@/components/ui/page-header';
 import { useMeterReadingPage } from '../hooks/use-meter-reading-page';
 import { MeterReadingFilterBar } from '../components/meter-reading-filter-bar';
@@ -18,9 +19,12 @@ export const MeterReadingPage = () => {
     selectedPeriod,
     rows,
     isLoading,
+    isFetching,
+    isError,
     isSaving,
     handleBuildingChange,
     handlePeriodChange,
+    handleRefresh,
     handleReadingChange,
     handleCellOcrSuccess,
     handleSaveBulk,
@@ -32,7 +36,16 @@ export const MeterReadingPage = () => {
     handleOpenSingleModal,
   } = useMeterReadingPage();
 
-  if (!isLoading && buildings.length === 0) {
+  if (!isLoading && isError && buildings.length === 0) {
+    return (
+      <div className="space-y-6">
+        <PageHeader title={t('page.title')} description={t('page.subtitle')} />
+        <ErrorState onRetry={handleRefresh} />
+      </div>
+    );
+  }
+
+  if (!isLoading && !isError && buildings.length === 0) {
     return (
       <div className="space-y-6">
         <PageHeader title={t('page.title')} description={t('page.subtitle')} />
@@ -59,11 +72,12 @@ export const MeterReadingPage = () => {
             type="button"
             variant="outline"
             size="md"
-            onClick={() => handlePeriodChange(selectedPeriod)}
+            onClick={handleRefresh}
             disabled={isLoading}
+            isLoading={isFetching && !isLoading}
             className="gap-1.5 border-rentify-divider"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin motion-reduce:animate-none' : ''}`} />
+            <RefreshCw className="w-3.5 h-3.5" />
             <span>{t('actions.refresh')}</span>
           </Button>
         }
@@ -85,6 +99,9 @@ export const MeterReadingPage = () => {
         rows={rows}
         selectedPeriod={selectedPeriod}
         isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        onRetry={handleRefresh}
         onReadingChange={handleReadingChange}
         onCellOcrSuccess={handleCellOcrSuccess}
         onOpenSingleModal={handleOpenSingleModal}

@@ -10,9 +10,12 @@ export const useConversationsQuery = (
   search: string,
   options?: InfiniteQueryHookOptions<Paginated<ConversationSummary>, number>,
 ) => {
-  const debouncedSearch = useDebounce(search.trim(), CHAT_SEARCH_DEBOUNCE_MS);
-  return useInfiniteQuery({
-    queryKey: chatKeys.list(debouncedSearch),
+  const rawSearch = search.trim();
+  const debouncedSearch = useDebounce(rawSearch, CHAT_SEARCH_DEBOUNCE_MS, true);
+  const querySearch = rawSearch ? debouncedSearch : '';
+  const isSearchPending = rawSearch !== querySearch;
+  const query = useInfiniteQuery({
+    queryKey: chatKeys.list(querySearch),
     initialPageParam: 1,
     queryFn: ({ pageParam, signal }) =>
       chatApi.getConversations(
@@ -20,7 +23,7 @@ export const useConversationsQuery = (
           pageNo: pageParam,
           pageSize: CHAT_PAGE_SIZE,
           hasContext: false,
-          ...(debouncedSearch ? { q: debouncedSearch } : {}),
+          ...(querySearch ? { q: querySearch } : {}),
         },
         { signal },
       ),
@@ -28,4 +31,5 @@ export const useConversationsQuery = (
     refetchOnMount: 'always',
     ...options,
   });
+  return { ...query, isSearchPending };
 };

@@ -3,13 +3,12 @@ import { NavLink } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
 import { useTranslation } from 'react-i18next';
-import { X, LogOut } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Role } from '@/types/role';
 import { cn } from '@/lib/utils/cn';
 import { MOTION_DURATION, MOTION_EASE, MOTION_EXIT_EASE } from '@/lib/motion';
 import { RentifyLogo } from '@/components/ui/rentify-logo';
-import { Avatar } from '@/components/ui/avatar';
 import { IconButton } from '@/components/ui/icon-button';
 import { getNavigationByRole } from '@/config/navigation.config';
 import { useUnreadSummaryQuery } from '@/features/chat/hooks/use-chat-queries';
@@ -18,13 +17,12 @@ import { CHAT_UNREAD_BADGE_MAX } from '@/features/chat/constants/chat.constants'
 export interface SidebarProps {
   open: boolean;
   onClose: () => void;
-  onOpenLogoutModal: () => void;
 }
 
-export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
+export const Sidebar = ({ open, onClose }: SidebarProps) => {
   const sidebarRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const { user, role } = useAuth();
+  const { role } = useAuth();
   const { t } = useTranslation('common');
 
   const menuItems = getNavigationByRole(role);
@@ -70,12 +68,6 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
     };
   }, [open, onClose]);
 
-  const getRoleLabel = () => {
-    if (role === Role.LANDLORD) return t('userRoles.landlord');
-    if (role === Role.ADMIN) return t('userRoles.admin');
-    return t('userRoles.tenant');
-  };
-
   return (
     <>
       {/* Mobile Drawer Backdrop Scrim */}
@@ -105,7 +97,7 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
         data-open={open}
         className={cn(
           'fixed inset-y-0 left-0 z-50 w-64 bg-rentify-surface border-r border-rentify-divider',
-          'ui-mobile-drawer flex flex-col justify-between md:static',
+          'ui-mobile-drawer flex flex-col md:static',
           open && 'shadow-2xl',
         )}
       >
@@ -143,66 +135,46 @@ export const Sidebar = ({ open, onClose, onOpenLogoutModal }: SidebarProps) => {
                   onClick={onClose}
                   className={({ isActive }) =>
                     cn(
-                      'flex min-h-10 items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary',
+                      'flex min-h-10 items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-[background-color,color,box-shadow] duration-150 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary focus-visible:ring-offset-2',
                       isActive
-                        ? 'bg-rentify-primary-container text-white shadow-xs font-semibold'
+                        ? 'bg-rentify-primary text-rentify-on-primary shadow-sm font-semibold'
                         : 'text-rentify-text-secondary hover:text-rentify-text-primary hover:bg-rentify-background',
                     )
                   }
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <Icon className="w-4 h-4 shrink-0" />
-                    <span className="truncate">{t(item.titleKey)}</span>
-                  </div>
+                  {({ isActive }) => (
+                    <>
+                      <div className="flex items-center gap-3 min-w-0">
+                        <Icon className="w-4 h-4 shrink-0" />
+                        <span className="truncate">{t(item.titleKey)}</span>
+                      </div>
 
-                  {(item.badge !== undefined ||
-                    ((item.id === 'landlord-chat' || item.id === 'tenant-chat') &&
-                      (unread.data?.totalUnreadCount ?? 0) > 0)) && (
-                    <span
-                      className={cn(
-                        'px-2 py-0.5 rounded-full text-xs font-bold leading-none',
-                        item.badgeVariant === 'danger'
-                          ? 'bg-rentify-error/15 text-rentify-error'
-                          : 'bg-white/20 text-white',
+                      {(item.badge !== undefined ||
+                        ((item.id === 'landlord-chat' || item.id === 'tenant-chat') &&
+                          (unread.data?.totalUnreadCount ?? 0) > 0)) && (
+                        <span
+                          className={cn(
+                            'rounded-full px-2 py-0.5 text-xs font-bold leading-none',
+                            isActive
+                              ? 'bg-rentify-on-primary/20 text-rentify-on-primary'
+                              : item.badgeVariant === 'danger'
+                                ? 'bg-rentify-error/15 text-rentify-error'
+                                : 'bg-rentify-primary-container text-rentify-primary',
+                          )}
+                        >
+                          {item.id === 'landlord-chat' || item.id === 'tenant-chat'
+                            ? (unread.data?.totalUnreadCount ?? 0) > CHAT_UNREAD_BADGE_MAX
+                              ? `${CHAT_UNREAD_BADGE_MAX}+`
+                              : unread.data?.totalUnreadCount
+                            : item.badge}
+                        </span>
                       )}
-                    >
-                      {item.id === 'landlord-chat' || item.id === 'tenant-chat'
-                        ? (unread.data?.totalUnreadCount ?? 0) > CHAT_UNREAD_BADGE_MAX
-                          ? `${CHAT_UNREAD_BADGE_MAX}+`
-                          : unread.data?.totalUnreadCount
-                        : item.badge}
-                    </span>
+                    </>
                   )}
                 </NavLink>
               );
             })}
           </nav>
-        </div>
-
-        {/* Sidebar Footer: User Profile & Quick Logout */}
-        <div className="p-3.5 border-t border-rentify-divider shrink-0 bg-rentify-surface">
-          <div className="flex items-center justify-between gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <Avatar name={user?.name || user?.email || 'User'} size="sm" />
-              <div className="flex flex-col min-w-0">
-                <span className="font-semibold text-xs text-rentify-text-primary truncate">
-                  {user?.name || user?.email || t('user')}
-                </span>
-                <span className="text-[11px] text-rentify-text-secondary truncate">{getRoleLabel()}</span>
-              </div>
-            </div>
-
-            <IconButton
-              variant="ghost"
-              size="md"
-              onClick={onOpenLogoutModal}
-              title={t('logout')}
-              aria-label={t('logout')}
-              className="hover:bg-rentify-error/10 hover:text-rentify-error"
-            >
-              <LogOut className="w-4 h-4" />
-            </IconButton>
-          </div>
         </div>
       </aside>
     </>

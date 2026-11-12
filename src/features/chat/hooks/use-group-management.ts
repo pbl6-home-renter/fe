@@ -49,12 +49,12 @@ export const useGroupManagement = ({
       ),
     [conversation?.members],
   );
-  const candidates =
-    directory.data?.pages.flatMap((page) => page.items).filter((person) => !activeUserIds.has(person.id)) ?? [];
-  const avatar = useMediaObjectUrl(
-    conversation?.avatarMediaId ? `/media/${conversation.avatarMediaId}` : undefined,
-    { signedDownload: true },
-  );
+  const candidates = directory.isSearchPending
+    ? []
+    : (directory.data?.pages.flatMap((page) => page.items).filter((person) => !activeUserIds.has(person.id)) ?? []);
+  const avatar = useMediaObjectUrl(conversation?.avatarMediaId ? `/media/${conversation.avatarMediaId}` : undefined, {
+    signedDownload: true,
+  });
   const addMembers = useAddConversationMembersMutation({ onSuccess: () => setSelectedIds([]) });
   const leave = useLeaveConversationMutation({
     onSuccess: () => {
@@ -114,9 +114,9 @@ export const useGroupManagement = ({
     isAdmin,
     avatarSrc: avatar.src,
     isLoading: detail.isLoading,
-    isDirectoryLoading: directory.isLoading || directory.isFetchingNextPage,
-    isDirectoryError: directory.isError,
-    hasMoreCandidates: directory.hasNextPage,
+    isDirectoryLoading: directory.isLoading || directory.isFetchingNextPage || directory.isSearchPending,
+    isDirectoryError: !directory.isSearchPending && directory.isError,
+    hasMoreCandidates: !directory.isSearchPending && directory.hasNextPage,
     isSavingTitle: updateMetadata.isPending,
     isUploadingAvatar: updateAvatar.isPending,
     isActing:

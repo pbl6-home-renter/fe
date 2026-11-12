@@ -10,16 +10,19 @@ export const useUserDirectoryQuery = (
   enabled: boolean,
   options?: InfiniteQueryHookOptions<UserDirectoryPage, number>,
 ) => {
-  const debouncedSearch = useDebounce(search.trim(), CHAT_SEARCH_DEBOUNCE_MS);
-  return useInfiniteQuery({
-    queryKey: chatKeys.directory(debouncedSearch),
+  const rawSearch = search.trim();
+  const debouncedSearch = useDebounce(rawSearch, CHAT_SEARCH_DEBOUNCE_MS, true);
+  const querySearch = rawSearch ? debouncedSearch : '';
+  const isSearchPending = rawSearch !== querySearch;
+  const query = useInfiniteQuery({
+    queryKey: chatKeys.directory(querySearch),
     initialPageParam: 1,
     queryFn: ({ pageParam, signal }) =>
       chatApi.getDirectory(
         {
           pageNo: pageParam,
           pageSize: DIRECTORY_PAGE_SIZE,
-          ...(debouncedSearch ? { q: debouncedSearch } : {}),
+          ...(querySearch ? { q: querySearch } : {}),
         },
         { signal },
       ),
@@ -27,4 +30,5 @@ export const useUserDirectoryQuery = (
     ...options,
     enabled: enabled && (options?.enabled ?? true),
   });
+  return { ...query, isSearchPending };
 };

@@ -17,7 +17,7 @@ export const useNewChatDialog = ({ open, onClose, onSelectDirect, onGroupCreated
   const [selected, setSelected] = useState<string[]>([]);
   const directory = useUserDirectoryQuery(search, open && mode !== 'choose');
   const createGroup = useCreateGroupMutation();
-  const users = directory.data?.pages.flatMap((page) => page.items) ?? [];
+  const users = directory.isSearchPending ? [] : (directory.data?.pages.flatMap((page) => page.items) ?? []);
   const { fetchNextPage, hasNextPage, isFetchingNextPage } = directory;
 
   const close = () => {
@@ -34,11 +34,12 @@ export const useNewChatDialog = ({ open, onClose, onSelectDirect, onGroupCreated
       if (
         element.scrollTop + element.clientHeight >= element.scrollHeight - CHAT_DIRECTORY_LOAD_MORE_THRESHOLD_PX &&
         hasNextPage &&
+        !directory.isSearchPending &&
         !isFetchingNextPage
       )
         void fetchNextPage();
     },
-    [fetchNextPage, hasNextPage, isFetchingNextPage],
+    [directory.isSearchPending, fetchNextPage, hasNextPage, isFetchingNextPage],
   );
 
   const selectDirect = (userId: string, name: string) => {
@@ -68,10 +69,10 @@ export const useNewChatDialog = ({ open, onClose, onSelectDirect, onGroupCreated
     setTitle,
     selected,
     users,
-    isLoading: directory.isLoading,
+    isLoading: directory.isLoading || directory.isSearchPending,
     isLoadingMore: directory.isFetchingNextPage,
-    hasNextPage,
-    isError: directory.isError,
+    hasNextPage: !directory.isSearchPending && hasNextPage,
+    isError: !directory.isSearchPending && directory.isError,
     isCreating: createGroup.isPending,
     close,
     loadMore,

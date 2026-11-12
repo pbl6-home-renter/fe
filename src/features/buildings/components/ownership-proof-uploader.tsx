@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { UploadCloud, FileText, Image as ImageIcon, CheckCircle2, AlertCircle, X, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
+import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { cn } from '@/lib/utils/cn';
 import { getMediaAccept } from '@/features/media/constants/media.constants';
 import { MediaPurpose } from '@/features/media/types/media.dto';
@@ -92,7 +93,8 @@ export const OwnershipProofUploader = ({ onChange, disabled = false }: Ownership
 
                   <div className="flex items-center gap-2 shrink-0">
                     {item.status === 'uploading' && (
-                      <span className="flex items-center gap-1 text-xs text-rentify-primary animate-pulse motion-reduce:animate-none">
+                      <span className="flex items-center gap-1.5 text-xs text-rentify-primary">
+                        <LoadingSpinner size="sm" label={t('uploader.statusUploading')} />
                         {t('uploader.statusUploading')}
                       </span>
                     )}

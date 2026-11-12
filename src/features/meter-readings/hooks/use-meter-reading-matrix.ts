@@ -20,25 +20,49 @@ export const useMeterReadingMatrix = () => {
   const [internalBuildingId, setInternalBuildingId] = useState<string>('');
   const [internalPeriod, setInternalPeriod] = useState<string>('');
 
-  const { data: buildingsData, isLoading: isLoadingBuildings } = useMyBuildingsQuery({ pageSize: 50 });
+  const {
+    data: buildingsData,
+    isLoading: isLoadingBuildings,
+    isFetching: isFetchingBuildings,
+    isError: isBuildingsError,
+    refetch: refetchBuildings,
+  } = useMyBuildingsQuery({ pageSize: 50 });
   const buildings = useMemo(() => buildingsData?.items ?? [], [buildingsData?.items]);
 
   const selectedBuildingId = searchParams.get('buildingId') || internalBuildingId || buildings[0]?.id || '';
   const selectedPeriod = searchParams.get('period') || internalPeriod || getCurrentPeriod();
   const previousPeriod = useMemo(() => getPreviousPeriod(selectedPeriod), [selectedPeriod]);
 
-  const { data: roomsData, isLoading: isLoadingRooms } = useMyRoomsQuery(
-    { filter: { buildingId: selectedBuildingId }, pageSize: 100 },
-    Boolean(selectedBuildingId),
-  );
+  const {
+    data: roomsData,
+    isLoading: isLoadingRooms,
+    isFetching: isFetchingRooms,
+    isError: isRoomsError,
+    isPlaceholderData: isPlaceholderRooms,
+    refetch: refetchRooms,
+  } = useMyRoomsQuery({ filter: { buildingId: selectedBuildingId }, pageSize: 100 }, Boolean(selectedBuildingId));
   const rooms = useMemo(() => roomsData?.items ?? [], [roomsData?.items]);
 
-  const { data: currentReadingsData, isLoading: isLoadingCurrent } = useMeterReadingsQuery(
+  const {
+    data: currentReadingsData,
+    isLoading: isLoadingCurrent,
+    isFetching: isFetchingCurrent,
+    isError: isCurrentError,
+    isPlaceholderData: isPlaceholderCurrent,
+    refetch: refetchCurrent,
+  } = useMeterReadingsQuery(
     { filter: { period: selectedPeriod }, pageSize: 100 },
     { enabled: Boolean(selectedBuildingId && selectedPeriod) },
   );
 
-  const { data: prevReadingsData } = useMeterReadingsQuery(
+  const {
+    data: prevReadingsData,
+    isLoading: isLoadingPrevious,
+    isFetching: isFetchingPrevious,
+    isError: isPreviousError,
+    isPlaceholderData: isPlaceholderPrevious,
+    refetch: refetchPrevious,
+  } = useMeterReadingsQuery(
     { filter: { period: previousPeriod }, pageSize: 100 },
     { enabled: Boolean(selectedBuildingId && previousPeriod) },
   );
@@ -168,13 +192,37 @@ export const useMeterReadingMatrix = () => {
   }, [matrixState, selectedBuildingId, selectedPeriod, bulkCreateMutation, notify, t]);
 
   const rows = useMemo(() => Object.values(matrixState), [matrixState]);
+  const isLoading =
+    isLoadingBuildings ||
+    isLoadingRooms ||
+    isLoadingCurrent ||
+    isLoadingPrevious ||
+    isPlaceholderRooms ||
+    isPlaceholderCurrent ||
+    isPlaceholderPrevious;
+  const isFetching = isFetchingBuildings || isFetchingRooms || isFetchingCurrent || isFetchingPrevious;
+  const isError =
+    (isBuildingsError && !buildingsData) ||
+    (isRoomsError && !roomsData) ||
+    (isCurrentError && !currentReadingsData) ||
+    (isPreviousError && !prevReadingsData);
+
+  const handleRefresh = useCallback(() => {
+    void Promise.all([
+      refetchBuildings(),
+      ...(selectedBuildingId ? [refetchRooms(), refetchCurrent(), refetchPrevious()] : []),
+    ]);
+  }, [refetchBuildings, refetchRooms, refetchCurrent, refetchPrevious, selectedBuildingId]);
 
   return {
     buildings,
     selectedBuildingId,
     selectedPeriod,
     rows,
-    isLoading: isLoadingBuildings || isLoadingRooms || isLoadingCurrent,
+    isLoading,
+    isFetching,
+    isError,
+    handleRefresh,
     isSaving: bulkCreateMutation.isPending,
     handleBuildingChange,
     handlePeriodChange,

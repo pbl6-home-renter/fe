@@ -40,7 +40,7 @@ export const DashboardLayout = () => {
   return (
     <div className="min-h-screen bg-rentify-background flex flex-col md:flex-row antialiased text-rentify-text-primary selection:bg-rentify-primary-container selection:text-white">
       {/* Role-based Responsive Navigation Sidebar */}
-      <Sidebar open={sidebarOpen} onClose={handleCloseSidebar} onOpenLogoutModal={handleOpenLogoutModal} />
+      <Sidebar open={sidebarOpen} onClose={handleCloseSidebar} />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">

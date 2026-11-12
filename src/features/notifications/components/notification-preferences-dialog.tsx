@@ -3,6 +3,7 @@ import { BellRing } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/feedback/skeleton';
 import { useNotificationPreferences } from '../hooks/use-notification-preferences';
 
 interface NotificationPreferencesDialogProps {
@@ -17,7 +18,17 @@ export const NotificationPreferencesDialog = ({ open, onClose }: NotificationPre
   return (
     <Dialog open={open} onClose={onClose} title={t('preferences.title')} description={t('preferences.description')}>
       {preferences.isLoading ? (
-        <p className="py-6 text-sm text-rentify-text-secondary">{t('loading')}</p>
+        <div className="space-y-1" role="status" aria-label={t('loading')}>
+          {Array.from({ length: 4 }, (_, index) => (
+            <div
+              key={index}
+              className="flex h-12 items-center justify-between gap-4 border-b border-rentify-divider last:border-0"
+            >
+              <Skeleton className="h-4 w-36" />
+              <Skeleton className="h-5 w-5 rounded-md" />
+            </div>
+          ))}
+        </div>
       ) : preferences.isError ? (
         <div role="alert" className="py-4">
           <p className="mb-3 text-sm text-rentify-error">{t('preferences.loadError')}</p>

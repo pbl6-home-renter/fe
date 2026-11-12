@@ -35,8 +35,8 @@ export const ConversationList = (props: ConversationListProps) => {
           />
         ))}
         <ListStatus
-          isLoading={query.isLoading}
-          isError={query.isError}
+          isLoading={query.isLoading || query.isSearchPending}
+          isError={query.isError && !query.isSearchPending}
           isLoadingNext={query.isFetchingNextPage}
           isNextPageError={query.isFetchNextPageError}
           hasConversations={conversations.length > 0}
@@ -150,14 +150,13 @@ interface ListStatusProps {
 const ListStatus = (props: ListStatusProps) => {
   const { t } = useTranslation('chat');
   if (props.isLoading) return <ConversationSkeleton />;
-  if (props.isError) {
-    return <StatusMessage message={t('loadError')} action={t('tryLoadAgain')} onAction={props.onRetry} />;
-  }
-  if (props.isLoadingNext)
-    return <p className="p-3 text-center text-xs text-rentify-text-secondary">{t('loadingConversations')}</p>;
   if (props.isNextPageError) {
     return <StatusMessage message={t('loadMoreError')} action={t('tryLoadAgain')} onAction={props.onRetryNext} />;
   }
+  if (props.isError) {
+    return <StatusMessage message={t('loadError')} action={t('tryLoadAgain')} onAction={props.onRetry} />;
+  }
+  if (props.isLoadingNext) return <ConversationSkeleton count={2} />;
   if (!props.hasConversations) {
     return (
       <EmptyState
@@ -180,11 +179,11 @@ const StatusMessage = ({ message, action, onAction }: { message: string; action:
   </div>
 );
 
-const ConversationSkeleton = () => {
+const ConversationSkeleton = ({ count = 5 }: { count?: number }) => {
   const { t } = useTranslation('chat');
   return (
-    <div className="space-y-1 p-3" aria-label={t('loadingConversations')}>
-      {[0, 1, 2, 3, 4].map((row) => (
+    <div className="space-y-1 p-3" role="status" aria-label={t('loadingConversations')}>
+      {Array.from({ length: count }, (_, row) => (
         <div key={row} className="flex items-center gap-3 border-b border-rentify-divider/70 px-1 py-3">
           <Skeleton variant="circular" className="h-10 w-10" />
           <div className="min-w-0 flex-1 space-y-2">

@@ -5,6 +5,8 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AlertBanner } from '@/components/feedback/alert-banner';
+import { Skeleton } from '@/components/feedback/skeleton';
+import { ErrorState } from '@/components/feedback/error-state';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { EmptyState } from '@/components/feedback/empty-state';
 import { formatDate } from '@/lib/utils/format';
@@ -23,7 +25,7 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
   const { t } = useTranslation('contracts');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const { data, isLoading, refetch } = useContractMembersQuery(contract.id);
+  const { data, isLoading, isFetching, isError, refetch } = useContractMembersQuery(contract.id);
   const members = data?.items ?? [];
 
   const leaveModal = useLeaveMemberModal({
@@ -40,7 +42,7 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center justify-between border-b border-rentify-divider pb-4">
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rentify-primary-container text-rentify-primary">
-            <Users className="h-4 w-4" />
+            {isFetching && !isLoading ? <LoadingSpinner size="sm" /> : <Users className="h-4 w-4" />}
           </div>
           <div>
             <h2 className="font-semibold text-rentify-text-primary text-base">{t('members.title')}</h2>
@@ -63,9 +65,16 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
       )}
 
       {isLoading ? (
-        <div className="flex justify-center py-10">
-          <LoadingSpinner />
+        <div className="space-y-3" role="status" aria-label={t('members.title')}>
+          <Skeleton className="h-4 w-40" />
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            {Array.from({ length: 4 }, (_, index) => (
+              <Skeleton key={index} className="h-24 w-full rounded-xl" />
+            ))}
+          </div>
         </div>
+      ) : isError && !data ? (
+        <ErrorState onRetry={() => void refetch()} />
       ) : (
         <div className="space-y-6">
           {/* Active Members Section */}

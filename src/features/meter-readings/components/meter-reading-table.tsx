@@ -17,6 +17,9 @@ interface MeterReadingTableProps {
   rows: RoomReadingRowState[];
   selectedPeriod: string;
   isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+  onRetry: () => void;
   onReadingChange: (roomId: string, type: MeterType, val: string) => void;
   onCellOcrSuccess: (roomId: string, type: MeterType, data: CellOcrSuccessData) => void;
   onOpenSingleModal: (row: RoomReadingRowState, type: MeterType) => void;
@@ -29,6 +32,9 @@ const REQUIRED_COLUMNS = ['roomName', 'actions'];
 export const MeterReadingTable = ({
   rows,
   isLoading,
+  isFetching,
+  isError,
+  onRetry,
   onReadingChange,
   onCellOcrSuccess,
   onOpenSingleModal,
@@ -182,6 +188,9 @@ export const MeterReadingTable = ({
       density={state.density}
       onDensityChange={setDensity}
       isLoading={isLoading}
+      isFetching={isFetching}
+      error={isError}
+      onRetry={onRetry}
       onRowClick={(row) => onOpenSingleModal(row, MeterType.ELECTRICITY)}
       emptyState={{ title: t('warnings.noRoomsInBuilding') }}
       renderMobileRow={(row) => (

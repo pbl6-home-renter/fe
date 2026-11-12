@@ -26,7 +26,10 @@ export const useUserList = () => {
     requiredColumnIds: REQUIRED_USER_COLUMN_IDS,
   });
 
-  const debouncedSearch = useDebounce(tableState.search.trim());
+  const rawSearch = tableState.search.trim();
+  const debouncedSearch = useDebounce(rawSearch, 300, true);
+  const search = rawSearch ? debouncedSearch : '';
+  const isSearchPending = rawSearch !== search;
 
   const selectedRole = isValidRole(tableState.filters.role) ? (tableState.filters.role as Role) : undefined;
 
@@ -46,14 +49,14 @@ export const useUserList = () => {
       order,
       role: selectedRole,
       status: selectedStatus,
-      q: debouncedSearch || undefined,
+      q: search || undefined,
     }),
-    [tableState.pageNo, tableState.pageSize, sort, order, selectedRole, selectedStatus, debouncedSearch],
+    [tableState.pageNo, tableState.pageSize, sort, order, selectedRole, selectedStatus, search],
   );
 
   const query = useUsersAdminQuery(queryParams);
 
-  const isFiltered = Boolean(debouncedSearch || selectedRole || selectedStatus);
+  const isFiltered = Boolean(rawSearch || selectedRole || selectedStatus);
 
   return {
     totalItems: query.data?.pagination.totalItems ?? 0,
@@ -72,9 +75,9 @@ export const useUserList = () => {
       onStatusChange: (status: string) => tableState.setFilter('status', status === 'all' ? undefined : status),
       isFiltered,
       onClearFilters: tableState.clearFilters,
-      isLoading: query.isLoading,
-      isFetching: query.isFetching,
-      isError: query.isError,
+      isLoading: query.isLoading || (isSearchPending && !query.data?.items.length),
+      isFetching: query.isFetching || isSearchPending,
+      isError: query.isError && !isSearchPending,
       onRetry: () => void query.refetch(),
     },
   };

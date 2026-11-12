@@ -25,13 +25,7 @@ const colorClasses: Record<SpinnerColor, string> = {
   current: 'text-current',
 };
 
-export const LoadingSpinner = ({
-  size = 'md',
-  color = 'primary',
-  className,
-  label,
-  ...props
-}: LoadingSpinnerProps) => {
+export const LoadingSpinner = ({ size = 'md', color = 'primary', className, label, ...props }: LoadingSpinnerProps) => {
   const { t } = useTranslation('common');
   const accessibleLabel = label ?? t('loading');
 
@@ -43,20 +37,13 @@ export const LoadingSpinner = ({
       {...props}
     >
       <svg
-        className={cn('animate-spin', sizeClasses[size], colorClasses[color])}
+        className={cn('animate-spin motion-reduce:animate-none', sizeClasses[size], colorClasses[color])}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         aria-hidden="true"
       >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="3.5"
-        />
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3.5" />
         <path
           className="opacity-90"
           fill="currentColor"

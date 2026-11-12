@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/feedback/skeleton';
 import {
   CHAT_GROUP_MINIMUM_OTHER_MEMBERS,
   CHAT_GROUP_TITLE_MAX_LENGTH,
@@ -116,8 +117,14 @@ const UserDirectoryList = ({ dialog }: UserDirectoryListProps) => {
         </div>
       ))}
       <DirectoryStatus dialog={dialog} />
-      {dialog.hasNextPage && !dialog.isLoadingMore && (
-        <Button variant="ghost" size="sm" className="w-full" onClick={dialog.loadNextPage}>
+      {dialog.hasNextPage && !dialog.isLoading && !dialog.isError && (
+        <Button
+          variant="ghost"
+          size="sm"
+          className="w-full"
+          isLoading={dialog.isLoadingMore}
+          onClick={dialog.loadNextPage}
+        >
           {t('loadMorePeople')}
         </Button>
       )}
@@ -127,8 +134,17 @@ const UserDirectoryList = ({ dialog }: UserDirectoryListProps) => {
 
 const DirectoryStatus = ({ dialog }: UserDirectoryListProps) => {
   const { t } = useTranslation('chat');
-  if (dialog.isLoading || dialog.isLoadingMore) {
-    return <p className="py-3 text-center text-sm">{t('loadingPeople')}</p>;
+  if (dialog.isLoading) {
+    return (
+      <div className="space-y-2 py-2" role="status" aria-label={t('loadingPeople')}>
+        {Array.from({ length: 4 }, (_, index) => (
+          <div key={index} className="flex items-center gap-3 py-1">
+            <Skeleton variant="circular" className="h-8 w-8 shrink-0" />
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+        ))}
+      </div>
+    );
   }
   if (dialog.isError) {
     return (
