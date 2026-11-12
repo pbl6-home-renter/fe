@@ -9,12 +9,12 @@ import type { InvoiceDetailDto } from '../types/invoices.dto';
 
 export interface InvoiceOtherFeesCardProps {
   invoice: InvoiceDetailDto;
-  onEdit: () => void;
+  onEdit?: () => void;
 }
 
 export const InvoiceOtherFeesCard = ({ invoice, onEdit }: InvoiceOtherFeesCardProps) => {
   const { t } = useTranslation('invoices');
-  const isPending = invoice.invoiceStatus === InvoiceStatus.PENDING;
+  const isEditable = invoice.invoiceStatus === InvoiceStatus.PENDING && Boolean(onEdit);
 
   return (
     <Card>
@@ -22,7 +22,7 @@ export const InvoiceOtherFeesCard = ({ invoice, onEdit }: InvoiceOtherFeesCardPr
         <CardTitle className="text-base font-semibold text-rentify-text-primary">
           {t('detail.otherFeesTitle')}
         </CardTitle>
-        {isPending && (
+        {isEditable && (
           <Button type="button" variant="outline" size="sm" onClick={onEdit} className="gap-1.5">
             <Pencil className="h-3.5 w-3.5" aria-hidden="true" />
             <span>{t('actions.editOtherFees')}</span>

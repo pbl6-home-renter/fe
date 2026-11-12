@@ -3,6 +3,19 @@
     "title": "Invoices",
     "subtitle": "Generate invoices by building and period, review breakdown, and issue to tenants."
   },
+  "tenantList": {
+    "title": "My Invoices",
+    "subtitle": "View issued rent and utility invoices for your rental contracts."
+  },
+  "tenantEmpty": {
+    "title": "No invoices yet",
+    "description": "Issued invoices for your active rental contracts will appear here.",
+    "filteredDescription": "No invoices match the selected billing period."
+  },
+  "tenantDetail": {
+    "unavailableTitle": "Invoice unavailable",
+    "unavailableDesc": "This invoice could not be found, was voided, or you do not have permission to view it."
+  },
   "status": {
     "pending": "Pending",
     "issued": "Issued",
