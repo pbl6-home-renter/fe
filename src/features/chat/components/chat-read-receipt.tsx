@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Avatar } from '@/components/ui/avatar';
+import { UserAvatar } from '@/features/users/components/user-avatar';
 import { Dialog } from '@/components/ui/dialog';
 
 export interface ChatReader {
@@ -18,14 +18,7 @@ interface ChatReadReceiptProps {
 const MAX_STACKED_READERS = 4;
 
 const ReaderAvatar = ({ reader }: { reader: ChatReader }) => (
-  <Avatar
-    name={reader.name}
-    alt={reader.name}
-    colorSeed={reader.name}
-    size="sm"
-    title={reader.name}
-    className="h-4 w-4 ring-2 ring-rentify-background [&_span]:text-[7px]"
-  />
+  <UserAvatar name={reader.name} size="2xs" className="ring-2 ring-rentify-background" />
 );
 
 /** Messenger-style receipt under the caller's latest message: tiny avatars of who has seen it. */
@@ -73,7 +66,7 @@ export const ChatReadReceipt = ({ isGroup, readers, totalRecipients }: ChatReadR
         <ul className="max-h-80 space-y-1 overflow-y-auto">
           {readers.map((reader) => (
             <li key={reader.id} className="flex items-center gap-3 rounded-lg px-2 py-2">
-              <Avatar name={reader.name} alt={reader.name} colorSeed={reader.name} size="sm" />
+              <UserAvatar name={reader.name} size="sm" />
               <span className="truncate text-sm text-rentify-text-primary">{reader.name}</span>
             </li>
           ))}

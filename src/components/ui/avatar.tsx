@@ -2,7 +2,7 @@ import { useState, type HTMLAttributes } from 'react';
 import { User } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
-export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type AvatarSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   src?: string | null;
@@ -32,6 +32,8 @@ const seededColor = (seed: string): string => {
 };
 
 const sizeMap: Record<AvatarSize, { box: string; text: string; icon: string; dot: string }> = {
+  '2xs': { box: 'w-4 h-4', text: 'text-[7px]', icon: 'w-2.5 h-2.5', dot: 'w-1.5 h-1.5' },
+  xs: { box: 'w-7 h-7', text: 'text-[10px]', icon: 'w-3.5 h-3.5', dot: 'w-2 h-2' },
   sm: { box: 'w-8 h-8', text: 'text-xs', icon: 'w-4 h-4', dot: 'w-2 h-2' },
   md: { box: 'w-10 h-10', text: 'text-sm', icon: 'w-5 h-5', dot: 'w-2.5 h-2.5' },
   lg: { box: 'w-12 h-12', text: 'text-base', icon: 'w-6 h-6', dot: 'w-3 h-3' },

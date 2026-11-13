@@ -97,7 +97,7 @@ export const ChatWindow = ({
       <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-rentify-background">
         <ChatWindowHeader
           title={window.title}
-          avatarSrc={window.avatarSrc}
+          avatarMediaId={window.detail.data?.kind === 'group' ? window.detail.data.avatarMediaId : null}
           isLoading={window.detail.isLoading && !draftRecipient}
           isGroup={isGroup}
           memberCount={activeMembers}

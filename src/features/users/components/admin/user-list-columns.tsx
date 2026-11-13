@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye, Lock, MoreHorizontal, Pencil, Trash2, Unlock } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
-import { Avatar } from '@/components/ui/avatar';
+import { UserAvatar } from '../user-avatar';
 import { IconButton } from '@/components/ui/icon-button';
 import {
   DropdownMenu,
@@ -37,7 +37,7 @@ export const useUserListColumns = ({ onViewDetail, onEdit, onLock, onUnlock, onD
         enableHiding: false,
         cell: ({ row }) => (
           <div className="flex min-w-0 items-center gap-3">
-            <Avatar name={row.original.name} size="sm" className="shrink-0" />
+            <UserAvatar name={row.original.name} size="sm" />
             <div className="min-w-0">
               <p className="truncate font-semibold text-rentify-text-primary group-hover:text-rentify-primary">
                 {row.original.name}

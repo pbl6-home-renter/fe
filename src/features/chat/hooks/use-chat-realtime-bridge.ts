@@ -17,7 +17,7 @@ import type { ConversationSummary, LastMessage, UnreadSummary } from '../types/c
 import type { Paginated } from '@/types/api';
 import { isSendMessageEvent } from '../utils/chat-message.guard';
 import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
-import { Avatar } from '@/components/ui/avatar';
+import { UserAvatar } from '@/features/users/components/user-avatar';
 import { useNotify } from '@/lib/notifications/use-notify';
 import { useNotificationPreferencesQuery } from '@/features/notifications/hooks/use-notification-preferences-query';
 
@@ -134,7 +134,7 @@ export const useChatRealtimeBridge = () => {
               className:
                 'flex w-[min(24rem,calc(100vw-2rem))] items-start gap-3 rounded-xl border border-rentify-divider bg-white p-4 text-rentify-text-primary shadow-lg',
             },
-            createElement(Avatar, { name: payload.senderName, size: 'md', 'aria-label': payload.senderName }),
+            createElement(UserAvatar, { name: payload.senderName, size: 'md' }),
             createElement(
               'div',
               { className: 'min-w-0 flex-1' },
