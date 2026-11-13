@@ -21,4 +21,4 @@ export const NOTIFICATION_SOCKET_EVENTS = {
   READ_STATE_UPDATED: 'notification:read-state-updated',
 } as const;
 
-export const NOTIFICATION_CATEGORIES = ['chat', 'invoice', 'issue'] as const;
+export const NOTIFICATION_CATEGORIES = ['chat', 'invoice', 'issue', 'system'] as const;

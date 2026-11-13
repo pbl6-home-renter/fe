@@ -10,7 +10,7 @@
   "emptyUnread": "No unread notifications.",
   "markAllRead": "Mark all as read",
   "filters": { "label": "Filter notifications", "all": "All", "unread": "Unread" },
-  "categories": { "chat": "Chat", "invoice": "Invoices", "issue": "Issues" },
+  "categories": { "chat": "Chat", "invoice": "Invoices", "issue": "Issues", "system": "System" },
   "preferences": {
     "button": "Notification settings",
     "title": "Notification settings",

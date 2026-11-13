@@ -11,7 +11,7 @@ interface BusinessNotificationToastProps {
 
 export const BusinessNotificationToast = ({ category, title, body }: BusinessNotificationToastProps) => {
   const { t } = useTranslation('notifications');
-  const Icon = category === 'invoice' ? ReceiptText : CircleAlert;
+  const Icon = category === 'invoice' ? ReceiptText : category === 'issue' ? CircleAlert : BellRing;
 
   return (
     <Card className="flex w-[min(24rem,calc(100vw-2rem))] items-start gap-3 border-rentify-divider bg-rentify-surface p-4 text-rentify-text-primary shadow-lg">

@@ -10,7 +10,7 @@
   "emptyUnread": "Không có thông báo chưa đọc.",
   "markAllRead": "Đánh dấu tất cả đã đọc",
   "filters": { "label": "Lọc thông báo", "all": "Tất cả", "unread": "Chưa đọc" },
-  "categories": { "chat": "Tin nhắn", "invoice": "Hóa đơn", "issue": "Sự cố" },
+  "categories": { "chat": "Tin nhắn", "invoice": "Hóa đơn", "issue": "Sự cố", "system": "Hệ thống" },
   "preferences": {
     "button": "Cài đặt thông báo",
     "title": "Cài đặt thông báo",
