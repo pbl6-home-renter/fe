@@ -10,7 +10,26 @@ export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   name?: string;
   size?: AvatarSize;
   status?: 'online' | 'offline' | 'busy';
+  /** Picks a stable background colour for the initials (e.g. a user id) instead of the brand colour. */
+  colorSeed?: string;
 }
+
+const SEEDED_COLORS = [
+  'bg-[#1e6fd9]',
+  'bg-[#0f9d8a]',
+  'bg-[#7c4dcc]',
+  'bg-[#d9534f]',
+  'bg-[#e08a1e]',
+  'bg-[#2f855a]',
+  'bg-[#c2417f]',
+  'bg-[#3d5a98]',
+];
+
+const seededColor = (seed: string): string => {
+  let hash = 0;
+  for (const character of seed) hash = (hash * 31 + character.charCodeAt(0)) | 0;
+  return SEEDED_COLORS[Math.abs(hash) % SEEDED_COLORS.length];
+};
 
 const sizeMap: Record<AvatarSize, { box: string; text: string; icon: string; dot: string }> = {
   sm: { box: 'w-8 h-8', text: 'text-xs', icon: 'w-4 h-4', dot: 'w-2 h-2' },
@@ -32,7 +51,16 @@ const getInitials = (name?: string): string => {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 };
 
-export const Avatar = ({ src, alt = 'Avatar', name, size = 'md', status, className, ...props }: AvatarProps) => {
+export const Avatar = ({
+  src,
+  alt = 'Avatar',
+  name,
+  size = 'md',
+  status,
+  colorSeed,
+  className,
+  ...props
+}: AvatarProps) => {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const imageError = Boolean(src) && failedSrc === src;
   const sizeConfig = sizeMap[size] || sizeMap.md;
@@ -61,7 +89,12 @@ export const Avatar = ({ src, alt = 'Avatar', name, size = 'md', status, classNa
           className="w-full h-full rounded-full object-cover"
         />
       ) : initials ? (
-        <div className="w-full h-full rounded-full bg-rentify-primary text-white flex items-center justify-center font-bold tracking-tight">
+        <div
+          className={cn(
+            'w-full h-full rounded-full text-white flex items-center justify-center font-bold tracking-tight',
+            colorSeed ? seededColor(colorSeed) : 'bg-rentify-primary',
+          )}
+        >
           <span className={sizeConfig.text}>{initials}</span>
         </div>
       ) : (

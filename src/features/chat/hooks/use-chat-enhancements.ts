@@ -3,6 +3,7 @@ import { useDebounce } from '@/hooks/use-debounce';
 import { useSocket } from '@/features/realtime/hooks/use-socket';
 import { useAuthStore } from '@/stores/auth-store';
 import {
+  CHAT_HIGHLIGHT_DURATION_MS,
   CHAT_SEARCH_DEBOUNCE_MS,
   CHAT_TYPING_EXPIRE_MS,
   CHAT_TYPING_THROTTLE_MS,
@@ -77,19 +78,26 @@ export const useChatEnhancements = (conversationId?: string) => {
     };
   }, [conversationId, currentUserId, socket, stopTyping]);
 
-  const selectSearchResult = (result: ChatMessageSearchResult) => {
-    setAnchorSequence(result.sequence);
-    setHighlightedMessageId(result.id);
-    setSearchOpen(false);
-  };
-  const jumpToMessage = (id: string, sequence?: string) => {
-    if (sequence) setAnchorSequence(sequence);
-    setHighlightedMessageId(id);
-    setSearchOpen(false);
-  };
-  const backToLatest = () => {
-    setAnchorSequence(undefined);
+  // The highlight flashes once; the opened window (anchor) stays until the user returns to the latest.
+  useEffect(() => {
+    if (!highlightedMessageId) return;
+    const timer = window.setTimeout(() => setHighlightedMessageId(undefined), CHAT_HIGHLIGHT_DURATION_MS);
+    return () => window.clearTimeout(timer);
+  }, [highlightedMessageId]);
+
+  /** Scrolls to a message already in the feed, otherwise opens the history around it. */
+  const jumpToMessage = (id: string, sequence: string | undefined, isLoaded: boolean) => {
+    if (!isLoaded && sequence) setAnchorSequence(sequence);
     setHighlightedMessageId(undefined);
+    window.requestAnimationFrame(() => setHighlightedMessageId(id));
+    setSearchOpen(false);
+  };
+  const selectSearchResult = (result: ChatMessageSearchResult, isLoaded: boolean) =>
+    jumpToMessage(result.id, result.sequence, isLoaded);
+  /** Returns to the live feed; a silent hand-over (reached the newest message) keeps the highlight. */
+  const backToLatest = (clearHighlight = true) => {
+    setAnchorSequence(undefined);
+    if (clearHighlight) setHighlightedMessageId(undefined);
   };
 
   return {

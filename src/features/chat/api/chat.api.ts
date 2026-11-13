@@ -30,6 +30,12 @@ export interface ConversationListParams {
   otherUserId?: string;
 }
 
+export interface MessageRange {
+  cursor?: string;
+  maxSequence?: string;
+  afterSequence?: string;
+}
+
 export interface DirectoryParams {
   pageNo: number;
   pageSize: number;
@@ -55,11 +61,21 @@ export const chatApi = {
   getConversation: (id: string, config?: AxiosRequestConfig) =>
     http.get<ConversationDetail>(CHAT_API_ROUTES.CONVERSATION(id), config),
 
-  getMessages: (conversationId: string, cursor?: string, maxSequence?: string, config?: AxiosRequestConfig) =>
+  /**
+   * History page. Default order is newest first; `afterSequence` returns the
+   * messages after it oldest first (used to scroll down from an opened message).
+   */
+  getMessages: (conversationId: string, range: MessageRange, config?: AxiosRequestConfig) =>
     http.getCursorPage<
       ChatMessage,
-      { conversationId: string; cursor?: string; pageSize: number; maxSequence?: string }
-    >(CHAT_API_ROUTES.MESSAGES, { conversationId, cursor, pageSize: CHAT_HISTORY_PAGE_SIZE, maxSequence }, config),
+      {
+        conversationId: string;
+        cursor?: string;
+        pageSize: number;
+        maxSequence?: string;
+        afterSequence?: string;
+      }
+    >(CHAT_API_ROUTES.MESSAGES, { conversationId, pageSize: CHAT_HISTORY_PAGE_SIZE, ...range }, config),
 
   searchMessages: (conversationId: string, q: string, cursor?: string, config?: AxiosRequestConfig) =>
     http.getCursorPage<

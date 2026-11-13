@@ -274,6 +274,9 @@ export const useChatWindow = ({
     currentUserId: userId,
     markLatestRead,
     setAtBottom,
+    hasNewer: Boolean(history.hasPreviousPage),
+    isLoadingNewer: history.isFetchingPreviousPage,
+    loadNewer: () => void history.fetchPreviousPage(),
     retryLoad: () => void Promise.all([refetchDetail(), refetchHistory()]),
   };
 };

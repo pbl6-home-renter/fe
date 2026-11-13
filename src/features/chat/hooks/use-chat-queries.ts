@@ -32,19 +32,35 @@ export const useDirectConversationQuery = (
     enabled: Boolean(userId) && (options?.enabled ?? true),
   });
 
+/** Older pages use the cursor; newer pages (only while anchored) start after a sequence. */
+export type MessagePageParam = string | undefined | { afterSequence: string };
+
+/** Every page is stored newest first; `direction` marks pages fetched towards the latest message. */
+export type MessageHistoryPage = MessagePage & { direction?: 'newer' };
+
 export const useMessagesQuery = (
   id?: string,
   maxSequence?: string,
-  options?: InfiniteQueryHookOptions<MessagePage, string | undefined>,
+  options?: InfiniteQueryHookOptions<MessageHistoryPage, MessagePageParam>,
 ) =>
   useInfiniteQuery({
     queryKey: id ? chatKeys.messages(id, maxSequence) : ['chat', 'messages', 'disabled'],
-    initialPageParam: undefined as string | undefined,
-    queryFn: ({ pageParam, signal }) =>
-      id
-        ? chatApi.getMessages(id, pageParam, maxSequence, { signal })
-        : Promise.reject(new Error('Conversation ID is required')),
+    initialPageParam: undefined as MessagePageParam,
+    queryFn: async ({ pageParam, signal }): Promise<MessageHistoryPage> => {
+      if (!id) throw new Error('Conversation ID is required');
+      if (typeof pageParam === 'object') {
+        const page = await chatApi.getMessages(id, { afterSequence: pageParam.afterSequence }, { signal });
+        return { ...page, items: [...page.items].reverse(), direction: 'newer' };
+      }
+      return chatApi.getMessages(id, { cursor: pageParam, maxSequence }, { signal });
+    },
     getNextPageParam: (page) => (page.pagination.hasNextPage ? (page.pagination.nextCursor ?? undefined) : undefined),
+    // Live history follows the socket; an opened (anchored) window loads newer pages on demand.
+    getPreviousPageParam: (firstPage) => {
+      if (!maxSequence) return undefined;
+      if (firstPage.direction === 'newer' && !firstPage.pagination.hasNextPage) return undefined;
+      return { afterSequence: firstPage.items[0]?.sequence ?? maxSequence };
+    },
     ...options,
     refetchOnMount: 'always',
     enabled: Boolean(id) && (options?.enabled ?? true),

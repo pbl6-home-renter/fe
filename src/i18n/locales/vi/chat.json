@@ -103,5 +103,21 @@
     "leaveConfirm": "Bạn có chắc muốn rời nhóm này?",
     "addMembers": "Thêm thành viên",
     "addSelected": "Thêm {{count}} người"
+  },
+  "repliedTo": "Trả lời {{name}}",
+  "replyUnavailableShort": "tin đã xóa",
+  "imageUnavailable": "Không thể tải ảnh",
+  "downloadImage": "Tải ảnh xuống",
+  "closeImage": "Đóng ảnh",
+  "groupInfo": {
+    "title": "Thông tin nhóm",
+    "close": "Đóng thông tin nhóm",
+    "rename": "Đổi tên nhóm",
+    "renamePlaceholder": "Nhập tên nhóm",
+    "renameHint": "Enter để lưu, Esc để hủy. Để trống sẽ dùng tên mặc định theo thành viên.",
+    "search": "Tìm tin nhắn",
+    "you": "Bạn",
+    "member": "Thành viên",
+    "memberActions": "Tùy chọn cho {{name}}"
   }
 }
