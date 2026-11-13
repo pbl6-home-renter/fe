@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Building2, ChevronDown, Home, LogOut, Settings, Shield, User } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
-import { Avatar } from '@/components/ui/avatar';
+import { CurrentUserAvatar } from '@/features/users/components/current-user-avatar';
 import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
@@ -39,7 +39,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
         aria-label={t('userMenu')}
         className="ui-press flex min-h-10 cursor-pointer items-center gap-2.5 rounded-xl border border-transparent p-1.5 hover:border-rentify-divider hover:bg-rentify-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary sm:px-2.5"
       >
-        <Avatar name={user?.name} size="sm" status="online" className="shrink-0" />
+        <CurrentUserAvatar size="sm" status="online" className="shrink-0" />
         <span className="hidden min-w-0 max-w-30 flex-col text-left sm:flex md:max-w-40">
           <span className="truncate text-sm font-semibold leading-tight text-rentify-text-primary">
             {user?.name || t('user')}
@@ -67,7 +67,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
       >
         <div className="mb-1.5 rounded-xl bg-rentify-background p-3">
           <div className="flex items-center gap-3">
-            <Avatar src={user?.avatarUrl} name={user?.name} size="md" />
+            <CurrentUserAvatar size="md" />
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-bold text-rentify-text-primary">{user?.name || t('user')}</p>
               <p className="truncate text-xs text-rentify-text-secondary">{user?.email || ''}</p>

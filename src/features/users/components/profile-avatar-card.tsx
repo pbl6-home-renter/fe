@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Camera, Mail, X } from 'lucide-react';
 import { AlertBanner } from '@/components/feedback/alert-banner';
-import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Divider } from '@/components/ui/divider';
@@ -10,6 +9,7 @@ import { getMediaAccept } from '@/features/media/constants/media.constants';
 import { MediaPurpose } from '@/features/media/types/media.dto';
 import { UserStatus } from '@/types/user';
 import { useProfileAvatar } from '../hooks/use-profile-avatar';
+import { UserAvatar } from './user-avatar';
 import type { UserMeResponseDto } from '../types/users.dto';
 import { UserRoleBadge } from './admin/user-role-badge';
 import { UserStatusBadge } from './admin/user-status-badge';
@@ -29,10 +29,9 @@ export const ProfileAvatarCard = ({ user }: ProfileAvatarCardProps) => {
   return (
     <Card>
       <CardContent className="flex flex-col items-center space-y-5 pt-4 text-center">
-        <Avatar
+        <UserAvatar
           src={user.avatarUrl}
           name={user.name}
-          alt={user.name}
           size="2xl"
           className="ring-4 ring-rentify-primary-container shadow-card"
         />

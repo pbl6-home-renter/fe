@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { FileText, UserCheck, Phone } from 'lucide-react';
+import { UserAvatar } from '@/features/users/components/user-avatar';
 import type { RoomCurrentContractDto, RoomMemberDto } from '../../types/room.dto';
 
 interface RoomTenantContractCardProps {
@@ -57,9 +58,7 @@ export const RoomTenantContractCard = ({ contract, members = [] }: RoomTenantCon
                     className="p-2.5 rounded-xl bg-surface-container-low/40 flex items-center justify-between text-xs"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-rentify-primary-container text-rentify-on-primary-container flex items-center justify-center font-bold text-[11px]">
-                        {member.name.slice(0, 2).toUpperCase()}
-                      </div>
+                      <UserAvatar name={member.name} src={member.avatarUrl} size="xs" />
                       <div>
                         <div className="flex items-center gap-1.5">
                           <span className="font-semibold text-rentify-text-primary">{member.name}</span>

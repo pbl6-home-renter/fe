@@ -1,7 +1,7 @@
 import { ArrowLeft, PanelRight, Search } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useTranslation } from 'react-i18next';
-import { Avatar } from '@/components/ui/avatar';
+import { ConversationAvatar } from './conversation-avatar';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
 import { Skeleton } from '@/components/feedback/skeleton';
@@ -9,7 +9,7 @@ import type { SocketConnectionStatus } from '@/features/realtime/context/socket-
 
 interface ChatWindowHeaderProps {
   title: string;
-  avatarSrc?: string;
+  avatarMediaId?: string | null;
   isLoading: boolean;
   isGroup: boolean;
   memberCount: number;
@@ -32,7 +32,7 @@ export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
       {props.isLoading ? (
         <Skeleton variant="circular" className="h-10 w-10 shrink-0" />
       ) : (
-        <Avatar src={props.avatarSrc} alt={props.title} name={props.title} colorSeed={props.title} size="md" />
+        <ConversationAvatar name={props.title} avatarMediaId={props.avatarMediaId} size="md" />
       )}
       <div className="min-w-0 flex-1">
         {props.isLoading ? (

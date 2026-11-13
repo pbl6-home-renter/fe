@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { AlertCircle, Reply } from 'lucide-react';
-import { Avatar } from '@/components/ui/avatar';
+import { UserAvatar } from '@/features/users/components/user-avatar';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
 import { ProgressMeterTrack } from '@/components/ui/progress-meter';
@@ -105,17 +105,7 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
       )}
     >
       {!isOwn && (
-        <div className="mb-5 w-8 shrink-0">
-          {endsCluster && (
-            <Avatar
-              name={message.senderName}
-              alt={message.senderName}
-              colorSeed={message.senderName}
-              size="sm"
-              title={message.senderName}
-            />
-          )}
-        </div>
+        <div className="mb-5 w-8 shrink-0">{endsCluster && <UserAvatar name={message.senderName} size="sm" />}</div>
       )}
       <div className={cn('flex min-w-0 max-w-[min(36rem,78%)] flex-col', isOwn ? 'items-end' : 'items-start')}>
         {showName && (

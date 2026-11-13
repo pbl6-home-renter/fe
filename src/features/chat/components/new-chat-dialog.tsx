@@ -1,6 +1,6 @@
 import { MessageSquare, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Avatar } from '@/components/ui/avatar';
+import { UserAvatar } from '@/features/users/components/user-avatar';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog } from '@/components/ui/dialog';
@@ -111,7 +111,7 @@ const UserDirectoryList = ({ dialog }: UserDirectoryListProps) => {
               if (dialog.mode === 'direct') dialog.selectDirect(person.id, person.name);
             }}
           >
-            <Avatar name={person.name} size="sm" />
+            <UserAvatar name={person.name} size="sm" />
             <span className="truncate">{person.name}</span>
           </Button>
         </div>
