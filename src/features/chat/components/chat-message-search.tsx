@@ -88,7 +88,7 @@ export const ChatMessageSearch = (props: ChatMessageSearchProps) => {
                     </time>
                   </span>
                   <span className="mt-1 line-clamp-2 text-sm text-rentify-text-primary">
-                    {result.contentPreview || t('photoSent')}
+                    {result.contentPreview || t(result.type === 'video' ? 'videoSent' : result.type === 'file' ? 'fileSent' : 'photoSent')}
                   </span>
                 </Button>
               </li>

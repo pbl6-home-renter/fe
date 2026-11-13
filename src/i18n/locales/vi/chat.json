@@ -119,5 +119,15 @@
     "you": "Bạn",
     "member": "Thành viên",
     "memberActions": "Tùy chọn cho {{name}}"
-  }
+  },
+  "attachFile": "Đính kèm tệp",
+  "dropFile": "Thả tệp vào đây",
+  "removeFile": "Xóa tệp đính kèm",
+  "videoSent": "Đã gửi video",
+  "fileSent": "Đã gửi tệp",
+  "uploadingFile": "Đang tải tệp lên",
+  "openFile": "Mở tệp",
+  "downloadFile": "Tải tệp xuống",
+  "fileUnavailable": "Không thể tải tệp",
+  "retryFile": "Thử lại"
 }

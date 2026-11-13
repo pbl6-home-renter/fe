@@ -125,7 +125,7 @@ export const useChatRealtimeBridge = () => {
       }
       if (!incoming || !chatNotificationsEnabled || document.visibilityState !== 'visible') return;
       if (location.pathname === getChatPath(payload.conversationId)) return;
-      const preview = payload.type === 'image' ? t('photoSent') : payload.contentPreview;
+      const preview = payload.type === 'image' ? t('photoSent') : payload.type === 'video' ? t('videoSent') : payload.type === 'file' ? t('fileSent') : payload.contentPreview;
       notify.custom(
         () =>
           createElement(

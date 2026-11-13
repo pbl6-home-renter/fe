@@ -37,6 +37,8 @@ export const MediaContentType = {
   PNG: 'image/png',
   WEBP: 'image/webp',
   PDF: 'application/pdf',
+  MP4: 'video/mp4',
+  WEBM: 'video/webm',
 } as const;
 
 export type MediaContentType = (typeof MediaContentType)[keyof typeof MediaContentType];
@@ -87,4 +89,6 @@ export interface MediaCompleteUploadResponseDto {
 
 export interface MediaDownloadUrlResponseDto {
   url: string;
+  fileName: string;
+  contentType: string;
 }

@@ -119,5 +119,15 @@
     "you": "You",
     "member": "Member",
     "memberActions": "Options for {{name}}"
-  }
+  },
+  "attachFile": "Attach a file",
+  "dropFile": "Drop a file here",
+  "removeFile": "Remove attachment",
+  "videoSent": "Sent a video",
+  "fileSent": "Sent a file",
+  "uploadingFile": "Uploading file",
+  "openFile": "Open file",
+  "downloadFile": "Download file",
+  "fileUnavailable": "Unable to load file",
+  "retryFile": "Try again"
 }

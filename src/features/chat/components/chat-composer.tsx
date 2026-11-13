@@ -1,4 +1,4 @@
-import { ImagePlus, Send, X } from 'lucide-react';
+import { Paperclip, FileText, Send, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import {
   useEffect,
@@ -11,7 +11,6 @@ import {
 } from 'react';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
-import { Skeleton } from '@/components/feedback/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { MediaPurpose } from '@/features/media/types/media.dto';
 import { getMediaAccept } from '@/features/media/constants/media.constants';
@@ -77,7 +76,7 @@ export const ChatComposer = ({
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragging(false);
-    const image = Array.from(event.dataTransfer.files).find((file) => file.type.startsWith('image/'));
+    const image = event.dataTransfer.files[0];
     if (image) onSelectImage(image);
   };
 
@@ -105,7 +104,7 @@ export const ChatComposer = ({
         type="file"
         accept={getMediaAccept(MediaPurpose.CHAT_ATTACHMENT)}
         className="sr-only"
-        aria-label={t('attachImage')}
+        aria-label={t('attachFile')}
         onChange={(event) => {
           onSelectImage(event.target.files?.[0]);
           event.currentTarget.value = '';
@@ -113,7 +112,7 @@ export const ChatComposer = ({
       />
       {isDragging && (
         <p className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-rentify-primary-container/90 text-sm font-medium text-rentify-on-primary-container">
-          {t('dropImage')}
+          {t('dropFile')}
         </p>
       )}
       {replyTo && (
@@ -122,7 +121,7 @@ export const ChatComposer = ({
             <p className="font-semibold text-rentify-primary">
               {t('replyingTo', { name: replyTo.senderName ?? t('replyUnavailable') })}
             </p>
-            <p className="truncate text-rentify-text-secondary">{replyTo.contentPreview || t('photoSent')}</p>
+            <p className="truncate text-rentify-text-secondary">{replyTo.contentPreview || t(replyTo.type === 'video' ? 'videoSent' : replyTo.type === 'file' ? 'fileSent' : 'photoSent')}</p>
           </div>
           <IconButton type="button" variant="ghost" aria-label={t('cancelReply')} onClick={onCancelReply}>
             <X className="h-4 w-4" aria-hidden="true" />
@@ -131,13 +130,13 @@ export const ChatComposer = ({
       )}
       {imageFile && (
         <div className="mb-3 flex items-center gap-3 rounded-xl border border-rentify-divider p-2">
-          {imagePreviewUrl ? (
+          {imageFile.type.startsWith('image/') && imagePreviewUrl ? (
             <img src={imagePreviewUrl} alt={t('photoSent')} className="h-14 w-14 rounded-lg object-cover" />
           ) : (
-            <Skeleton className="h-14 w-14 rounded-lg" />
+            <FileText className="h-10 w-10 text-rentify-text-secondary" aria-hidden="true" />
           )}
           <span className="min-w-0 flex-1 truncate text-sm">{imageFile.name}</span>
-          <IconButton type="button" variant="ghost" size="sm" aria-label={t('removeImage')} onClick={onRemoveImage}>
+          <IconButton type="button" variant="ghost" size="sm" aria-label={t('removeFile')} onClick={onRemoveImage}>
             <X className="h-4 w-4" aria-hidden="true" />
           </IconButton>
         </div>
@@ -160,11 +159,11 @@ export const ChatComposer = ({
           <IconButton
             type="button"
             variant="outline"
-            aria-label={t('attachImage')}
+            aria-label={t('attachFile')}
             disabled={isSending}
             onClick={() => inputRef.current?.click()}
           >
-            <ImagePlus className="h-4 w-4" aria-hidden="true" />
+            <Paperclip className="h-4 w-4" aria-hidden="true" />
           </IconButton>
         )}
         <Button onClick={onSend} disabled={!canSend} aria-label={t('send')}>

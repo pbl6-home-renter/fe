@@ -63,5 +63,6 @@ export const useMediaObjectUrl = (
     src: mediaId ? objectUrl : (url ?? undefined),
     isLoading: !!mediaId && query.isLoading,
     error: query.error,
+    refetch: query.refetch,
   };
 };

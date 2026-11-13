@@ -6,6 +6,8 @@ type ChatMessagePreviewSource =
 
 export const formatChatMessage = (message: ChatMessagePreviewSource, t: TFunction<'chat'>): string => {
   if (message.type === 'image') return t('photoSent');
+  if (message.type === 'video') return t('videoSent');
+  if (message.type === 'file') return t('fileSent');
   if (message.type !== 'system' || !message.payload) {
     return 'contentPreview' in message ? message.contentPreview : (message.content ?? '');
   }

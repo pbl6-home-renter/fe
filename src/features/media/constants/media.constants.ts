@@ -15,6 +15,8 @@ export const MEDIA_CONTENT_TYPE_EXTENSIONS: Readonly<Record<MediaContentType, re
   [MediaContentType.PNG]: ['png'],
   [MediaContentType.WEBP]: ['webp'],
   [MediaContentType.PDF]: ['pdf'],
+  [MediaContentType.MP4]: ['mp4'],
+  [MediaContentType.WEBM]: ['webm'],
 };
 
 const IMAGE_CONTENT_TYPES = [MediaContentType.JPEG, MediaContentType.PNG, MediaContentType.WEBP] as const;
@@ -89,7 +91,7 @@ export const MEDIA_PURPOSE_RULES: Readonly<Record<MediaPurpose, MediaPurposeRule
   },
   [MediaPurpose.CHAT_ATTACHMENT]: {
     ownerTypes: [MediaOwnerType.CONVERSATION],
-    contentTypes: IMAGE_CONTENT_TYPES,
+    contentTypes: [...IMAGE_AND_PDF_CONTENT_TYPES, MediaContentType.MP4, MediaContentType.WEBM],
     visibility: 'private',
   },
   [MediaPurpose.CONVERSATION_AVATAR]: {

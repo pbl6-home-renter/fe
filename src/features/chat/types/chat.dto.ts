@@ -1,7 +1,7 @@
 import type { BaseEntity, CursorPaginationMeta, PaginationMeta } from '@/types/api';
 
 export type ConversationKind = 'direct' | 'group';
-export type MessageType = 'text' | 'image' | 'system' | 'bot';
+export type MessageType = 'text' | 'image' | 'video' | 'file' | 'system' | 'bot';
 export interface ChatReplyReference {
   id: string;
   sequence?: string | null;
@@ -186,7 +186,7 @@ export interface SendTextMessageRequest {
 export interface SendImageMessageRequest {
   conversationId: string;
   clientMessageId: string;
-  type: 'image';
+  type: 'image' | 'video' | 'file';
   content?: string | null;
   mediaId: string;
   replyToMessageId?: string;
@@ -205,7 +205,7 @@ export interface SendMessageEvent {
   senderUserId: string | null;
   senderName: string;
   conversationName: string | null;
-  type: 'text' | 'image' | 'bot';
+  type: 'text' | 'image' | 'video' | 'file' | 'bot';
   contentPreview: string;
   createdAt: string;
 }
