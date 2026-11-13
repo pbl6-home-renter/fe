@@ -10,6 +10,7 @@ import { ErrorState } from '@/components/feedback/error-state';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { EmptyState } from '@/components/feedback/empty-state';
 import { formatDate } from '@/lib/utils/format';
+import { UserAvatar } from '@/features/users/components/user-avatar';
 import { ContractStatus } from '../../enums/contract-status.enum';
 import { useContractMembersQuery } from '../../hooks/use-contract-members-query';
 import { useLeaveMemberModal } from '../../hooks/use-leave-member-modal';
@@ -101,15 +102,18 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
                     key={member.id}
                     className="flex items-center justify-between p-3 rounded-xl border border-rentify-divider bg-rentify-background hover:border-rentify-outline/40 transition-colors"
                   >
-                    <div className="space-y-0.5 min-w-0 pr-2">
-                      <p className="font-semibold text-rentify-text-primary text-sm truncate">
-                        {member.tenantName || '—'}
-                      </p>
-                      <p className="text-xs text-rentify-text-secondary">{member.tenantPhone || '—'}</p>
-                      <p className="text-[11px] text-rentify-text-secondary">
-                        {t('members.joinedDate')}:{' '}
-                        <span className="font-medium text-rentify-text-primary">{formatDate(member.joinedAt)}</span>
-                      </p>
+                    <div className="flex min-w-0 items-center gap-3 pr-2">
+                      <UserAvatar name={member.tenantName} size="md" />
+                      <div className="min-w-0 space-y-0.5">
+                        <p className="font-semibold text-rentify-text-primary text-sm truncate">
+                          {member.tenantName || '—'}
+                        </p>
+                        <p className="text-xs text-rentify-text-secondary">{member.tenantPhone || '—'}</p>
+                        <p className="text-[11px] text-rentify-text-secondary">
+                          {t('members.joinedDate')}:{' '}
+                          <span className="font-medium text-rentify-text-primary">{formatDate(member.joinedAt)}</span>
+                        </p>
+                      </div>
                     </div>
 
                     {isActiveContract && (
@@ -146,8 +150,13 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
                     key={member.id}
                     className="p-3 rounded-xl border border-rentify-divider bg-rentify-surface-container-low text-xs space-y-1"
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="font-semibold text-rentify-text-primary">{member.tenantName || '—'}</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex min-w-0 items-center gap-2">
+                        <UserAvatar name={member.tenantName} size="xs" className="grayscale" />
+                        <span className="truncate font-semibold text-rentify-text-primary">
+                          {member.tenantName || '—'}
+                        </span>
+                      </span>
                       <Badge variant="secondary">{t('members.leftBadge')}</Badge>
                     </div>
                     <p className="text-rentify-text-secondary">{member.tenantPhone || '—'}</p>

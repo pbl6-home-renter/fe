@@ -16,10 +16,12 @@ export const useMyProfileQuery = (options?: QueryHookOptions<UserMeResponseDto>)
     queryFn: async () => {
       const profile = await usersApi.getMe();
       const currentUser = useAuthStore.getState().user;
-      // Identity GET /me omits avatarUrl; keep session avatar only when the user ID matches.
+      // GET /me returns avatarUrl (null when none). Fall back to the session copy only if an
+      // older Identity build leaves the field out entirely.
+      const sessionAvatar = currentUser?.id === profile.id ? currentUser.avatarUrl : null;
       const mergedProfile: UserMeResponseDto = {
         ...profile,
-        avatarUrl: profile.avatarUrl ?? (currentUser?.id === profile.id ? currentUser.avatarUrl : null),
+        avatarUrl: profile.avatarUrl !== undefined ? profile.avatarUrl : (sessionAvatar ?? null),
       };
       setUser(mergedProfile);
       return mergedProfile;

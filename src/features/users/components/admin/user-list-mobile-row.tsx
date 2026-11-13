@@ -1,5 +1,5 @@
 import type { Row } from '@tanstack/react-table';
-import { Avatar } from '@/components/ui/avatar';
+import { UserAvatar } from '../user-avatar';
 import type { UserListAdminItemDto } from '../../types/users.dto';
 import { UserRoleBadge } from './user-role-badge';
 import { UserStatusBadge } from './user-status-badge';
@@ -11,7 +11,7 @@ export const UserListMobileRow = ({ row }: { row: Row<UserListAdminItemDto> }) =
     <div className="space-y-2.5">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2.5">
-          <Avatar name={user.name} size="sm" className="shrink-0" />
+          <UserAvatar name={user.name} size="sm" />
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-rentify-text-primary">{user.name}</p>
             <p className="truncate text-xs text-rentify-text-secondary">{user.email}</p>

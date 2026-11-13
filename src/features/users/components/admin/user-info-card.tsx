@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { CreditCard, Mail, Phone, Shield, User as UserIcon } from 'lucide-react';
-import { Avatar } from '@/components/ui/avatar';
+import { UserAvatar } from '../user-avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Role } from '@/types/role';
 import { UserStatus } from '@/types/user';
@@ -31,7 +31,7 @@ export const UserInfoCard = ({ user }: { user: UserDetailAdminDto }) => {
 
       <CardContent className="space-y-6 pt-2">
         <div className="flex items-center gap-4">
-          <Avatar name={user.name} size="lg" />
+          <UserAvatar name={user.name} size="lg" />
           <div className="min-w-0">
             <h2 className="truncate text-lg font-bold text-rentify-text-primary">{user.name}</h2>
             <div className="mt-1 flex flex-wrap items-center gap-2">

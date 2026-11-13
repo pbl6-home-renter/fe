@@ -120,7 +120,6 @@ const ConversationRow = ({ conversation, selected, disabled, onSelect }: Convers
       )}
       <ConversationAvatar
         name={displayName}
-        seed={displayName}
         avatarMediaId={conversation.kind === 'group' ? conversation.avatarMediaId : null}
         size="lg"
       />

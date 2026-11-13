@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { useMediaObjectUrl } from '@/features/media/hooks/use-media-object-url-query';
 import { useUserDirectoryQuery } from './use-user-directory-query';
 import { useConversationQuery } from './use-chat-queries';
 import { useAddConversationMembersMutation } from './use-add-conversation-members-mutation';
@@ -52,9 +51,6 @@ export const useGroupManagement = ({
   const candidates = directory.isSearchPending
     ? []
     : (directory.data?.pages.flatMap((page) => page.items).filter((person) => !activeUserIds.has(person.id)) ?? []);
-  const avatar = useMediaObjectUrl(conversation?.avatarMediaId ? `/media/${conversation.avatarMediaId}` : undefined, {
-    signedDownload: true,
-  });
   const addMembers = useAddConversationMembersMutation({ onSuccess: () => setSelectedIds([]) });
   const leave = useLeaveConversationMutation({
     onSuccess: () => {
@@ -112,7 +108,6 @@ export const useGroupManagement = ({
     activeMembers,
     adminCount,
     isAdmin,
-    avatarSrc: avatar.src,
     isLoading: detail.isLoading,
     isDirectoryLoading: directory.isLoading || directory.isFetchingNextPage || directory.isSearchPending,
     isDirectoryError: !directory.isSearchPending && directory.isError,
