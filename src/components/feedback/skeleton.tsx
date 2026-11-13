@@ -21,11 +21,7 @@ export const Skeleton = ({ variant = 'rectangular', width, height, className, st
     <div
       role="status"
       aria-label={t('loadingData')}
-      className={cn(
-        'animate-pulse bg-rentify-surface-container-highest/60 motion-reduce:animate-none',
-        variantStyles[variant],
-        className,
-      )}
+      className={cn('ui-skeleton', variantStyles[variant], className)}
       style={{
         width: typeof width === 'number' ? `${width}px` : width,
         height: typeof height === 'number' ? `${height}px` : height,

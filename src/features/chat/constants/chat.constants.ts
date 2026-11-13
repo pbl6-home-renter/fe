@@ -19,6 +19,10 @@ export const CHAT_UNREAD_BADGE_MAX = 9;
 export const CHAT_LIST_LOAD_MORE_THRESHOLD_PX = 80;
 export const CHAT_FEED_BOTTOM_THRESHOLD_PX = 80;
 export const CHAT_FEED_OLDER_THRESHOLD_PX = 60;
+export const CHAT_FEED_NEWER_THRESHOLD_PX = 120;
+export const CHAT_HIGHLIGHT_DURATION_MS = 2400;
+/** Distance the feed glides when returning to the latest message. */
+export const CHAT_BACK_TO_LATEST_GLIDE_PX = 720;
 export const CHAT_DIRECTORY_LOAD_MORE_THRESHOLD_PX = 48;
 export const CHAT_API_ROUTES = {
   CONVERSATIONS: '/conversations',

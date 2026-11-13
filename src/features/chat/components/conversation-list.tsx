@@ -1,6 +1,6 @@
 import { Search, X, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Avatar } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils/cn';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import { CHAT_SEARCH_MAX_LENGTH, CHAT_UNREAD_BADGE_MAX } from '../constants/chat
 import { useConversationList } from '../hooks/use-conversation-list';
 import type { ConversationSummary } from '../types/chat.dto';
 import { formatChatMessage } from '../utils/format-chat-message';
+import { ConversationAvatar } from './conversation-avatar';
 
 interface ConversationListProps {
   search: string;
@@ -25,7 +26,7 @@ export const ConversationList = (props: ConversationListProps) => {
   return (
     <aside className="flex min-h-0 w-full flex-col border-r border-rentify-divider bg-rentify-surface md:w-88 md:shrink-0">
       <ListHeader search={props.search} onSearchChange={props.onSearchChange} onNewChat={props.onNewChat} />
-      <div ref={scrollRef} className="relative min-h-0 flex-1 overflow-y-auto">
+      <div ref={scrollRef} className="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
         {conversations.map((conversation) => (
           <ConversationRow
             key={conversation.id}
@@ -100,37 +101,68 @@ const ConversationRow = ({ conversation, selected, disabled, onSelect }: Convers
   const locale = i18n.language.startsWith('en') ? 'en-US' : 'vi-VN';
   const displayName = conversation.displayName ?? conversation.title ?? '';
   const preview = conversation.lastMessage ? formatChatMessage(conversation.lastMessage, t) : '';
+  const hasUnread = conversation.unreadCount > 0;
 
   return (
-    <Button
+    <button
       type="button"
-      variant="ghost"
       onClick={onSelect}
       disabled={disabled}
       aria-current={selected ? 'page' : undefined}
-      className={`h-auto min-h-0 w-full justify-start gap-3 rounded-none border-b border-rentify-divider/70 px-4 py-3 text-left hover:bg-rentify-background ${selected ? 'border-l-4 border-l-rentify-primary bg-rentify-primary-container' : ''}`}
+      title={displayName}
+      className={cn(
+        'ui-press relative flex w-full min-w-0 items-center gap-3 px-4 py-3 text-left outline-none focus-visible:bg-rentify-background focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-rentify-primary disabled:cursor-wait disabled:opacity-70',
+        selected ? 'bg-rentify-primary-container' : 'hover:bg-rentify-background',
+      )}
     >
-      <Avatar name={displayName} size="md" />
-      <span className="min-w-0 flex-1">
-        <span className="flex items-center justify-between gap-2">
-          <span className="truncate text-sm font-semibold">{displayName}</span>
+      {selected && (
+        <span aria-hidden="true" className="absolute inset-y-2 left-0 w-1 rounded-r-full bg-rentify-primary" />
+      )}
+      <ConversationAvatar
+        name={displayName}
+        seed={displayName}
+        avatarMediaId={conversation.kind === 'group' ? conversation.avatarMediaId : null}
+        size="lg"
+      />
+      <span className="flex min-w-0 flex-1 flex-col gap-1">
+        <span className="flex min-w-0 items-baseline gap-2">
+          <span
+            className={cn(
+              'min-w-0 flex-1 truncate text-sm',
+              hasUnread ? 'font-bold text-rentify-text-primary' : 'font-semibold text-rentify-text-primary',
+            )}
+          >
+            {displayName}
+          </span>
           {conversation.lastMessage && (
-            <time className="shrink-0 text-[11px] text-rentify-neutral">
+            <time
+              className={cn(
+                'shrink-0 text-[11px]',
+                hasUnread ? 'font-semibold text-rentify-primary' : 'text-rentify-neutral',
+              )}
+            >
               {formatConversationTime(conversation.lastMessage.sentAt, locale)}
             </time>
           )}
         </span>
-        <span className="mt-1 flex items-center justify-between gap-2">
-          <span className="truncate text-xs text-rentify-text-secondary">{preview}</span>
-          {conversation.unreadCount > 0 && <UnreadBadge count={conversation.unreadCount} />}
+        <span className="flex min-w-0 items-center gap-2">
+          <span
+            className={cn(
+              'min-w-0 flex-1 truncate text-xs',
+              hasUnread ? 'font-semibold text-rentify-text-primary' : 'text-rentify-text-secondary',
+            )}
+          >
+            {preview}
+          </span>
+          {hasUnread && <UnreadBadge count={conversation.unreadCount} />}
         </span>
       </span>
-    </Button>
+    </button>
   );
 };
 
 const UnreadBadge = ({ count }: { count: number }) => (
-  <span className="rounded-full bg-rentify-primary px-2 py-0.5 text-[10px] font-bold text-white">
+  <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-rentify-primary px-1.5 text-[10px] font-bold text-white">
     {count > CHAT_UNREAD_BADGE_MAX ? `${CHAT_UNREAD_BADGE_MAX}+` : count}
   </span>
 );
@@ -197,16 +229,22 @@ const StatusMessage = ({ message, action, onAction }: { message: string; action:
   </div>
 );
 
-const ConversationSkeleton = ({ count = 5 }: { count?: number }) => {
+const SKELETON_NAME_WIDTHS = ['w-3/5', 'w-2/5', 'w-1/2', 'w-2/3', 'w-1/3'];
+const SKELETON_PREVIEW_WIDTHS = ['w-4/5', 'w-3/5', 'w-2/3', 'w-1/2', 'w-3/4'];
+
+const ConversationSkeleton = ({ count = 6 }: { count?: number }) => {
   const { t } = useTranslation('chat');
   return (
-    <div className="space-y-1 p-3" role="status" aria-label={t('loadingConversations')}>
+    <div role="status" aria-label={t('loadingConversations')} aria-busy="true">
       {Array.from({ length: count }, (_, row) => (
-        <div key={row} className="flex items-center gap-3 border-b border-rentify-divider/70 px-1 py-3">
-          <Skeleton variant="circular" className="h-10 w-10" />
-          <div className="min-w-0 flex-1 space-y-2">
-            <Skeleton variant="text" className="h-4 w-3/4" />
-            <Skeleton variant="text" className="h-3 w-1/2" />
+        <div key={row} className="flex items-center gap-3 px-4 py-3" aria-hidden="true">
+          <Skeleton variant="circular" className="h-12 w-12 shrink-0" />
+          <div className="min-w-0 flex-1 space-y-2.5">
+            <div className="flex items-center gap-3">
+              <Skeleton className={`h-3.5 rounded-full ${SKELETON_NAME_WIDTHS[row % SKELETON_NAME_WIDTHS.length]}`} />
+              <Skeleton className="ml-auto h-2.5 w-8 rounded-full" />
+            </div>
+            <Skeleton className={`h-3 rounded-full ${SKELETON_PREVIEW_WIDTHS[row % SKELETON_PREVIEW_WIDTHS.length]}`} />
           </div>
         </div>
       ))}

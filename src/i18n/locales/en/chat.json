@@ -103,5 +103,21 @@
     "leaveConfirm": "Are you sure you want to leave this group?",
     "addMembers": "Add members",
     "addSelected": "Add {{count}} people"
+  },
+  "repliedTo": "Replied to {{name}}",
+  "replyUnavailableShort": "deleted message",
+  "imageUnavailable": "Image unavailable",
+  "downloadImage": "Download image",
+  "closeImage": "Close image",
+  "groupInfo": {
+    "title": "Group info",
+    "close": "Close group info",
+    "rename": "Rename group",
+    "renamePlaceholder": "Enter a group name",
+    "renameHint": "Press Enter to save, Esc to cancel. Leave empty to use the default name from members.",
+    "search": "Search messages",
+    "you": "You",
+    "member": "Member",
+    "memberActions": "Options for {{name}}"
   }
 }

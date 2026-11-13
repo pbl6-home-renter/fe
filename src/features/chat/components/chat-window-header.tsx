@@ -1,4 +1,5 @@
-import { ArrowLeft, Search, Settings2 } from 'lucide-react';
+import { ArrowLeft, PanelRight, Search } from 'lucide-react';
+import { cn } from '@/lib/utils/cn';
 import { useTranslation } from 'react-i18next';
 import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,7 @@ interface ChatWindowHeaderProps {
   connectionStatus: SocketConnectionStatus;
   canSearch: boolean;
   canManage: boolean;
+  isManageOpen: boolean;
   onBack: () => void;
   onSearch: () => void;
   onManage: () => void;
@@ -28,15 +30,20 @@ export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
       </IconButton>
       {props.isLoading ? (
-        <Skeleton variant="circular" className="h-8 w-8 shrink-0" />
+        <Skeleton variant="circular" className="h-10 w-10 shrink-0" />
       ) : (
-        <Avatar src={props.avatarSrc} name={props.title} size="sm" />
+        <Avatar src={props.avatarSrc} alt={props.title} name={props.title} colorSeed={props.title} size="md" />
       )}
       <div className="min-w-0 flex-1">
         {props.isLoading ? (
-          <Skeleton className="h-4 w-36 max-w-full" />
+          <div className="space-y-1.5">
+            <Skeleton className="h-3.5 w-40 max-w-full rounded-full" />
+            <Skeleton className="h-2.5 w-20 rounded-full" />
+          </div>
         ) : (
-          <h2 className="truncate text-sm font-semibold">{props.title}</h2>
+          <h2 className="truncate text-sm font-semibold" title={props.title}>
+            {props.title}
+          </h2>
         )}
         {props.isGroup && (
           <p className="text-xs text-rentify-text-secondary">{t('memberCount', { count: props.memberCount })}</p>
@@ -64,14 +71,24 @@ export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
           <IconButton
             type="button"
             variant="ghost"
-            className="md:hidden"
+            className={cn('md:hidden', props.isManageOpen && 'bg-rentify-primary-container text-rentify-primary')}
             aria-label={t('groupManagement.open')}
+            aria-pressed={props.isManageOpen}
             onClick={props.onManage}
           >
-            <Settings2 className="h-4 w-4" aria-hidden="true" />
+            <PanelRight className="h-4 w-4" aria-hidden="true" />
           </IconButton>
-          <Button variant="ghost" size="sm" className="hidden md:inline-flex" onClick={props.onManage}>
-            <Settings2 className="h-4 w-4" aria-hidden="true" />
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-pressed={props.isManageOpen}
+            className={cn(
+              'hidden md:inline-flex',
+              props.isManageOpen && 'bg-rentify-primary-container text-rentify-primary',
+            )}
+            onClick={props.onManage}
+          >
+            <PanelRight className="h-4 w-4" aria-hidden="true" />
             {t('groupManagement.open')}
           </Button>
         </>

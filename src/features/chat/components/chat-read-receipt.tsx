@@ -1,35 +1,80 @@
 import { useState } from 'react';
+import { Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@/components/ui/button';
+import { Avatar } from '@/components/ui/avatar';
 import { Dialog } from '@/components/ui/dialog';
+
+export interface ChatReader {
+  id: string;
+  name: string;
+}
 
 interface ChatReadReceiptProps {
   isGroup: boolean;
-  readers: Array<{ id: string; name: string }>;
+  readers: ChatReader[];
   totalRecipients: number;
 }
 
+const MAX_STACKED_READERS = 4;
+
+const ReaderAvatar = ({ reader }: { reader: ChatReader }) => (
+  <Avatar
+    name={reader.name}
+    alt={reader.name}
+    colorSeed={reader.name}
+    size="sm"
+    title={reader.name}
+    className="h-4 w-4 ring-2 ring-rentify-background [&_span]:text-[7px]"
+  />
+);
+
+/** Messenger-style receipt under the caller's latest message: tiny avatars of who has seen it. */
 export const ChatReadReceipt = ({ isGroup, readers, totalRecipients }: ChatReadReceiptProps) => {
   const { t } = useTranslation('chat');
   const [open, setOpen] = useState(false);
-  if (readers.length === 0) return <p className="mt-1 text-right text-xs text-rentify-text-secondary">{t('sent')}</p>;
-  if (!isGroup) return <p className="mt-1 text-right text-xs text-rentify-primary">{t('seen')}</p>;
+
+  if (readers.length === 0) {
+    return (
+      <p className="mt-0.5 flex items-center gap-1 px-1 text-[11px] text-rentify-neutral">
+        <Check className="h-3 w-3" aria-hidden="true" />
+        {t('sent')}
+      </p>
+    );
+  }
+
+  if (!isGroup) {
+    return (
+      <p className="mt-0.5 flex items-center gap-1 px-1 text-[11px] text-rentify-text-secondary">
+        <ReaderAvatar reader={readers[0]} />
+        {t('seen')}
+      </p>
+    );
+  }
+
+  const stacked = readers.slice(0, MAX_STACKED_READERS);
+  const label = t('seenCount', { count: readers.length, total: totalRecipients });
   return (
     <>
-      <Button
+      <button
         type="button"
-        variant="ghost"
-        size="sm"
-        className="ml-auto mt-1 h-auto min-h-10 px-2 text-xs text-rentify-primary"
         onClick={() => setOpen(true)}
+        aria-label={label}
+        title={label}
+        className="ui-press mt-0.5 flex items-center gap-1.5 rounded-full px-1.5 py-0.5 text-[11px] text-rentify-text-secondary hover:bg-rentify-surface-container-low focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary"
       >
-        {t('seenCount', { count: readers.length, total: totalRecipients })}
-      </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} title={t('seenBy')} maxWidth="sm">
-        <ul className="space-y-2 p-4">
+        <span className="flex -space-x-1">
+          {stacked.map((reader) => (
+            <ReaderAvatar key={reader.id} reader={reader} />
+          ))}
+        </span>
+        {readers.length > stacked.length && <span>+{readers.length - stacked.length}</span>}
+      </button>
+      <Dialog open={open} onClose={() => setOpen(false)} title={t('seenBy')} description={label} maxWidth="sm">
+        <ul className="max-h-80 space-y-1 overflow-y-auto">
           {readers.map((reader) => (
-            <li key={reader.id} className="text-sm text-rentify-text-primary">
-              {reader.name}
+            <li key={reader.id} className="flex items-center gap-3 rounded-lg px-2 py-2">
+              <Avatar name={reader.name} alt={reader.name} colorSeed={reader.name} size="sm" />
+              <span className="truncate text-sm text-rentify-text-primary">{reader.name}</span>
             </li>
           ))}
         </ul>
