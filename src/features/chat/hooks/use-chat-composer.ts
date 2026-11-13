@@ -23,7 +23,7 @@ import { useAuthStore } from '@/stores/auth-store';
 export interface PendingMessage {
   clientMessageId: string;
   content: string;
-  type: 'text' | 'image';
+  type: 'text' | 'image' | 'video' | 'file';
   imageFile?: File;
   mediaId?: string;
   uploadProgress?: number;
@@ -93,7 +93,7 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
     const entry: PendingMessage = {
       clientMessageId,
       content: cleaned,
-      type: imageFile ? 'image' : 'text',
+      type: imageFile ? (imageFile.type.startsWith('image/') ? 'image' : imageFile.type.startsWith('video/') ? 'video' : 'file') : 'text',
       ...(imageFile ? { imageFile } : {}),
       ...(existingMediaId ? { mediaId: existingMediaId } : {}),
       uploadProgress: existingMediaId ? 100 : 0,
@@ -173,7 +173,7 @@ export const useChatComposer = (targetKey: string, recipientUserId?: string, con
         sendRequest = {
           conversationId: sendingConversationId,
           clientMessageId,
-          type: 'image',
+          type: imageFile.type.startsWith('image/') ? 'image' : imageFile.type.startsWith('video/') ? 'video' : 'file',
           content: cleaned || null,
           mediaId,
           ...(reply ? { replyToMessageId: reply.id } : {}),

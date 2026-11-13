@@ -15,7 +15,7 @@ const isReplyReference = (value: unknown): value is ChatReplyReference =>
     value.sequence === null ||
     (typeof value.sequence === 'string' && /^\d+$/.test(value.sequence))) &&
   isStringOrNull(value.senderName) &&
-  (value.type === null || value.type === 'text' || value.type === 'image' || value.type === 'bot') &&
+  (value.type === null || value.type === 'text' || value.type === 'image' || value.type === 'video' || value.type === 'file' || value.type === 'bot') &&
   isStringOrNull(value.contentPreview) &&
   typeof value.isUnavailable === 'boolean';
 
@@ -56,7 +56,7 @@ export const isChatMessage = (value: unknown): value is ChatMessage => {
     typeof value.conversationId === 'string' &&
     typeof value.sequence === 'string' &&
     /^\d+$/.test(value.sequence) &&
-    (value.type === 'text' || value.type === 'image' || value.type === 'system' || value.type === 'bot') &&
+    (value.type === 'text' || value.type === 'image' || value.type === 'video' || value.type === 'file' || value.type === 'system' || value.type === 'bot') &&
     typeof value.senderName === 'string' &&
     typeof value.createdAt === 'string' &&
     (typeof value.senderUserId === 'string' || value.senderUserId === null) &&
@@ -114,6 +114,6 @@ export const isSendMessageEvent = (value: unknown): value is SendMessageEvent =>
     /^\d+$/.test(value.sequence) &&
     typeof value.createdAt === 'string' &&
     (typeof value.senderUserId === 'string' || value.senderUserId === null) &&
-    (value.type === 'text' || value.type === 'image' || value.type === 'bot')
+    (value.type === 'text' || value.type === 'image' || value.type === 'video' || value.type === 'file' || value.type === 'bot')
   );
 };

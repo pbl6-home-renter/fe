@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+﻿import { useTranslation } from 'react-i18next';
 import { AlertCircle, Reply } from 'lucide-react';
 import { UserAvatar } from '@/features/users/components/user-avatar';
 import { Button } from '@/components/ui/button';
@@ -7,10 +7,9 @@ import { ProgressMeterTrack } from '@/components/ui/progress-meter';
 import { cn } from '@/lib/utils/cn';
 import type { ChatMessage, ChatReplyReference } from '../types/chat.dto';
 import type { PendingMessage } from '../hooks/use-chat-composer';
-import { useChatLocalImagePreview } from '../hooks/use-chat-local-image-preview';
 import { formatChatMessage } from '../utils/format-chat-message';
 import { isSameCluster } from '../utils/chat-message-cluster';
-import { ChatImage } from './chat-image';
+import { ChatAttachment } from './chat-attachment';
 import { ChatReadReceipt, type ChatReader } from './chat-read-receipt';
 
 type ChatMessageItemProps =
@@ -79,7 +78,7 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
   const endsCluster = !isSameCluster(message, props.nextMessage);
   const corners = bubbleCorners(isOwn, startsCluster, endsCluster);
   const showName = props.isGroup && !isOwn && startsCluster;
-  const hasImage = message.type === 'image' && Boolean(message.mediaId);
+  const hasImage = (message.type === 'image' || message.type === 'video' || message.type === 'file') && Boolean(message.mediaId);
   const text = hasImage ? message.content : formatChatMessage(message, t);
 
   const reply = () =>
@@ -129,7 +128,7 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
               props.highlighted && cn('chat-message-highlight', corners),
             )}
           >
-            {hasImage && <ChatImage mediaId={message.mediaId!} className={corners} />}
+            {hasImage && message.type !== 'text' && message.type !== 'bot' && <ChatAttachment type={message.type} mediaId={message.mediaId!} className={corners} />}
             {text && (
               <p
                 className={cn(
@@ -169,7 +168,7 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
 
 const ReplyQuote = ({ reply, isOwn, onJump }: { reply: ChatReplyReference; isOwn: boolean; onJump: () => void }) => {
   const { t } = useTranslation('chat');
-  const preview = reply.isUnavailable ? t('replyUnavailable') : reply.contentPreview || t('photoSent');
+  const preview = reply.isUnavailable ? t('replyUnavailable') : reply.contentPreview || t(reply.type === 'video' ? 'videoSent' : reply.type === 'file' ? 'fileSent' : 'photoSent');
   return (
     <button
       type="button"
@@ -191,7 +190,6 @@ const ReplyQuote = ({ reply, isOwn, onJump }: { reply: ChatReplyReference; isOwn
 
 const PendingMessageItem = ({ pending, onRetry }: Extract<ChatMessageItemProps, { kind: 'pending' }>) => {
   const { t } = useTranslation('chat');
-  const imageUrl = useChatLocalImagePreview(pending.imageFile);
   const failed = pending.status !== 'uploading' && pending.status !== 'sending';
   return (
     <div className="chat-message-in mb-3 flex w-full justify-end">
@@ -201,16 +199,10 @@ const PendingMessageItem = ({ pending, onRetry }: Extract<ChatMessageItemProps, 
             <span className="text-[11px]">
               {t('repliedTo', { name: pending.replyTo.senderName ?? t('replyUnavailableShort') })}
             </span>
-            <span className="line-clamp-2">{pending.replyTo.contentPreview || t('photoSent')}</span>
+            <span className="line-clamp-2">{pending.replyTo.contentPreview || t(pending.replyTo.type === 'video' ? 'videoSent' : pending.replyTo.type === 'file' ? 'fileSent' : 'photoSent')}</span>
           </span>
         )}
-        {pending.type === 'image' && imageUrl && (
-          <img
-            src={imageUrl}
-            alt={t('photoSent')}
-            className="relative z-[1] max-h-72 max-w-[min(18rem,60vw)] rounded-[18px] object-cover opacity-80"
-          />
-        )}
+        {pending.type !== 'text' && pending.imageFile && <ChatAttachment type={pending.type} file={pending.imageFile} />}
         {pending.content && (
           <p
             className={cn(
@@ -223,7 +215,7 @@ const PendingMessageItem = ({ pending, onRetry }: Extract<ChatMessageItemProps, 
         )}
         {pending.status === 'uploading' && (
           <div className="w-48">
-            <ProgressMeterTrack value={pending.uploadProgress ?? 0} label={t('uploadingImage')} showValue />
+            <ProgressMeterTrack value={pending.uploadProgress ?? 0} label={t('uploadingFile')} showValue />
           </div>
         )}
         <div
@@ -234,7 +226,7 @@ const PendingMessageItem = ({ pending, onRetry }: Extract<ChatMessageItemProps, 
         >
           {failed && <AlertCircle className="h-3.5 w-3.5" aria-hidden="true" />}
           {pending.status === 'uploading'
-            ? t('uploadingImage')
+            ? t('uploadingFile')
             : pending.status === 'sending'
               ? t('sending')
               : t('sendFailed')}

@@ -58,6 +58,9 @@ export const mediaApi = {
   getBlob: (mediaId: string, options?: MediaRequestOptions) =>
     http.getBlob(`/media/${mediaId}`, { signal: options?.signal, skipErrorToast: true }),
 
+  getChatDownload: (mediaId: string, options?: MediaRequestOptions) =>
+    http.get<MediaDownloadUrlResponseDto>(`/media/${mediaId}/download-url`, { signal: options?.signal, skipErrorToast: true }),
+
   /** Avoids an XHR redirect across the API and R2 origins, which sends Origin: null. */
   getChatBlob: async (mediaId: string, options?: MediaRequestOptions): Promise<Blob> => {
     const { url } = await http.get<MediaDownloadUrlResponseDto>(
