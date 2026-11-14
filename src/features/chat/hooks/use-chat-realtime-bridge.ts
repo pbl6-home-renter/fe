@@ -125,7 +125,14 @@ export const useChatRealtimeBridge = () => {
       }
       if (!incoming || !chatNotificationsEnabled || document.visibilityState !== 'visible') return;
       if (location.pathname === getChatPath(payload.conversationId)) return;
-      const preview = payload.type === 'image' ? t('photoSent') : payload.type === 'video' ? t('videoSent') : payload.type === 'file' ? t('fileSent') : payload.contentPreview;
+      const preview =
+        payload.type === 'image'
+          ? t('photoSent')
+          : payload.type === 'video'
+            ? t('videoSent')
+            : payload.type === 'file'
+              ? t('fileSent')
+              : payload.contentPreview;
       notify.custom(
         () =>
           createElement(
@@ -134,7 +141,7 @@ export const useChatRealtimeBridge = () => {
               className:
                 'flex w-[min(24rem,calc(100vw-2rem))] items-start gap-3 rounded-xl border border-rentify-divider bg-white p-4 text-rentify-text-primary shadow-lg',
             },
-            createElement(UserAvatar, { name: payload.senderName, size: 'md' }),
+            createElement(UserAvatar, { name: payload.senderName, src: payload.senderAvatarUrl, size: 'md' }),
             createElement(
               'div',
               { className: 'min-w-0 flex-1' },

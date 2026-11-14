@@ -16,6 +16,8 @@ type ChatMessageItemProps =
   | {
       kind: 'message';
       message: ChatMessage;
+      /** Sender's current avatar (members first, so messages pushed over the socket get it too). */
+      senderAvatarUrl?: string | null;
       previousMessage?: ChatMessage;
       nextMessage?: ChatMessage;
       currentUserId?: string;
@@ -78,7 +80,8 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
   const endsCluster = !isSameCluster(message, props.nextMessage);
   const corners = bubbleCorners(isOwn, startsCluster, endsCluster);
   const showName = props.isGroup && !isOwn && startsCluster;
-  const hasImage = (message.type === 'image' || message.type === 'video' || message.type === 'file') && Boolean(message.mediaId);
+  const hasImage =
+    (message.type === 'image' || message.type === 'video' || message.type === 'file') && Boolean(message.mediaId);
   const text = hasImage ? message.content : formatChatMessage(message, t);
 
   const reply = () =>
@@ -104,7 +107,9 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
       )}
     >
       {!isOwn && (
-        <div className="mb-5 w-8 shrink-0">{endsCluster && <UserAvatar name={message.senderName} size="sm" />}</div>
+        <div className="mb-5 w-8 shrink-0">
+          {endsCluster && <UserAvatar name={message.senderName} src={props.senderAvatarUrl} size="sm" />}
+        </div>
       )}
       <div className={cn('flex min-w-0 max-w-[min(36rem,78%)] flex-col', isOwn ? 'items-end' : 'items-start')}>
         {showName && (
@@ -128,7 +133,9 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
               props.highlighted && cn('chat-message-highlight', corners),
             )}
           >
-            {hasImage && message.type !== 'text' && message.type !== 'bot' && <ChatAttachment type={message.type} mediaId={message.mediaId!} className={corners} />}
+            {hasImage && message.type !== 'text' && message.type !== 'bot' && (
+              <ChatAttachment type={message.type} mediaId={message.mediaId!} className={corners} />
+            )}
             {text && (
               <p
                 className={cn(
@@ -168,7 +175,10 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
 
 const ReplyQuote = ({ reply, isOwn, onJump }: { reply: ChatReplyReference; isOwn: boolean; onJump: () => void }) => {
   const { t } = useTranslation('chat');
-  const preview = reply.isUnavailable ? t('replyUnavailable') : reply.contentPreview || t(reply.type === 'video' ? 'videoSent' : reply.type === 'file' ? 'fileSent' : 'photoSent');
+  const preview = reply.isUnavailable
+    ? t('replyUnavailable')
+    : reply.contentPreview ||
+      t(reply.type === 'video' ? 'videoSent' : reply.type === 'file' ? 'fileSent' : 'photoSent');
   return (
     <button
       type="button"
@@ -199,10 +209,21 @@ const PendingMessageItem = ({ pending, onRetry }: Extract<ChatMessageItemProps, 
             <span className="text-[11px]">
               {t('repliedTo', { name: pending.replyTo.senderName ?? t('replyUnavailableShort') })}
             </span>
-            <span className="line-clamp-2">{pending.replyTo.contentPreview || t(pending.replyTo.type === 'video' ? 'videoSent' : pending.replyTo.type === 'file' ? 'fileSent' : 'photoSent')}</span>
+            <span className="line-clamp-2">
+              {pending.replyTo.contentPreview ||
+                t(
+                  pending.replyTo.type === 'video'
+                    ? 'videoSent'
+                    : pending.replyTo.type === 'file'
+                      ? 'fileSent'
+                      : 'photoSent',
+                )}
+            </span>
           </span>
         )}
-        {pending.type !== 'text' && pending.imageFile && <ChatAttachment type={pending.type} file={pending.imageFile} />}
+        {pending.type !== 'text' && pending.imageFile && (
+          <ChatAttachment type={pending.type} file={pending.imageFile} />
+        )}
         {pending.content && (
           <p
             className={cn(

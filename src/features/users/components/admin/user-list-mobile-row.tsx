@@ -11,7 +11,7 @@ export const UserListMobileRow = ({ row }: { row: Row<UserListAdminItemDto> }) =
     <div className="space-y-2.5">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2.5">
-          <UserAvatar name={user.name} size="sm" />
+          <UserAvatar name={user.name} src={user.avatarUrl} size="sm" />
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-rentify-text-primary">{user.name}</p>
             <p className="truncate text-xs text-rentify-text-secondary">{user.email}</p>

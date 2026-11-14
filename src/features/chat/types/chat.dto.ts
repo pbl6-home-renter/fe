@@ -64,6 +64,8 @@ export interface ChatMessage extends BaseEntity {
   conversationId: string;
   senderUserId: string | null;
   senderName: string;
+  /** Sender's current avatar; absent on messages built locally or pushed over the socket. */
+  senderAvatarUrl?: string | null;
   senderType: 'user' | 'system';
   sequence: string;
   clientMessageId: string | null;
@@ -92,6 +94,8 @@ export interface ConversationSummary extends BaseEntity {
   title: string | null;
   displayName: string | null;
   avatarMediaId: string | null;
+  /** Group: private media path of the group photo. Direct: the other person's avatar. */
+  avatarUrl?: string | null;
   unreadCount: number;
   lastMessage: LastMessage | null;
   memberCount?: number;
@@ -101,6 +105,7 @@ export interface ConversationMember extends BaseEntity {
   conversationId: string;
   userId: string | null;
   displayName: string;
+  avatarUrl?: string | null;
   participantType: 'user' | 'system';
   role: 'admin' | 'member' | 'system';
   status: MemberStatus;
@@ -152,6 +157,7 @@ export interface ConversationDetail extends Omit<ConversationSummary, 'lastMessa
 export interface UserDirectoryEntry {
   id: string;
   name: string;
+  avatarUrl?: string | null;
 }
 
 export interface UserDirectoryPage {
@@ -204,6 +210,7 @@ export interface SendMessageEvent {
   sequence: string;
   senderUserId: string | null;
   senderName: string;
+  senderAvatarUrl?: string | null;
   conversationName: string | null;
   type: 'text' | 'image' | 'video' | 'file' | 'bot';
   contentPreview: string;

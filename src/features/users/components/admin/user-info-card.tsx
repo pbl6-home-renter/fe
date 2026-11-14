@@ -31,7 +31,7 @@ export const UserInfoCard = ({ user }: { user: UserDetailAdminDto }) => {
 
       <CardContent className="space-y-6 pt-2">
         <div className="flex items-center gap-4">
-          <UserAvatar name={user.name} size="lg" />
+          <UserAvatar name={user.name} src={user.avatarUrl} size="lg" />
           <div className="min-w-0">
             <h2 className="truncate text-lg font-bold text-rentify-text-primary">{user.name}</h2>
             <div className="mt-1 flex flex-wrap items-center gap-2">

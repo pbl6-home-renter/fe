@@ -7,6 +7,7 @@ import { Dialog } from '@/components/ui/dialog';
 export interface ChatReader {
   id: string;
   name: string;
+  avatarUrl?: string | null;
 }
 
 interface ChatReadReceiptProps {
@@ -18,7 +19,7 @@ interface ChatReadReceiptProps {
 const MAX_STACKED_READERS = 4;
 
 const ReaderAvatar = ({ reader }: { reader: ChatReader }) => (
-  <UserAvatar name={reader.name} size="2xs" className="ring-2 ring-rentify-background" />
+  <UserAvatar name={reader.name} src={reader.avatarUrl} size="2xs" className="ring-2 ring-rentify-background" />
 );
 
 /** Messenger-style receipt under the caller's latest message: tiny avatars of who has seen it. */
@@ -66,7 +67,7 @@ export const ChatReadReceipt = ({ isGroup, readers, totalRecipients }: ChatReadR
         <ul className="max-h-80 space-y-1 overflow-y-auto">
           {readers.map((reader) => (
             <li key={reader.id} className="flex items-center gap-3 rounded-lg px-2 py-2">
-              <UserAvatar name={reader.name} size="sm" />
+              <UserAvatar name={reader.name} src={reader.avatarUrl} size="sm" />
               <span className="truncate text-sm text-rentify-text-primary">{reader.name}</span>
             </li>
           ))}

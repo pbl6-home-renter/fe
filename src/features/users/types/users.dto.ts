@@ -17,6 +17,7 @@ export interface UserListAdminItemDto extends BaseEntity {
   phone: string;
   role: Role;
   status: UserStatus;
+  avatarUrl?: string | null;
 }
 
 export interface UserDetailAdminDto extends UserListAdminItemDto {

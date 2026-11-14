@@ -67,6 +67,12 @@ export const ChatMessageFeed = (props: ChatMessageFeedProps) => {
     props.members?.filter(
       (member) => member.status === 'active' && member.userId && member.userId !== props.currentUserId,
     ) ?? [];
+  // Members carry each sender's current avatar, including for messages pushed over the socket.
+  const avatarByUserId = new Map(
+    (props.members ?? []).flatMap((member) =>
+      member.userId && member.avatarUrl ? [[member.userId, member.avatarUrl] as const] : [],
+    ),
+  );
   const showReceipts = !props.isAnchored && !props.hasNewer;
   const isEmpty = !props.isLoading && !props.isError && props.messages.length === 0 && pending.length === 0;
 
@@ -111,6 +117,10 @@ export const ChatMessageFeed = (props: ChatMessageFeedProps) => {
                 <ChatMessageItem
                   kind="message"
                   message={message}
+                  senderAvatarUrl={
+                    (message.senderUserId ? avatarByUserId.get(message.senderUserId) : undefined) ??
+                    message.senderAvatarUrl
+                  }
                   previousMessage={previousMessage}
                   nextMessage={props.messages[index + 1]}
                   currentUserId={props.currentUserId}
@@ -125,7 +135,11 @@ export const ChatMessageFeed = (props: ChatMessageFeedProps) => {
                           isGroup: props.isGroup,
                           readers: activeOthers
                             .filter((member) => BigInt(member.lastReadSequence) >= BigInt(message.sequence))
-                            .map((member) => ({ id: member.userId!, name: member.displayName })),
+                            .map((member) => ({
+                              id: member.userId!,
+                              name: member.displayName,
+                              avatarUrl: member.avatarUrl,
+                            })),
                           totalRecipients: activeOthers.length,
                         }
                       : undefined

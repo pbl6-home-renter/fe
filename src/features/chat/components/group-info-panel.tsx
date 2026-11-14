@@ -307,7 +307,7 @@ const AddMembers = ({ group, onDone }: { group: GroupState; onDone: () => void }
             key={person.id}
             label={
               <span className="flex min-w-0 items-center gap-3">
-                <UserAvatar name={person.name} size="sm" />
+                <UserAvatar name={person.name} src={person.avatarUrl} size="sm" />
                 <span className="truncate text-sm">{person.name}</span>
               </span>
             }
@@ -405,7 +405,7 @@ const MemberRow = ({ member, isSelf, canManage, canDemote, isBusy, onRoleChange,
   const isAdmin = member.role === 'admin';
   return (
     <li className="group flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-rentify-background">
-      <UserAvatar name={member.displayName} size="md" />
+      <UserAvatar name={member.displayName} src={member.avatarUrl} size="md" />
       <span className="min-w-0 flex-1">
         <span className="block truncate text-sm font-medium">
           {member.displayName}

@@ -111,7 +111,7 @@ const UserDirectoryList = ({ dialog }: UserDirectoryListProps) => {
               if (dialog.mode === 'direct') dialog.selectDirect(person.id, person.name);
             }}
           >
-            <UserAvatar name={person.name} size="sm" />
+            <UserAvatar name={person.name} src={person.avatarUrl} size="sm" />
             <span className="truncate">{person.name}</span>
           </Button>
         </div>
