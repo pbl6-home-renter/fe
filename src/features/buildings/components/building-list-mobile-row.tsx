@@ -22,7 +22,11 @@ export const BuildingListMobileRow = ({ row }: { row: Row<BuildingMyListItemDto>
       </div>
       <div className="flex items-center justify-between text-xs text-rentify-text-secondary">
         <span>{t('list.rooms', { count: row.original.totalRooms ?? 0 })}</span>
-        <span className="font-semibold tabular-nums">{t('list.occupancyValue', { value: row.original.occupancyRate })}</span>
+        <span className="font-semibold tabular-nums">
+          {row.original.occupancyRate
+            ? t('list.occupancyValue', { value: row.original.occupancyRate.replace(/%$/, '') })
+            : '—'}
+        </span>
       </div>
     </div>
   );
