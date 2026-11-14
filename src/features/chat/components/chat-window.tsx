@@ -98,6 +98,7 @@ export const ChatWindow = ({
         <ChatWindowHeader
           title={window.title}
           avatarMediaId={window.detail.data?.kind === 'group' ? window.detail.data.avatarMediaId : null}
+          avatarUrl={window.detail.data?.kind === 'direct' ? window.detail.data.avatarUrl : null}
           isLoading={window.detail.isLoading && !draftRecipient}
           isGroup={isGroup}
           memberCount={activeMembers}

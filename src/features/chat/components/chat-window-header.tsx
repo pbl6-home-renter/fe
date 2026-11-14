@@ -10,6 +10,7 @@ import type { SocketConnectionStatus } from '@/features/realtime/context/socket-
 interface ChatWindowHeaderProps {
   title: string;
   avatarMediaId?: string | null;
+  avatarUrl?: string | null;
   isLoading: boolean;
   isGroup: boolean;
   memberCount: number;
@@ -32,7 +33,12 @@ export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
       {props.isLoading ? (
         <Skeleton variant="circular" className="h-10 w-10 shrink-0" />
       ) : (
-        <ConversationAvatar name={props.title} avatarMediaId={props.avatarMediaId} size="md" />
+        <ConversationAvatar
+          name={props.title}
+          avatarMediaId={props.avatarMediaId}
+          avatarUrl={props.avatarUrl}
+          size="md"
+        />
       )}
       <div className="min-w-0 flex-1">
         {props.isLoading ? (

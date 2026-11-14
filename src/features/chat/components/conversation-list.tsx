@@ -121,6 +121,7 @@ const ConversationRow = ({ conversation, selected, disabled, onSelect }: Convers
       <ConversationAvatar
         name={displayName}
         avatarMediaId={conversation.kind === 'group' ? conversation.avatarMediaId : null}
+        avatarUrl={conversation.kind === 'direct' ? conversation.avatarUrl : null}
         size="lg"
       />
       <span className="flex min-w-0 flex-1 flex-col gap-1">

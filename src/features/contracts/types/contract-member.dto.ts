@@ -7,6 +7,7 @@ export interface ContractMemberListItemDto extends BaseEntity {
   tenantId: string | null;
   tenantName: string | null;
   tenantPhone: string | null;
+  tenantAvatarUrl?: string | null;
   joinedAt: string;
   leftAt: string | null;
   status: ContractMemberStatus;

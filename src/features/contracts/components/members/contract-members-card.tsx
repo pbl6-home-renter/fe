@@ -103,7 +103,7 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
                     className="flex items-center justify-between p-3 rounded-xl border border-rentify-divider bg-rentify-background hover:border-rentify-outline/40 transition-colors"
                   >
                     <div className="flex min-w-0 items-center gap-3 pr-2">
-                      <UserAvatar name={member.tenantName} size="md" />
+                      <UserAvatar name={member.tenantName} src={member.tenantAvatarUrl} size="md" />
                       <div className="min-w-0 space-y-0.5">
                         <p className="font-semibold text-rentify-text-primary text-sm truncate">
                           {member.tenantName || '—'}
@@ -152,7 +152,12 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="flex min-w-0 items-center gap-2">
-                        <UserAvatar name={member.tenantName} size="xs" className="grayscale" />
+                        <UserAvatar
+                          name={member.tenantName}
+                          src={member.tenantAvatarUrl}
+                          size="xs"
+                          className="grayscale"
+                        />
                         <span className="truncate font-semibold text-rentify-text-primary">
                           {member.tenantName || '—'}
                         </span>
