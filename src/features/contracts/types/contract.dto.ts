@@ -53,7 +53,6 @@ export interface ContractDetailDto extends BaseEntity {
   vehicleCount: number | null;
   description: string | null;
   templateKey?: string | null;
-  draftDocumentMediaId?: string | null;
   signedContractMediaId?: string | null;
 }
 
@@ -93,14 +92,4 @@ export interface ContractTemplateDetailDto {
 
 export interface ContractApplyTemplateRequestDto {
   templateKey: string;
-}
-
-export interface ContractGenerateDraftRequestDto {
-  templateKey: string;
-}
-
-export interface ContractGenerateDraftResponseDto {
-  contractId?: string;
-  mediaId: string;
-  purpose?: string;
 }

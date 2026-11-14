@@ -201,7 +201,9 @@
     "step2Desc": "Generate pre-filled PDF contract document for physical signing.",
     "step2GenerateBtn": "Generate draft PDF",
     "step2Generating": "Generating PDF...",
-    "step2ViewPdf": "View / Download draft PDF",
+    "step2ViewPdf": "View draft PDF",
+    "step2DownloadPdf": "Download draft PDF",
+    "step2ApplyFirst": "Apply a template before generating the draft.",
     "step3Title": "3. Upload signed contract & Activate",
     "step3Desc": "Upload scanned document or photo of physically signed contract.",
     "step3UploadNotice": "Upload signed contract (PDF, PNG, JPEG, WebP ≤ 10 MB)",
@@ -234,6 +236,7 @@
     "ROOM_MARKED_READY": "Room marked ready successfully"
   },
   "apiErrors": {
+    "CONTRACT_TEMPLATE_NOT_APPLIED": "Apply a template before generating the draft.",
     "ACTIVE_CONTRACT_EXISTS": "An active contract already exists for this room",
     "CONTRACT_NOT_DRAFT": "Only draft contracts can be edited",
     "CONTRACT_NOT_READY": "Contract is not ready for activation",

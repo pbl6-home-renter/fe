@@ -36,6 +36,18 @@ apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config;
 });
 
+// Binary downloads still return JSON envelopes for API errors.
+apiClient.interceptors.response.use(undefined, async (error: unknown) => {
+  if (axios.isAxiosError(error) && error.response?.data instanceof Blob && error.response.data.type.includes('json')) {
+    try {
+      error.response.data = JSON.parse(await error.response.data.text()) as unknown;
+    } catch {
+      // Fall back to the status-based error message for malformed JSON.
+    }
+  }
+  return Promise.reject(error);
+});
+
 attachRefreshTokenInterceptor(apiClient, API_BASE_URL);
 
 // Registered after the refresh interceptor, so a 401 that gets refreshed is never toasted.
