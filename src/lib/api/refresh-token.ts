@@ -3,6 +3,7 @@ import { ROUTES } from '@/config/routes.config';
 import { queryClient } from '@/lib/query/query-client';
 import { useAuthStore } from '@/stores/auth-store';
 import type { ApiErrorResponse, ApiResponse } from '@/types/api';
+import { isInvalidCurrentPasswordError } from './errors';
 
 interface TokenPair {
   accessToken: string;
@@ -76,7 +77,7 @@ export const refreshSession = (baseURL: string): Promise<TokenPair> => {
 export const attachRefreshTokenInterceptor = (client: AxiosInstance, baseURL: string) => {
   client.interceptors.response.use(undefined, async (error: AxiosError<ApiErrorResponse>) => {
     const request = error.config as RetriableRequestConfig | undefined;
-    if (!request || error.response?.status !== 401 || isAuthEndpoint(request.url) || request._retry) {
+    if (!request || error.response?.status !== 401 || isAuthEndpoint(request.url) || request._retry || isInvalidCurrentPasswordError(error)) {
       return Promise.reject(error);
     }
 

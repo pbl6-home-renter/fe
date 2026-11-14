@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { notify } from '@/lib/notifications/notify';
 import type { ApiResponse } from '@/types/api';
 import { findApiSuccessMessage } from './api-messages';
-import { getErrorMessage } from './errors';
+import { getErrorMessage, isInvalidCurrentPasswordError } from './errors';
 import { attachRefreshTokenInterceptor, isAuthEndpoint } from './refresh-token';
 
 declare module 'axios' {
@@ -55,7 +55,7 @@ apiClient.interceptors.response.use(
   },
   (error: unknown) => {
     const skipErrorToast = axios.isAxiosError(error) && error.config?.skipErrorToast;
-    if (!isCancel(error) && !skipErrorToast) {
+    if (!isCancel(error) && !skipErrorToast && !isInvalidCurrentPasswordError(error)) {
       const message = getErrorMessage(error);
       notify.error(message);
     }

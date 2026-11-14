@@ -7,6 +7,7 @@ import { BuildingApprovalListPage } from '@/features/buildings/pages/admin/build
 import { BuildingApprovalDetailPage } from '@/features/buildings/pages/admin/building-approval-detail-page';
 import { UserListPage } from '@/features/users/pages/admin/user-list-page';
 import { UserDetailPage } from '@/features/users/pages/admin/user-detail-page';
+import { SecuritySettingsPage } from '@/features/auth/pages/security-settings-page';
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -53,7 +54,7 @@ export const adminRoutes: RouteObject[] = [
     path: ROUTES.ADMIN.SETTINGS,
     element: (
       <ProtectedRoute allowedRoles={[Role.ADMIN]}>
-        <DashboardOverview titleKey="routes.admin.settingsTitle" descKey="routes.admin.settingsDesc" />
+        <SecuritySettingsPage />
       </ProtectedRoute>
     ),
   },

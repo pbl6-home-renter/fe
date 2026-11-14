@@ -7,6 +7,7 @@ import { ChatRoute } from '@/app/routes/chat-route';
 import { InvoiceDetailRoute, InvoiceListRoute } from '@/app/routes/invoice-route';
 import { NotificationsPage } from '@/features/notifications/pages/notifications-page';
 import { ProfilePage } from '@/features/users/pages/profile-page';
+import { SecuritySettingsPage } from '@/features/auth/pages/security-settings-page';
 
 export const commonRoutes: RouteObject[] = [
   {
@@ -64,7 +65,7 @@ export const commonRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.SETTINGS,
-    element: <DashboardOverview titleKey="routes.settings.title" descKey="routes.settings.desc" />,
+    element: <SecuritySettingsPage />,
   },
   {
     path: ROUTES.DESIGN_SYSTEM,
