@@ -1,4 +1,4 @@
-import { ArrowLeft, PanelRight, Search } from 'lucide-react';
+import { ArrowLeft, Bell, PanelRight, Search } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useTranslation } from 'react-i18next';
 import { ConversationAvatar } from './conversation-avatar';
@@ -17,10 +17,12 @@ interface ChatWindowHeaderProps {
   connectionStatus: SocketConnectionStatus;
   canSearch: boolean;
   canManage: boolean;
+  canSendReminder: boolean;
   isManageOpen: boolean;
   onBack: () => void;
   onSearch: () => void;
   onManage: () => void;
+  onReminder: () => void;
 }
 
 export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
@@ -70,6 +72,11 @@ export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
           onClick={props.onSearch}
         >
           <Search className="h-4 w-4" aria-hidden="true" />
+        </IconButton>
+      )}
+      {props.canSendReminder && (
+        <IconButton type="button" variant="ghost" aria-label={t('reminder.open')} title={t('reminder.open')} onClick={props.onReminder}>
+          <Bell className="h-4 w-4" aria-hidden="true" />
         </IconButton>
       )}
       {props.canManage && (

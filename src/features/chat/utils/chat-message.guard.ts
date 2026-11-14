@@ -1,4 +1,4 @@
-import type { ChatMessage, ChatReplyReference, SendMessageEvent, SystemMessagePayload } from '../types/chat.dto';
+import type { BotReminderPayload, ChatMessage, ChatReplyReference, SendMessageEvent, SystemMessagePayload } from '../types/chat.dto';
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -49,7 +49,7 @@ export const isSystemMessagePayload = (value: unknown): value is SystemMessagePa
 
 export const isChatMessage = (value: unknown): value is ChatMessage => {
   if (!isRecord(value)) return false;
-  const payloadValid = value.payload === null || isSystemMessagePayload(value.payload);
+  const payloadValid = value.payload === null || isSystemMessagePayload(value.payload) || isBotReminderPayload(value.payload);
   const replyValid = value.replyTo === undefined || value.replyTo === null || isReplyReference(value.replyTo);
   return (
     typeof value.id === 'string' &&
@@ -68,6 +68,10 @@ export const isChatMessage = (value: unknown): value is ChatMessage => {
     replyValid
   );
 };
+
+const isBotReminderPayload = (value: unknown): value is BotReminderPayload =>
+  isRecord(value) && value.action === 'bot_reminder' && typeof value.actorUserId === 'string' &&
+  (value.templateType === 'invoice' || value.templateType === 'contract_expiring') && typeof value.resourceId === 'string';
 
 export const isMemberReadEvent = (
   value: unknown,

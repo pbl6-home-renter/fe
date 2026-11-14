@@ -15,6 +15,8 @@ import { useNotify } from '@/lib/notifications/use-notify';
 import { ChatWindowHeader } from './chat-window-header';
 import { ChatWindowError } from './chat-window-error';
 import { ChatTypingIndicator } from './chat-typing-indicator';
+import { BotReminderDialog } from './bot-reminder-dialog';
+import { useAuthStore } from '@/stores/auth-store';
 
 interface ChatWindowProps {
   conversationId?: string;
@@ -56,6 +58,8 @@ export const ChatWindow = ({
   const { t } = useTranslation('chat');
   const notify = useNotify();
   const [manageOpen, setManageOpen] = useState(false);
+  const [reminderOpen, setReminderOpen] = useState(false);
+  const role = useAuthStore((state) => state.user?.role);
   const enhancements = useChatEnhancements(conversationId);
   const window = useChatWindow({
     conversationId,
@@ -83,6 +87,8 @@ export const ChatWindow = ({
       .length ?? 0;
   const isReadOnly = Boolean(conversationId && (!window.currentMember || window.currentMember.status !== 'active'));
   const canManage = Boolean(conversationId && isGroup && window.currentMember?.status === 'active');
+  const contractId = window.detail.data?.contextType === 'contract' ? window.detail.data.contextId : null;
+  const canSendReminder = Boolean(conversationId && contractId && role === 'landlord' && !isReadOnly);
   const typingNames = enhancements.typingUserIds
     .map(
       (id) =>
@@ -105,10 +111,12 @@ export const ChatWindow = ({
           connectionStatus={connectionStatus}
           canSearch={Boolean(conversationId)}
           canManage={canManage}
+          canSendReminder={canSendReminder}
           isManageOpen={manageOpen}
           onBack={onBack}
           onSearch={() => enhancements.setSearchOpen(true)}
           onManage={() => setManageOpen((open) => !open)}
+          onReminder={() => setReminderOpen(true)}
         />
         <div className="relative flex min-h-0 flex-1 flex-col">
           <ChatMessageFeed
@@ -198,6 +206,9 @@ export const ChatWindow = ({
           onLeft={onBack}
           onSearchMessages={() => enhancements.setSearchOpen(true)}
         />
+      )}
+      {canSendReminder && conversationId && contractId && (
+        <BotReminderDialog key={`${conversationId}:${contractId}`} conversationId={conversationId} contractId={contractId} open={reminderOpen} onClose={() => setReminderOpen(false)} />
       )}
     </section>
   );

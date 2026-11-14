@@ -8,7 +8,7 @@ export const formatChatMessage = (message: ChatMessagePreviewSource, t: TFunctio
   if (message.type === 'image') return t('photoSent');
   if (message.type === 'video') return t('videoSent');
   if (message.type === 'file') return t('fileSent');
-  if (message.type !== 'system' || !message.payload) {
+  if (message.type !== 'system' || !message.payload || message.payload.action === 'bot_reminder') {
     return 'contentPreview' in message ? message.contentPreview : (message.content ?? '');
   }
 

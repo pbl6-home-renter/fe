@@ -100,6 +100,9 @@ export const chatApi = {
   sendMessage: (body: SendMessageRequest, config?: AxiosRequestConfig) =>
     http.post<SentMessage>(CHAT_API_ROUTES.MESSAGES, body, config),
 
+  sendReminder: (conversationId: string, body: { templateType: 'invoice' | 'contract_expiring'; resourceId: string; clientMessageId: string }) =>
+    http.post<SentMessage>(CHAT_API_ROUTES.BOT_REMINDERS(conversationId), body),
+
   markRead: (conversationId: string, lastReadSequence: string) =>
     http.post<{ conversationId: string; unreadCount: number }>(CHAT_API_ROUTES.MARK_READ, {
       conversationId,

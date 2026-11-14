@@ -60,6 +60,13 @@ export type SystemMessagePayload =
       newAvatarMediaId: string | null;
     });
 
+export interface BotReminderPayload {
+  action: 'bot_reminder';
+  actorUserId: string;
+  templateType: 'invoice' | 'contract_expiring';
+  resourceId: string;
+}
+
 export interface ChatMessage extends BaseEntity {
   conversationId: string;
   senderUserId: string | null;
@@ -72,7 +79,7 @@ export interface ChatMessage extends BaseEntity {
   type: MessageType;
   content: string | null;
   mediaId: string | null;
-  payload: SystemMessagePayload | null;
+  payload: SystemMessagePayload | BotReminderPayload | null;
   replyTo?: ChatReplyReference | null;
   createdAt: string;
 }
@@ -84,7 +91,7 @@ export interface LastMessage {
   contentPreview: string;
   type: MessageType;
   sentAt: string;
-  payload: SystemMessagePayload | null;
+  payload: SystemMessagePayload | BotReminderPayload | null;
 }
 
 export interface ConversationSummary extends BaseEntity {
