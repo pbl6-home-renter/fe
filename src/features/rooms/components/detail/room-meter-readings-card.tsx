@@ -1,82 +1,43 @@
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ErrorState } from '@/components/feedback/error-state';
+import { Skeleton } from '@/components/feedback/skeleton';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Zap, Droplet, Gauge } from 'lucide-react';
-import { ROUTES } from '@/config/routes.config';
+import { MeterType } from '@/features/meter-readings/enums/meter-type.enum';
+import { useMeterReadingsQuery } from '@/features/meter-readings/hooks/use-meter-readings-query';
+import type { MeterReadingDto } from '@/features/meter-readings/types/meter-reading.dto';
+import { formatDateTime, formatMonth } from '@/lib/utils/format';
 
-interface RoomMeterReadingsCardProps {
-  meterReadings?: {
-    electricity?: string | null;
-    water?: string | null;
-    recordedAt?: string | null;
-  } | null;
-  buildingId?: string;
-}
+const latestInPage = (items: MeterReadingDto[]) => [...items].sort((a, b) =>
+  b.period.localeCompare(a.period) || Number(a.isBaseline) - Number(b.isBaseline) || (b.createdAt ?? '').localeCompare(a.createdAt ?? ''),
+)[0];
 
-export const RoomMeterReadingsCard = ({ meterReadings, buildingId }: RoomMeterReadingsCardProps) => {
+export const RoomMeterReadingsCard = ({ roomId }: { roomId: string }) => {
   const { t } = useTranslation('rooms');
-  const navigate = useNavigate();
-
-  const hasReadings = Boolean(meterReadings && (meterReadings.electricity || meterReadings.water));
-
-  const handleGoToMeterReadings = () => {
-    const url = buildingId
-      ? `${ROUTES.LANDLORD.METER_READINGS}?buildingId=${buildingId}`
-      : ROUTES.LANDLORD.METER_READINGS;
-    navigate(url);
-  };
-
+  const electricity = useMeterReadingsQuery({ filter: { roomId, type: MeterType.ELECTRICITY } }, { placeholderData: undefined });
+  const water = useMeterReadingsQuery({ filter: { roomId, type: MeterType.WATER } }, { placeholderData: undefined });
+  const readings = [
+    { label: t('detail.electricity'), unit: t('units.kwh'), query: electricity },
+    { label: t('detail.water'), unit: t('units.m3'), query: water },
+  ];
   return (
-    <Card className="space-y-3">
-      <div className="flex items-center justify-between pb-2 border-b border-rentify-divider">
-        <h4 className="font-bold text-base text-rentify-text-primary">{t('detail.meterTitle')}</h4>
-        {hasReadings && meterReadings?.recordedAt && (
-          <span className="text-[11px] text-rentify-text-secondary">
-            {new Date(meterReadings.recordedAt).toLocaleDateString('vi-VN')}
-          </span>
-        )}
-      </div>
-
-      {hasReadings ? (
-        <div className="grid grid-cols-2 gap-3 text-xs">
-          <div className="p-3 rounded-xl bg-surface-container-low/70 space-y-1">
-            <span className="text-rentify-text-secondary flex items-center gap-1.5 text-[11px]">
-              <Zap className="w-3.5 h-3.5 text-rentify-warning" />
-              <span>{t('detail.electricity')}</span>
-            </span>
-            <p className="font-bold text-sm text-rentify-text-primary font-mono">
-              {meterReadings?.electricity || '—'}{' '}
-              <span className="text-[11px] font-normal text-rentify-text-secondary">{t('units.kwh')}</span>
-            </p>
+    <Card className="space-y-4">
+      <h3 className="font-bold text-base text-rentify-text-primary">{t('detail.meterTitle')}</h3>
+      <p className="text-xs text-rentify-text-secondary">{t('detail.meterPageNote')}</p>
+      {readings.map(({ label, unit, query }) => {
+        const reading = latestInPage(query.data?.items ?? []);
+        return (
+          <div key={label} className="space-y-2 rounded-xl bg-surface-container-low p-3">
+            <h4 className="text-sm font-semibold">{label}</h4>
+            {query.isLoading ? <Skeleton className="h-10 w-full" /> : query.isError ? <ErrorState onRetry={() => void query.refetch()} /> : reading ? (
+              <>
+                <p className="font-semibold tabular-nums">{reading.currentReading} {unit}</p>
+                <p className="text-xs text-rentify-text-secondary">{t('detail.meterPeriod', { period: formatMonth(reading.period) })}</p>
+                {reading.createdAt && <p className="text-xs text-rentify-text-secondary">{t('detail.meterRecordedAt', { date: formatDateTime(reading.createdAt) })}</p>}
+              </>
+            ) : <p className="text-sm text-rentify-text-secondary">{t('detail.noMetersRecorded')}</p>}
           </div>
-
-          <div className="p-3 rounded-xl bg-surface-container-low/70 space-y-1">
-            <span className="text-rentify-text-secondary flex items-center gap-1.5 text-[11px]">
-              <Droplet className="w-3.5 h-3.5 text-rentify-primary" />
-              <span>{t('detail.water')}</span>
-            </span>
-            <p className="font-bold text-sm text-rentify-text-primary font-mono">
-              {meterReadings?.water || '—'}{' '}
-              <span className="text-[11px] font-normal text-rentify-text-secondary">{t('units.m3')}</span>
-            </p>
-          </div>
-        </div>
-      ) : (
-        <div className="py-2 space-y-3">
-          <p className="text-xs text-rentify-text-secondary">{t('detail.noMetersRecorded')}</p>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleGoToMeterReadings}
-            className="w-full gap-2 text-xs"
-          >
-            <Gauge className="w-3.5 h-3.5" />
-            <span>{t('detail.recordMetersAction')}</span>
-          </Button>
-        </div>
-      )}
+        );
+      })}
     </Card>
   );
 };
