@@ -7,8 +7,6 @@ import { BuildingListPage } from '@/features/buildings/pages/building-list-page'
 import { BuildingDetailPage } from '@/features/buildings/pages/building-detail-page';
 import { RoomListPage } from '@/features/rooms/pages/room-list-page';
 import { RoomDetailPage } from '@/features/rooms/pages/room-detail-page';
-import { ContractListPage } from '@/features/contracts/pages/contract-list-page';
-import { ContractDetailPage } from '@/features/contracts/pages/contract-detail-page';
 import { MeterReadingPage } from '@/features/meter-readings/pages/meter-reading-page';
 
 export const landlordRoutes: RouteObject[] = [
@@ -73,22 +71,6 @@ export const landlordRoutes: RouteObject[] = [
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
         <DashboardOverview titleKey="routes.tenants.detailTitle" descKey="routes.tenants.detailDesc" />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: ROUTES.LANDLORD.CONTRACTS,
-    element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
-        <ContractListPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: ROUTES.LANDLORD.CONTRACT_DETAIL(':id'),
-    element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
-        <ContractDetailPage />
       </ProtectedRoute>
     ),
   },
