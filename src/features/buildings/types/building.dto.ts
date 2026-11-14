@@ -40,6 +40,7 @@ export interface BuildingMyDetailDto extends BaseEntity {
 
 export interface BuildingFilter {
   status?: BuildingStatus;
+  search?: string;
 }
 
 export interface BuildingCreateRequestDto {
