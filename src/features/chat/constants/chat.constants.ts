@@ -27,6 +27,7 @@ export const CHAT_DIRECTORY_LOAD_MORE_THRESHOLD_PX = 48;
 export const CHAT_API_ROUTES = {
   CONVERSATIONS: '/conversations',
   CONVERSATION: (id: string) => `/conversations/${id}`,
+  BOT_REMINDERS: (id: string) => `/conversations/${id}/bot-reminders`,
   UNREAD_SUMMARY: '/conversations/unread-summary',
   MESSAGES: '/messages',
   MESSAGE_SEARCH: '/messages/search',
