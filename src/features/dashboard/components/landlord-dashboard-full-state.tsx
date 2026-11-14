@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Building2, Plus, ShieldCheck, Clock, AlertCircle, MapPin, ArrowRight, Layers } from 'lucide-react';
@@ -6,26 +5,18 @@ import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { PageHeader } from '@/components/ui/page-header';
-import { BuildingStatus } from '@/features/buildings/enums/building-status.enum';
 import { BuildingStatusBadge } from '@/features/buildings/components/building-status-badge';
 import type { BuildingMyListItemDto } from '@/features/buildings/types/building.dto';
 
 export interface LandlordDashboardFullStateProps {
   buildings: BuildingMyListItemDto[];
+  metrics: { total: number; active: number; pending: number; others: number | null };
   onOpenCreateModal?: () => void;
 }
 
-export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: LandlordDashboardFullStateProps) => {
+export const LandlordDashboardFullState = ({ buildings, metrics, onOpenCreateModal }: LandlordDashboardFullStateProps) => {
   const { t } = useTranslation('dashboard');
   const navigate = useNavigate();
-
-  const metrics = useMemo(() => {
-    const total = buildings.length;
-    const active = buildings.filter((b) => b.status === BuildingStatus.APPROVED).length;
-    const pending = buildings.filter((b) => b.status === BuildingStatus.PENDING).length;
-    const others = total - active - pending;
-    return { total, active, pending, others };
-  }, [buildings]);
 
   return (
     <div className="space-y-6">
@@ -84,7 +75,7 @@ export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: Lan
           </div>
         </Card>
 
-        <Card className="flex flex-col justify-between p-5">
+        {metrics.others !== null && <Card className="flex flex-col justify-between p-5">
           <div className="flex items-center justify-between text-rentify-text-secondary">
             <span className="text-xs font-semibold">{t('full.otherBuildings')}</span>
             <AlertCircle className="w-5 h-5 text-rentify-neutral" />
@@ -92,7 +83,7 @@ export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: Lan
           <div className="mt-4">
             <span className="text-2xl font-bold text-rentify-neutral tracking-tight">{metrics.others}</span>
           </div>
-        </Card>
+        </Card>}
       </div>
 
       {/* Danh sách Bất động sản của tôi */}
@@ -100,7 +91,7 @@ export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: Lan
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-rentify-text-primary">{t('full.myBuildingsList')}</h2>
           <span className="text-xs text-rentify-text-secondary font-medium">
-            {buildings.length} {t('full.totalBuildings').toLowerCase()}
+            {t('full.previewCount', { count: buildings.length })}
           </span>
         </div>
 
@@ -144,7 +135,7 @@ export const LandlordDashboardFullState = ({ buildings, onOpenCreateModal }: Lan
 
                 <div className="pt-2 border-t border-rentify-divider flex items-center justify-between text-xs">
                   <span className="text-rentify-text-secondary font-medium">
-                    {building.occupiedRooms !== undefined ? `${building.occupiedRooms} phòng thuê` : ''}
+                    {building.occupiedRooms !== undefined ? t('full.occupiedRooms', { count: building.occupiedRooms }) : ''}
                   </span>
                   <span className="inline-flex items-center gap-1 font-semibold text-rentify-primary group-hover:underline">
                     <span>{t('full.viewDetail')}</span>
