@@ -30,14 +30,16 @@ export const BotReminderDialog = ({ conversationId, contractId, open, onClose }:
                   {invoices.data.items.map((invoice) => <option value={invoice.id} key={invoice.id}>{invoice.code} · {formatMonth(invoice.period)} · {formatVnd(invoice.totalAmount)}</option>)}
                 </select>
               </label>
-              <div className="flex items-center justify-between gap-2 text-sm">
-                <Button variant="outline" size="sm" disabled={reminder.pageNo <= 1 || reminder.isSending} onClick={() => { reminder.setInvoiceId(''); reminder.setPageNo(reminder.pageNo - 1); }}>{t('reminder.previous')}</Button>
-                <span>{t('reminder.page', { page: reminder.pageNo })}</span>
-                <Button variant="outline" size="sm" disabled={!invoices.data.pagination.hasNextPage || reminder.isSending} onClick={() => { reminder.setInvoiceId(''); reminder.setPageNo(reminder.pageNo + 1); }}>{t('reminder.next')}</Button>
-              </div>
             </>
           )
         ) : contract.isLoading ? <p>{t('reminder.loading')}</p> : contract.isError ? <ErrorState onRetry={() => void contract.refetch()} /> : reminder.canSend && contract.data ? <p>{t('reminder.contractEnd', { date: formatDate(contract.data.endDate) })}</p> : <p>{t('reminder.noContract')}</p>}
+        {reminder.template === 'invoice' && !invoices.isError && invoices.data && (reminder.pageNo > 1 || invoices.data.pagination.hasNextPage) && (
+          <div className="flex items-center justify-between gap-2 text-sm">
+            <Button variant="outline" size="sm" disabled={reminder.pageNo <= 1 || reminder.isSending} onClick={() => { reminder.setInvoiceId(''); reminder.setPageNo(reminder.pageNo - 1); }}>{t('reminder.previous')}</Button>
+            <span>{t('reminder.page', { page: reminder.pageNo })}</span>
+            <Button variant="outline" size="sm" disabled={!invoices.data.pagination.hasNextPage || reminder.isSending} onClick={() => { reminder.setInvoiceId(''); reminder.setPageNo(reminder.pageNo + 1); }}>{t('reminder.next')}</Button>
+          </div>
+        )}
       </div>
     </Dialog>
   );
