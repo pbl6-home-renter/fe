@@ -4,6 +4,9 @@
   "list": {
     "searchPlaceholder": "Tìm theo tên, địa chỉ tòa nhà...",
     "totalBuildings": "Tổng số tòa nhà",
+    "filteredResultsScope": "Tất cả kết quả phù hợp",
+    "currentPageScope": "Trang hiện tại",
+    "approvedOnPage": "Tòa đã phê duyệt",
     "buildingsUnit": "tòa nhà",
     "approvedBuildings": "{{count}} tòa đã phê duyệt",
     "totalRooms": "Tổng số phòng",

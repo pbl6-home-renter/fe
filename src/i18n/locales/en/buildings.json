@@ -4,6 +4,9 @@
   "list": {
     "searchPlaceholder": "Search by building name, address...",
     "totalBuildings": "Total Buildings",
+    "filteredResultsScope": "All matching results",
+    "currentPageScope": "Current page",
+    "approvedOnPage": "Approved buildings",
     "buildingsUnit": "buildings",
     "approvedBuildings": "{{count}} approved buildings",
     "totalRooms": "Total Rooms",
