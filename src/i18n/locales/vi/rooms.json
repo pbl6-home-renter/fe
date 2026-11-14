@@ -1,4 +1,17 @@
 {
+  "tenantRoom": {
+    "title": "Phòng của tôi",
+    "subtitle": "Các phòng gắn với hợp đồng thuê đang có hiệu lực.",
+    "dashboardTitle": "Tổng quan của tôi",
+    "dashboardDescription": "Xem phòng và hợp đồng thuê của bạn.",
+    "emptyTitle": "Chưa có phòng đang thuê",
+    "emptyDescription": "Không tìm thấy hợp đồng đang có hiệu lực gắn với tài khoản của bạn.",
+    "activeCount": "{{count}} hợp đồng đang có hiệu lực",
+    "contractCode": "Hợp đồng: {{code}}",
+    "dates": "Thời hạn: {{start}} – {{end}}",
+    "viewContract": "Xem hợp đồng",
+    "viewInvoices": "Xem hóa đơn"
+  },
   "status": {
     "available": "Phòng trống",
     "occupied": "Đang thuê",

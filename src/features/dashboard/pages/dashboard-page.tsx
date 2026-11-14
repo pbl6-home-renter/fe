@@ -3,7 +3,7 @@ import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Role } from '@/types/role';
 import { ROUTES } from '@/config/routes.config';
 import { LandlordDashboardPage } from './landlord-dashboard-page';
-import { DashboardOverview } from '@/app/pages/dashboard-overview';
+import { TenantDashboardPage } from './tenant-dashboard-page';
 
 /**
  * DashboardPage đóng vai trò là Gateway / Role Dispatcher cho tuyến đường `/dashboard`.
@@ -23,14 +23,5 @@ export const DashboardPage = () => {
     return <LandlordDashboardPage />;
   }
 
-  return (
-    <DashboardOverview
-      roleConfig={{
-        tenant: {
-          titleKey: 'routes.dashboard.tenantTitle',
-          descKey: 'routes.dashboard.tenantDesc',
-        },
-      }}
-    />
-  );
+  return <TenantDashboardPage />;
 };

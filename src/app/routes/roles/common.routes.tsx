@@ -9,10 +9,12 @@ import { NotificationsPage } from '@/features/notifications/pages/notifications-
 import { ProfilePage } from '@/features/users/pages/profile-page';
 import { ContractDetailRoute, ContractListRoute } from '@/app/routes/contract-route';
 import { SecuritySettingsPage } from '@/features/auth/pages/security-settings-page';
+import { RoomListRoute } from '@/app/routes/room-route';
 
 export const commonRoutes: RouteObject[] = [
   { path: ROUTES.TENANT.CONTRACTS, element: <ContractListRoute /> },
   { path: ROUTES.TENANT.CONTRACT_DETAIL(':id'), element: <ContractDetailRoute /> },
+  { path: ROUTES.TENANT.ROOMS, element: <RoomListRoute /> },
   {
     path: ROUTES.DASHBOARD,
     element: <DashboardPage />,

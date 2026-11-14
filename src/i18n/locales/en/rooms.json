@@ -1,4 +1,17 @@
 {
+  "tenantRoom": {
+    "title": "My rooms",
+    "subtitle": "Rooms linked to your active rental contracts.",
+    "dashboardTitle": "My overview",
+    "dashboardDescription": "View your rooms and rental contracts.",
+    "emptyTitle": "No active room",
+    "emptyDescription": "No active contracts are linked to your account.",
+    "activeCount": "{{count}} active contracts",
+    "contractCode": "Contract: {{code}}",
+    "dates": "Term: {{start}} – {{end}}",
+    "viewContract": "View contract",
+    "viewInvoices": "View invoices"
+  },
   "status": {
     "available": "Available",
     "occupied": "Occupied",
