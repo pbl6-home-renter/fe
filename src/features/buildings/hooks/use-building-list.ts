@@ -52,24 +52,27 @@ export const useBuildingList = () => {
   );
 
   const metrics = useMemo(() => {
-    const totalBuildings = query.data?.pagination.totalItems ?? rawBuildings.length;
-    let totalRooms = 0;
-    let occupiedRooms = 0;
-    let approvedCount = 0;
-    rawBuildings.forEach((building) => {
-      totalRooms += building.totalRooms || 0;
-      occupiedRooms += building.occupiedRooms || 0;
-      if (building.status === BuildingStatus.APPROVED) approvedCount += 1;
-    });
+    if (isDebouncing || query.isError || !query.data) return null;
+    const totalBuildings = query.data.pagination?.totalItems;
+    const hasRooms = rawBuildings.every((building) => Number.isFinite(building.totalRooms));
+    const hasOccupied = rawBuildings.every((building) => Number.isFinite(building.occupiedRooms));
+    const totalRooms = hasRooms ? rawBuildings.reduce((sum, building) => sum + building.totalRooms!, 0) : null;
+    const occupiedRooms = hasOccupied ? rawBuildings.reduce((sum, building) => sum + building.occupiedRooms, 0) : null;
+    const approvedCount = rawBuildings.every((building) => building.status != null)
+      ? rawBuildings.filter((building) => building.status === BuildingStatus.APPROVED).length
+      : null;
 
     return {
-      totalBuildings,
+      totalBuildings: Number.isFinite(totalBuildings) ? totalBuildings : null,
       totalRooms,
       occupiedRooms,
-      occupancyRate: totalRooms > 0 ? ((occupiedRooms / totalRooms) * 100).toFixed(1) : '0',
+      occupancyRate: totalRooms === null || occupiedRooms === null
+        ? null
+        : totalRooms > 0 ? Math.round((occupiedRooms / totalRooms) * 1000) / 10 : 0,
       approvedCount,
+      pageBuildings: rawBuildings.length,
     };
-  }, [query.data?.pagination.totalItems, rawBuildings]);
+  }, [isDebouncing, query.data, query.isError, rawBuildings]);
 
   const isFiltered = selectedStatus !== 'all' || Boolean(search);
 
