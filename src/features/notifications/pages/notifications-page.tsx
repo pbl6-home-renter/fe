@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/feedback/skeleton';
 import { ErrorState } from '@/components/feedback/error-state';
 import { NotificationPreferencesDialog } from '../components/notification-preferences-dialog';
 import { useNotificationsPage } from '../hooks/use-notifications-page';
+import { getNotificationContent } from '../utils/notification-content';
 
 export const NotificationsPage = () => {
   const { t, i18n } = useTranslation('notifications');
@@ -84,7 +85,9 @@ export const NotificationsPage = () => {
                 />
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                    <span className="font-semibold text-rentify-text-primary">{item.title}</span>
+                    <span className="font-semibold text-rentify-text-primary">
+                      {getNotificationContent(item, t).title}
+                    </span>
                     <time className="text-xs text-rentify-text-secondary" dateTime={item.createdAt}>
                       {new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(
                         new Date(item.createdAt),
@@ -92,7 +95,7 @@ export const NotificationsPage = () => {
                     </time>
                   </span>
                   <span className="mt-1 block whitespace-pre-wrap text-sm text-rentify-text-secondary">
-                    {item.body}
+                    {getNotificationContent(item, t).body}
                   </span>
                 </span>
               </CardButton>

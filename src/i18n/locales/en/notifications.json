@@ -11,6 +11,11 @@
   "markAllRead": "Mark all as read",
   "filters": { "label": "Filter notifications", "all": "All", "unread": "Unread" },
   "categories": { "chat": "Chat", "invoice": "Invoices", "issue": "Issues", "system": "System" },
+  "issueEvents": {
+    "created": { "title": "New issue", "body": "A new issue is ready to review." },
+    "updated": { "title": "Issue updated", "body": "The issue's progress has changed." },
+    "cancelled": { "title": "Issue cancelled", "body": "An issue report has been cancelled." }
+  },
   "preferences": {
     "button": "Notification settings",
     "title": "Notification settings",
