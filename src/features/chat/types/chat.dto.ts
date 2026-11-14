@@ -1,4 +1,5 @@
 import type { BaseEntity, CursorPaginationMeta, PaginationMeta } from '@/types/api';
+import { BOT_REMINDER_MESSAGE_CODE } from '../constants/chat.constants';
 
 export type ConversationKind = 'direct' | 'group';
 export type MessageType = 'text' | 'image' | 'video' | 'file' | 'system' | 'bot';
@@ -60,12 +61,17 @@ export type SystemMessagePayload =
       newAvatarMediaId: string | null;
     });
 
-export interface BotReminderPayload {
+interface BotReminderBase {
   action: 'bot_reminder';
   actorUserId: string;
   templateType: 'invoice' | 'contract_expiring';
   resourceId: string;
 }
+
+export type BotReminderPayload = BotReminderBase & (
+  | { messageCode: typeof BOT_REMINDER_MESSAGE_CODE.INVOICE_ISSUED; parameters: { invoiceCode: string; period: string; totalAmount: string } }
+  | { messageCode: typeof BOT_REMINDER_MESSAGE_CODE.CONTRACT_END_DATE; parameters: { endDate: string } }
+);
 
 export interface ChatMessage extends BaseEntity {
   conversationId: string;

@@ -7,7 +7,7 @@ import { ProgressMeterTrack } from '@/components/ui/progress-meter';
 import { cn } from '@/lib/utils/cn';
 import type { ChatMessage, ChatReplyReference } from '../types/chat.dto';
 import type { PendingMessage } from '../hooks/use-chat-composer';
-import { formatChatMessage } from '../utils/format-chat-message';
+import { formatBotReminderPreview, formatChatMessage } from '../utils/format-chat-message';
 import { isSameCluster } from '../utils/chat-message-cluster';
 import { ChatAttachment } from './chat-attachment';
 import { ChatReadReceipt, type ChatReader } from './chat-read-receipt';
@@ -90,7 +90,7 @@ const PersistedMessageItem = (props: Extract<ChatMessageItemProps, { kind: 'mess
       sequence: message.sequence,
       senderName: message.senderName,
       type: message.type,
-      contentPreview: message.type === 'image' ? message.content || null : (message.content?.slice(0, 120) ?? null),
+      contentPreview: message.type === 'bot' ? (text ?? '').slice(0, 120) : message.type === 'image' ? message.content || null : (message.content?.slice(0, 120) ?? null),
       isUnavailable: false,
     });
 
@@ -177,7 +177,7 @@ const ReplyQuote = ({ reply, isOwn, onJump }: { reply: ChatReplyReference; isOwn
   const { t } = useTranslation('chat');
   const preview = reply.isUnavailable
     ? t('replyUnavailable')
-    : reply.contentPreview ||
+    : (reply.contentPreview && reply.type === 'bot' ? formatBotReminderPreview(reply.contentPreview, t) : reply.contentPreview) ||
       t(reply.type === 'video' ? 'videoSent' : reply.type === 'file' ? 'fileSent' : 'photoSent');
   return (
     <button
@@ -210,7 +210,7 @@ const PendingMessageItem = ({ pending, onRetry }: Extract<ChatMessageItemProps, 
               {t('repliedTo', { name: pending.replyTo.senderName ?? t('replyUnavailableShort') })}
             </span>
             <span className="line-clamp-2">
-              {pending.replyTo.contentPreview ||
+              {(pending.replyTo.contentPreview && pending.replyTo.type === 'bot' ? formatBotReminderPreview(pending.replyTo.contentPreview, t) : pending.replyTo.contentPreview) ||
                 t(
                   pending.replyTo.type === 'video'
                     ? 'videoSent'

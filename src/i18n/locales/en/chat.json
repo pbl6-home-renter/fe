@@ -18,7 +18,16 @@
     "page": "Page {{page}}",
     "cancel": "Cancel",
     "send": "Send reminder",
-    "sent": "Reminder sent."
+    "sent": "Reminder sent.",
+    "messages": {
+      "BOT_REMINDER_INVOICE_ISSUED": "Notice: Invoice {{invoiceCode}} for {{period}} totals {{amount}} VND. Please review the invoice details.",
+      "BOT_REMINDER_CONTRACT_END_DATE": "Notice: The rental contract ends on {{endDate}}. Please contact your landlord to discuss it."
+    },
+    "previews": {
+      "generic": "New reminder",
+      "BOT_REMINDER_INVOICE_ISSUED": "Invoice notice",
+      "BOT_REMINDER_CONTRACT_END_DATE": "Contract end date notice"
+    }
   },
   "search": "Search people or groups",
   "newChat": "New chat",

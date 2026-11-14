@@ -18,7 +18,16 @@
     "page": "Trang {{page}}",
     "cancel": "Hủy",
     "send": "Gửi thông báo",
-    "sent": "Đã gửi thông báo."
+    "sent": "Đã gửi thông báo.",
+    "messages": {
+      "BOT_REMINDER_INVOICE_ISSUED": "Thông báo: Hóa đơn {{invoiceCode}} kỳ {{period}} có tổng tiền {{amount}} đồng. Vui lòng xem chi tiết hóa đơn.",
+      "BOT_REMINDER_CONTRACT_END_DATE": "Thông báo: Ngày kết thúc hợp đồng thuê là {{endDate}}. Vui lòng liên hệ chủ nhà để trao đổi."
+    },
+    "previews": {
+      "generic": "Thông báo mới",
+      "BOT_REMINDER_INVOICE_ISSUED": "Thông báo hóa đơn",
+      "BOT_REMINDER_CONTRACT_END_DATE": "Thông báo ngày kết thúc hợp đồng"
+    }
   },
   "search": "Tìm người hoặc nhóm",
   "newChat": "Chat mới",

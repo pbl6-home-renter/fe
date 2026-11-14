@@ -1,4 +1,5 @@
 import type { BotReminderPayload, ChatMessage, ChatReplyReference, SendMessageEvent, SystemMessagePayload } from '../types/chat.dto';
+import { BOT_REMINDER_MESSAGE_CODE } from '../constants/chat.constants';
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -69,9 +70,13 @@ export const isChatMessage = (value: unknown): value is ChatMessage => {
   );
 };
 
-const isBotReminderPayload = (value: unknown): value is BotReminderPayload =>
-  isRecord(value) && value.action === 'bot_reminder' && typeof value.actorUserId === 'string' &&
-  (value.templateType === 'invoice' || value.templateType === 'contract_expiring') && typeof value.resourceId === 'string';
+const isBotReminderPayload = (value: unknown): value is BotReminderPayload => {
+  if (!isRecord(value) || value.action !== 'bot_reminder' || typeof value.actorUserId !== 'string' ||
+    typeof value.resourceId !== 'string' || !isRecord(value.parameters)) return false;
+  return (value.messageCode === BOT_REMINDER_MESSAGE_CODE.INVOICE_ISSUED && value.templateType === 'invoice' &&
+    typeof value.parameters.invoiceCode === 'string' && typeof value.parameters.period === 'string' && typeof value.parameters.totalAmount === 'string') ||
+    (value.messageCode === BOT_REMINDER_MESSAGE_CODE.CONTRACT_END_DATE && value.templateType === 'contract_expiring' && typeof value.parameters.endDate === 'string');
+};
 
 export const isMemberReadEvent = (
   value: unknown,
