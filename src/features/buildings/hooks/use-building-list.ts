@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
 import type { ColumnPinningState } from '@tanstack/react-table';
 import { useDataTableState } from '@/hooks/use-data-table-state';
+import { useDebounce } from '@/hooks/use-debounce';
 import { useMyBuildingsQuery } from './use-my-buildings-query';
 import { BuildingStatus } from '../enums/building-status.enum';
-import type { BuildingMyListItemDto } from '../types/building.dto';
+import type { BuildingFilter, BuildingMyListItemDto } from '../types/building.dto';
 
 const COLUMN_IDS = ['name', 'address', 'status', 'rooms', 'occupancy', 'actions'];
 const ALLOWED_SORTS = ['createdAt', 'name', 'status'];
@@ -12,9 +13,7 @@ const DEFAULT_FILTERS = { status: 'all' };
 const DEFAULT_COLUMN_PINNING: ColumnPinningState = { left: ['name'], right: ['actions'] };
 const REQUIRED_COLUMN_IDS = ['name', 'actions'];
 const STATUS_VALUES: string[] = Object.values(BuildingStatus);
-// /me/buildings has no server-side search yet, so while searching we load the largest page
-// the API allows and search + paginate it on the client.
-const SEARCH_FETCH_SIZE = 100;
+const EMPTY_BUILDINGS: BuildingMyListItemDto[] = [];
 
 export const useBuildingList = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -31,35 +30,26 @@ export const useBuildingList = () => {
     ? tableState.filters.status
     : 'all';
   const sorting = tableState.state.sorting[0];
-  const filterParam = selectedStatus !== 'all'
-    ? { status: selectedStatus as BuildingStatus }
-    : undefined;
-  const search = tableState.search.trim().toLocaleLowerCase();
+  const search = tableState.search.trim();
+  const debouncedSearch = useDebounce(search, 300, true);
+  const isDebouncing = search !== debouncedSearch;
+  const filterParam: BuildingFilter = {
+    ...(selectedStatus !== 'all' && { status: selectedStatus as BuildingStatus }),
+    ...(debouncedSearch && { search: debouncedSearch }),
+  };
 
   const query = useMyBuildingsQuery({
-    pageNo: search ? 1 : tableState.pageNo,
-    pageSize: search ? SEARCH_FETCH_SIZE : tableState.pageSize,
+    pageNo: tableState.pageNo,
+    pageSize: tableState.pageSize,
     sort: sorting?.id,
     order: sorting ? (sorting.desc ? 'desc' : 'asc') : undefined,
     filter: filterParam,
-  });
+  }, { placeholderData: undefined });
 
   const rawBuildings: BuildingMyListItemDto[] = useMemo(
-    () => query.data?.items ?? [],
-    [query.data?.items],
+    () => isDebouncing ? EMPTY_BUILDINGS : query.data?.items ?? EMPTY_BUILDINGS,
+    [isDebouncing, query.data?.items],
   );
-  const matchedBuildings = useMemo(() => {
-    if (!search) return rawBuildings;
-    return rawBuildings.filter((building) =>
-      building.name?.toLocaleLowerCase().includes(search)
-      || building.address?.toLocaleLowerCase().includes(search),
-    );
-  }, [rawBuildings, search]);
-  const buildings = useMemo(() => {
-    if (!search) return matchedBuildings;
-    const start = (tableState.pageNo - 1) * tableState.pageSize;
-    return matchedBuildings.slice(start, start + tableState.pageSize);
-  }, [matchedBuildings, search, tableState.pageNo, tableState.pageSize]);
 
   const metrics = useMemo(() => {
     const totalBuildings = query.data?.pagination.totalItems ?? rawBuildings.length;
@@ -88,8 +78,8 @@ export const useBuildingList = () => {
     isCreateModalOpen,
     setIsCreateModalOpen,
     tableProps: {
-      buildings,
-      rowCount: search ? matchedBuildings.length : query.data?.pagination.totalItems ?? 0,
+      buildings: rawBuildings,
+      rowCount: isDebouncing ? 0 : query.data?.pagination.totalItems ?? 0,
       state: tableState.state,
       handlers: tableState.handlers,
       density: tableState.state.density,
@@ -100,9 +90,9 @@ export const useBuildingList = () => {
       onStatusChange: (status: string) => tableState.setFilter('status', status === 'all' ? undefined : status),
       isFiltered,
       onClearFilters: tableState.clearFilters,
-      isLoading: query.isLoading,
-      isFetching: query.isFetching,
-      isError: query.isError,
+      isLoading: isDebouncing || query.isLoading,
+      isFetching: isDebouncing || query.isFetching,
+      isError: !isDebouncing && query.isError,
       onRetry: () => void query.refetch(),
       onCreate: () => setIsCreateModalOpen(true),
     },
