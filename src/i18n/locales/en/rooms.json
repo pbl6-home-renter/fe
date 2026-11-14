@@ -111,7 +111,7 @@
     "notFoundDesc": "The requested room does not exist or you do not have permission to view it.",
     "idLabel": "Room ID",
     "meterTitle": "Meter readings",
-    "meterPageNote": "Showing the greatest period in the returned page.",
+    "meterPageNote": "Showing the latest period for each meter type.",
     "meterPeriod": "Period: {{period}}",
     "meterRecordedAt": "Record created: {{date}}",
     "noMembers": "There are no current members.",
