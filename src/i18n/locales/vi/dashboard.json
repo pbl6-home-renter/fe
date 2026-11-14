@@ -19,5 +19,19 @@
     "unspecifiedAddress": "Chưa cập nhật địa chỉ",
     "floorsUnit": "{{count}} tầng",
     "viewDetail": "Xem chi tiết"
+  },
+  "tenant": {
+    "dashboardTitle": "Tổng quan của tôi",
+    "dashboardSubtitle": "Theo dõi phòng đang thuê, hợp đồng và hóa đơn liên quan",
+    "activeRooms": "Phòng đang thuê",
+    "activeContracts": "Hợp đồng hiệu lực",
+    "viewInvoices": "Xem hóa đơn",
+    "viewContracts": "Xem hợp đồng",
+    "viewAllRooms": "Tất cả phòng",
+    "myRoomsTitle": "Phòng đang thuê của bạn",
+    "previewCount": "{{count}} phòng",
+    "emptyTitle": "Chưa có phòng đang thuê",
+    "emptyDesc": "Bạn chưa có hợp đồng thuê phòng nào đang có hiệu lực. Vui lòng liên hệ chủ trọ để được kích hoạt hợp đồng thuê.",
+    "checkContracts": "Kiểm tra hợp đồng"
   }
 }

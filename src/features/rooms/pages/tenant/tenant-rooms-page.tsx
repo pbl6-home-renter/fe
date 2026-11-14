@@ -9,14 +9,23 @@ import { useTenantActiveContracts } from '../../hooks/use-tenant-active-contract
 export const TenantRoomsPage = () => {
   const { t } = useTranslation('rooms');
   const { data, isLoading, isError, refetch } = useTenantActiveContracts();
+
   return (
     <div className="space-y-6">
       <PageHeader title={t('tenantRoom.title')} description={t('tenantRoom.subtitle')} />
-      {isLoading ? <Skeleton className="h-48 w-full rounded-2xl" /> : isError || !data ? (
+
+      {isLoading ? (
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2" role="status">
+          <Skeleton className="h-56 w-full rounded-2xl" />
+          <Skeleton className="h-56 w-full rounded-2xl" />
+        </div>
+      ) : isError || !data ? (
         <ErrorState onRetry={() => void refetch()} />
       ) : data.length === 0 ? (
         <EmptyState title={t('tenantRoom.emptyTitle')} description={t('tenantRoom.emptyDescription')} />
-      ) : <TenantRoomCards contracts={data} />}
+      ) : (
+        <TenantRoomCards contracts={data} />
+      )}
     </div>
   );
 };
