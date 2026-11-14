@@ -181,7 +181,9 @@
     "step2Desc": "Tạo tài liệu hợp đồng PDF đã điền sẵn thông tin để in ra ký tay.",
     "step2GenerateBtn": "Sinh bản nháp PDF",
     "step2Generating": "Đang tạo PDF...",
-    "step2ViewPdf": "Xem / Tải bản nháp PDF",
+    "step2ViewPdf": "Xem bản nháp PDF",
+    "step2DownloadPdf": "Tải bản nháp PDF",
+    "step2ApplyFirst": "Hãy áp dụng mẫu trước khi tạo bản nháp.",
     "step3Title": "3. Upload bản ký & Kích hoạt",
     "step3Desc": "Chụp ảnh hoặc scan bản hợp đồng đã có đủ chữ ký của hai bên rồi tải lên đây.",
     "step3UploadNotice": "Tải lên bản hợp đồng đã ký (PDF, PNG, JPEG, WebP ≤ 10 MB)",
@@ -214,6 +216,7 @@
     "ROOM_MARKED_READY": "Chuyển trạng thái phòng sang sẵn sàng thành công"
   },
   "apiErrors": {
+    "CONTRACT_TEMPLATE_NOT_APPLIED": "Hãy áp dụng mẫu trước khi tạo bản nháp.",
     "ACTIVE_CONTRACT_EXISTS": "Phòng này hiện đã có hợp đồng đang hiệu lực",
     "CONTRACT_NOT_DRAFT": "Chỉ có thể chỉnh sửa khi hợp đồng ở trạng thái nháp",
     "CONTRACT_NOT_READY": "Hợp đồng chưa sẵn sàng để kích hoạt",

@@ -51,6 +51,9 @@ export const http = {
   post: <T = void>(url: string, body?: unknown, config?: AxiosRequestConfig) =>
     apiClient.post<ApiResponse<T>>(url, body, config).then(unwrap),
 
+  postBlob: (url: string, body?: unknown, config?: AxiosRequestConfig) =>
+    apiClient.post<Blob>(url, body, { ...config, responseType: 'blob' }).then((res) => res.data),
+
   put: <T = void>(url: string, body?: unknown, config?: AxiosRequestConfig) =>
     apiClient.put<ApiResponse<T>>(url, body, config).then(unwrap),
 

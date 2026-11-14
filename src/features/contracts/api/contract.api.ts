@@ -6,8 +6,6 @@ import type {
   ContractCreateRequestDto,
   ContractDetailDto,
   ContractFilter,
-  ContractGenerateDraftRequestDto,
-  ContractGenerateDraftResponseDto,
   ContractListItemDto,
   ContractTemplateDetailDto,
   ContractTemplateListItemDto,
@@ -46,11 +44,8 @@ export const contractApi = {
   applyTemplate: (id: string, payload: ContractApplyTemplateRequestDto): Promise<ContractDetailDto> =>
     http.put<ContractDetailDto>(`/contracts/${id}/apply-template`, payload),
 
-  generateDraftDocument: (
-    id: string,
-    payload: ContractGenerateDraftRequestDto,
-  ): Promise<ContractGenerateDraftResponseDto> =>
-    http.post<ContractGenerateDraftResponseDto>(`/contracts/${id}/generate-draft-document`, payload),
+  generateDraftDocument: (id: string): Promise<Blob> =>
+    http.postBlob(`/contracts/${id}/generate-draft-document`),
 
   getContractMembers: (contractId: string, params?: ListParams): Promise<Paginated<ContractMemberListItemDto>> =>
     http.getPage<ContractMemberListItemDto, ContractMemberListFilter>('/contract-members', {

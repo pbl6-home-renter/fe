@@ -28,7 +28,7 @@ export const ContractDocumentsCard = ({
 
       <div className="space-y-6">
         <ContractStep1Template contract={contract} onRefresh={onRefresh} />
-        <ContractStep2Draft contract={contract} onRefresh={onRefresh} />
+        <ContractStep2Draft key={`${contract.id}:${contract.templateKey ?? ''}`} contract={contract} />
         <ContractStep3Activate contract={contract} onRefresh={onRefresh} />
       </div>
     </Card>
