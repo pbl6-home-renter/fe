@@ -1,5 +1,6 @@
 import { Paperclip, FileText, Send, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { formatBotReminderPreview } from '../utils/format-chat-message';
 import {
   useEffect,
   useLayoutEffect,
@@ -121,7 +122,7 @@ export const ChatComposer = ({
             <p className="font-semibold text-rentify-primary">
               {t('replyingTo', { name: replyTo.senderName ?? t('replyUnavailable') })}
             </p>
-            <p className="truncate text-rentify-text-secondary">{replyTo.contentPreview || t(replyTo.type === 'video' ? 'videoSent' : replyTo.type === 'file' ? 'fileSent' : 'photoSent')}</p>
+            <p className="truncate text-rentify-text-secondary">{(replyTo.contentPreview && replyTo.type === 'bot' ? formatBotReminderPreview(replyTo.contentPreview, t) : replyTo.contentPreview) || t(replyTo.type === 'video' ? 'videoSent' : replyTo.type === 'file' ? 'fileSent' : 'photoSent')}</p>
           </div>
           <IconButton type="button" variant="ghost" aria-label={t('cancelReply')} onClick={onCancelReply}>
             <X className="h-4 w-4" aria-hidden="true" />

@@ -16,6 +16,7 @@ import {
 import type { ConversationSummary, LastMessage, UnreadSummary } from '../types/chat.dto';
 import type { Paginated } from '@/types/api';
 import { isSendMessageEvent } from '../utils/chat-message.guard';
+import { formatBotReminderPreview } from '../utils/format-chat-message';
 import { logRealtimeDebug } from '@/features/realtime/utils/realtime-debug';
 import { UserAvatar } from '@/features/users/components/user-avatar';
 import { useNotify } from '@/lib/notifications/use-notify';
@@ -132,7 +133,7 @@ export const useChatRealtimeBridge = () => {
             ? t('videoSent')
             : payload.type === 'file'
               ? t('fileSent')
-              : payload.contentPreview;
+              : payload.type === 'bot' ? formatBotReminderPreview(payload.contentPreview, t) : payload.contentPreview;
       notify.custom(
         () =>
           createElement(

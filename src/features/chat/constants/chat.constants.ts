@@ -1,6 +1,11 @@
 import { ROUTES } from '@/config/routes.config';
 
 export const CHAT_PAGE_SIZE = 20;
+export const BOT_REMINDER_MESSAGE_CODE = {
+  INVOICE_ISSUED: 'BOT_REMINDER_INVOICE_ISSUED',
+  CONTRACT_END_DATE: 'BOT_REMINDER_CONTRACT_END_DATE',
+} as const;
+export const BOT_REMINDER_PREVIEW_FALLBACK = 'New reminder';
 export const DIRECTORY_PAGE_SIZE = 20;
 export const CHAT_HISTORY_PAGE_SIZE = 30;
 export const CHAT_MESSAGE_MAX_LENGTH = 4000;
