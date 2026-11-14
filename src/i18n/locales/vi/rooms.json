@@ -9,6 +9,7 @@
     "activeCount": "{{count}} hợp đồng đang có hiệu lực",
     "contractCode": "Hợp đồng: {{code}}",
     "dates": "Thời hạn: {{start}} – {{end}}",
+    "rentPrice": "Giá thuê: {{price}}",
     "viewContract": "Xem hợp đồng",
     "viewInvoices": "Xem hóa đơn"
   },

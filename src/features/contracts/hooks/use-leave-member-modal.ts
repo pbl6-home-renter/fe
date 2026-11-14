@@ -59,7 +59,7 @@ export const useLeaveMemberModal = ({ contract, onSuccess }: UseLeaveMemberModal
 
     try {
       await leaveMutation.mutateAsync({
-        id: selectedMember.id,
+        id: selectedMember.tenantId ?? selectedMember.id,
         payload: {
           contractId: contract.id,
           leftOn: values.leftOn,

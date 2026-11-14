@@ -19,5 +19,19 @@
     "unspecifiedAddress": "Address not updated",
     "floorsUnit": "{{count}} floors",
     "viewDetail": "View Details"
+  },
+  "tenant": {
+    "dashboardTitle": "My Overview",
+    "dashboardSubtitle": "Monitor your active rooms, rental contracts, and invoices",
+    "activeRooms": "Active Rooms",
+    "activeContracts": "Active Contracts",
+    "viewInvoices": "View Invoices",
+    "viewContracts": "View Contracts",
+    "viewAllRooms": "All Rooms",
+    "myRoomsTitle": "Your Active Rooms",
+    "previewCount": "{{count}} rooms",
+    "emptyTitle": "No Active Rooms",
+    "emptyDesc": "You don't have any active rental contracts yet. Please contact your landlord to have your rental contract activated.",
+    "checkContracts": "Check Contracts"
   }
 }

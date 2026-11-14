@@ -9,6 +9,7 @@
     "activeCount": "{{count}} active contracts",
     "contractCode": "Contract: {{code}}",
     "dates": "Term: {{start}} – {{end}}",
+    "rentPrice": "Rent: {{price}}",
     "viewContract": "View contract",
     "viewInvoices": "View invoices"
   },
