@@ -1,10 +1,11 @@
 import { ContractStatus } from '../enums/contract-status.enum';
 import type { ListParams } from '@/types/api';
-import type { ContractFilter } from '../types/contract.dto';
+import type { ContractFilter, MyContractFilter } from '../types/contract.dto';
 
 export const CONTRACT_QUERY_KEYS = {
   ALL: ['contracts'] as const,
   LIST: (params?: ListParams<ContractFilter>) => ['contracts', 'list', params] as const,
+  MY_LIST: (params?: ListParams<MyContractFilter>) => ['contracts', 'me', params] as const,
   DETAIL: (id?: string) => ['contracts', 'detail', id] as const,
   TEMPLATES: (params?: unknown) => ['contracts', 'templates', params] as const,
   TEMPLATE_DETAIL: (key?: string) => ['contracts', 'templates', key] as const,

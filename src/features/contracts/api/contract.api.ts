@@ -9,6 +9,8 @@ import type {
   ContractGenerateDraftRequestDto,
   ContractGenerateDraftResponseDto,
   ContractListItemDto,
+  MyContractFilter,
+  MyContractListItemDto,
   ContractTemplateDetailDto,
   ContractTemplateListItemDto,
   ContractUpdateRequestDto,
@@ -23,6 +25,9 @@ import type {
 } from '../types/contract-member.dto';
 
 export const contractApi = {
+  getMyContracts: (params?: ListParams<MyContractFilter>): Promise<Paginated<MyContractListItemDto>> =>
+    http.getPage<MyContractListItemDto, MyContractFilter>('/me/contracts', params),
+
   getContracts: (params?: ListParams<ContractFilter>): Promise<Paginated<ContractListItemDto>> =>
     http.getPage<ContractListItemDto, ContractFilter>('/contracts', params),
 

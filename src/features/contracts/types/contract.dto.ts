@@ -7,6 +7,24 @@ export interface ContractFilter {
   roomId?: string;
 }
 
+export interface MyContractFilter {
+  status?: ContractStatus;
+  roomId?: string;
+}
+
+export interface MyContractListItemDto {
+  id: string;
+  roomId: string;
+  contractCode: string;
+  roomName: string;
+  buildingName: string;
+  status: ContractStatus;
+  rentPrice: number;
+  depositAmount: number;
+  startDate: string;
+  endDate: string;
+}
+
 export interface ContractListItemDto extends BaseEntity {
   contractCode: string;
   roomId: string;
