@@ -73,10 +73,11 @@ export const useBuildingListColumns = () => {
       minSize: 140,
       meta: { label: t('list.occupancyRate'), align: 'right' },
       cell: ({ row }) => {
-        const value = Math.min(100, Math.max(0, Number(row.original.occupancyRate) || 0));
+        const occupancyRate = row.original.occupancyRate?.replace(/%$/, '') ?? '';
+        const value = Math.min(100, Math.max(0, parseFloat(occupancyRate) || 0));
         return (
           <div className="ml-auto flex max-w-36 flex-col gap-1.5">
-            <span className="text-right text-xs font-bold tabular-nums">{row.original.occupancyRate}%</span>
+            <span className="text-right text-xs font-bold tabular-nums">{occupancyRate ? `${occupancyRate}%` : '—'}</span>
             <div className="h-1.5 overflow-hidden rounded-full bg-surface-container-low">
               <div className="h-full rounded-full bg-rentify-success" style={{ width: `${value}%` }} />
             </div>
