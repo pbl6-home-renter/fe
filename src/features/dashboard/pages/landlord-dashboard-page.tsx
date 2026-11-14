@@ -1,14 +1,13 @@
-import { useState } from 'react';
-import { useMyBuildingsQuery } from '@/features/buildings/hooks/use-my-buildings-query';
 import { BuildingCreateModal } from '@/features/buildings/components/building-create-modal';
 import { LandlordDashboardEmptyState } from '../components/landlord-dashboard-empty-state';
 import { LandlordDashboardFullState } from '../components/landlord-dashboard-full-state';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/feedback/skeleton';
+import { ErrorState } from '@/components/feedback/error-state';
+import { useLandlordDashboard } from '../hooks/use-landlord-dashboard';
 
 export const LandlordDashboardPage = () => {
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const { data, isLoading, refetch } = useMyBuildingsQuery({ pageNo: 1, pageSize: 20 });
+  const { isCreateModalOpen, setIsCreateModalOpen, isLoading, isError, refetch, buildings, metrics } = useLandlordDashboard();
 
   if (isLoading) {
     return (
@@ -46,14 +45,16 @@ export const LandlordDashboardPage = () => {
     );
   }
 
-  const buildings = data?.items || [];
+  if (isError || !buildings || !metrics) {
+    return <ErrorState onRetry={() => void refetch()} />;
+  }
 
   return (
     <>
-      {buildings.length === 0 ? (
+      {metrics.total === 0 ? (
         <LandlordDashboardEmptyState onOpenCreateModal={() => setIsCreateModalOpen(true)} />
       ) : (
-        <LandlordDashboardFullState buildings={buildings} onOpenCreateModal={() => setIsCreateModalOpen(true)} />
+        <LandlordDashboardFullState buildings={buildings} metrics={metrics} onOpenCreateModal={() => setIsCreateModalOpen(true)} />
       )}
 
       <BuildingCreateModal
