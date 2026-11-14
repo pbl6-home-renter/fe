@@ -111,7 +111,7 @@
     "notFoundDesc": "Phòng không tồn tại hoặc bạn không có quyền truy cập.",
     "idLabel": "Mã phòng",
     "meterTitle": "Chỉ số điện nước",
-    "meterPageNote": "Hiển thị kỳ lớn nhất trong trang dữ liệu được trả về.",
+    "meterPageNote": "Hiển thị chỉ số của kỳ mới nhất cho từng loại.",
     "meterPeriod": "Kỳ: {{period}}",
     "meterRecordedAt": "Bản ghi tạo lúc: {{date}}",
     "noMembers": "Chưa có thành viên đang ở.",
