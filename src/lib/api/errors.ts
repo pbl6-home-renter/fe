@@ -19,6 +19,11 @@ export const getApiErrorCode = (error: unknown): string | null => {
   return null;
 };
 
+export const isInvalidCurrentPasswordError = (error: unknown): boolean =>
+  isAxiosError<ApiErrorResponse>(error) &&
+  error.response?.status === 401 &&
+  error.response.data?.code === 'USER_CHANGE_PASSWORD_INVALID_CURRENT';
+
 /**
  * Converts any API or system error into a user-friendly, localized message for UI.
  */
