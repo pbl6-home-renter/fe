@@ -12,6 +12,7 @@ import viMeterReadings from '@/i18n/locales/vi/meterReadings.json';
 import viUsers from '@/i18n/locales/vi/users.json';
 import viBilling from '@/i18n/locales/vi/billing.json';
 import viInvoices from '@/i18n/locales/vi/invoices.json';
+import viIssues from '@/i18n/locales/vi/issues.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -30,6 +31,7 @@ declare module 'i18next' {
       users: typeof viUsers;
       billing: typeof viBilling;
       invoices: typeof viInvoices;
+      issues: typeof viIssues;
     };
   }
 }

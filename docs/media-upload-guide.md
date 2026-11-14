@@ -72,7 +72,7 @@ Chọn `purpose` theo nghiệp vụ; `ownerType` phải nằm trong cột tươn
 | `contract_template` | `contract` | pdf | private | landlord sở hữu | |
 | `contract_signed` | `contract` | jpeg, png, webp, pdf | private | landlord sở hữu | không xóa được khi HĐ đã có hiệu lực |
 | `meter_reading_evidence` | `meter_reading` | jpeg, png, webp | private | landlord; tenant chỉ khi `captureSource: 'camera_direct'` | |
-| `issue_photo` | `issue_report` | jpeg, png, webp | private | — | **chưa hỗ trợ** (503) |
+| `issue_photo` | `issue_report` | jpeg, png, webp | private | landlord sở hữu hoặc tenant hiện tại | Tạo sự cố trước; quyền được kiểm tra lại khi hoàn tất và khi đọc. |
 | `chat_attachment` | `message` | jpeg, png, webp, pdf | private | — | **chưa hỗ trợ** (503) |
 
 Giới hạn chung: tối đa **10 MB**/file, không nhận SVG/HTML/video. Admin luôn được upload.
@@ -225,7 +225,7 @@ Bản dịch mã lỗi/thành công riêng của media nằm ở namespace `medi
 | `TICKET_EXPIRED` | complete 410 | Quá `expiresIn` (15 phút) | Thử lại cả luồng. |
 | `MEDIA_DELETED` | complete / get / delete 410 | File đã bị xóa | Ẩn file khỏi UI. |
 | `CANNOT_DELETE` | delete 409 | File đang là bằng chứng | Ẩn nút xóa trong các trạng thái này. |
-| `SERVICE_UNAVAILABLE` | 503 | R2 chưa cấu hình, hoặc `issue_report`/`message` chưa hỗ trợ | Báo thử lại sau. |
+| `SERVICE_UNAVAILABLE` | 503 | R2 hoặc service sở hữu chưa sẵn sàng | Báo thử lại sau. |
 | `MEDIA_UPLOAD_CANCELED` | client | Gọi `cancel()` hoặc unmount | Thường bỏ qua. |
 
 ---
@@ -250,7 +250,7 @@ Bản dịch mã lỗi/thành công riêng của media nằm ở namespace `medi
 | `avatarUrl` của user hiện tại | `GET /me` chưa trả `avatarUrl`; chưa có API liệt kê media theo owner | Upload avatar được, nhưng sau khi reload chưa lấy lại được URL. |
 | Ảnh/giấy tờ Building, Room | Các field `photoUrls`, `thumbnailUrl`, `ownershipCertificateUrls`, `ownershipDocuments` (Tenancy) còn trả `[]`/`null` | Upload được nhưng màn hình danh sách/chi tiết chưa hiển thị lại. |
 | Giấy tờ sở hữu khi tạo Building | Presign cần `ownerId` nên chỉ upload được **sau** khi Building đã tạo | Luồng tạo Building: tạo trước → upload `ownership_proof` sau. |
-| `issue_photo`, `chat_attachment` | Owner `issue_report`/`message` chưa có service → `503` | Chưa dùng. |
+| `issue_photo` | Cần triển khai đồng bộ Community, Tenancy, Identity và migration IssueReport | Chỉ dùng sau khi các service đã cập nhật. |
 
 ---
 

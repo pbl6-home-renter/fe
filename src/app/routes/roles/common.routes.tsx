@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom';
-import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { DashboardPage } from '@/features/dashboard/pages/dashboard-page';
 import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-page';
 import { ROUTES } from '@/config/routes.config';
@@ -10,6 +9,7 @@ import { ProfilePage } from '@/features/users/pages/profile-page';
 import { ContractDetailRoute, ContractListRoute } from '@/app/routes/contract-route';
 import { SecuritySettingsPage } from '@/features/auth/pages/security-settings-page';
 import { RoomListRoute } from '@/app/routes/room-route';
+import { IssueCreateRoute, IssueDetailRoute, IssueListRoute } from '@/app/routes/issue-route';
 
 export const commonRoutes: RouteObject[] = [
   { path: ROUTES.TENANT.CONTRACTS, element: <ContractListRoute /> },
@@ -29,28 +29,15 @@ export const commonRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.ISSUES,
-    element: (
-      <DashboardOverview
-        roleConfig={{
-          landlord: {
-            titleKey: 'routes.issues.landlordTitle',
-            descKey: 'routes.issues.landlordDesc',
-          },
-          tenant: {
-            titleKey: 'routes.issues.tenantTitle',
-            descKey: 'routes.issues.tenantDesc',
-          },
-        }}
-      />
-    ),
+    element: <IssueListRoute />,
   },
   {
     path: ROUTES.ISSUE_NEW,
-    element: <DashboardOverview titleKey="routes.issues.newTitle" descKey="routes.issues.newDesc" />,
+    element: <IssueCreateRoute />,
   },
   {
     path: ROUTES.ISSUE_DETAIL(':id'),
-    element: <DashboardOverview titleKey="routes.issues.detailTitle" descKey="routes.issues.detailDesc" />,
+    element: <IssueDetailRoute />,
   },
   {
     path: ROUTES.CHAT,

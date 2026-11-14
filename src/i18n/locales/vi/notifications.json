@@ -11,6 +11,11 @@
   "markAllRead": "Đánh dấu tất cả đã đọc",
   "filters": { "label": "Lọc thông báo", "all": "Tất cả", "unread": "Chưa đọc" },
   "categories": { "chat": "Tin nhắn", "invoice": "Hóa đơn", "issue": "Sự cố", "system": "Hệ thống" },
+  "issueEvents": {
+    "created": { "title": "Sự cố mới", "body": "Có một sự cố mới cần xem." },
+    "updated": { "title": "Sự cố đã được cập nhật", "body": "Tiến độ xử lý sự cố đã thay đổi." },
+    "cancelled": { "title": "Sự cố đã bị hủy", "body": "Một báo cáo sự cố đã bị hủy." }
+  },
   "preferences": {
     "button": "Cài đặt thông báo",
     "title": "Cài đặt thông báo",
