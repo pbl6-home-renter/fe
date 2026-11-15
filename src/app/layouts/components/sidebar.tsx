@@ -98,6 +98,7 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
         className={cn(
           'fixed inset-y-0 left-0 z-50 w-64 bg-rentify-surface border-r border-rentify-divider',
           'ui-mobile-drawer flex flex-col md:static',
+          role === Role.TENANT && 'md:hidden',
           open && 'shadow-2xl',
         )}
       >

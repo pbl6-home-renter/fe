@@ -1,12 +1,13 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Building2, Plus, ShieldCheck, Clock, AlertCircle, MapPin, ArrowRight, Layers } from 'lucide-react';
+import { AlertTriangle, ArrowRight, Gauge, Plus, Receipt } from 'lucide-react';
 import { ROUTES } from '@/config/routes.config';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { PageHeader } from '@/components/ui/page-header';
-import { BuildingStatusBadge } from '@/features/buildings/components/building-status-badge';
 import type { BuildingMyListItemDto } from '@/features/buildings/types/building.dto';
+import { LandlordKpiGrid } from './landlord/landlord-kpi-grid';
+import { LandlordBuildingCard } from './landlord/landlord-building-card';
 
 export interface LandlordDashboardFullStateProps {
   buildings: BuildingMyListItemDto[];
@@ -14,82 +15,150 @@ export interface LandlordDashboardFullStateProps {
   onOpenCreateModal?: () => void;
 }
 
-export const LandlordDashboardFullState = ({ buildings, metrics, onOpenCreateModal }: LandlordDashboardFullStateProps) => {
+export const LandlordDashboardFullState = ({
+  buildings,
+  metrics,
+  onOpenCreateModal,
+}: LandlordDashboardFullStateProps) => {
   const { t } = useTranslation('dashboard');
+  const { user } = useAuth();
   const navigate = useNavigate();
 
+  const userName = user?.name?.trim().split(' ').slice(-1)[0] || user?.name || '';
+
   return (
-    <div className="space-y-6">
-      {/* Top Header Card */}
-      <PageHeader
-        title={t('full.dashboardTitle')}
-        description={t('full.dashboardSubtitle')}
-        actions={
-          <>
+    <div className="space-y-8 pb-10 w-full max-w-[1440px] mx-auto">
+      {/* 1. Hero Gradient Banner for Landlord */}
+      <div className="relative overflow-hidden rounded-3xl bg-primary-gradient px-6 py-8 sm:px-10 sm:py-10 text-white shadow-card">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 rounded-full bg-white/10 blur-2xl" />
+        <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-white/5 blur-xl" />
+
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-2xl">
+            {userName && (
+              <span className="text-xs sm:text-sm font-medium tracking-wide text-white/80">
+                {t('full.greeting', { name: userName })}
+              </span>
+            )}
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              {t('full.dashboardTitle')}
+            </h1>
+            <p className="text-xs sm:text-sm text-white/80 leading-relaxed pt-1">{t('full.heroSubtitle')}</p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Button
               variant="outline"
-              size="md"
+              size="sm"
               onClick={() => navigate(ROUTES.LANDLORD.BUILDINGS)}
-              className="border-rentify-divider"
+              className="bg-white/10 text-white hover:bg-white hover:text-primary border-white/30 rounded-xl px-4 text-xs font-semibold backdrop-blur-xs"
             >
-              {t('full.viewAllBuildings')}
+              <span>{t('full.viewAllBuildings')}</span>
             </Button>
 
-            <Button variant="primary" size="md" onClick={onOpenCreateModal} className="gap-2 shadow-xs">
-              <Plus className="w-4 h-4" />
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={onOpenCreateModal}
+              className="bg-white text-primary hover:bg-white/95 rounded-xl px-4 text-xs font-bold gap-2 shadow-sm"
+            >
+              <Plus className="w-4 h-4 text-primary" />
               <span>{t('full.addNewBuilding')}</span>
             </Button>
-          </>
-        }
-      />
-
-      {/* Metric Cards (100% Real Data) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="flex flex-col justify-between p-5">
-          <div className="flex items-center justify-between text-rentify-text-secondary">
-            <span className="text-xs font-semibold">{t('full.totalBuildings')}</span>
-            <Building2 className="w-5 h-5 text-rentify-primary" />
           </div>
-          <div className="mt-4">
-            <span className="text-2xl font-bold text-rentify-text-primary tracking-tight">{metrics.total}</span>
-          </div>
-        </Card>
-
-        <Card className="flex flex-col justify-between p-5">
-          <div className="flex items-center justify-between text-rentify-text-secondary">
-            <span className="text-xs font-semibold">{t('full.activeBuildings')}</span>
-            <ShieldCheck className="w-5 h-5 text-rentify-success" />
-          </div>
-          <div className="mt-4">
-            <span className="text-2xl font-bold text-rentify-success tracking-tight">{metrics.active}</span>
-          </div>
-        </Card>
-
-        <Card className="flex flex-col justify-between p-5">
-          <div className="flex items-center justify-between text-rentify-text-secondary">
-            <span className="text-xs font-semibold">{t('full.pendingBuildings')}</span>
-            <Clock className="w-5 h-5 text-rentify-warning" />
-          </div>
-          <div className="mt-4">
-            <span className="text-2xl font-bold text-rentify-warning tracking-tight">{metrics.pending}</span>
-          </div>
-        </Card>
-
-        {metrics.others !== null && <Card className="flex flex-col justify-between p-5">
-          <div className="flex items-center justify-between text-rentify-text-secondary">
-            <span className="text-xs font-semibold">{t('full.otherBuildings')}</span>
-            <AlertCircle className="w-5 h-5 text-rentify-neutral" />
-          </div>
-          <div className="mt-4">
-            <span className="text-2xl font-bold text-rentify-neutral tracking-tight">{metrics.others}</span>
-          </div>
-        </Card>}
+        </div>
       </div>
 
-      {/* Danh sách Bất động sản của tôi */}
+      {/* 2. KPI Metrics Grid */}
+      <LandlordKpiGrid metrics={metrics} />
+
+      {/* 3. Quick Operations Bar */}
+      <div className="space-y-3">
+        <h2 className="text-sm sm:text-base font-bold text-rentify-text-primary">{t('full.quickActionsTitle')}</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card
+            variant="interactive"
+            onClick={onOpenCreateModal}
+            className="p-4 rounded-2xl bg-rentify-surface border border-rentify-divider shadow-xs cursor-pointer group flex items-center justify-between"
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-container text-rentify-primary">
+                <Plus className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-rentify-text-primary group-hover:text-rentify-primary transition-colors truncate">
+                  {t('full.addNewBuilding')}
+                </p>
+                <p className="text-[11px] text-rentify-text-secondary truncate mt-0.5">{t('empty.addFirstBuilding')}</p>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-rentify-text-muted group-hover:text-rentify-primary transition-colors shrink-0 ml-2" />
+          </Card>
+
+          <Card
+            variant="interactive"
+            onClick={() => navigate(ROUTES.LANDLORD.METER_READINGS)}
+            className="p-4 rounded-2xl bg-rentify-surface border border-rentify-divider shadow-xs cursor-pointer group flex items-center justify-between"
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-surface text-teal-primary border border-teal-border">
+                <Gauge className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-rentify-text-primary group-hover:text-rentify-primary transition-colors truncate">
+                  {t('full.quickMeters')}
+                </p>
+                <p className="text-[11px] text-rentify-text-secondary truncate mt-0.5">{t('full.quickMetersDesc')}</p>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-rentify-text-muted group-hover:text-rentify-primary transition-colors shrink-0 ml-2" />
+          </Card>
+
+          <Card
+            variant="interactive"
+            onClick={() => navigate(ROUTES.LANDLORD.INVOICES)}
+            className="p-4 rounded-2xl bg-rentify-surface border border-rentify-divider shadow-xs cursor-pointer group flex items-center justify-between"
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-surface text-teal-primary border border-teal-border">
+                <Receipt className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-rentify-text-primary group-hover:text-rentify-primary transition-colors truncate">
+                  {t('full.quickInvoices')}
+                </p>
+                <p className="text-[11px] text-rentify-text-secondary truncate mt-0.5">{t('full.quickInvoicesDesc')}</p>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-rentify-text-muted group-hover:text-rentify-primary transition-colors shrink-0 ml-2" />
+          </Card>
+
+          <Card
+            variant="interactive"
+            onClick={() => navigate(ROUTES.LANDLORD.ISSUES)}
+            className="p-4 rounded-2xl bg-rentify-surface border border-rentify-divider shadow-xs cursor-pointer group flex items-center justify-between"
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rentify-warning/10 text-rentify-warning">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-rentify-text-primary group-hover:text-rentify-primary transition-colors truncate">
+                  {t('full.quickIssues')}
+                </p>
+                <p className="text-[11px] text-rentify-text-secondary truncate mt-0.5">{t('full.quickIssuesDesc')}</p>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-rentify-text-muted group-hover:text-rentify-primary transition-colors shrink-0 ml-2" />
+          </Card>
+        </div>
+      </div>
+
+      {/* 4. Building Portfolio List */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-rentify-text-primary">{t('full.myBuildingsList')}</h2>
+          <h2 className="text-sm sm:text-base font-bold text-rentify-text-primary">{t('full.myBuildingsList')}</h2>
           <span className="text-xs text-rentify-text-secondary font-medium">
             {t('full.previewCount', { count: buildings.length })}
           </span>
@@ -97,53 +166,7 @@ export const LandlordDashboardFullState = ({ buildings, metrics, onOpenCreateMod
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {buildings.map((building) => (
-            <Link
-              key={building.id}
-              to={ROUTES.LANDLORD.BUILDING_DETAIL(building.id)}
-              className="group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary focus-visible:ring-offset-2"
-            >
-              <Card variant="interactive" className="flex h-full flex-col justify-between gap-4 p-5">
-                <div className="space-y-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-10 h-10 rounded-xl bg-rentify-primary-container/20 text-rentify-primary flex items-center justify-center shrink-0">
-                        <Building2 className="w-5 h-5" />
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="font-semibold text-sm text-rentify-text-primary group-hover:text-rentify-primary transition-colors truncate">
-                          {building.name}
-                        </h3>
-                        <div className="flex items-center gap-1.5 text-xs text-rentify-text-secondary mt-0.5">
-                          <MapPin className="w-3.5 h-3.5 shrink-0" />
-                          <span className="truncate">{building.address || t('full.unspecifiedAddress')}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-rentify-divider flex items-center justify-between">
-                    <BuildingStatusBadge status={building.status} variant="pill" />
-
-                    {building.occupancyRate && (
-                      <div className="flex items-center gap-1 text-xs text-rentify-text-secondary">
-                        <Layers className="w-3.5 h-3.5 text-rentify-text-secondary" />
-                        <span>{building.occupancyRate}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-rentify-divider flex items-center justify-between text-xs">
-                  <span className="text-rentify-text-secondary font-medium">
-                    {building.occupiedRooms !== undefined ? t('full.occupiedRooms', { count: building.occupiedRooms }) : ''}
-                  </span>
-                  <span className="inline-flex items-center gap-1 font-semibold text-rentify-primary group-hover:underline">
-                    <span>{t('full.viewDetail')}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </Card>
-            </Link>
+            <LandlordBuildingCard key={building.id} building={building} />
           ))}
         </div>
       </div>
