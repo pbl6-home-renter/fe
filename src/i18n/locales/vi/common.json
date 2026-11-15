@@ -19,6 +19,8 @@
   "cancel": "Hủy",
   "delete": "Xóa",
   "confirm": "Xác nhận",
+  "login": "Đăng nhập",
+  "register": "Đăng ký",
   "success": "Thành công",
   "error": "Đã xảy ra lỗi",
   "retry": "Thử lại",
@@ -103,13 +105,16 @@
     "propertyManagement": "Quản lý căn hộ & tòa nhà",
     "vietqrContract": "Hợp đồng điện tử VietQR",
     "copyright": "© {{year}} Rentify. Tất cả quyền được bảo lưu.",
-    "platformDescription": "Hệ thống quản lý căn hộ & hợp đồng thuê • Rentify"
+    "platformDescription": "Hệ thống quản lý căn hộ & hợp đồng thuê • Rentify",
+    "termsPrivacy": "Điều khoản & Chính sách",
+    "hotline": "Hotline: 1900 8888"
   },
   "navigation": {
     "home": "Trang chủ",
     "overview": "Tổng quan",
     "tenantOverview": "Tổng quan phòng",
     "rooms": "Quản lý nhà / phòng",
+    "searchRooms": "Tìm phòng",
     "myRoom": "Phòng của tôi",
     "tenants": "Khách thuê",
     "contracts": "Hợp đồng",

@@ -5,6 +5,7 @@ import { ProtectedRoute } from './protected-route';
 import { DashboardLayout } from '@/app/layouts/dashboard-layout';
 import { AppRouterLayout } from '@/app/layouts/app-router-layout';
 import { RoleBasedRedirect } from './role-based-redirect';
+import { RoomSearchDispatcher } from './room-search-dispatcher';
 import { authRoutes } from './roles/auth.routes';
 import { commonRoutes } from './roles/common.routes';
 import { landlordRoutes } from './roles/landlord.routes';
@@ -17,6 +18,10 @@ export const routes: RouteObject[] = [
     element: <AppRouterLayout />,
     children: [
       ...authRoutes,
+      {
+        path: ROUTES.ROOMS_SEARCH,
+        element: <RoomSearchDispatcher />,
+      },
       {
         element: <ProtectedRoute />,
         children: [

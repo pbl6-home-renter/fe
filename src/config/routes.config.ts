@@ -9,6 +9,9 @@ export const ROUTES = {
   FORBIDDEN_ALT: '/forbidden',
   NOT_FOUND: '/404',
 
+  ROOMS_SEARCH: '/rooms/search',
+  ROOM_DETAIL: (id: string) => `/rooms/${id}`,
+
   INVOICES: '/invoices',
   INVOICE_DETAIL: (id: string) => `/invoices/${id}`,
   ISSUES: '/issues',
@@ -54,6 +57,7 @@ export const ROUTES = {
 
   TENANT: {
     DASHBOARD: '/dashboard',
+    ROOMS_SEARCH: '/rooms/search',
     ROOMS: '/rooms',
     ROOM_DETAIL: (id: string) => `/rooms/${id}`,
     CONTRACTS: '/contracts',

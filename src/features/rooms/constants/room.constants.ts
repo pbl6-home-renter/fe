@@ -1,11 +1,13 @@
 import { RoomStatus } from '../enums/room-status.enum';
 import { GenderPolicy } from '../enums/gender-policy.enum';
-import type { RoomFilter } from '../types/room.dto';
+import type { ListParams } from '@/types/api';
+import type { RoomFilter, RoomPublicFilter } from '../types/room.dto';
 
 export const ROOM_QUERY_KEYS = {
   ALL: ['rooms'] as const,
   MY_LIST: (params?: { filter?: RoomFilter; pageNo?: number; pageSize?: number }) =>
     ['rooms', 'my-list', params] as const,
+  PUBLIC_LIST: (params?: ListParams<RoomPublicFilter>) => ['rooms', 'public-list', params] as const,
   DETAIL: (id?: string) => ['rooms', 'detail', id] as const,
 };
 

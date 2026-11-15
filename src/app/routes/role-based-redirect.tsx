@@ -7,9 +7,8 @@ export const RoleBasedRedirect = () => {
   const { user, isAuthenticated } = useAuth();
 
   if (!isAuthenticated || !user) {
-    return <Navigate to={ROUTES.LOGIN} replace />;
+    return <Navigate to={ROUTES.ROOMS_SEARCH} replace />;
   }
 
   return <Navigate to={getHomePathByRole(user.role)} replace />;
 };
-

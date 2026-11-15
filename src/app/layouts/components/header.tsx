@@ -79,7 +79,7 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
         <IconButton
           variant="ghost"
           size="md"
-          onClick={() => navigate(ROUTES.LANDLORD.ROOMS)}
+          onClick={() => navigate(ROUTES.ROOMS_SEARCH)}
           aria-label={t('search')}
           className="hidden sm:inline-flex"
         >
