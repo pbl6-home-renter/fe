@@ -2,7 +2,7 @@ import { Role } from '@/types/role';
 import { ROUTES } from '@/config/routes.config';
 
 export const getHomePathByRole = (role?: Role | null): string => {
-  if (!role) return ROUTES.LOGIN;
+  if (!role) return ROUTES.ROOMS_SEARCH;
   switch (role) {
     case Role.ADMIN:
       return ROUTES.ADMIN.DASHBOARD;
@@ -13,4 +13,3 @@ export const getHomePathByRole = (role?: Role | null): string => {
       return ROUTES.DASHBOARD;
   }
 };
-

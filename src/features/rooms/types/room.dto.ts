@@ -98,3 +98,24 @@ export interface RoomFilter {
 export interface RoomMarkReadyResponseDto extends BaseEntity {
   status: RoomStatus;
 }
+
+export interface RoomPublicListItemDto {
+  id: string;
+  buildingId: string;
+  name: string;
+  area?: string | null;
+  rentPrice: number;
+  genderPolicy: GenderPolicy;
+  address?: string | null;
+  district?: string | null;
+  province?: string | null;
+  isFavorited?: boolean;
+}
+
+export interface RoomPublicFilter {
+  province?: string;
+  ward?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  genderPolicy?: GenderPolicy | string;
+}

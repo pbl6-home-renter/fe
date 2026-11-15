@@ -15,6 +15,7 @@ import {
   MessageSquare,
   UserPlus,
   Gauge,
+  Search,
 } from 'lucide-react';
 import type { ParseKeys } from 'i18next';
 import { Role } from '@/types/role';
@@ -67,6 +68,7 @@ export const TENANT_NAVIGATION: readonly NavMenuItem[] = [
     icon: LayoutDashboard,
     exact: true,
   },
+  { id: 'tenant-search-rooms', titleKey: 'navigation.searchRooms', path: ROUTES.ROOMS_SEARCH, icon: Search },
   { id: 'tenant-room', titleKey: 'navigation.myRoom', path: ROUTES.TENANT.ROOMS, icon: Home },
   { id: 'tenant-contracts', titleKey: 'navigation.contracts', path: ROUTES.TENANT.CONTRACTS, icon: FileText },
   { id: 'tenant-invoices', titleKey: 'navigation.invoices', path: ROUTES.TENANT.INVOICES, icon: Receipt },

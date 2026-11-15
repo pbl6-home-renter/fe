@@ -1,13 +1,16 @@
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@/components/feedback/empty-state';
 import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { PageHeader } from '@/components/ui/page-header';
+import { ROUTES } from '@/config/routes.config';
 import { TenantRoomCards } from '../../components/tenant/tenant-room-cards';
 import { useTenantActiveContracts } from '../../hooks/use-tenant-active-contracts';
 
 export const TenantRoomsPage = () => {
   const { t } = useTranslation('rooms');
+  const navigate = useNavigate();
   const { data, isLoading, isError, refetch } = useTenantActiveContracts();
 
   return (
@@ -22,7 +25,12 @@ export const TenantRoomsPage = () => {
       ) : isError || !data ? (
         <ErrorState onRetry={() => void refetch()} />
       ) : data.length === 0 ? (
-        <EmptyState title={t('tenantRoom.emptyTitle')} description={t('tenantRoom.emptyDescription')} />
+        <EmptyState
+          title={t('tenantRoom.emptyTitle')}
+          description={t('tenantRoom.emptyDescription')}
+          actionText={t('tenantRoom.findRoomAction')}
+          onAction={() => navigate(ROUTES.ROOMS_SEARCH)}
+        />
       ) : (
         <TenantRoomCards contracts={data} />
       )}

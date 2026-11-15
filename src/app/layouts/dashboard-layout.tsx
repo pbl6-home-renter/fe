@@ -8,7 +8,11 @@ import { Header } from './components/header';
 import { LogoutModal } from './components/logout-modal';
 import { isChatPath } from '@/features/chat/constants/chat.constants';
 
-export const DashboardLayout = () => {
+export interface DashboardLayoutProps {
+  children?: React.ReactNode;
+}
+
+export const DashboardLayout = ({ children }: DashboardLayoutProps = {}) => {
   const logoutMutation = useLogoutMutation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,7 +42,7 @@ export const DashboardLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-rentify-background flex flex-col md:flex-row antialiased text-rentify-text-primary selection:bg-rentify-primary-container selection:text-white">
+    <div className="min-h-screen bg-rentify-background flex flex-col md:flex-row antialiased text-rentify-text-primary selection:bg-rentify-primary-container selection:text-rentify-surface">
       {/* Role-based Responsive Navigation Sidebar */}
       <Sidebar open={sidebarOpen} onClose={handleCloseSidebar} />
 
@@ -64,7 +68,7 @@ export const DashboardLayout = () => {
             disabled={isChatRoute}
             className={isChatRoute ? 'h-full min-h-0 w-full' : 'max-w-360 mx-auto w-full'}
           >
-            <Outlet />
+            {children ?? <Outlet />}
           </RouteFade>
         </main>
       </div>

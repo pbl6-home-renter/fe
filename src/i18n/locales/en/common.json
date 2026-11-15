@@ -19,6 +19,8 @@
   "cancel": "Cancel",
   "delete": "Delete",
   "confirm": "Confirm",
+  "login": "Login",
+  "register": "Register",
   "success": "Success",
   "error": "An error occurred",
   "retry": "Retry",
@@ -103,13 +105,16 @@
     "propertyManagement": "Property & Building Management",
     "vietqrContract": "VietQR E-Contract",
     "copyright": "© {{year}} Rentify. All rights reserved.",
-    "platformDescription": "Apartment & Rental Contract Management Platform • Rentify"
+    "platformDescription": "Apartment & Rental Contract Management Platform • Rentify",
+    "termsPrivacy": "Terms & Privacy",
+    "hotline": "Hotline: 1900 8888"
   },
   "navigation": {
     "home": "Home",
     "overview": "Overview",
     "tenantOverview": "Room Overview",
     "rooms": "Properties & Rooms",
+    "searchRooms": "Search rooms",
     "myRoom": "My Room",
     "tenants": "Tenants",
     "contracts": "Contracts",
