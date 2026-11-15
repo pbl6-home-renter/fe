@@ -43,14 +43,6 @@ export const landlordRoutes: RouteObject[] = [
     ),
   },
   {
-    path: ROUTES.LANDLORD.ROOM_DETAIL(':id'),
-    element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
-        <RoomDetailPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
     path: ROUTES.LANDLORD.TENANTS,
     element: (
       <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
