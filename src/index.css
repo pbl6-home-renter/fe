@@ -1,51 +1,83 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-canvas-base: #f8fbfe;
+  /* Surface & Canvas Neutrals */
+  --color-page-background: #f8fafc;
+  --color-card-surface: #ffffff;
+  --color-canvas-base: #f8fafc;
   --color-surface-card: #ffffff;
-  --color-surface-container-low: #f1f3ff;
-  --color-surface-container: #e8eeff;
-  --color-surface-container-highest: #d7e3ff;
+  --color-surface-container-low: #f8fafc;
+  --color-surface-container: #eef2ff;
+  --color-surface-container-highest: #e0e7ff;
 
-  /* Primary & Brand Interaction */
-  --color-primary: #005cbd;
-  --color-primary-container: #1e6fd9;
-  --color-primary-hover: #175bb3;
+  /* A. Brand & Primary Interaction (#4F46E5 - Indigo) */
+  --color-primary: #4f46e5;
+  --color-primary-container: #eef2ff;
+  --color-primary-hover: #4338ca;
   --color-on-primary: #ffffff;
-  --color-primary-fixed: #d7e2ff;
+  --color-on-primary-container: #312e81;
+  --color-primary-fixed: #e0e7ff;
 
-  /* Text & Typography Content */
-  --color-on-surface: #142a4c;
-  --color-on-surface-variant: #424753;
-  --color-secondary: #5c7290;
+  /* B. Secondary Accent 1: Teal (Tài chính & Vận hành) */
+  --color-teal-primary: #006876;
+  --color-teal-accent: #008394;
+  --color-teal-surface: #f2fbfd;
+  --color-teal-border: #e1f3f6;
+
+  /* C. Secondary Accent 2: Slate (Nền trung tính cao cấp) */
+  --color-slate-darkest: #161b2c;
+  --color-slate-medium: #595e72;
+  --color-slate-border: #dde1f9;
+  --color-slate-surface: #eef0ff;
+
+  /* D. Neutrals & Text */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-on-surface: #0f172a;
+  --color-on-surface-variant: #475569;
+  --color-secondary: #475569;
 
   /* Structural Borders & Outlines */
-  --color-border-subtle: #d7e3f2;
-  --color-outline: #727784;
-  --color-outline-variant: #c2c6d5;
+  --color-border-subtle: #e2e8f0;
+  --color-divider: #e2e8f0;
+  --color-border: #e2e8f0;
+  --color-outline: #64748b;
+  --color-outline-variant: #cbd5e1;
 
-  /* Semantic Status Roles */
+  /* E. Semantic Status Roles */
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-error: #dc2626;
+  --color-danger: #dc2626;
+  --color-neutral: #64748b;
   --color-status-paid: #16a34a;
   --color-status-overdue: #dc2626;
-  --color-status-pending: #94a3b8;
-  --color-error-container: #ffdad6;
+  --color-status-pending: #64748b;
   --color-status-warning: #f59e0b;
+  --color-error-container: #fee2e2;
 
   /* Backward-compatible Rentify Token Aliases */
-  --color-rentify-primary: #1e6fd9;
-  --color-rentify-primary-hover: #175bb3;
+  --color-rentify-primary: #4f46e5;
+  --color-rentify-primary-hover: #4338ca;
   --color-rentify-on-primary: #ffffff;
-  --color-rentify-primary-container: #e8f1fc;
-  --color-rentify-on-primary-container: #142a4c;
-  --color-rentify-background: #f8fbfe;
+  --color-rentify-primary-container: #eef2ff;
+  --color-rentify-on-primary-container: #312e81;
+  --color-rentify-background: #f8fafc;
   --color-rentify-surface: #ffffff;
-  --color-rentify-text-primary: #142a4c;
-  --color-rentify-text-secondary: #5c7290;
-  --color-rentify-divider: #d7e3f2;
+  --color-rentify-card: #ffffff;
+  --color-rentify-surface-container-low: #f8fafc;
+  --color-rentify-text-primary: #0f172a;
+  --color-rentify-text-secondary: #475569;
+  --color-rentify-text-muted: #64748b;
+  --color-rentify-divider: #e2e8f0;
+  --color-rentify-border: #e2e8f0;
+  --color-rentify-outline: #64748b;
   --color-rentify-success: #16a34a;
   --color-rentify-warning: #f59e0b;
   --color-rentify-error: #dc2626;
-  --color-rentify-neutral: #94a3b8;
+  --color-rentify-danger: #dc2626;
+  --color-rentify-neutral: #64748b;
 
   /* Border Radius Scale */
   --radius-xs: 4px;
@@ -58,17 +90,39 @@
   --radius-full: 9999px;
 
   /* Shadow Scale */
-  --shadow-card: 0 1px 8px 0 rgba(0, 0, 0, 0.04);
-  --shadow-spotlight: 0 12px 32px -4px rgba(30, 111, 217, 0.1), 0 4px 12px -2px rgba(30, 111, 217, 0.04);
-  --shadow-modal: 0 16px 40px -8px rgba(20, 42, 76, 0.08), 0 0 0 1px #d7e3f2;
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --shadow-spotlight: 0 12px 24px -4px rgba(79, 70, 229, 0.12), 0 4px 8px -2px rgba(79, 70, 229, 0.04);
+  --shadow-modal: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
 
-  /* Font Family */
+  /* Font Family - Plus Jakarta Sans */
   --font-sans:
-    'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Global Gradients */
+.bg-primary-gradient {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+}
+
+.bg-teal-gradient {
+  background: linear-gradient(135deg, #006876 0%, #008394 100%);
+}
+
+/* Iconography Rules: 1.5px - 2.0px stroke, round caps/joins */
+svg.lucide {
+  stroke-width: 1.75px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Base Body Styles */
-body {
+html {
+  scrollbar-gutter: stable;
+}
+
+html,
+body,
+#root {
   font-family: var(--font-sans);
   background-color: var(--color-canvas-base);
   color: var(--color-on-surface);

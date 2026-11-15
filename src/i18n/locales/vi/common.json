@@ -111,6 +111,7 @@
   },
   "navigation": {
     "home": "Trang chủ",
+    "explore": "Khám phá",
     "overview": "Tổng quan",
     "tenantOverview": "Tổng quan phòng",
     "rooms": "Quản lý nhà / phòng",
@@ -124,6 +125,7 @@
     "buildings": "Tòa nhà",
     "meterReadings": "Chỉ số điện nước",
     "roommates": "Tìm người ở ghép",
+    "roommatesShort": "Ghép bạn",
     "chat": "Tin nhắn",
     "admin": {
       "systemStats": "Thống kê hệ thống",

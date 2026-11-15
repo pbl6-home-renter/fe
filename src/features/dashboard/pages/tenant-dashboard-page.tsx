@@ -1,51 +1,109 @@
-import { Card } from '@/components/ui/card';
-import { Skeleton } from '@/components/feedback/skeleton';
-import { ErrorState } from '@/components/feedback/error-state';
-import { TenantDashboardEmptyState } from '../components/tenant-dashboard-empty-state';
-import { TenantDashboardFullState } from '../components/tenant-dashboard-full-state';
-import { useTenantDashboard } from '../hooks/use-tenant-dashboard';
+import { useTenantHome } from '../hooks/use-tenant-home';
+import { TenantHomeBanner } from '../components/tenant/tenant-home-banner';
+import { TenantQuickActions } from '../components/tenant/tenant-quick-actions';
+import { TenantMyRoomWidget } from '../components/tenant/tenant-my-room-widget';
+import { TenantPopularAreas } from '../components/tenant/tenant-popular-areas';
+import { TenantRecommendedRooms } from '../components/tenant/tenant-recommended-rooms';
+import { TenantFilterModal } from '../components/tenant/tenant-filter-modal';
+import { LoginPromptModal } from '@/features/rooms/components/search/login-prompt-modal';
 
 export const TenantDashboardPage = () => {
-  const { contracts, activeCount, isLoading, isError, refetch } = useTenantDashboard();
+  const {
+    isAuthenticated,
+    userDisplayName,
+    hasUnreadNotifications,
+    contracts,
+    activeContract,
+    activeRoomIndex,
+    handlePrevRoom,
+    handleNextRoom,
+    currentContractInvoice,
+    unpaidInvoicesCount,
+    recommendedRooms,
+    isRecommendedLoading,
+    isRecommendedError,
+    refetchRecommended,
+    searchKeyword,
+    setSearchKeyword,
+    handleSearchSubmit,
+    handleQuickAction,
+    handleSelectArea,
+    handleRoomClick,
+    handleFavoriteClick,
+    authPromptOpen,
+    setAuthPromptOpen,
+    filterModalOpen,
+    setFilterModalOpen,
+  } = useTenantHome();
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6" role="status">
-        <div className="space-y-2">
-          <Skeleton className="h-8 w-48 rounded-xl" />
-          <Skeleton className="h-4 w-80 rounded-xl" />
-        </div>
+  const hasActiveRooms = isAuthenticated && contracts.length > 0 && Boolean(activeContract);
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Card className="h-28">
-            <Skeleton className="h-full w-full rounded-xl" />
-          </Card>
-          <Card className="h-28">
-            <Skeleton className="h-full w-full rounded-xl" />
-          </Card>
-          <Card className="h-28">
-            <Skeleton className="h-full w-full rounded-xl" />
-          </Card>
-        </div>
+  return (
+    <div className="space-y-8 pb-12 w-full max-w-[1440px] mx-auto">
+      {/* Khối 1: Banner đầu trang & Thanh tìm kiếm nổi */}
+      <TenantHomeBanner
+        isAuthenticated={isAuthenticated}
+        userDisplayName={userDisplayName}
+        hasUnreadNotifications={hasUnreadNotifications}
+        keyword={searchKeyword}
+        onKeywordChange={setSearchKeyword}
+        onOpenFilter={() => setFilterModalOpen(true)}
+        onSearch={handleSearchSubmit}
+      />
 
-        <div className="space-y-4">
-          <Skeleton className="h-6 w-40 rounded-xl" />
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <Skeleton className="h-56 w-full rounded-2xl" />
-            <Skeleton className="h-56 w-full rounded-2xl" />
+      {/* Khối 2 & 3: Bố cục theo trạng thái có phòng đang thuê hay không */}
+      {hasActiveRooms && activeContract ? (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          {/* Khối 3: Widget "Phòng của tôi" (8 cols) */}
+          <div className="lg:col-span-8">
+            <TenantMyRoomWidget
+              contracts={contracts}
+              activeContract={activeContract}
+              invoice={currentContractInvoice}
+              activeRoomIndex={activeRoomIndex}
+              onPrevRoom={handlePrevRoom}
+              onNextRoom={handleNextRoom}
+            />
+          </div>
+
+          {/* Khối 2: 4 Tiện ích nhanh (4 cols, xếp dọc trong Card) */}
+          <div className="lg:col-span-4">
+            <TenantQuickActions
+              isAuthenticated={isAuthenticated}
+              unpaidCount={unpaidInvoicesCount}
+              layout="vertical"
+              onAction={handleQuickAction}
+            />
           </div>
         </div>
-      </div>
-    );
-  }
+      ) : (
+        /* Khối 2: 4 Tiện ích nhanh (Hàng 4 cột ngang cho khách hoặc chưa thuê phòng) */
+        <TenantQuickActions
+          isAuthenticated={isAuthenticated}
+          unpaidCount={unpaidInvoicesCount}
+          layout="horizontal"
+          onAction={handleQuickAction}
+        />
+      )}
 
-  if (isError || !contracts) {
-    return <ErrorState onRetry={() => void refetch()} />;
-  }
+      {/* Khối 4: Khu vực phổ biến (Slider/Grid 6 quận phường nổi bật) */}
+      <TenantPopularAreas onSelectArea={handleSelectArea} />
 
-  if (activeCount === 0) {
-    return <TenantDashboardEmptyState />;
-  }
+      {/* Khối 5: Danh sách "Dành cho bạn" / "Phòng nổi bật" */}
+      <TenantRecommendedRooms
+        isAuthenticated={isAuthenticated}
+        rooms={recommendedRooms}
+        isLoading={isRecommendedLoading}
+        isError={isRecommendedError}
+        onRetry={() => void refetchRecommended()}
+        onFavoriteClick={handleFavoriteClick}
+        onRoomClick={handleRoomClick}
+      />
 
-  return <TenantDashboardFullState contracts={contracts} activeCount={activeCount} />;
+      {/* Modals & Dialogs */}
+      <LoginPromptModal open={authPromptOpen} onClose={() => setAuthPromptOpen(false)} />
+
+      <TenantFilterModal open={filterModalOpen} onClose={() => setFilterModalOpen(false)} />
+    </div>
+  );
 };

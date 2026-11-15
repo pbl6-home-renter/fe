@@ -111,6 +111,7 @@
   },
   "navigation": {
     "home": "Home",
+    "explore": "Explore",
     "overview": "Overview",
     "tenantOverview": "Room Overview",
     "rooms": "Properties & Rooms",
@@ -124,6 +125,7 @@
     "buildings": "Buildings",
     "meterReadings": "Meter Readings",
     "roommates": "Find Roommates",
+    "roommatesShort": "Roommates",
     "chat": "Messages",
     "admin": {
       "systemStats": "System Analytics",
