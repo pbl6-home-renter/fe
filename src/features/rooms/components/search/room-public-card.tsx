@@ -82,8 +82,10 @@ export const RoomPublicCard = ({ room, onRequireAuth }: RoomPublicCardProps) => 
         {/* Card Body */}
         <div className="p-5 pt-0 space-y-3">
           <div>
-            <div className="flex items-baseline gap-1 text-rentify-primary">
-              <span className="text-xl font-bold tabular-nums">{formatVnd(room.rentPrice)}</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-xl font-extrabold text-teal-primary tabular-nums tracking-tight">
+                {formatVnd(room.rentPrice)}
+              </span>
               <span className="text-xs font-medium text-rentify-text-secondary">{t('search.monthUnit')}</span>
             </div>
 
