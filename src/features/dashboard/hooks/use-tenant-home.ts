@@ -112,8 +112,8 @@ export const useTenantHome = () => {
 
   const handleSelectArea = (area: PopularAreaItem) => {
     const query = new URLSearchParams();
-    if (area.district) query.set('district', area.district);
-    if (area.ward) query.set('ward', area.ward);
+    query.set('keyword', area.name);
+    if (area.province) query.set('province', area.province);
     navigate(`${ROUTES.ROOMS_SEARCH}?${query.toString()}`);
   };
 

@@ -1,16 +1,15 @@
 export interface PopularAreaItem {
   id: string;
-  type: 'ward' | 'district';
   name: string;
-  district: string;
-  ward?: string;
+  province: string;
+  type: 'city';
 }
 
 export const POPULAR_AREAS: PopularAreaItem[] = [
-  { id: '1', type: 'ward', name: 'Hòa Khánh', district: 'Liên Chiểu', ward: 'Hòa Khánh Bắc' },
-  { id: '2', type: 'district', name: 'Hải Châu', district: 'Hải Châu' },
-  { id: '3', type: 'district', name: 'Ngũ Hành Sơn', district: 'Ngũ Hành Sơn' },
-  { id: '4', type: 'district', name: 'Cẩm Lệ', district: 'Cẩm Lệ' },
-  { id: '5', type: 'district', name: 'Sơn Trà', district: 'Sơn Trà' },
-  { id: '6', type: 'district', name: 'Thanh Khê', district: 'Thanh Khê' },
+  { id: 'ha-noi', name: 'Hà Nội', province: 'Thành phố Hà Nội', type: 'city' },
+  { id: 'hai-phong', name: 'Hải Phòng', province: 'Thành phố Hải Phòng', type: 'city' },
+  { id: 'hue', name: 'Huế', province: 'Thành phố Huế', type: 'city' },
+  { id: 'da-nang', name: 'Đà Nẵng', province: 'Thành phố Đà Nẵng', type: 'city' },
+  { id: 'can-tho', name: 'Cần Thơ', province: 'Thành phố Cần Thơ', type: 'city' },
+  { id: 'tp-ho-chi-minh', name: 'TP. Hồ Chí Minh', province: 'Thành phố Hồ Chí Minh', type: 'city' },
 ];

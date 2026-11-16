@@ -11,8 +11,8 @@ export const AppFooter = ({ role = Role.TENANT, className = '' }: AppFooterProps
   const { t } = useTranslation('common');
 
   return (
-    <footer className={`border-t border-rentify-divider bg-rentify-surface/60 py-6 mt-12 shrink-0 ${className}`}>
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-rentify-text-secondary">
+    <footer className={`w-full border-t border-rentify-divider bg-rentify-surface/60 py-6 mt-12 shrink-0 ${className}`}>
+      <div className="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-rentify-text-secondary">
         <div className="flex items-center gap-2.5">
           <RentifyLogo role={role || Role.TENANT} size="sm" />
           <span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>

@@ -45,7 +45,7 @@ export const TenantPopularAreas = ({ onSelectArea }: TenantPopularAreasProps) =>
 
             <div className="min-w-0">
               <span className="block text-[11px] font-medium text-rentify-text-secondary leading-none">
-                {area.type === 'ward' ? t('tenantHome.ward') : t('tenantHome.district')}
+                {t('tenantHome.city')}
               </span>
               <span className="block text-xs sm:text-sm font-bold text-rentify-text-primary group-hover:text-rentify-primary transition-colors truncate mt-1">
                 {area.name}

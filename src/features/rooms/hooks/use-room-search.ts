@@ -1,47 +1,52 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { usePublicRoomsQuery } from './use-public-rooms-query';
-import type { RoomPublicFilter } from '../types/room.dto';
+import { useRecentSearches } from './use-recent-searches';
+import { useActiveSearchChips } from './use-active-search-chips';
+import { useRoomSearchUrlParams, type RoomSearchFiltersState } from './use-room-search-url-params';
+import { ROUTES } from '@/config/routes.config';
+import type { RoomPublicFilter, RoomPublicListItemDto } from '../types/room.dto';
 import type { ListParams } from '@/types/api';
 
-export interface RoomSearchFiltersState {
-  province: string;
-  ward: string;
-  minPrice: string;
-  maxPrice: string;
-  genderPolicy: string;
-}
-
-const DEFAULT_FILTERS: RoomSearchFiltersState = {
-  province: '',
-  ward: '',
-  minPrice: '',
-  maxPrice: '',
-  genderPolicy: '',
-};
+export type { RoomSearchFiltersState };
 
 export const useRoomSearch = () => {
-  const [pageNo, setPageNo] = useState(1);
-  const [sort, setSort] = useState<'rentPrice'>('rentPrice');
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  const navigate = useNavigate();
+  const { recentSearches, addSearch, removeSearch, clearSearches } = useRecentSearches();
 
-  // Input state in the sidebar form
-  const [draftFilters, setDraftFilters] = useState<RoomSearchFiltersState>(DEFAULT_FILTERS);
+  const {
+    urlKeyword,
+    urlPage,
+    urlSort,
+    urlOrder,
+    appliedFilters,
+    hasActiveFilters,
+    activeFilterCount,
+    currentSort,
+    updateUrlParams,
+    handleApplyModalFilters,
+    handleResetFilters,
+    handleSortChange,
+    handlePageChange,
+  } = useRoomSearchUrlParams();
 
-  // Applied state sent to API
-  const [appliedFilters, setAppliedFilters] = useState<RoomSearchFiltersState>(DEFAULT_FILTERS);
+  const [keyword, setKeyword] = useState(urlKeyword);
+  const [prevUrlKeyword, setPrevUrlKeyword] = useState(urlKeyword);
+  const [filterModalOpen, setFilterModalOpen] = useState(false);
+  const [authPromptOpen, setAuthPromptOpen] = useState(false);
+
+  if (prevUrlKeyword !== urlKeyword) {
+    setPrevUrlKeyword(urlKeyword);
+    setKeyword(urlKeyword);
+  }
+
+  const isClientFiltering = Boolean(keyword.trim() || appliedFilters.district.trim());
 
   const queryParams = useMemo<ListParams<RoomPublicFilter>>(() => {
     const filter: RoomPublicFilter = {};
-
-    if (appliedFilters.province.trim()) {
-      filter.province = appliedFilters.province.trim();
-    }
-    if (appliedFilters.ward.trim()) {
-      filter.ward = appliedFilters.ward.trim();
-    }
-    if (appliedFilters.genderPolicy) {
-      filter.genderPolicy = appliedFilters.genderPolicy;
-    }
+    if (appliedFilters.province.trim()) filter.province = appliedFilters.province.trim();
+    if (appliedFilters.ward.trim()) filter.ward = appliedFilters.ward.trim();
+    if (appliedFilters.genderPolicy) filter.genderPolicy = appliedFilters.genderPolicy;
     if (appliedFilters.minPrice) {
       const min = Number(appliedFilters.minPrice);
       if (!Number.isNaN(min) && min >= 0) filter.minPrice = min;
@@ -52,69 +57,140 @@ export const useRoomSearch = () => {
     }
 
     return {
-      pageNo,
-      pageSize: 12,
-      sort,
-      order,
+      pageNo: isClientFiltering ? 1 : urlPage,
+      pageSize: isClientFiltering ? 100 : 12,
+      sort: urlSort,
+      order: urlOrder,
       filter: Object.keys(filter).length > 0 ? filter : undefined,
     };
-  }, [appliedFilters, pageNo, sort, order]);
+  }, [appliedFilters, isClientFiltering, urlPage, urlSort, urlOrder]);
 
   const { data, isLoading, isFetching, isError, refetch } = usePublicRoomsQuery(queryParams);
 
-  const rooms = data?.items ?? [];
-  const pagination = data?.pagination;
+  const allFilteredRooms = useMemo<RoomPublicListItemDto[]>(() => {
+    const rawItems = data?.items ?? [];
+    return rawItems.filter((room) => {
+      if (keyword.trim()) {
+        const term = keyword.trim().toLowerCase();
+        const matchName = room.name?.toLowerCase().includes(term);
+        const matchDistrict = room.district?.toLowerCase().includes(term);
+        const matchAddress = room.address?.toLowerCase().includes(term);
+        const matchProvince = room.province?.toLowerCase().includes(term);
+        if (!matchName && !matchDistrict && !matchAddress && !matchProvince) return false;
+      }
 
-  const hasActiveFilters = Boolean(
-    appliedFilters.province ||
-    appliedFilters.ward ||
-    appliedFilters.genderPolicy ||
-    appliedFilters.minPrice ||
-    appliedFilters.maxPrice,
-  );
+      if (appliedFilters.district?.trim()) {
+        const dTerm = appliedFilters.district.trim().toLowerCase();
+        const matchDistrict = room.district?.toLowerCase().includes(dTerm);
+        const matchAddress = room.address?.toLowerCase().includes(dTerm);
+        if (!matchDistrict && !matchAddress) return false;
+      }
 
-  const handleDraftChange = (field: keyof RoomSearchFiltersState, value: string) => {
-    setDraftFilters((prev) => ({ ...prev, [field]: value }));
+      return true;
+    });
+  }, [data?.items, keyword, appliedFilters.district]);
+
+  const totalCount = isClientFiltering ? allFilteredRooms.length : (data?.pagination?.totalItems ?? 0);
+  const totalPages = isClientFiltering
+    ? Math.max(1, Math.ceil(allFilteredRooms.length / 12))
+    : (data?.pagination?.totalPages ?? 1);
+
+  const paginatedRooms = useMemo<RoomPublicListItemDto[]>(() => {
+    if (!isClientFiltering) return allFilteredRooms;
+    const startIndex = (urlPage - 1) * 12;
+    return allFilteredRooms.slice(startIndex, startIndex + 12);
+  }, [allFilteredRooms, isClientFiltering, urlPage]);
+
+  const handleKeywordSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const clean = keyword.trim();
+    if (clean) addSearch(clean);
+    updateUrlParams({ keyword: clean || null, pageNo: '1' });
   };
 
-  const handleApplyFilter = () => {
-    setPageNo(1);
-    setAppliedFilters(draftFilters);
+  const handleClearKeyword = useCallback(() => {
+    setKeyword('');
+    updateUrlParams({ keyword: null, pageNo: '1' });
+  }, [updateUrlParams]);
+
+  const handleRemoveLocation = useCallback(() => {
+    setKeyword((currentKeyword) => {
+      const areaName = appliedFilters.ward || appliedFilters.district || appliedFilters.province;
+      const cleanKw = currentKeyword.trim().toLowerCase();
+      const isSame =
+        Boolean(areaName) &&
+        Boolean(cleanKw) &&
+        (cleanKw === areaName.toLowerCase() ||
+          areaName.toLowerCase().includes(cleanKw) ||
+          cleanKw.includes(areaName.toLowerCase()));
+
+      updateUrlParams({
+        province: null,
+        district: null,
+        ward: null,
+        ...(isSame ? { keyword: null } : {}),
+        pageNo: '1',
+      });
+
+      return isSame ? '' : currentKeyword;
+    });
+  }, [appliedFilters, updateUrlParams]);
+
+  const handleResetFiltersAndKeyword = useCallback(() => {
+    setKeyword('');
+    handleResetFilters();
+  }, [handleResetFilters]);
+
+  const handleSelectRecentSearch = (kw: string) => {
+    setKeyword(kw);
+    addSearch(kw);
+    updateUrlParams({ keyword: kw, pageNo: '1' });
   };
 
-  const handleResetFilter = () => {
-    setDraftFilters(DEFAULT_FILTERS);
-    setAppliedFilters(DEFAULT_FILTERS);
-    setPageNo(1);
+  const handleBack = () => {
+    if (window.history.length > 1) navigate(-1);
+    else navigate(ROUTES.HOME);
   };
 
-  const handleSortChange = (newOrder: 'asc' | 'desc') => {
-    setSort('rentPrice');
-    setOrder(newOrder);
-    setPageNo(1);
-  };
-
-  const handlePageChange = (newPage: number) => {
-    setPageNo(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const activeChips = useActiveSearchChips({
+    keyword,
+    appliedFilters,
+    onClearKeyword: handleClearKeyword,
+    onRemoveLocation: handleRemoveLocation,
+    onRemovePrice: () => updateUrlParams({ minPrice: null, maxPrice: null, pageNo: '1' }),
+    onRemoveGender: () => updateUrlParams({ genderPolicy: null, pageNo: '1' }),
+  });
 
   return {
-    rooms,
-    pagination,
-    draftFilters,
+    keyword,
+    setKeyword,
+    recentSearches,
+    removeSearch,
+    clearSearches,
     appliedFilters,
     hasActiveFilters,
-    order,
+    activeFilterCount,
+    activeChips,
+    currentSort,
+    rooms: paginatedRooms,
+    totalCount,
+    totalPages,
+    pageNo: urlPage,
     isLoading,
     isFetching,
     isError,
-    pageNo,
     refetch,
-    handleDraftChange,
-    handleApplyFilter,
-    handleResetFilter,
+    filterModalOpen,
+    setFilterModalOpen,
+    authPromptOpen,
+    setAuthPromptOpen,
+    handleKeywordSubmit,
+    handleClearKeyword,
+    handleSelectRecentSearch,
+    handleApplyModalFilters,
+    handleResetFilters: handleResetFiltersAndKeyword,
     handleSortChange,
     handlePageChange,
+    handleBack,
   };
 };
