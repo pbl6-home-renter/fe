@@ -16,6 +16,16 @@
     "updated": { "title": "Sự cố đã được cập nhật", "body": "Tiến độ xử lý sự cố đã thay đổi." },
     "cancelled": { "title": "Sự cố đã bị hủy", "body": "Một báo cáo sự cố đã bị hủy." }
   },
+  "matchRequestEvents": {
+    "unknownActor": "Một người dùng",
+    "created": { "title": "Lời mời ở ghép mới", "body": "{{actorName}} đã gửi cho bạn lời mời ở ghép." },
+    "accepted": {
+      "title": "Lời mời ở ghép đã được chấp nhận",
+      "body": "{{actorName}} đã chấp nhận lời mời ở ghép của bạn."
+    },
+    "rejected": { "title": "Lời mời ở ghép đã bị từ chối", "body": "{{actorName}} đã từ chối lời mời ở ghép của bạn." },
+    "withdrawn": { "title": "Lời mời ở ghép đã được rút", "body": "{{actorName}} đã rút lời mời ở ghép gửi cho bạn." }
+  },
   "preferences": {
     "button": "Cài đặt thông báo",
     "title": "Cài đặt thông báo",
