@@ -16,6 +16,16 @@
     "updated": { "title": "Issue updated", "body": "The issue's progress has changed." },
     "cancelled": { "title": "Issue cancelled", "body": "An issue report has been cancelled." }
   },
+  "matchRequestEvents": {
+    "unknownActor": "A user",
+    "created": { "title": "New roommate invitation", "body": "{{actorName}} sent you a roommate invitation." },
+    "accepted": { "title": "Roommate invitation accepted", "body": "{{actorName}} accepted your roommate invitation." },
+    "rejected": { "title": "Roommate invitation declined", "body": "{{actorName}} declined your roommate invitation." },
+    "withdrawn": {
+      "title": "Roommate invitation withdrawn",
+      "body": "{{actorName}} withdrew the roommate invitation sent to you."
+    }
+  },
   "preferences": {
     "button": "Notification settings",
     "title": "Notification settings",
