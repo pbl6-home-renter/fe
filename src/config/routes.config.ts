@@ -11,6 +11,8 @@ export const ROUTES = {
 
   ROOMS_SEARCH: '/rooms/search',
   ROOM_DETAIL: (id: string) => `/rooms/${id}`,
+  ROOMMATES: '/roommates',
+  ROOMMATES_PROFILE: '/roommates/profile',
 
   INVOICES: '/invoices',
   INVOICE_DETAIL: (id: string) => `/invoices/${id}`,
