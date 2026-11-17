@@ -7,6 +7,7 @@ import { AppRouterLayout } from '@/app/layouts/app-router-layout';
 import { RoleBasedRedirect } from './role-based-redirect';
 import { RoomSearchDispatcher } from './room-search-dispatcher';
 import { RoomDetailDispatcher } from './room-detail-dispatcher';
+import { RoommatesDispatcher } from './roommates-dispatcher';
 import { authRoutes } from './roles/auth.routes';
 import { commonRoutes } from './roles/common.routes';
 import { landlordRoutes } from './roles/landlord.routes';
@@ -26,6 +27,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTES.ROOM_DETAIL(':id'),
         element: <RoomDetailDispatcher />,
+      },
+      {
+        path: ROUTES.ROOMMATES,
+        element: <RoommatesDispatcher />,
       },
       {
         element: <ProtectedRoute />,
