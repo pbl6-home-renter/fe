@@ -241,6 +241,7 @@
       "verifiedBadge": "Đã xác minh danh tính",
       "loginToView": "09•••••••• (Đăng nhập để xem)",
       "rentAction": "Liên hệ thuê phòng",
+      "chatAction": "Chat với chủ nhà",
       "saveAction": "Lưu vào yêu thích",
       "savedAction": "Đã lưu yêu thích",
       "contractNotice": "Hợp đồng thuê phòng được ký số điện tử trên Rentify với đầy đủ tính pháp lý và cam kết minh bạch giá cả."
@@ -251,6 +252,8 @@
       "landlordLabel": "Chủ phòng:",
       "closeAction": "Đóng",
       "callAction": "Gọi điện ngay",
+      "chatAction": "Chat với chủ nhà",
+      "noLandlordError": "Không tìm thấy thông tin tài khoản chủ nhà.",
       "copyAction": "Sao chép",
       "copiedToast": "Đã sao chép số điện thoại!"
     }

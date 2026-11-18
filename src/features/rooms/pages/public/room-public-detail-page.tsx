@@ -1,17 +1,16 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Building2, Heart, MapPin, Share2 } from 'lucide-react';
-import { IconButton } from '@/components/ui/icon-button';
+import { Building2, MapPin, Share2, Heart } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import { BackLink } from '@/components/ui/back-link';
+import { IconButton } from '@/components/ui/icon-button';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { ErrorState } from '@/components/feedback/error-state';
-import { ROUTES } from '@/config/routes.config';
-import { useRoomPublicDetail } from '../../hooks/use-room-public-detail';
 import { RoomPublicGallery } from '../../components/public-detail/room-public-gallery';
 import { RoomPublicInfo } from '../../components/public-detail/room-public-info';
 import { RoomPublicPricingCard } from '../../components/public-detail/room-public-pricing-card';
-import { RoomPublicContactModal } from '../../components/public-detail/room-public-contact-modal';
-import { LoginPromptModal } from '../../components/search/login-prompt-modal';
+import { LoginPromptModal } from '@/features/rooms/components/search/login-prompt-modal';
+import { useRoomPublicDetail } from '../../hooks/use-room-public-detail';
 
 export const RoomPublicDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,16 +23,13 @@ export const RoomPublicDetailPage = () => {
     refetch,
     photos,
     genderLabel,
-    isAuthenticated,
     selectedPhotoIndex,
     setSelectedPhotoIndex,
     isFav,
     authPromptOpen,
     setAuthPromptOpen,
-    contactDialogOpen,
-    setContactDialogOpen,
     handleFavoriteClick,
-    handleRentClick,
+    handleChatClick,
     handleShareClick,
   } = useRoomPublicDetail(id);
 
@@ -70,10 +66,10 @@ export const RoomPublicDetailPage = () => {
             variant="outline"
             size="sm"
             onClick={handleFavoriteClick}
-            aria-label={t('search.favoriteButton')}
-            className={isFav ? 'text-rentify-danger fill-rentify-danger' : ''}
+            aria-label={t('search.pageTitle')}
+            className={isFav ? 'text-rentify-danger' : ''}
           >
-            <Heart className={`h-4 w-4 ${isFav ? 'fill-current' : ''}`} />
+            <Heart className={`h-4 w-4 ${isFav ? 'fill-rentify-danger text-rentify-danger' : ''}`} />
           </IconButton>
         </div>
       </div>
@@ -115,21 +111,12 @@ export const RoomPublicDetailPage = () => {
         <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
           <RoomPublicPricingCard
             room={room}
-            isAuthenticated={isAuthenticated}
             isFav={isFav}
-            onRentClick={handleRentClick}
+            onChatClick={handleChatClick}
             onFavoriteClick={handleFavoriteClick}
           />
         </div>
       </div>
-
-      {/* Contact Landlord Modal */}
-      <RoomPublicContactModal
-        open={contactDialogOpen}
-        onClose={() => setContactDialogOpen(false)}
-        landlordName={room.landlord?.name}
-        landlordPhone={room.landlord?.phone}
-      />
 
       {/* Auth Prompt Modal */}
       <LoginPromptModal open={authPromptOpen} onClose={() => setAuthPromptOpen(false)} />

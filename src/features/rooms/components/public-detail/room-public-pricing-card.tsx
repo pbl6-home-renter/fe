@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { FileCheck, Heart, Phone, Shield } from 'lucide-react';
+import { FileCheck, Heart, Shield, MessageSquare } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -9,19 +9,12 @@ import type { RoomDetailDto } from '../../types/room.dto';
 
 export interface RoomPublicPricingCardProps {
   room: RoomDetailDto;
-  isAuthenticated: boolean;
   isFav: boolean;
-  onRentClick: () => void;
   onFavoriteClick: () => void;
+  onChatClick?: () => void;
 }
 
-export const RoomPublicPricingCard = ({
-  room,
-  isAuthenticated,
-  isFav,
-  onRentClick,
-  onFavoriteClick,
-}: RoomPublicPricingCardProps) => {
+export const RoomPublicPricingCard = ({ room, isFav, onFavoriteClick, onChatClick }: RoomPublicPricingCardProps) => {
   const { t } = useTranslation('rooms');
 
   return (
@@ -55,22 +48,13 @@ export const RoomPublicPricingCard = ({
             </Badge>
           </div>
         </div>
-
-        {room.landlord?.phone && (
-          <div className="text-xs text-rentify-text-secondary pt-1 flex items-center gap-2">
-            <Phone className="h-3.5 w-3.5 text-rentify-primary" />
-            <span className="font-mono font-medium text-rentify-text-primary">
-              {isAuthenticated ? room.landlord.phone : t('detail.pricing.loginToView')}
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Actions */}
       <div className="space-y-2.5">
-        <Button variant="primary" className="w-full h-11 text-sm font-bold shadow-sm gap-2" onClick={onRentClick}>
-          <Phone className="h-4 w-4" />
-          <span>{t('detail.pricing.rentAction')}</span>
+        <Button variant="primary" className="w-full h-11 text-sm font-bold shadow-sm gap-2" onClick={onChatClick}>
+          <MessageSquare className="h-4 w-4" />
+          <span>{t('detail.pricing.chatAction')}</span>
         </Button>
 
         <Button variant="outline" className="w-full h-10 text-xs font-semibold gap-2" onClick={onFavoriteClick}>

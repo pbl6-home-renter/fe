@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Copy, Phone } from 'lucide-react';
+import { Copy, Phone, MessageSquare } from 'lucide-react';
 import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
@@ -10,9 +10,16 @@ export interface RoomPublicContactModalProps {
   onClose: () => void;
   landlordName?: string;
   landlordPhone?: string;
+  onChat?: () => void;
 }
 
-export const RoomPublicContactModal = ({ open, onClose, landlordName, landlordPhone }: RoomPublicContactModalProps) => {
+export const RoomPublicContactModal = ({
+  open,
+  onClose,
+  landlordName,
+  landlordPhone,
+  onChat,
+}: RoomPublicContactModalProps) => {
   const { t } = useTranslation('rooms');
 
   const handleCopy = () => {
@@ -45,6 +52,17 @@ export const RoomPublicContactModal = ({ open, onClose, landlordName, landlordPh
           <Button variant="outline" size="sm" onClick={onClose} className="text-xs">
             {t('detail.contactModal.closeAction')}
           </Button>
+          {onChat && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onChat}
+              className="text-xs gap-1.5 text-rentify-primary border-rentify-primary/30 hover:bg-rentify-primary/5"
+            >
+              <MessageSquare className="h-3.5 w-3.5" />
+              <span>{t('detail.contactModal.chatAction')}</span>
+            </Button>
+          )}
           {landlordPhone && (
             <Button variant="primary" size="sm" onClick={handleCall} className="text-xs gap-1.5">
               <Phone className="h-3.5 w-3.5" />
@@ -56,14 +74,27 @@ export const RoomPublicContactModal = ({ open, onClose, landlordName, landlordPh
     >
       <div className="space-y-4 py-2">
         <div className="p-4 rounded-2xl bg-rentify-surface-container-low/70 border border-rentify-divider space-y-3">
-          <div className="flex items-center gap-3">
-            <Avatar name={landlordName || 'Rentify'} size="md" />
-            <div>
-              <div className="text-xs text-rentify-text-secondary">{t('detail.contactModal.landlordLabel')}</div>
-              <div className="text-sm font-bold text-rentify-text-primary">
-                {landlordName || t('search.verifiedLandlord')}
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <Avatar name={landlordName || 'Rentify'} size="md" />
+              <div>
+                <div className="text-xs text-rentify-text-secondary">{t('detail.contactModal.landlordLabel')}</div>
+                <div className="text-sm font-bold text-rentify-text-primary">
+                  {landlordName || t('search.verifiedLandlord')}
+                </div>
               </div>
             </div>
+            {onChat && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onChat}
+                className="h-8 gap-1.5 text-xs text-rentify-primary border-rentify-primary/30 hover:bg-rentify-primary/5"
+              >
+                <MessageSquare className="h-3.5 w-3.5" />
+                <span>{t('detail.contactModal.chatAction')}</span>
+              </Button>
+            )}
           </div>
           {landlordPhone && (
             <div className="flex items-center justify-between pt-2 border-t border-rentify-divider text-sm">
