@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/config/routes.config';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { notify } from '@/lib/notifications/notify';
 import { useRoomQuery } from './use-room-query';
@@ -9,12 +11,12 @@ const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0
 
 export const useRoomPublicDetail = (roomId?: string) => {
   const { t } = useTranslation('rooms');
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
   const [authPromptOpen, setAuthPromptOpen] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const [isFav, setIsFav] = useState(false);
-  const [contactDialogOpen, setContactDialogOpen] = useState(false);
 
   const { data: room, isLoading, isError, refetch } = useRoomQuery(roomId);
 
@@ -40,12 +42,23 @@ export const useRoomPublicDetail = (roomId?: string) => {
     notify.success(isFav ? t('search.removedFav') : t('search.addedFav'));
   };
 
-  const handleRentClick = () => {
+  const handleChatClick = () => {
     if (!isAuthenticated) {
       setAuthPromptOpen(true);
       return;
     }
-    setContactDialogOpen(true);
+    if (!room?.landlord?.id) {
+      notify.error(t('detail.contactModal.noLandlordError'));
+      return;
+    }
+    navigate(ROUTES.TENANT.CHAT, {
+      state: {
+        recipient: {
+          id: room.landlord.id,
+          name: room.landlord.name || t('search.verifiedLandlord'),
+        },
+      },
+    });
   };
 
   const handleShareClick = () => {
@@ -68,10 +81,8 @@ export const useRoomPublicDetail = (roomId?: string) => {
     isFav,
     authPromptOpen,
     setAuthPromptOpen,
-    contactDialogOpen,
-    setContactDialogOpen,
     handleFavoriteClick,
-    handleRentClick,
+    handleChatClick,
     handleShareClick,
   };
 };

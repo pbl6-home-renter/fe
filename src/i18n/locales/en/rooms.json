@@ -241,6 +241,7 @@
       "verifiedBadge": "Identity verified",
       "loginToView": "09•••••••• (Login to view)",
       "rentAction": "Contact for rent",
+      "chatAction": "Chat with landlord",
       "saveAction": "Save to favorites",
       "savedAction": "Saved to favorites",
       "contractNotice": "Digital rental contract is signed electronically on Rentify with full legal validity and transparent pricing."
@@ -251,6 +252,8 @@
       "landlordLabel": "Landlord:",
       "closeAction": "Close",
       "callAction": "Call now",
+      "chatAction": "Chat with landlord",
+      "noLandlordError": "Landlord account information not found.",
       "copyAction": "Copy",
       "copiedToast": "Phone number copied!"
     }

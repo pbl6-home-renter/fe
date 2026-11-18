@@ -18,7 +18,12 @@ export const useChatPage = () => {
   const notify = useNotify();
   const { status } = useSocket();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [recipient, setRecipient] = useState<{ id: string; name: string }>();
+  const locationRecipient = (location.state as { recipient?: { id: string; name: string } } | null)?.recipient;
+  const queryUserId = searchParams.get('userId');
+  const queryUserName = searchParams.get('userName');
+  const initialRecipient =
+    locationRecipient ?? (queryUserId ? { id: queryUserId, name: queryUserName ?? '' } : undefined);
+  const [recipient, setRecipient] = useState<{ id: string; name: string } | undefined>(initialRecipient);
   const draftKeysByConversation = useRef<Record<string, string>>({});
   const search = (searchParams.get('q') ?? '').slice(0, CHAT_SEARCH_MAX_LENGTH);
   const directLookup = useDirectConversationQuery(recipient?.id);
