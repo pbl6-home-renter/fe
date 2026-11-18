@@ -27,7 +27,7 @@ export const ApprovalDetailHeader = ({ building, isApproving, onApprove, onOpenR
       <Card className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="space-y-2 min-w-0">
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-rentify-text-primary truncate">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-rentify-text-primary truncate">
               {building.name}
             </h1>
             <BuildingStatusBadge status={building.status} variant="pill" />

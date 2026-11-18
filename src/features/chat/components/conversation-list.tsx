@@ -64,7 +64,7 @@ const ListHeader = ({ search, onSearchChange, onNewChat }: ListHeaderProps) => {
   return (
     <div className="space-y-4 border-b border-rentify-divider p-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">{t('title')}</h1>
+        <h1 className="text-xl font-bold tracking-tight text-rentify-text-primary">{t('title')}</h1>
         <Button size="sm" onClick={onNewChat}>
           <Plus className="h-4 w-4" />
           {t('newChat')}

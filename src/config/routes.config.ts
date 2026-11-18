@@ -50,6 +50,7 @@ export const ROUTES = {
     INVOICE_DETAIL: (id: string) => `/invoices/${id}`,
     METER_READINGS: '/meter-readings',
     ISSUES: '/issues',
+    ISSUE_DETAIL: (id: string) => `/issues/${id}`,
     TENANTS: '/tenants',
     TENANT_DETAIL: (id: string) => `/tenants/${id}`,
     CHAT: '/chat',

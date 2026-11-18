@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FilePlus2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { PageHeader } from '@/components/ui/page-header';
 import { InvoiceGenerateDialog } from '../components/invoice-generate-dialog';
 import { InvoiceGenerateResultDialog } from '../components/invoice-generate-result-dialog';
 import { InvoiceIssueDialog } from '../components/invoice-issue-dialog';
@@ -54,24 +55,23 @@ export const InvoiceListPage = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-rentify-text-primary sm:text-2xl">{t('list.title')}</h1>
-          <p className="text-sm text-rentify-text-secondary">{t('list.subtitle')}</p>
-        </div>
-
-        <Button
-          type="button"
-          variant="primary"
-          onClick={handleGenerate}
-          disabled={buildings.length === 0 || isGenerating}
-          isLoading={isGenerating}
-          className="gap-2 self-start sm:self-auto"
-        >
-          <FilePlus2 className="h-4 w-4" aria-hidden="true" />
-          <span>{t('actions.generate')}</span>
-        </Button>
-      </div>
+      <PageHeader
+        title={t('list.title')}
+        description={t('list.subtitle')}
+        actions={
+          <Button
+            type="button"
+            variant="primary"
+            onClick={handleGenerate}
+            disabled={buildings.length === 0 || isGenerating}
+            isLoading={isGenerating}
+            className="gap-2 shadow-xs"
+          >
+            <FilePlus2 className="h-4 w-4" aria-hidden="true" />
+            <span>{t('actions.generate')}</span>
+          </Button>
+        }
+      />
 
       <InvoiceListTable
         invoices={invoices}

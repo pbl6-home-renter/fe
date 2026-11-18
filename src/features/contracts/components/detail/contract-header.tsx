@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Edit3, FileText, LogOut } from 'lucide-react';
+import { Edit3, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { BackLink } from '@/components/ui/back-link';
@@ -28,11 +28,8 @@ export const ContractHeader = ({ contract, onEdit, onCheckout }: ContractHeaderP
 
       <Card className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="min-w-0 space-y-1">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rentify-primary-container text-rentify-primary">
-              <FileText className="h-4 w-4" />
-            </div>
-            <h1 className="truncate text-xl font-bold tracking-tight text-rentify-text-primary">{code}</h1>
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-rentify-text-primary truncate">{code}</h1>
             <ContractStatusBadge status={contract.status} />
           </div>
           <p className="text-xs text-rentify-text-secondary">

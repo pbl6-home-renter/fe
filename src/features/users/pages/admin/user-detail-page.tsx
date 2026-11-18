@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Lock, Pencil, Trash2, Unlock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { BackLink } from '@/components/ui/back-link';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { ErrorState } from '@/components/feedback/error-state';
 import { ROUTES } from '@/config/routes.config';
@@ -61,22 +62,13 @@ export const UserDetailPage = () => {
   const isLocked = user.status === UserStatus.LOCKED;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
+      <BackLink to={ROUTES.ADMIN.USERS}>{t('detail.backToList')}</BackLink>
+
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-        <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => navigate(ROUTES.ADMIN.USERS)}
-            className="h-9 w-9 p-0"
-            aria-label={t('detail.backToList')}
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-rentify-text-primary sm:text-2xl">{user.name}</h1>
-            <p className="text-xs text-rentify-text-secondary">{user.email}</p>
-          </div>
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-rentify-text-primary">{user.name}</h1>
+          <p className="mt-1 text-sm text-rentify-text-secondary">{user.email}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">

@@ -49,7 +49,7 @@ export const TenantInvoiceDetailPage = () => {
 
         <div className="min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-2.5">
-            <h1 className="font-mono text-xl font-bold tracking-tight text-rentify-text-primary sm:text-2xl">
+            <h1 className="font-mono text-2xl sm:text-3xl font-bold tracking-tight text-rentify-text-primary">
               {invoice.code}
             </h1>
             <InvoiceStatusBadge status={invoice.invoiceStatus} />

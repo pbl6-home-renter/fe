@@ -2,10 +2,12 @@ import { useTranslation } from 'react-i18next';
 import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { Button } from '@/components/ui/button';
+import { BackLink } from '@/components/ui/back-link';
 import { Card } from '@/components/ui/card';
 import { Dialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { PageHeader } from '@/components/ui/page-header';
+import { ROUTES } from '@/config/routes.config';
 import { getMediaAccept } from '@/features/media/constants/media.constants';
 import { MediaPurpose } from '@/features/media/types/media.dto';
 import { IssueEditDialog } from '../components/issue-edit-dialog';
@@ -26,10 +28,8 @@ export const IssueDetailPage = () => {
     );
   const issue = state.query.data;
   return (
-    <div className="space-y-6">
-      <Button variant="ghost" onClick={state.goBack}>
-        {t('back')}
-      </Button>
+    <div className="space-y-4">
+      <BackLink to={ROUTES.LANDLORD.ISSUES}>{t('back')}</BackLink>
       <PageHeader
         title={issue.title}
         description={`${issue.buildingName} · ${issue.roomName}`}
