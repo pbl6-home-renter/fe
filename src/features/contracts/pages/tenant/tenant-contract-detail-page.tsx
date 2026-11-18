@@ -16,12 +16,16 @@ export const TenantContractDetailPage = () => {
   return (
     <div className="space-y-6">
       <BackLink to={ROUTES.TENANT.CONTRACTS}>{t('tenant.back')}</BackLink>
-      {isLoading ? <Skeleton className="h-48 w-full rounded-2xl" /> : isError || !data ? (
+      {isLoading ? (
+        <Skeleton className="h-48 w-full rounded-2xl" />
+      ) : isError || !data ? (
         <ErrorState title={t('tenant.detailUnavailable')} onRetry={() => void refetch()} />
       ) : (
         <>
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-2xl font-bold text-rentify-text-primary">{t('tenant.detailTitle')}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-rentify-text-primary">
+              {t('tenant.detailTitle')}
+            </h1>
             <ContractStatusBadge status={data.status} />
           </div>
           <Card className="max-w-2xl space-y-4 text-sm">

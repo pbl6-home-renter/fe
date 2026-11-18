@@ -104,10 +104,10 @@
   "footer": {
     "propertyManagement": "Property & Building Management",
     "vietqrContract": "VietQR E-Contract",
-    "copyright": "© {{year}} Rentify. All rights reserved.",
+    "copyright": "© {{year}} Rentify. This software is the property of Team 2.",
     "platformDescription": "Apartment & Rental Contract Management Platform • Rentify",
     "termsPrivacy": "Terms & Privacy",
-    "hotline": "Hotline: 1900 8888"
+    "hotline": "Hotline: 0845 220 248"
   },
   "navigation": {
     "home": "Home",

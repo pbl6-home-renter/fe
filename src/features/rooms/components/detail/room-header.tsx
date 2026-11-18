@@ -34,7 +34,9 @@ export const RoomHeader = ({ room, onEdit, onDelete, onMarkReady, isMarkingReady
       <Card className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="space-y-1 min-w-0">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <h1 className="font-bold text-xl text-rentify-text-primary tracking-tight truncate">{room.name}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-rentify-text-primary truncate">
+              {room.name}
+            </h1>
             <RoomStatusBadge status={room.status} />
           </div>
           <p className="text-xs text-rentify-text-secondary">

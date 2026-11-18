@@ -58,14 +58,7 @@ export const MeterReadingPage = () => {
     <div className="space-y-6">
       {/* Header */}
       <PageHeader
-        title={
-          <span className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rentify-primary-container text-rentify-primary">
-              <Gauge className="w-5 h-5" />
-            </span>
-            {t('page.title')}
-          </span>
-        }
+        title={t('page.title')}
         description={t('page.subtitle')}
         actions={
           <Button

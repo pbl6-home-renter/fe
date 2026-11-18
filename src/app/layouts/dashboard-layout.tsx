@@ -23,6 +23,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps = {}) => {
   const location = useLocation();
   const isChatRoute = isChatPath(location.pathname);
   const isTenant = role === Role.TENANT;
+  const isPortalUser = isTenant || role === Role.LANDLORD;
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
@@ -48,7 +49,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps = {}) => {
     }
   };
 
-  if (isTenant) {
+  if (isPortalUser) {
     return (
       <div
         className={cn(
@@ -56,7 +57,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps = {}) => {
           isChatRoute ? 'h-screen overflow-hidden' : 'min-h-screen',
         )}
       >
-        {/* Mobile slide-over drawer for Tenant */}
+        {/* Mobile slide-over drawer for Tenant & Landlord */}
         <Sidebar open={sidebarOpen} onClose={handleCloseSidebar} />
 
         {/* Unified Topbar with Header tabs */}
@@ -83,8 +84,8 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps = {}) => {
           </RouteFade>
         </main>
 
-        {/* Unified Footer for Tenant */}
-        {!isChatRoute && <AppFooter role={Role.TENANT} />}
+        {/* Unified Footer */}
+        {!isChatRoute && <AppFooter role={role} />}
 
         {/* Accessible Logout Confirmation Modal */}
         <LogoutModal

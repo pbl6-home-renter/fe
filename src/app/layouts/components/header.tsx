@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
 import { RentifyLogo } from '@/components/ui/rentify-logo';
 import { UserMenuDropdown } from './user-menu-dropdown';
+import { TenantHeaderNav } from './tenant-header-nav';
+import { LandlordHeaderNav } from './landlord-header-nav';
 import { getNavigationByRole, getPortalMetaByRole } from '@/config/navigation.config';
 import { useUnreadNotificationsQuery } from '@/features/notifications/hooks/use-unread-notifications-query';
 import { useUnreadSummaryQuery } from '@/features/chat/hooks/use-chat-queries';
@@ -26,10 +28,11 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
   const navigate = useNavigate();
 
   const isTenant = role === Role.TENANT;
+  const isLandlord = role === Role.LANDLORD;
   const portalMeta = getPortalMetaByRole(role);
   const menuItems = getNavigationByRole(role);
   const hasUnreadNotifications = useUnreadNotificationsQuery().data ?? false;
-  const unreadChat = useUnreadSummaryQuery(isTenant);
+  const unreadChat = useUnreadSummaryQuery(isTenant || isLandlord);
 
   const currentLanguage = i18n.language || 'vi';
 
@@ -38,7 +41,7 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
     changeLanguage(nextLang);
   };
 
-  // Determine breadcrumb title for Landlord/Admin
+  // Determine breadcrumb title for Admin
   const matchedMenuItem = menuItems.find((item) => {
     if (item.exact) return item.path === location.pathname;
     return location.pathname.startsWith(item.path);
@@ -51,22 +54,13 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
       ? pathSegments[pathSegments.length - 1].toUpperCase()
       : t('navigation.overview');
 
-  // Tenant Topbar Navigation Tabs
-  const isExploreActive =
-    location.pathname === ROUTES.TENANT.DASHBOARD ||
-    location.pathname === ROUTES.HOME ||
-    location.pathname === ROUTES.ROOMS_SEARCH;
-  const isChatActive = location.pathname.startsWith('/chat');
-  const isRoomsActive = location.pathname.startsWith('/rooms') && location.pathname !== ROUTES.ROOMS_SEARCH;
-  const isRoommatesActive = location.pathname.startsWith('/roommates');
-
   const unreadChatCount = unreadChat.data?.totalUnreadCount ?? 0;
 
   return (
     <header className="sticky top-0 h-16 w-full bg-rentify-surface/95 backdrop-blur-xl border-b border-rentify-divider shrink-0 z-40 shadow-xs">
       <div className="h-full w-full flex items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         {/* Left side: Role-based Branding or Mobile Toggle */}
-        <div className="flex items-center gap-4 sm:gap-8">
+        <div className="flex items-center gap-4 sm:gap-6 lg:gap-8 min-w-0">
           {/* Mobile Hamburger Toggle for all roles */}
           <IconButton
             variant="ghost"
@@ -82,80 +76,26 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
 
           {isTenant ? (
             <>
-              {/* Logo on Left for Tenant */}
               <Link
                 to={ROUTES.TENANT.DASHBOARD}
-                className="flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary rounded-lg"
+                className="flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary rounded-lg shrink-0"
               >
                 <RentifyLogo role={Role.TENANT} size="md" />
               </Link>
-
-              {/* Tenant Horizontal Navigation Tabs (Desktop) */}
-              <nav className="hidden md:flex items-center gap-6 text-sm font-semibold h-16">
-                <Link
-                  to={ROUTES.TENANT.DASHBOARD}
-                  className={`h-full flex items-center relative transition-colors ${
-                    isExploreActive
-                      ? 'text-rentify-primary'
-                      : 'text-rentify-text-secondary hover:text-rentify-text-primary'
-                  }`}
-                >
-                  <span>{t('navigation.explore')}</span>
-                  {isExploreActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
-                  )}
-                </Link>
-
-                <Link
-                  to={ROUTES.TENANT.CHAT}
-                  className={`h-full flex items-center relative gap-1.5 transition-colors ${
-                    isChatActive
-                      ? 'text-rentify-primary'
-                      : 'text-rentify-text-secondary hover:text-rentify-text-primary'
-                  }`}
-                >
-                  <span>{t('navigation.chat')}</span>
-                  {unreadChatCount > 0 && (
-                    <span className="rounded-full bg-rentify-primary-container text-rentify-primary px-1.5 py-0.5 text-[10px] font-bold leading-none">
-                      {unreadChatCount > 99 ? '99+' : unreadChatCount}
-                    </span>
-                  )}
-                  {isChatActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
-                  )}
-                </Link>
-
-                <Link
-                  to={ROUTES.TENANT.ROOMS}
-                  className={`h-full flex items-center relative transition-colors ${
-                    isRoomsActive
-                      ? 'text-rentify-primary'
-                      : 'text-rentify-text-secondary hover:text-rentify-text-primary'
-                  }`}
-                >
-                  <span>{t('navigation.myRoom')}</span>
-                  {isRoomsActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
-                  )}
-                </Link>
-
-                <Link
-                  to={ROUTES.TENANT.ROOMMATES}
-                  className={`h-full flex items-center relative transition-colors ${
-                    isRoommatesActive
-                      ? 'text-rentify-primary'
-                      : 'text-rentify-text-secondary hover:text-rentify-text-primary'
-                  }`}
-                >
-                  <span>{t('navigation.roommatesShort')}</span>
-                  {isRoommatesActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
-                  )}
-                </Link>
-              </nav>
+              <TenantHeaderNav unreadChatCount={unreadChatCount} />
+            </>
+          ) : isLandlord ? (
+            <>
+              <Link
+                to={ROUTES.LANDLORD.DASHBOARD}
+                className="flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary rounded-lg shrink-0"
+              >
+                <RentifyLogo role={Role.LANDLORD} size="md" />
+              </Link>
+              <LandlordHeaderNav unreadChatCount={unreadChatCount} />
             </>
           ) : (
-            /* Breadcrumbs for Landlord & Admin */
+            /* Breadcrumbs for Admin */
             <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs sm:text-sm">
               <span className="text-rentify-text-secondary font-medium hidden sm:inline">
                 {t(portalMeta.portalNameKey, portalMeta.fallbackPortalName)}
@@ -167,12 +107,12 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
         </div>
 
         {/* Right side: Quick Search, Notifications, Language, User Dropdown */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Quick Search */}
           <IconButton
             variant="ghost"
             size="md"
-            onClick={() => navigate(ROUTES.ROOMS_SEARCH)}
+            onClick={() => navigate(isLandlord ? ROUTES.LANDLORD.BUILDINGS : ROUTES.ROOMS_SEARCH)}
             aria-label={t('search')}
             className="hidden sm:inline-flex"
           >
