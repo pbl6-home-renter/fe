@@ -13,11 +13,7 @@ interface BuildingInfoFormProps {
   disabled?: boolean;
 }
 
-export const BuildingInfoForm = ({
-  form,
-  isApproved = false,
-  disabled = false,
-}: BuildingInfoFormProps) => {
+export const BuildingInfoForm = ({ form, isApproved = false, disabled = false }: BuildingInfoFormProps) => {
   const { t } = useTranslation('buildings');
   const {
     register,
@@ -66,17 +62,6 @@ export const BuildingInfoForm = ({
           {...register('address')}
         />
 
-        <Input
-          type="number"
-          label={t('form.totalFloors')}
-          placeholder={t('form.totalFloorsPlaceholder')}
-          error={getFieldError(errors.totalFloors, t)}
-          disabled={disabled}
-          {...register('totalFloors', {
-            valueAsNumber: true,
-          })}
-        />
-
         <Textarea
           label={t('form.description')}
           placeholder={t('form.descriptionPlaceholder')}
@@ -93,16 +78,8 @@ export const BuildingInfoForm = ({
         </h3>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <Checkbox
-            label={t('amenities.elevator')}
-            disabled={disabled}
-            {...register('amenities.elevator')}
-          />
-          <Checkbox
-            label={t('amenities.parking')}
-            disabled={disabled}
-            {...register('amenities.parking')}
-          />
+          <Checkbox label={t('amenities.elevator')} disabled={disabled} {...register('amenities.elevator')} />
+          <Checkbox label={t('amenities.parking')} disabled={disabled} {...register('amenities.parking')} />
           <Checkbox
             label={t('amenities.securityCamera')}
             disabled={disabled}

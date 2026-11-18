@@ -12,4 +12,5 @@ export interface OwnershipProofUploaderProps {
   mediaIds?: string[];
   onChange: (ids: string[]) => void;
   disabled?: boolean;
+  buildingId?: string;
 }

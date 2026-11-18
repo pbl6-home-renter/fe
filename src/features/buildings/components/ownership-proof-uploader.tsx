@@ -9,10 +9,10 @@ import { MediaPurpose } from '@/features/media/types/media.dto';
 import type { OwnershipProofUploaderProps } from '../types/ownership-proof.types';
 import { useOwnershipProofUploader } from '../hooks/use-ownership-proof-uploader';
 
-export const OwnershipProofUploader = ({ onChange, disabled = false }: OwnershipProofUploaderProps) => {
+export const OwnershipProofUploader = ({ onChange, disabled = false, buildingId }: OwnershipProofUploaderProps) => {
   const { t } = useTranslation('buildings');
   const { items, fileInputRef, handleFiles, handleInputChange, handleRemove, handleRetry, triggerBrowse } =
-    useOwnershipProofUploader({ onChange });
+    useOwnershipProofUploader({ onChange, buildingId });
 
   return (
     <div className="space-y-4">

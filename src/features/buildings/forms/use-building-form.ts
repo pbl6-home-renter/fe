@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ROUTES } from '@/config/routes.config';
-import {
-  buildingInfoSchema,
-  type BuildingInfoFormData,
-} from './building.schema';
+import { buildingInfoSchema, type BuildingInfoFormData } from './building.schema';
 import { useCreateBuildingMutation } from '../hooks/use-create-building-mutation';
 import type { BuildingCreateRequestDto } from '../types/building.dto';
 
@@ -16,9 +12,6 @@ export interface UseBuildingFormOptions {
 
 export const useBuildingForm = (options?: UseBuildingFormOptions) => {
   const navigate = useNavigate();
-
-  const [step, setStep] = useState<1 | 2>(1);
-  const [mediaIds, setMediaIds] = useState<string[]>([]);
 
   const form = useForm<BuildingInfoFormData>({
     resolver: zodResolver(buildingInfoSchema),
@@ -41,24 +34,14 @@ export const useBuildingForm = (options?: UseBuildingFormOptions) => {
 
   const createMutation = useCreateBuildingMutation();
 
-  const goToNextStep = async () => {
-    const isValid = await form.trigger();
-    if (isValid) {
-      setStep(2);
-    }
-  };
-
-  const goToPrevStep = () => {
-    setStep(1);
-  };
-
   const reset = () => {
     form.reset();
-    setStep(1);
-    setMediaIds([]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const isValid = await form.trigger();
+    if (!isValid) return;
+
     const info = form.getValues();
     const payload: BuildingCreateRequestDto = {
       name: info.name.trim(),
@@ -80,11 +63,6 @@ export const useBuildingForm = (options?: UseBuildingFormOptions) => {
 
   return {
     form,
-    step,
-    mediaIds,
-    setMediaIds,
-    goToNextStep,
-    goToPrevStep,
     handleSubmit,
     reset,
     isSubmitting: createMutation.isPending,

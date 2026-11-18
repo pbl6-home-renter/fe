@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Plus } from 'lucide-react';
+import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
 import { BuildingCreateModal } from '../components/building-create-modal';
@@ -9,6 +11,7 @@ import { useBuildingList } from '../hooks/use-building-list';
 
 export const BuildingListPage = () => {
   const { t } = useTranslation('buildings');
+  const navigate = useNavigate();
   const { metrics, isCreateModalOpen, setIsCreateModalOpen, tableProps, refetch } = useBuildingList();
 
   return (
@@ -30,7 +33,10 @@ export const BuildingListPage = () => {
       <BuildingCreateModal
         open={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
-        onSuccess={() => void refetch()}
+        onSuccess={(id) => {
+          void refetch();
+          navigate(ROUTES.LANDLORD.BUILDING_DETAIL(id));
+        }}
       />
     </div>
   );

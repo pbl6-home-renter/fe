@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { BuildingStatusBadge } from './building-status-badge';
 import type { BuildingMyDetailDto } from '../types/building.dto';
+import { useBuildingFloors } from '../hooks/use-building-floors';
 
 interface BuildingDetailHeaderProps {
   building: BuildingMyDetailDto;
@@ -13,6 +14,7 @@ interface BuildingDetailHeaderProps {
 
 export const BuildingDetailHeader = ({ building, onEdit, onDelete }: BuildingDetailHeaderProps) => {
   const { t } = useTranslation('buildings');
+  const totalFloors = useBuildingFloors(building.id, building.totalFloors);
 
   const fullAddress = [building.address, building.ward, building.district, building.province]
     .filter(Boolean)
@@ -58,9 +60,7 @@ export const BuildingDetailHeader = ({ building, onEdit, onDelete }: BuildingDet
 
       <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-rentify-divider">
         <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container-low text-rentify-text-primary text-xs font-medium">
-          {building.totalFloors
-            ? t('detail.floorsCount', { count: building.totalFloors })
-            : t('detail.multiFloorScale')}
+          {totalFloors ? t('detail.floorsCount', { count: totalFloors }) : t('detail.multiFloorScale')}
         </span>
         <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container-low text-rentify-text-primary text-xs font-medium">
           {t('detail.roomsCount', { count: building.totalRooms ?? 0 })}

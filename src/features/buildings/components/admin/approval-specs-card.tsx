@@ -29,7 +29,7 @@ export const ApprovalSpecsCard = ({ building }: ApprovalSpecsCardProps) => {
         <div className="p-3.5 rounded-xl bg-surface-container-low/60 space-y-1">
           <span className="text-rentify-text-secondary">{t('admin.fieldScale')}</span>
           <p className="font-semibold text-sm text-rentify-text-primary">
-            {building.totalFloors ? `${building.totalFloors} tầng` : '—'}
+            {building.totalFloors ? `${building.totalFloors} tầng` : t('admin.fieldScaleDefault')}
           </p>
         </div>
 
