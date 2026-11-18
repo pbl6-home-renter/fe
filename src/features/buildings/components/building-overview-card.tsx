@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { ProgressMeterTrack } from '@/components/ui/progress-meter';
 import { BuildingStatus } from '../enums/building-status.enum';
 import type { BuildingMyDetailDto } from '../types/building.dto';
+import { useBuildingFloors } from '../hooks/use-building-floors';
 
 interface BuildingOverviewCardProps {
   building: BuildingMyDetailDto;
@@ -12,6 +13,7 @@ interface BuildingOverviewCardProps {
 
 export const BuildingOverviewCard = ({ building }: BuildingOverviewCardProps) => {
   const { t } = useTranslation('buildings');
+  const derivedFloors = useBuildingFloors(building.id, building.totalFloors);
 
   const isApproved = building.status === BuildingStatus.APPROVED;
   const isRejected = building.status === BuildingStatus.REJECTED;
@@ -69,14 +71,16 @@ export const BuildingOverviewCard = ({ building }: BuildingOverviewCardProps) =>
             <Building2 className="w-4 h-4 text-rentify-primary" />
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold text-rentify-text-primary tracking-tight">
-              {building.totalFloors ?? '—'}
-            </span>
-            {building.totalFloors && (
+            <span className="text-2xl font-bold text-rentify-text-primary tracking-tight">{derivedFloors ?? '—'}</span>
+            {derivedFloors ? (
               <span className="text-xs font-semibold text-rentify-text-secondary">{t('detail.floorsUnit')}</span>
-            )}
+            ) : null}
           </div>
-          <div className="text-xs text-rentify-text-secondary">{t('detail.multiFloorScale')}</div>
+          <div className="text-xs text-rentify-text-secondary">
+            {derivedFloors
+              ? t('detail.floorsDerivedFromRooms', { count: derivedFloors })
+              : t('detail.noFloorsRecorded')}
+          </div>
         </div>
       </div>
 

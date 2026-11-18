@@ -24,6 +24,7 @@ import { BuildingRoomsNavCard } from '../components/building-rooms-nav-card';
 import { BuildingAmenitiesCard } from '../components/building-amenities-card';
 import { DeleteBuildingDialog } from '../components/delete-building-dialog';
 import { BuildingEditModal } from '../components/building-edit-modal';
+import { BuildingUploadDocumentsModal } from '../components/building-upload-documents-modal';
 import { BuildingRoomList } from '@/features/rooms/components/building-room-list';
 import { useMyBuildingQuery } from '../hooks/use-my-building-query';
 
@@ -33,6 +34,7 @@ export const BuildingDetailPage = () => {
   const navigate = useNavigate();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const rateDialog = useDisclosure();
   const billingDialog = useDisclosure();
 
@@ -124,6 +126,10 @@ export const BuildingDetailPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div className="lg:col-span-8 flex flex-col gap-6">
           <BuildingOverviewCard building={building} />
+          <BuildingDocumentsCard
+            certificateUrls={building.ownershipCertificateUrls}
+            onUpload={() => setIsUploadModalOpen(true)}
+          />
           <RatePolicyCard
             scope="building"
             policy={activeRatePolicy}
@@ -136,7 +142,6 @@ export const BuildingDetailPage = () => {
             isLoading={isBillingLoading}
             onConfigure={billingDialog.open}
           />
-          <BuildingDocumentsCard certificateUrls={building.ownershipCertificateUrls} />
         </div>
 
         <div className="lg:col-span-4 flex flex-col gap-6">
@@ -153,6 +158,13 @@ export const BuildingDetailPage = () => {
         open={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         building={building}
+        onSuccess={() => void refetch()}
+      />
+
+      <BuildingUploadDocumentsModal
+        open={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
+        buildingId={building.id}
         onSuccess={() => void refetch()}
       />
 

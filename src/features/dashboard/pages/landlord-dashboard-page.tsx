@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/config/routes.config';
 import { BuildingCreateModal } from '@/features/buildings/components/building-create-modal';
 import { LandlordDashboardEmptyState } from '../components/landlord-dashboard-empty-state';
 import { LandlordDashboardFullState } from '../components/landlord-dashboard-full-state';
@@ -7,6 +9,7 @@ import { ErrorState } from '@/components/feedback/error-state';
 import { useLandlordDashboard } from '../hooks/use-landlord-dashboard';
 
 export const LandlordDashboardPage = () => {
+  const navigate = useNavigate();
   const {
     isCreateModalOpen,
     setIsCreateModalOpen,
@@ -108,7 +111,10 @@ export const LandlordDashboardPage = () => {
       <BuildingCreateModal
         open={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
-        onSuccess={() => void refetch()}
+        onSuccess={(id) => {
+          void refetch();
+          navigate(ROUTES.LANDLORD.BUILDING_DETAIL(id));
+        }}
       />
     </>
   );
