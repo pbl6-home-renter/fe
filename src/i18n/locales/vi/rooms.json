@@ -183,7 +183,19 @@
     "title": "Thêm phòng mới {{building}}",
     "subtitle": "Khởi tạo thông tin phòng, giá thuê và tiện nghi",
     "readyNotice": "Phòng mới tạo sẽ sẵn sàng cho thuê",
-    "submitAction": "Tạo phòng"
+    "submitAction": "Tạo phòng",
+    "uploadingStep": "Đang tải ảnh lên ({{current}}/{{total}})...",
+    "successMessage": "Tạo phòng mới và tải ảnh thành công."
+  },
+  "uploader": {
+    "title": "Ảnh phòng",
+    "requiredBadge": "Bắt buộc",
+    "photoCount": "{{count}} ảnh đã chọn",
+    "dragDropOrBrowse": "Kéo thả ảnh vào đây hoặc bấm để chọn ảnh",
+    "photosHint": "Tối thiểu 1 ảnh • Tối đa 10MB/ảnh (JPG, PNG, WebP)",
+    "selectPhotos": "Chọn ảnh phòng",
+    "coverBadge": "Ảnh bìa",
+    "removePhoto": "Xóa ảnh"
   },
   "edit": {
     "title": "Chỉnh sửa thông tin phòng {{name}}",
@@ -197,6 +209,9 @@
     "warning": "Hành động này sẽ không thể khôi phục. Các thông tin liên quan đến phòng sẽ bị gỡ bỏ."
   },
   "detail": {
+    "photosTitle": "Hình ảnh phòng",
+    "photosSubtitle": "Các hình ảnh thực tế của phòng trọ",
+    "noPhotos": "Chưa có hình ảnh nào được tải lên cho phòng này.",
     "backToBuilding": "Quay lại {{building}}",
     "markReadyAction": "Sẵn sàng cho thuê",
     "editAction": "Sửa phòng",
@@ -268,6 +283,8 @@
     "m3": "m³"
   },
   "errors": {
+    "photosRequired": "Vui lòng chọn ít nhất 1 ảnh phòng.",
+    "photoInvalidType": "Chỉ chấp nhận file ảnh định dạng JPEG, PNG, WebP.",
     "nameRequired": "Vui lòng nhập tên hoặc số phòng.",
     "nameMax": "Tên phòng không được vượt quá 254 ký tự.",
     "floorNumberRequired": "Vui lòng nhập số tầng.",
