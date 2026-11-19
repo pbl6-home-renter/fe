@@ -183,7 +183,19 @@
     "title": "Add New Room {{building}}",
     "subtitle": "Configure room specifications, pricing, and amenities",
     "readyNotice": "New room will be immediately available for rent",
-    "submitAction": "Create Room"
+    "submitAction": "Create Room",
+    "uploadingStep": "Uploading photos ({{current}}/{{total}})...",
+    "successMessage": "Room created and photos uploaded successfully."
+  },
+  "uploader": {
+    "title": "Room photos",
+    "requiredBadge": "Required",
+    "photoCount": "{{count}} photos selected",
+    "dragDropOrBrowse": "Drag and drop photos here or click to browse",
+    "photosHint": "At least 1 photo • Max 10MB/photo (JPG, PNG, WebP)",
+    "selectPhotos": "Select room photos",
+    "coverBadge": "Cover",
+    "removePhoto": "Remove photo"
   },
   "edit": {
     "title": "Edit Room {{name}}",
@@ -197,6 +209,9 @@
     "warning": "This action cannot be undone. All data related to this room will be removed."
   },
   "detail": {
+    "photosTitle": "Room Photos",
+    "photosSubtitle": "Actual photos of the rental room",
+    "noPhotos": "No photos uploaded for this room yet.",
     "backToBuilding": "Back to {{building}}",
     "markReadyAction": "Mark as Ready",
     "editAction": "Edit Room",
@@ -268,6 +283,8 @@
     "m3": "m³"
   },
   "errors": {
+    "photosRequired": "Please select at least 1 room photo.",
+    "photoInvalidType": "Only JPEG, PNG, and WebP images are allowed.",
     "nameRequired": "Please enter a room name or number.",
     "nameMax": "Room name cannot exceed 254 characters.",
     "floorNumberRequired": "Please enter a floor number.",

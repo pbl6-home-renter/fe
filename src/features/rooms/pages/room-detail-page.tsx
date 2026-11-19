@@ -13,6 +13,7 @@ import { BillingSettingDialog } from '@/features/billing/components/billing-sett
 import { useRoomQuery } from '../hooks/use-room-query';
 import { useMarkRoomReadyMutation } from '../hooks/use-mark-room-ready-mutation';
 import { RoomHeader } from '../components/detail/room-header';
+import { RoomPhotosCard } from '../components/detail/room-photos-card';
 import { RoomSpecsCard } from '../components/detail/room-specs-card';
 import { RoomTenantContractCard } from '../components/detail/room-tenant-contract-card';
 import { RoomMeterReadingsCard } from '../components/detail/room-meter-readings-card';
@@ -104,8 +105,9 @@ export const RoomDetailPage = () => {
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column: Specs & Amenities, Rate Policy & Billing Settings */}
+        {/* Left Column: Photos, Specs & Amenities, Rate Policy & Billing Settings */}
         <div className="lg:col-span-7 space-y-6">
+          <RoomPhotosCard photos={room.photoUrls} />
           <RoomSpecsCard room={room} />
           <RatePolicyCard
             scope="room"

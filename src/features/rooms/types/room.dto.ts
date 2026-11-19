@@ -88,6 +88,7 @@ export interface RoomUpdateRequestDto {
   name?: string;
   rentPrice?: number;
   area?: string | null;
+  photoMediaIds?: string[];
 }
 
 export interface RoomFilter {

@@ -3,7 +3,8 @@ import { DoorOpen } from 'lucide-react';
 import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { RoomCreateFormFields } from './room-create-form-fields';
-import { useRoomCreateForm } from '../forms/use-room-create-form';
+import { RoomPhotosUploader } from './room-photos-uploader';
+import { useRoomCreateForm } from '../hooks/use-room-create-form';
 import type { RoomDetailDto } from '../types/room.dto';
 
 interface RoomCreateModalProps {
@@ -24,7 +25,7 @@ export const RoomCreateModal = ({
   onSuccess,
 }: RoomCreateModalProps) => {
   const { t } = useTranslation('rooms');
-  const { form, onSubmit, isSubmitting } = useRoomCreateForm({
+  const { form, photos, photoError, addPhotos, removePhoto, isSubmitting, uploadStep, onSubmit } = useRoomCreateForm({
     buildingId,
     defaultFloor,
     onSuccess: (room) => {
@@ -33,6 +34,10 @@ export const RoomCreateModal = ({
     },
     onCancel: onClose,
   });
+
+  const submitLabel = uploadStep
+    ? t('create.uploadingStep', { current: uploadStep.current, total: uploadStep.total })
+    : t('create.submitAction');
 
   return (
     <Dialog
@@ -48,24 +53,15 @@ export const RoomCreateModal = ({
             <h3 className="font-bold text-base text-rentify-text-primary truncate">
               {t('create.title', { building: buildingName ? `— ${buildingName}` : '' })}
             </h3>
-            <p className="text-xs text-rentify-text-secondary font-normal">
-              {t('create.subtitle')}
-            </p>
+            <p className="text-xs text-rentify-text-secondary font-normal">{t('create.subtitle')}</p>
           </div>
         </div>
       }
       footer={
         <div className="flex items-center justify-between w-full">
-          <span className="text-xs text-rentify-text-secondary">
-            {t('create.readyNotice')}
-          </span>
+          <span className="text-xs text-rentify-text-secondary">{t('create.readyNotice')}</span>
           <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
+            <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
               {t('cancel')}
             </Button>
             <Button
@@ -73,16 +69,23 @@ export const RoomCreateModal = ({
               form="room-create-form"
               variant="primary"
               isLoading={isSubmitting}
-              disabled={isSubmitting}
+              disabled={isSubmitting || photos.length === 0}
             >
-              {t('create.submitAction')}
+              {submitLabel}
             </Button>
           </div>
         </div>
       }
     >
-      <form id="room-create-form" onSubmit={onSubmit} className="py-1">
+      <form id="room-create-form" onSubmit={onSubmit} className="py-1 space-y-4">
         <RoomCreateFormFields form={form} />
+        <RoomPhotosUploader
+          photos={photos}
+          onAddPhotos={addPhotos}
+          onRemovePhoto={removePhoto}
+          error={photoError}
+          disabled={isSubmitting}
+        />
       </form>
     </Dialog>
   );
