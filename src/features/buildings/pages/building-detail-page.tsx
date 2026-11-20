@@ -27,6 +27,7 @@ import { BuildingEditModal } from '../components/building-edit-modal';
 import { BuildingUploadDocumentsModal } from '../components/building-upload-documents-modal';
 import { BuildingRoomList } from '@/features/rooms/components/building-room-list';
 import { useMyBuildingQuery } from '../hooks/use-my-building-query';
+import { useBuildingChat } from '../hooks/use-building-chat';
 
 export const BuildingDetailPage = () => {
   const { id = '' } = useParams<{ id: string }>();
@@ -40,6 +41,7 @@ export const BuildingDetailPage = () => {
 
   const { data: building, isLoading, isError, error, refetch } = useMyBuildingQuery(id);
   const errorStatus = isAxiosError(error) ? error.response?.status : undefined;
+  const { openBuildingChat, isChatLoading } = useBuildingChat(building);
 
   const {
     data: ratePoliciesData,
@@ -112,6 +114,8 @@ export const BuildingDetailPage = () => {
         building={building}
         onEdit={() => setIsEditModalOpen(true)}
         onDelete={() => setIsDeleteDialogOpen(true)}
+        onOpenChat={openBuildingChat}
+        isChatLoading={isChatLoading}
       />
 
       {isRejected && (

@@ -7,6 +7,7 @@ import { ContractMembersCard } from '../components/members/contract-members-card
 import { ContractEditModal } from '../components/contract-edit-modal';
 import { ContractCheckoutDialog } from '../components/detail/contract-checkout-dialog';
 import { useContractDetail } from '../hooks/use-contract-detail';
+import { useContractChat } from '../hooks/use-contract-chat';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { ErrorState } from '@/components/feedback/error-state';
 import { SegmentedControl } from '@/components/ui/segmented-control';
@@ -25,6 +26,7 @@ export const ContractDetailPage = () => {
     handleCloseEditModal,
     checkoutModal,
   } = useContractDetail();
+  const { openContractChat, isChatLoading } = useContractChat(contract);
 
   if (isLoading) {
     return (
@@ -53,7 +55,13 @@ export const ContractDetailPage = () => {
 
   return (
     <div className="space-y-6">
-      <ContractHeader contract={contract} onEdit={handleOpenEditModal} onCheckout={checkoutModal.handleOpen} />
+      <ContractHeader
+        contract={contract}
+        onEdit={handleOpenEditModal}
+        onCheckout={checkoutModal.handleOpen}
+        onOpenChat={openContractChat}
+        isChatLoading={isChatLoading}
+      />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-1">

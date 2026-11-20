@@ -108,7 +108,11 @@ const GroupProfile = ({ group }: { group: GroupState }) => {
   const { t } = useTranslation('chat');
   const fileRef = useRef<HTMLInputElement>(null);
   const conversation = group.conversation!;
-  const name = conversation.displayName ?? conversation.title ?? '';
+  const contractFallback =
+    conversation.contextType === 'contract' && conversation.contextId
+      ? `HD-${conversation.contextId.slice(0, 6).toUpperCase()}`
+      : '';
+  const name = conversation.title ?? conversation.displayName ?? contractFallback ?? '';
 
   return (
     <section className="flex flex-col items-center gap-3 border-b border-rentify-divider px-5 pb-5 pt-6 text-center">

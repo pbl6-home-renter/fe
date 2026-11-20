@@ -26,7 +26,8 @@
   "editVehicleAndNotes": "Edit vehicle & notes",
   "actions": {
     "cancel": "Cancel",
-    "checkout": "Checkout"
+    "checkout": "Checkout",
+    "contractChat": "Contract chat group"
   },
   "status": {
     "draft": "Draft",
@@ -71,7 +72,10 @@
     "leftDateLabel": "Departure date",
     "submitLeave": "Confirm departure",
     "leftBadge": "Departed",
-    "stayDuration": "Stayed from {{from}} to {{to}}"
+    "stayDuration": "Stayed from {{from}} to {{to}}",
+    "linkedBadge": "Linked",
+    "unlinkedBadge": "Unlinked",
+    "phoneHint": "Phone with existing account automatically joins chat group. Unregistered accounts link upon sign-up."
   },
   "checkout": {
     "title": "Checkout room",
@@ -143,6 +147,7 @@
     "tenantNamePlaceholder": "e.g. John Doe",
     "tenantPhone": "Phone number",
     "tenantPhonePlaceholder": "09xxxxxxxx or +84xxxxxxxx",
+    "tenantPhoneHint": "Account will automatically link and join the chat group when tenant registers with this phone number.",
     "rentPrice": "Rent price / month (VND)",
     "depositAmount": "Deposit amount (VND)",
     "startDate": "Start date",
@@ -222,7 +227,9 @@
     "activateDialogWarning": "Note: Once activated, the contract will take effect and rental price or dates cannot be modified.",
     "activateDialogConfirm": "Confirm activation",
     "activateDialogCancel": "Cancel",
-    "activateDialogActivating": "Activating..."
+    "activateDialogActivating": "Activating...",
+    "chatAvailableOnActive": "Chat group will be available once the contract is activated.",
+    "chatLoadFailed": "Unable to open chat group for this contract."
   },
   "apiSuccess": {
     "CONTRACT_CREATED": "Draft contract created successfully",

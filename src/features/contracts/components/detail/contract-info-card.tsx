@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Building2, Calendar, Car, CheckCircle2, CreditCard, FileText, User } from 'lucide-react';
+import { Building2, Calendar, Car, CheckCircle2, CreditCard, FileText, User, UserCheck, UserX } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -67,7 +67,26 @@ export const ContractInfoCard = ({ contract }: ContractInfoCardProps) => {
             <User className="h-3.5 w-3.5" />
             <span>{t('detail.representative')}</span>
           </div>
-          <p className="font-semibold text-rentify-text-primary">{contract.tenantName || '—'}</p>
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="font-semibold text-rentify-text-primary">{contract.tenantName || '—'}</p>
+            {contract.tenantId ? (
+              <Badge
+                variant="success"
+                className="text-[10px] py-0 px-1.5"
+                leadingIcon={<UserCheck className="w-2.5 h-2.5" />}
+              >
+                {t('members.linkedBadge')}
+              </Badge>
+            ) : (
+              <Badge
+                variant="secondary"
+                className="text-[10px] py-0 px-1.5 text-rentify-text-secondary"
+                leadingIcon={<UserX className="w-2.5 h-2.5" />}
+              >
+                {t('members.unlinkedBadge')}
+              </Badge>
+            )}
+          </div>
           <p className="text-xs text-rentify-text-secondary">{contract.tenantPhone || '—'}</p>
         </div>
 

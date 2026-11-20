@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { MapPin, Pencil, Trash2 } from 'lucide-react';
+import { MapPin, MessageSquare, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { BuildingStatusBadge } from './building-status-badge';
@@ -10,9 +10,17 @@ interface BuildingDetailHeaderProps {
   building: BuildingMyDetailDto;
   onEdit: () => void;
   onDelete: () => void;
+  onOpenChat?: () => void;
+  isChatLoading?: boolean;
 }
 
-export const BuildingDetailHeader = ({ building, onEdit, onDelete }: BuildingDetailHeaderProps) => {
+export const BuildingDetailHeader = ({
+  building,
+  onEdit,
+  onDelete,
+  onOpenChat,
+  isChatLoading = false,
+}: BuildingDetailHeaderProps) => {
   const { t } = useTranslation('buildings');
   const totalFloors = useBuildingFloors(building.id, building.totalFloors);
 
@@ -36,6 +44,19 @@ export const BuildingDetailHeader = ({ building, onEdit, onDelete }: BuildingDet
         </div>
 
         <div className="flex items-center gap-2.5 self-start lg:self-center">
+          {onOpenChat && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onOpenChat}
+              isLoading={isChatLoading}
+              className="gap-2 h-10 px-4 rounded-xl font-semibold text-xs text-rentify-primary border-rentify-primary/30 hover:bg-rentify-primary/5"
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>{t('detail.chatGroup')}</span>
+            </Button>
+          )}
+
           <Button
             variant="outline"
             size="sm"

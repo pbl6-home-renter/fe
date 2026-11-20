@@ -26,7 +26,8 @@
   "editVehicleAndNotes": "Sửa số xe & ghi chú",
   "actions": {
     "cancel": "Hủy",
-    "checkout": "Trả phòng"
+    "checkout": "Trả phòng",
+    "contractChat": "Nhóm chat hợp đồng"
   },
   "status": {
     "draft": "Bản nháp",
@@ -71,7 +72,10 @@
     "leftDateLabel": "Ngày rời đi",
     "submitLeave": "Xác nhận rời đi",
     "leftBadge": "Đã rời",
-    "stayDuration": "Ở từ {{from}} đến {{to}}"
+    "stayDuration": "Ở từ {{from}} đến {{to}}",
+    "linkedBadge": "Đã liên kết",
+    "unlinkedBadge": "Chưa có tài khoản",
+    "phoneHint": "SĐT đã có tài khoản sẽ tự động tham gia nhóm chat. Chưa có sẽ tự động liên kết khi đăng ký."
   },
   "checkout": {
     "title": "Trả phòng (Checkout)",
@@ -143,6 +147,7 @@
     "tenantNamePlaceholder": "Ví dụ: Nguyễn Văn A",
     "tenantPhone": "Số điện thoại",
     "tenantPhonePlaceholder": "09xxxxxxxx hoặc +84xxxxxxxx",
+    "tenantPhoneHint": "Tài khoản sẽ tự động liên kết và tham gia nhóm chat khi người thuê đăng ký bằng SĐT này.",
     "rentPrice": "Tiền thuê / tháng (VNĐ)",
     "depositAmount": "Tiền đặt cọc (VNĐ)",
     "startDate": "Ngày bắt đầu thuê",
@@ -222,7 +227,9 @@
     "activateDialogWarning": "Lưu ý: Hợp đồng sau khi kích hoạt sẽ bắt đầu có hiệu lực và không thể sửa lại tiền thuê hay ngày thuê.",
     "activateDialogConfirm": "Xác nhận kích hoạt",
     "activateDialogCancel": "Đóng",
-    "activateDialogActivating": "Đang kích hoạt..."
+    "activateDialogActivating": "Đang kích hoạt...",
+    "chatAvailableOnActive": "Nhóm chat sẽ tự động sẵn sàng khi hợp đồng được kích hoạt.",
+    "chatLoadFailed": "Không thể mở nhóm chat của hợp đồng này."
   },
   "apiSuccess": {
     "CONTRACT_CREATED": "Tạo hợp đồng nháp thành công",

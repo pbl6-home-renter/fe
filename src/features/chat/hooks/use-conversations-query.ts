@@ -22,7 +22,6 @@ export const useConversationsQuery = (
         {
           pageNo: pageParam,
           pageSize: CHAT_PAGE_SIZE,
-          hasContext: false,
           ...(querySearch ? { q: querySearch } : {}),
         },
         { signal },

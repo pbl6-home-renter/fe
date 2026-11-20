@@ -203,6 +203,8 @@
   },
   "detail": {
     "title": "Chi tiết tòa nhà",
+    "chatGroup": "Nhóm chat dãy trọ",
+    "chatLoadFailed": "Không thể tải nhóm chat dãy trọ",
     "notFoundTitle": "Không tìm thấy tòa nhà",
     "notFoundDesc": "Tòa nhà không tồn tại hoặc bạn không có quyền truy cập",
     "rejectedTitle": "Tòa nhà bị từ chối phê duyệt",

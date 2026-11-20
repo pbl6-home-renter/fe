@@ -203,6 +203,8 @@
   },
   "detail": {
     "title": "Building Details",
+    "chatGroup": "Property chat group",
+    "chatLoadFailed": "Failed to load property chat group",
     "notFoundTitle": "Building Not Found",
     "notFoundDesc": "The requested building does not exist or you lack access permission",
     "rejectedTitle": "Building Rejected",
