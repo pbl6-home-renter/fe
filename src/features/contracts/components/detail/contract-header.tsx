@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Edit3, LogOut } from 'lucide-react';
+import { Edit3, LogOut, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { BackLink } from '@/components/ui/back-link';
@@ -12,9 +12,17 @@ interface ContractHeaderProps {
   contract: ContractDetailDto;
   onEdit: () => void;
   onCheckout?: () => void;
+  onOpenChat?: () => void;
+  isChatLoading?: boolean;
 }
 
-export const ContractHeader = ({ contract, onEdit, onCheckout }: ContractHeaderProps) => {
+export const ContractHeader = ({
+  contract,
+  onEdit,
+  onCheckout,
+  onOpenChat,
+  isChatLoading = false,
+}: ContractHeaderProps) => {
   const { t } = useTranslation('contracts');
 
   const isDraft = contract.status === ContractStatus.DRAFT;
@@ -39,6 +47,20 @@ export const ContractHeader = ({ contract, onEdit, onCheckout }: ContractHeaderP
         </div>
 
         <div className="flex items-center gap-2">
+          {onOpenChat && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onOpenChat}
+              isLoading={isChatLoading}
+              className="gap-1.5 text-rentify-primary border-rentify-primary/30 hover:bg-rentify-primary/5"
+            >
+              <MessageSquare className="h-4 w-4" />
+              <span>{t('actions.contractChat')}</span>
+            </Button>
+          )}
+
           {isDraft && (
             <Button variant="secondary" size="sm" onClick={onEdit} className="gap-1.5">
               <Edit3 className="h-4 w-4" />

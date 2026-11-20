@@ -53,13 +53,16 @@ export const AddMemberModal = ({ contract, open, onClose, onSuccess }: AddMember
           {...register('tenantName')}
         />
 
-        <Input
-          id="tenantPhone"
-          label={t('members.phoneLabel')}
-          placeholder={t('members.phonePlaceholder')}
-          error={getFieldError(errors.tenantPhone, t)}
-          {...register('tenantPhone')}
-        />
+        <div>
+          <Input
+            id="tenantPhone"
+            label={t('members.phoneLabel')}
+            placeholder={t('members.phonePlaceholder')}
+            error={getFieldError(errors.tenantPhone, t)}
+            {...register('tenantPhone')}
+          />
+          <p className="mt-1 text-[11px] text-rentify-text-secondary leading-tight">{t('members.phoneHint')}</p>
+        </div>
 
         <Input
           id="joinedAt"

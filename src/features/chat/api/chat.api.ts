@@ -25,9 +25,11 @@ export interface ConversationListParams {
   pageNo: number;
   pageSize: number;
   kind?: 'direct' | 'group';
-  hasContext?: false;
+  hasContext?: boolean;
   q?: string;
   otherUserId?: string;
+  contextType?: 'building' | 'contract';
+  contextId?: string;
 }
 
 export interface MessageRange {
@@ -54,6 +56,30 @@ export const chatApi = {
         otherUserId,
         pageNo: 1,
         pageSize: 1,
+      },
+      config,
+    ),
+
+  getContractConversation: (contractId: string, config?: AxiosRequestConfig) =>
+    http.getPageWithParams<ConversationSummary, ConversationListParams>(
+      CHAT_API_ROUTES.CONVERSATIONS,
+      {
+        pageNo: 1,
+        pageSize: 1,
+        contextType: 'contract',
+        contextId: contractId,
+      },
+      config,
+    ),
+
+  getBuildingConversation: (buildingId: string, config?: AxiosRequestConfig) =>
+    http.getPageWithParams<ConversationSummary, ConversationListParams>(
+      CHAT_API_ROUTES.CONVERSATIONS,
+      {
+        pageNo: 1,
+        pageSize: 1,
+        contextType: 'building',
+        contextId: buildingId,
       },
       config,
     ),
@@ -100,8 +126,10 @@ export const chatApi = {
   sendMessage: (body: SendMessageRequest, config?: AxiosRequestConfig) =>
     http.post<SentMessage>(CHAT_API_ROUTES.MESSAGES, body, config),
 
-  sendReminder: (conversationId: string, body: { templateType: 'invoice' | 'contract_expiring'; resourceId: string; clientMessageId: string }) =>
-    http.post<SentMessage>(CHAT_API_ROUTES.BOT_REMINDERS(conversationId), body),
+  sendReminder: (
+    conversationId: string,
+    body: { templateType: 'invoice' | 'contract_expiring'; resourceId: string; clientMessageId: string },
+  ) => http.post<SentMessage>(CHAT_API_ROUTES.BOT_REMINDERS(conversationId), body),
 
   markRead: (conversationId: string, lastReadSequence: string) =>
     http.post<{ conversationId: string; unreadCount: number }>(CHAT_API_ROUTES.MARK_READ, {

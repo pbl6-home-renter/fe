@@ -99,7 +99,11 @@ interface ConversationRowProps {
 const ConversationRow = ({ conversation, selected, disabled, onSelect }: ConversationRowProps) => {
   const { t, i18n } = useTranslation('chat');
   const locale = i18n.language.startsWith('en') ? 'en-US' : 'vi-VN';
-  const displayName = conversation.displayName ?? conversation.title ?? '';
+  const contractFallback =
+    conversation.contextType === 'contract' && conversation.contextId
+      ? `HD-${conversation.contextId.slice(0, 6).toUpperCase()}`
+      : '';
+  const displayName = conversation.displayName || conversation.title || contractFallback || '';
   const preview = conversation.lastMessage ? formatChatMessage(conversation.lastMessage, t) : '';
   const hasUnread = conversation.unreadCount > 0;
 

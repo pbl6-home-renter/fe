@@ -62,10 +62,15 @@ export const useChatWindow = ({
   const messages = useMemo(() => history.data?.pages.flatMap((page) => page.items).reverse() ?? [], [history.data]);
   const lastSequence = messages.at(-1)?.sequence;
   const currentMember = detail.data?.members.find((member) => member.userId === userId);
+  const contractFallback =
+    detail.data?.contextType === 'contract' && detail.data.contextId
+      ? `HD-${detail.data.contextId.slice(0, 6).toUpperCase()}`
+      : undefined;
   const title =
     draftName ??
-    detail.data?.displayName ??
     detail.data?.title ??
+    detail.data?.displayName ??
+    contractFallback ??
     detail.data?.members.find((member) => member.userId !== userId)?.displayName ??
     '';
 

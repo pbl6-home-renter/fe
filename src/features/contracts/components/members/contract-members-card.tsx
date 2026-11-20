@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UserCheck, UserMinus, UserPlus, Users, LogOut } from 'lucide-react';
+import { UserCheck, UserPlus, Users, LogOut } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +11,7 @@ import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { EmptyState } from '@/components/feedback/empty-state';
 import { formatDate } from '@/lib/utils/format';
 import { UserAvatar } from '@/features/users/components/user-avatar';
+import { ContractMemberRow } from './contract-member-row';
 import { ContractStatus } from '../../enums/contract-status.enum';
 import { useContractMembersQuery } from '../../hooks/use-contract-members-query';
 import { useLeaveMemberModal } from '../../hooks/use-leave-member-modal';
@@ -98,37 +99,12 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {activeMembers.map((member) => (
-                  <div
+                  <ContractMemberRow
                     key={member.id}
-                    className="flex items-center justify-between p-3 rounded-xl border border-rentify-divider bg-rentify-background hover:border-rentify-outline/40 transition-colors"
-                  >
-                    <div className="flex min-w-0 items-center gap-3 pr-2">
-                      <UserAvatar name={member.tenantName} src={member.tenantAvatarUrl} size="md" />
-                      <div className="min-w-0 space-y-0.5">
-                        <p className="font-semibold text-rentify-text-primary text-sm truncate">
-                          {member.tenantName || '—'}
-                        </p>
-                        <p className="text-xs text-rentify-text-secondary">{member.tenantPhone || '—'}</p>
-                        <p className="text-[11px] text-rentify-text-secondary">
-                          {t('members.joinedDate')}:{' '}
-                          <span className="font-medium text-rentify-text-primary">{formatDate(member.joinedAt)}</span>
-                        </p>
-                      </div>
-                    </div>
-
-                    {isActiveContract && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => leaveModal.handleOpen(member)}
-                        className="gap-1 text-xs shrink-0 text-rentify-error hover:text-rentify-error hover:border-rentify-error/40"
-                      >
-                        <UserMinus className="w-3.5 h-3.5" />
-                        <span>{t('members.leaveBtn')}</span>
-                      </Button>
-                    )}
-                  </div>
+                    member={member}
+                    isActiveContract={isActiveContract}
+                    onLeave={leaveModal.handleOpen}
+                  />
                 ))}
               </div>
             )}

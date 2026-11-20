@@ -10,8 +10,10 @@ import { GroupInfoPanel } from './group-info-panel';
 import { ChatMessageSearchOverlay } from './chat-message-search-overlay';
 import { useChatEnhancements } from '../hooks/use-chat-enhancements';
 import type { ChatReplyReference } from '../types/chat.dto';
-import { Skeleton } from '@/components/feedback/skeleton';
 import { useNotify } from '@/lib/notifications/use-notify';
+import { useContractChatSync } from '../hooks/use-contract-chat-sync';
+import { useBuildingChatSync } from '../hooks/use-building-chat-sync';
+import { ComposerSkeleton } from './chat-composer-skeleton';
 import { ChatWindowHeader } from './chat-window-header';
 import { ChatWindowError } from './chat-window-error';
 import { ChatTypingIndicator } from './chat-typing-indicator';
@@ -69,6 +71,26 @@ export const ChatWindow = ({
     isContentCovered: enhancements.searchOpen,
   });
 
+  const isGroup = window.detail.data?.kind === 'group';
+  const contractId = window.detail.data?.contextType === 'contract' ? window.detail.data.contextId : null;
+  const buildingId = window.detail.data?.contextType === 'building' ? window.detail.data.contextId : null;
+  const canManage = Boolean(conversationId && isGroup && window.currentMember?.status === 'active');
+  const canSyncMembers = canManage && window.currentMember?.role === 'admin';
+
+  useContractChatSync({
+    conversationId,
+    contractId,
+    canSync: canSyncMembers,
+    onSynced: window.detail.refetch,
+  });
+
+  useBuildingChatSync({
+    conversationId,
+    buildingId,
+    canSync: canSyncMembers,
+    onSynced: window.detail.refetch,
+  });
+
   if (!conversationId && !draftRecipient)
     return (
       <section className="hidden min-w-0 flex-1 flex-col items-center justify-center gap-3 bg-rentify-background text-rentify-text-secondary md:flex">
@@ -81,13 +103,10 @@ export const ChatWindow = ({
   if (conversationId && window.detail.isError && !window.detail.data)
     return <ChatWindowError onRetry={window.retryLoad} onBack={onBack} />;
 
-  const isGroup = window.detail.data?.kind === 'group';
   const activeMembers =
     window.detail.data?.members.filter((member) => member.participantType === 'user' && member.status === 'active')
       .length ?? 0;
   const isReadOnly = Boolean(conversationId && (!window.currentMember || window.currentMember.status !== 'active'));
-  const canManage = Boolean(conversationId && isGroup && window.currentMember?.status === 'active');
-  const contractId = window.detail.data?.contextType === 'contract' ? window.detail.data.contextId : null;
   const canSendReminder = Boolean(conversationId && contractId && role === 'landlord' && !isReadOnly);
   const typingNames = enhancements.typingUserIds
     .map(
@@ -208,19 +227,14 @@ export const ChatWindow = ({
         />
       )}
       {canSendReminder && conversationId && contractId && (
-        <BotReminderDialog key={`${conversationId}:${contractId}`} conversationId={conversationId} contractId={contractId} open={reminderOpen} onClose={() => setReminderOpen(false)} />
+        <BotReminderDialog
+          key={`${conversationId}:${contractId}`}
+          conversationId={conversationId}
+          contractId={contractId}
+          open={reminderOpen}
+          onClose={() => setReminderOpen(false)}
+        />
       )}
     </section>
   );
 };
-
-const ComposerSkeleton = () => (
-  <div
-    className="flex shrink-0 items-center gap-2 border-t border-rentify-divider bg-rentify-surface p-3"
-    aria-hidden="true"
-  >
-    <Skeleton variant="circular" className="h-10 w-10" />
-    <Skeleton className="h-11 flex-1 rounded-full" />
-    <Skeleton variant="circular" className="h-10 w-10" />
-  </div>
-);

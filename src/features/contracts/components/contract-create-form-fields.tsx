@@ -70,13 +70,16 @@ export const ContractCreateFormFields = ({ form }: ContractCreateFormFieldsProps
           {...register('tenantName')}
         />
 
-        <Input
-          label={t('form.tenantPhone')}
-          placeholder={t('form.tenantPhonePlaceholder')}
-          required
-          error={getFieldError(errors.tenantPhone, t)}
-          {...register('tenantPhone')}
-        />
+        <div>
+          <Input
+            label={t('form.tenantPhone')}
+            placeholder={t('form.tenantPhonePlaceholder')}
+            required
+            error={getFieldError(errors.tenantPhone, t)}
+            {...register('tenantPhone')}
+          />
+          <p className="mt-1 text-[11px] text-rentify-text-secondary leading-tight">{t('form.tenantPhoneHint')}</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
