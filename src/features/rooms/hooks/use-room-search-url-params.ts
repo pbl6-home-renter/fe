@@ -115,6 +115,10 @@ export const useRoomSearchUrlParams = () => {
     else updateUrlParams({ sort: 'createdAt', order: 'desc', pageNo: '1' });
   };
 
+  const handleRemoveFavorites = () => {
+    updateUrlParams({ favorites: null, pageNo: '1' });
+  };
+
   const handlePageChange = (newPage: number) => {
     updateUrlParams({ pageNo: String(newPage) });
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -134,6 +138,7 @@ export const useRoomSearchUrlParams = () => {
     updateUrlParams,
     handleApplyModalFilters,
     handleResetFilters,
+    handleRemoveFavorites,
     handleSortChange,
     handlePageChange,
   };

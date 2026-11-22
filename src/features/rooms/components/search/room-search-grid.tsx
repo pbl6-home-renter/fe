@@ -15,6 +15,7 @@ export interface RoomSearchGridProps {
   pageNo: number;
   totalPages: number;
   hasActiveFilters: boolean;
+  isFavorites?: boolean;
   onRetry: () => void;
   onResetFilters: () => void;
   onPageChange: (page: number) => void;
@@ -29,6 +30,7 @@ export const RoomSearchGrid = ({
   pageNo,
   totalPages,
   hasActiveFilters,
+  isFavorites,
   onRetry,
   onResetFilters,
   onPageChange,
@@ -58,6 +60,17 @@ export const RoomSearchGrid = ({
   }
 
   if (rooms.length === 0) {
+    if (isFavorites) {
+      return (
+        <EmptyState
+          title={t('favorite.emptyTitle')}
+          description={t('favorite.emptyDesc')}
+          actionText={t('favorite.findRooms')}
+          onAction={onResetFilters}
+        />
+      );
+    }
+
     return (
       <EmptyState
         title={t('search.filteredEmptyTitle')}

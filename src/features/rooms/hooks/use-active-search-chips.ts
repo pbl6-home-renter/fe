@@ -7,24 +7,36 @@ import type { ActiveChipItem } from '../components/search/active-filter-chips';
 interface UseActiveSearchChipsParams {
   keyword: string;
   appliedFilters: RoomSearchFiltersState;
+  favorites?: boolean;
   onClearKeyword: () => void;
   onRemoveLocation: () => void;
   onRemovePrice: () => void;
   onRemoveGender: () => void;
+  onRemoveFavorites?: () => void;
 }
 
 export const useActiveSearchChips = ({
   keyword,
   appliedFilters,
+  favorites,
   onClearKeyword,
   onRemoveLocation,
   onRemovePrice,
   onRemoveGender,
+  onRemoveFavorites,
 }: UseActiveSearchChipsParams): ActiveChipItem[] => {
   const { t } = useTranslation('rooms');
 
   return useMemo(() => {
     const list: ActiveChipItem[] = [];
+
+    if (favorites && onRemoveFavorites) {
+      list.push({
+        id: 'favorites',
+        label: t('search.chipFavorites'),
+        onRemove: onRemoveFavorites,
+      });
+    }
 
     const areaName = appliedFilters.ward || appliedFilters.district || appliedFilters.province;
     const hasArea = Boolean(areaName);
@@ -73,5 +85,15 @@ export const useActiveSearchChips = ({
     }
 
     return list;
-  }, [keyword, appliedFilters, t, onClearKeyword, onRemoveLocation, onRemovePrice, onRemoveGender]);
+  }, [
+    keyword,
+    appliedFilters,
+    favorites,
+    t,
+    onClearKeyword,
+    onRemoveLocation,
+    onRemovePrice,
+    onRemoveGender,
+    onRemoveFavorites,
+  ]);
 };

@@ -27,7 +27,8 @@
   "actions": {
     "cancel": "Cancel",
     "checkout": "Checkout",
-    "contractChat": "Contract chat group"
+    "contractChat": "Contract chat group",
+    "viewRoomDetail": "View room details"
   },
   "status": {
     "draft": "Draft",

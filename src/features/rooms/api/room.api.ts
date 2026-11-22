@@ -1,6 +1,7 @@
 import { http } from '@/lib/api/http';
 import type { ListParams, Paginated } from '@/types/api';
 import type {
+  FavoriteRoomToggleResponseDto,
   RoomCreateRequestDto,
   RoomDetailDto,
   RoomFilter,
@@ -14,6 +15,19 @@ import type {
 export const roomApi = {
   getPublicRooms: (params?: ListParams<RoomPublicFilter>): Promise<Paginated<RoomPublicListItemDto>> =>
     http.getPage<RoomPublicListItemDto, RoomPublicFilter>('/rooms', params),
+
+  getFavoriteRooms: (params?: ListParams): Promise<Paginated<RoomPublicListItemDto>> =>
+    http.getPage<RoomPublicListItemDto>('/me/favorite-rooms', params),
+
+  addFavoriteRoom: (roomId: string): Promise<FavoriteRoomToggleResponseDto> =>
+    http.post<FavoriteRoomToggleResponseDto>(
+      '/me/favorite-rooms',
+      { roomId },
+      { skipErrorToast: true, skipSuccessToast: true },
+    ),
+
+  removeFavoriteRoom: (roomId: string): Promise<void> =>
+    http.delete(`/me/favorite-rooms/${roomId}`, { skipErrorToast: true, skipSuccessToast: true }),
 
   getMyRooms: (params?: ListParams<RoomFilter>): Promise<Paginated<RoomMyListItemDto>> =>
     http.getPage<RoomMyListItemDto, RoomFilter>('/me/rooms', params),

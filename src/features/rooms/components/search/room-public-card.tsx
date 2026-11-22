@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, CheckCircle2, Heart, Home, Layers, MapPin, ShieldCheck } from 'lucide-react';
@@ -7,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { IconButton } from '@/components/ui/icon-button';
 import { useAuth } from '@/features/auth/hooks/use-auth';
+import { Role } from '@/types/role';
 import { ROUTES } from '@/config/routes.config';
 import { formatVnd } from '@/lib/utils/format';
 import type { RoomPublicListItemDto } from '../../types/room.dto';
 import { GENDER_POLICY_OPTIONS } from '../../constants/room.constants';
+import { useToggleFavoriteRoom } from '../../hooks/use-toggle-favorite-room';
 
 export interface RoomPublicCardProps {
   room: RoomPublicListItemDto;
@@ -20,8 +21,11 @@ export interface RoomPublicCardProps {
 export const RoomPublicCard = ({ room, onRequireAuth }: RoomPublicCardProps) => {
   const { t } = useTranslation('rooms');
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-  const [isFav, setIsFav] = useState(Boolean(room.isFavorited));
+  const { isAuthenticated, role } = useAuth();
+  const { toggleFavorite } = useToggleFavoriteRoom();
+
+  const isTenantOrGuest = !isAuthenticated || role === Role.TENANT;
+  const isFav = Boolean(room.isFavorited);
 
   const fullLocation = [room.address, room.district, room.province].filter(Boolean).join(', ');
 
@@ -34,7 +38,7 @@ export const RoomPublicCard = ({ room, onRequireAuth }: RoomPublicCardProps) => 
       onRequireAuth();
       return;
     }
-    setIsFav(!isFav);
+    toggleFavorite({ roomId: room.id, isFavorited: isFav });
   };
 
   const handleOpenDetail = () => {
@@ -61,22 +65,24 @@ export const RoomPublicCard = ({ room, onRequireAuth }: RoomPublicCardProps) => 
             </Badge>
           </div>
 
-          {/* Favorite Button */}
-          <div className="absolute top-3 right-3">
-            <IconButton
-              variant="outline"
-              size="sm"
-              onClick={handleFavoriteClick}
-              aria-label={t('search.favoriteButton')}
-              className={`h-8 w-8 rounded-full backdrop-blur-md bg-rentify-surface/90 border-rentify-divider transition-colors ${
-                isFav
-                  ? 'text-rentify-danger fill-rentify-danger'
-                  : 'text-rentify-text-secondary hover:text-rentify-danger'
-              }`}
-            >
-              <Heart className={`h-4 w-4 ${isFav ? 'fill-current' : ''}`} />
-            </IconButton>
-          </div>
+          {/* Favorite Button (Hidden for Landlords and Admins) */}
+          {isTenantOrGuest && (
+            <div className="absolute top-3 right-3">
+              <IconButton
+                variant="outline"
+                size="sm"
+                onClick={handleFavoriteClick}
+                aria-label={t('search.favoriteButton')}
+                className={`h-8 w-8 rounded-full backdrop-blur-md bg-rentify-surface/90 border-rentify-divider transition-colors ${
+                  isFav
+                    ? 'text-rentify-danger fill-rentify-danger'
+                    : 'text-rentify-text-secondary hover:text-rentify-danger'
+                }`}
+              >
+                <Heart className={`h-4 w-4 ${isFav ? 'fill-current' : ''}`} />
+              </IconButton>
+            </div>
+          )}
         </div>
 
         {/* Card Body */}

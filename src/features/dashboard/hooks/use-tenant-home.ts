@@ -5,6 +5,7 @@ import { useUnreadNotificationsQuery } from '@/features/notifications/hooks/use-
 import { useTenantActiveContracts } from '@/features/rooms/hooks/use-tenant-active-contracts';
 import { useMyInvoicesQuery } from '@/features/invoices/hooks/use-my-invoices-query';
 import { usePublicRoomsQuery } from '@/features/rooms/hooks/use-public-rooms-query';
+import { useToggleFavoriteRoom } from '@/features/rooms/hooks/use-toggle-favorite-room';
 import { ROUTES } from '@/config/routes.config';
 import { InvoiceStatus } from '@/features/invoices/enums/invoice-status.enum';
 import type { MyContractListItemDto } from '@/features/contracts/types/contract.dto';
@@ -121,14 +122,16 @@ export const useTenantHome = () => {
     navigate(ROUTES.ROOM_DETAIL(roomId));
   };
 
+  const { toggleFavorite } = useToggleFavoriteRoom();
+
   const handleFavoriteClick = (e: React.MouseEvent, roomId: string) => {
     e.stopPropagation();
     if (!isAuthenticated) {
       setAuthPromptOpen(true);
       return;
     }
-    // Reserved for toggle favorite mutation
-    void roomId;
+    const targetRoom = recommendedRooms.find((r) => r.id === roomId);
+    toggleFavorite({ roomId, isFavorited: Boolean(targetRoom?.isFavorited) });
   };
 
   const handlePrevRoom = () => {

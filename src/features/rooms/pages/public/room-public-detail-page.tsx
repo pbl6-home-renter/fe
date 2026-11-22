@@ -1,7 +1,8 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Building2, MapPin, Share2, Heart } from 'lucide-react';
 import { ROUTES } from '@/config/routes.config';
+import { Role } from '@/types/role';
 import { BackLink } from '@/components/ui/back-link';
 import { IconButton } from '@/components/ui/icon-button';
 import { Skeleton } from '@/components/feedback/skeleton';
@@ -14,6 +15,7 @@ import { useRoomPublicDetail } from '../../hooks/use-room-public-detail';
 
 export const RoomPublicDetailPage = () => {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const { t } = useTranslation('rooms');
 
   const {
@@ -26,12 +28,23 @@ export const RoomPublicDetailPage = () => {
     selectedPhotoIndex,
     setSelectedPhotoIndex,
     isFav,
+    isTenantOrGuest,
+    role,
+    myContract,
+    isMyRentedRoom,
     authPromptOpen,
     setAuthPromptOpen,
     handleFavoriteClick,
     handleChatClick,
     handleShareClick,
   } = useRoomPublicDetail(id);
+
+  const backState = location.state as { from?: string } | null;
+  const backTo = backState?.from || (role === Role.TENANT ? ROUTES.TENANT.ROOMS : ROUTES.ROOMS_SEARCH);
+  const backLabel =
+    backState?.from === ROUTES.TENANT.ROOMS || (!backState?.from && role === Role.TENANT)
+      ? t('tenantRoom.backToRooms')
+      : t('search.backToSearch');
 
   if (isLoading) {
     return (
@@ -56,21 +69,23 @@ export const RoomPublicDetailPage = () => {
     <div className="space-y-8">
       {/* Navigation Breadcrumb / Back button */}
       <div className="flex items-center justify-between">
-        <BackLink to={ROUTES.ROOMS_SEARCH}>{t('search.backToSearch')}</BackLink>
+        <BackLink to={backTo}>{backLabel}</BackLink>
 
         <div className="flex items-center gap-2">
           <IconButton variant="outline" size="sm" onClick={handleShareClick} aria-label={t('search.pageTitle')}>
             <Share2 className="h-4 w-4" />
           </IconButton>
-          <IconButton
-            variant="outline"
-            size="sm"
-            onClick={handleFavoriteClick}
-            aria-label={t('search.pageTitle')}
-            className={isFav ? 'text-rentify-danger' : ''}
-          >
-            <Heart className={`h-4 w-4 ${isFav ? 'fill-rentify-danger text-rentify-danger' : ''}`} />
-          </IconButton>
+          {isTenantOrGuest && !isMyRentedRoom && (
+            <IconButton
+              variant="outline"
+              size="sm"
+              onClick={handleFavoriteClick}
+              aria-label={t('search.pageTitle')}
+              className={isFav ? 'text-rentify-danger' : ''}
+            >
+              <Heart className={`h-4 w-4 ${isFav ? 'fill-rentify-danger text-rentify-danger' : ''}`} />
+            </IconButton>
+          )}
         </div>
       </div>
 
@@ -80,6 +95,8 @@ export const RoomPublicDetailPage = () => {
         selectedPhotoIndex={selectedPhotoIndex}
         onSelectPhoto={setSelectedPhotoIndex}
         roomName={room.name}
+        isMyRentedRoom={isMyRentedRoom}
+        roomStatus={room.status}
       />
 
       {/* Main Grid: Left Details (7 cols) + Right Sticky Pricing (5 cols) */}
@@ -93,9 +110,17 @@ export const RoomPublicDetailPage = () => {
               <span>{room.buildingName}</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-rentify-text-primary tracking-tight">
-              {room.name}
-            </h1>
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-rentify-text-primary tracking-tight">
+                {room.name}
+              </h1>
+              {isMyRentedRoom && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rentify-primary-container/30 text-rentify-primary border border-rentify-primary/30">
+                  <span className="h-2 w-2 rounded-full bg-rentify-primary" />
+                  <span>{t('tenantRoom.activeRent')}</span>
+                </span>
+              )}
+            </div>
 
             <div className="flex items-center gap-1.5 text-xs text-rentify-text-secondary pt-1">
               <MapPin className="h-4 w-4 shrink-0 text-rentify-outline" />
@@ -112,8 +137,10 @@ export const RoomPublicDetailPage = () => {
           <RoomPublicPricingCard
             room={room}
             isFav={isFav}
+            isTenantOrGuest={isTenantOrGuest}
             onChatClick={handleChatClick}
             onFavoriteClick={handleFavoriteClick}
+            myContract={myContract}
           />
         </div>
       </div>

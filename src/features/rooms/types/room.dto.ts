@@ -120,3 +120,12 @@ export interface RoomPublicFilter {
   maxPrice?: number;
   genderPolicy?: GenderPolicy | string;
 }
+
+export interface FavoriteRoomListItemDto extends RoomPublicListItemDto {
+  roomId: string;
+}
+
+export interface FavoriteRoomToggleResponseDto {
+  roomId: string;
+  roomName?: string;
+}

@@ -26,6 +26,8 @@
     "contractVerifiedNotice": "Hợp đồng điện tử đã được kích hoạt và có hiệu lực pháp lý.",
     "viewContract": "Xem chi tiết hợp đồng",
     "viewInvoices": "Xem hóa đơn phòng",
+    "viewRoomDetail": "Xem chi tiết phòng",
+    "backToRooms": "Quay lại phòng của tôi",
     "quickInvoicesTitle": "Hóa đơn & Chi phí",
     "quickInvoicesDesc": "Theo dõi chi tiết các khoản phí tiền phòng, điện nước và dịch vụ hàng tháng.",
     "quickIssuesTitle": "Sự cố & Sửa chữa",
@@ -114,7 +116,22 @@
     "chipGender": "Giới tính: {{gender}}",
     "chipKeyword": "Từ khóa: \"{{keyword}}\"",
     "clearAllFilters": "Xóa tất cả lọc",
-    "copiedLink": "Đã sao chép liên kết phòng vào bộ nhớ tạm!"
+    "copiedLink": "Đã sao chép liên kết phòng vào bộ nhớ tạm!",
+    "chipFavorites": "Phòng đã lưu",
+    "saveFavorite": "Lưu vào yêu thích",
+    "savedFavorite": "Đã lưu yêu thích",
+    "allRoomsTab": "Tất cả phòng",
+    "savedRoomsTab": "Phòng đã lưu",
+    "favoriteRoomsCount": "Đã lưu {{count}} phòng"
+  },
+  "favorite": {
+    "emptyTitle": "Chưa có phòng yêu thích nào",
+    "emptyDesc": "Hãy bấm vào biểu tượng trái tim trên các phòng bạn ưng ý để xem lại tại đây.",
+    "findRooms": "Tìm phòng ngay",
+    "roomNoLongerAvailable": "Phòng không còn cho thuê",
+    "saveSuccess": "Đã lưu phòng vào danh sách yêu thích",
+    "removeSuccess": "Đã bỏ lưu phòng",
+    "chipLabel": "Phòng đã lưu"
   },
   "status": {
     "available": "Phòng trống",
@@ -303,11 +320,13 @@
   "apiSuccess": {
     "ROOM_CREATED": "Tạo phòng mới thành công.",
     "ROOM_UPDATED": "Cập nhật thông tin phòng thành công.",
-    "ROOM_MARKED_READY": "Đã đánh dấu phòng sẵn sàng cho thuê."
+    "ROOM_MARKED_READY": "Đã đánh dấu phòng sẵn sàng cho thuê.",
+    "ROOM_FAVORITED": "Đã lưu phòng vào danh sách yêu thích."
   },
   "apiErrors": {
     "DUPLICATE_ROOM": "Tên phòng này đã tồn tại trong tòa nhà.",
     "BUILDING_NOT_APPROVED": "Tòa nhà chưa được phê duyệt nên không thể thêm phòng.",
-    "INVALID_ROOM_TRANSITION": "Chỉ có thể chuyển sang sẵn sàng cho thuê từ trạng thái đang dọn dẹp hoặc bảo trì."
+    "INVALID_ROOM_TRANSITION": "Chỉ có thể chuyển sang sẵn sàng cho thuê từ trạng thái đang dọn dẹp hoặc bảo trì.",
+    "ALREADY_FAVORITED": "Phòng này đã có trong danh sách yêu thích của bạn."
   }
 }

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { MessageSquare } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Eye, MessageSquare } from 'lucide-react';
 import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { BackLink } from '@/components/ui/back-link';
@@ -14,6 +14,7 @@ import { useContractChat } from '../../hooks/use-contract-chat';
 
 export const TenantContractDetailPage = () => {
   const { t } = useTranslation('contracts');
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError, refetch } = useContractQuery(id);
   const { openContractChat, isChatLoading } = useContractChat(data);
@@ -34,17 +35,36 @@ export const TenantContractDetailPage = () => {
               <ContractStatusBadge status={data.status} />
             </div>
 
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={openContractChat}
-              isLoading={isChatLoading}
-              className="gap-1.5 text-rentify-primary border-rentify-primary/30 hover:bg-rentify-primary/5"
-            >
-              <MessageSquare className="h-4 w-4" />
-              <span>{t('actions.contractChat')}</span>
-            </Button>
+            <div className="flex flex-wrap items-center gap-2">
+              {data.roomId && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    navigate(ROUTES.ROOM_DETAIL(data.roomId), {
+                      state: { from: ROUTES.TENANT.CONTRACT_DETAIL(data.id) },
+                    })
+                  }
+                  className="gap-1.5"
+                >
+                  <Eye className="h-4 w-4" />
+                  <span>{t('actions.viewRoomDetail')}</span>
+                </Button>
+              )}
+
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={openContractChat}
+                isLoading={isChatLoading}
+                className="gap-1.5 text-rentify-primary border-rentify-primary/30 hover:bg-rentify-primary/5"
+              >
+                <MessageSquare className="h-4 w-4" />
+                <span>{t('actions.contractChat')}</span>
+              </Button>
+            </div>
           </div>
           <Card className="max-w-2xl space-y-4 text-sm">
             <p>{t('tenant.dates', { start: formatDate(data.startDate), end: formatDate(data.endDate) })}</p>

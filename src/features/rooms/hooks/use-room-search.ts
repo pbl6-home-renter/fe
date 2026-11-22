@@ -1,6 +1,9 @@
 import { useMemo, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/features/auth/hooks/use-auth';
+import { Role } from '@/types/role';
 import { usePublicRoomsQuery } from './use-public-rooms-query';
+import { useFavoriteRoomsQuery } from './use-favorite-rooms-query';
 import { useRecentSearches } from './use-recent-searches';
 import { useActiveSearchChips } from './use-active-search-chips';
 import { useRoomSearchUrlParams, type RoomSearchFiltersState } from './use-room-search-url-params';
@@ -12,6 +15,8 @@ export type { RoomSearchFiltersState };
 
 export const useRoomSearch = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, role } = useAuth();
+  const canFavorite = role !== Role.LANDLORD && role !== Role.ADMIN;
   const { recentSearches, addSearch, removeSearch, clearSearches } = useRecentSearches();
 
   const {
@@ -19,6 +24,7 @@ export const useRoomSearch = () => {
     urlPage,
     urlSort,
     urlOrder,
+    favorites,
     appliedFilters,
     hasActiveFilters,
     activeFilterCount,
@@ -26,6 +32,7 @@ export const useRoomSearch = () => {
     updateUrlParams,
     handleApplyModalFilters,
     handleResetFilters,
+    handleRemoveFavorites,
     handleSortChange,
     handlePageChange,
   } = useRoomSearchUrlParams();
@@ -33,12 +40,20 @@ export const useRoomSearch = () => {
   const [keyword, setKeyword] = useState(urlKeyword);
   const [prevUrlKeyword, setPrevUrlKeyword] = useState(urlKeyword);
   const [filterModalOpen, setFilterModalOpen] = useState(false);
-  const [authPromptOpen, setAuthPromptOpen] = useState(false);
+  const [authPromptOpenManual, setAuthPromptOpenManual] = useState(false);
 
   if (prevUrlKeyword !== urlKeyword) {
     setPrevUrlKeyword(urlKeyword);
     setKeyword(urlKeyword);
   }
+
+  const authPromptOpen = authPromptOpenManual || Boolean(favorites && !isAuthenticated);
+  const setAuthPromptOpen = (open: boolean) => {
+    setAuthPromptOpenManual(open);
+    if (!open && favorites && !isAuthenticated) {
+      updateUrlParams({ favorites: null });
+    }
+  };
 
   const isClientFiltering = Boolean(keyword.trim() || appliedFilters.district.trim());
 
@@ -65,7 +80,21 @@ export const useRoomSearch = () => {
     };
   }, [appliedFilters, isClientFiltering, urlPage, urlSort, urlOrder]);
 
-  const { data, isLoading, isFetching, isError, refetch } = usePublicRoomsQuery(queryParams);
+  const publicRoomsQuery = usePublicRoomsQuery(queryParams, { enabled: !favorites });
+  const favoriteRoomsQuery = useFavoriteRoomsQuery(
+    {
+      pageNo: isClientFiltering ? 1 : urlPage,
+      pageSize: isClientFiltering ? 100 : 12,
+    },
+    { enabled: favorites && isAuthenticated },
+  );
+
+  const activeQuery = favorites ? favoriteRoomsQuery : publicRoomsQuery;
+  const data = activeQuery.data;
+  const isLoading = activeQuery.isLoading;
+  const isFetching = activeQuery.isFetching;
+  const isError = activeQuery.isError;
+  const refetch = activeQuery.refetch;
 
   const allFilteredRooms = useMemo<RoomPublicListItemDto[]>(() => {
     const rawItems = data?.items ?? [];
@@ -152,13 +181,31 @@ export const useRoomSearch = () => {
     else navigate(ROUTES.HOME);
   };
 
+  const handleSelectAllRooms = () => {
+    if (favorites) {
+      updateUrlParams({ favorites: null, pageNo: '1' });
+    }
+  };
+
+  const handleSelectFavorites = () => {
+    if (!isAuthenticated) {
+      setAuthPromptOpen(true);
+      return;
+    }
+    if (!favorites) {
+      updateUrlParams({ favorites: 'true', pageNo: '1' });
+    }
+  };
+
   const activeChips = useActiveSearchChips({
     keyword,
     appliedFilters,
+    favorites,
     onClearKeyword: handleClearKeyword,
     onRemoveLocation: handleRemoveLocation,
     onRemovePrice: () => updateUrlParams({ minPrice: null, maxPrice: null, pageNo: '1' }),
     onRemoveGender: () => updateUrlParams({ genderPolicy: null, pageNo: '1' }),
+    onRemoveFavorites: handleRemoveFavorites,
   });
 
   return {
@@ -172,6 +219,7 @@ export const useRoomSearch = () => {
     activeFilterCount,
     activeChips,
     currentSort,
+    favorites,
     rooms: paginatedRooms,
     totalCount,
     totalPages,
@@ -192,5 +240,8 @@ export const useRoomSearch = () => {
     handleSortChange,
     handlePageChange,
     handleBack,
+    canFavorite,
+    handleSelectAllRooms,
+    handleSelectFavorites,
   };
 };
