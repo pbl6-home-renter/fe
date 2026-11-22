@@ -129,3 +129,18 @@ export interface FavoriteRoomToggleResponseDto {
   roomId: string;
   roomName?: string;
 }
+
+export interface RoomHubItemDto {
+  contractId: string;
+  roomId: string;
+  roomName: string;
+  area: number | null;
+  buildingId: string;
+  buildingName: string;
+  address: string;
+  ward: string;
+  province: string;
+  rentPrice: number;
+  startDate: string;
+  endDate: string;
+}

@@ -60,7 +60,7 @@ export const useTenantList = () => {
   return {
     tableProps: {
       tenants: matchedTenants,
-      rowCount: tenantsQuery.data?.pagination.totalItems ?? matchedTenants.length,
+      rowCount: search ? matchedTenants.length : (tenantsQuery.data?.pagination.totalItems ?? matchedTenants.length),
       state: tableState.state,
       handlers: tableState.handlers,
       density: tableState.state.density,

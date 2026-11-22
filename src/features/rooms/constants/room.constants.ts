@@ -9,6 +9,8 @@ export const ROOM_QUERY_KEYS = {
     ['rooms', 'my-list', params] as const,
   PUBLIC_LIST: (params?: ListParams<RoomPublicFilter>) => ['rooms', 'public-list', params] as const,
   FAVORITE_LIST: (params?: ListParams) => ['rooms', 'favorite-list', params] as const,
+  ROOM_HUB: ['rooms', 'me', 'room-hub'] as const,
+  ROOM_HUB_LIST: (params?: ListParams) => ['rooms', 'me', 'room-hub', params] as const,
   DETAIL: (id?: string) => ['rooms', 'detail', id] as const,
 };
 
