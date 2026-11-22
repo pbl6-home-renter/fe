@@ -9,6 +9,8 @@ import { ErrorState } from '@/components/feedback/error-state';
 import { EmptyState } from '@/components/feedback/empty-state';
 import { ROUTES } from '@/config/routes.config';
 import { formatVnd } from '@/lib/utils/format';
+import { useAuth } from '@/features/auth/hooks/use-auth';
+import { Role } from '@/types/role';
 import type { RoomPublicListItemDto } from '@/features/rooms/types/room.dto';
 
 export interface TenantRecommendedRoomsProps {
@@ -32,6 +34,8 @@ export const TenantRecommendedRooms = ({
 }: TenantRecommendedRoomsProps) => {
   const { t } = useTranslation('dashboard');
   const navigate = useNavigate();
+  const { role } = useAuth();
+  const isTenantOrGuest = !isAuthenticated || role === Role.TENANT;
 
   const title = isAuthenticated ? t('tenantHome.recommendedTitleLogged') : t('tenantHome.recommendedTitleGuest');
 
@@ -102,22 +106,24 @@ export const TenantRecommendedRooms = ({
                     </div>
                   )}
 
-                  {/* Heart Favorite Button */}
-                  <div className="absolute top-2.5 right-2.5">
-                    <IconButton
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => onFavoriteClick(e, room.id)}
-                      aria-label={t('tenantHome.savedRooms')}
-                      className={`h-8 w-8 rounded-full bg-white/90 backdrop-blur-xs shadow-xs border border-rentify-divider hover:bg-white ${
-                        room.isFavorited
-                          ? 'text-rentify-error fill-rentify-error'
-                          : 'text-rentify-text-secondary hover:text-rentify-error'
-                      }`}
-                    >
-                      <Heart className={`w-4 h-4 ${room.isFavorited ? 'fill-current' : ''}`} />
-                    </IconButton>
-                  </div>
+                  {/* Heart Favorite Button (Hidden for Landlords and Admins) */}
+                  {isTenantOrGuest && (
+                    <div className="absolute top-2.5 right-2.5">
+                      <IconButton
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => onFavoriteClick(e, room.id)}
+                        aria-label={t('tenantHome.savedRooms')}
+                        className={`h-8 w-8 rounded-full bg-white/90 backdrop-blur-xs shadow-xs border border-rentify-divider hover:bg-white ${
+                          room.isFavorited
+                            ? 'text-rentify-error fill-rentify-error'
+                            : 'text-rentify-text-secondary hover:text-rentify-error'
+                        }`}
+                      >
+                        <Heart className={`w-4 h-4 ${room.isFavorited ? 'fill-current' : ''}`} />
+                      </IconButton>
+                    </div>
+                  )}
                 </div>
 
                 {/* Card Content */}

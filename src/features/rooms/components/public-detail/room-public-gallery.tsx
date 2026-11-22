@@ -6,9 +6,18 @@ export interface RoomPublicGalleryProps {
   selectedPhotoIndex: number;
   onSelectPhoto: (index: number) => void;
   roomName: string;
+  isMyRentedRoom?: boolean;
+  roomStatus?: string;
 }
 
-export const RoomPublicGallery = ({ photos, selectedPhotoIndex, onSelectPhoto, roomName }: RoomPublicGalleryProps) => {
+export const RoomPublicGallery = ({
+  photos,
+  selectedPhotoIndex,
+  onSelectPhoto,
+  roomName,
+  isMyRentedRoom = false,
+  roomStatus,
+}: RoomPublicGalleryProps) => {
   const { t } = useTranslation('rooms');
   const activePhoto = photos[selectedPhotoIndex] || photos[0];
 
@@ -19,10 +28,22 @@ export const RoomPublicGallery = ({ photos, selectedPhotoIndex, onSelectPhoto, r
         <img src={activePhoto} alt={roomName} className="w-full h-full object-cover transition-all duration-300" />
 
         <div className="absolute top-4 left-4">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-rentify-surface/90 backdrop-blur-md border border-rentify-success/30 text-rentify-success shadow-xs">
-            <CheckCircle2 className="h-4 w-4 text-rentify-success" />
-            <span>{t('search.availableBadge')}</span>
-          </span>
+          {isMyRentedRoom ? (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-rentify-surface/90 backdrop-blur-md border border-rentify-primary/30 text-rentify-primary shadow-xs">
+              <span className="h-2 w-2 rounded-full bg-rentify-primary" />
+              <span>{t('tenantRoom.activeRent')}</span>
+            </span>
+          ) : roomStatus === 'occupied' ? (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-rentify-surface/90 backdrop-blur-md border border-rentify-divider text-rentify-text-secondary shadow-xs">
+              <span className="h-2 w-2 rounded-full bg-rentify-text-muted" />
+              <span>{t('status.occupied')}</span>
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-rentify-surface/90 backdrop-blur-md border border-rentify-success/30 text-rentify-success shadow-xs">
+              <CheckCircle2 className="h-4 w-4 text-rentify-success" />
+              <span>{t('search.availableBadge')}</span>
+            </span>
+          )}
         </div>
 
         <div className="absolute bottom-4 right-4 bg-rentify-card/85 backdrop-blur-md px-3 py-1 rounded-full text-xs font-mono text-rentify-text-primary border border-rentify-divider shadow-xs">
@@ -48,10 +69,10 @@ export const RoomPublicGallery = ({ photos, selectedPhotoIndex, onSelectPhoto, r
               className={`relative h-20 w-28 shrink-0 rounded-xl overflow-hidden border-2 cursor-pointer transition-all ${
                 selectedPhotoIndex === idx
                   ? 'border-rentify-primary ring-2 ring-rentify-primary/20'
-                  : 'border-transparent opacity-75 hover:opacity-100'
+                  : 'border-transparent opacity-70 hover:opacity-100'
               }`}
             >
-              <img src={url} alt="" className="h-full w-full object-cover" />
+              <img src={url} alt={`${roomName} ${idx + 1}`} className="w-full h-full object-cover" />
             </div>
           ))}
         </div>

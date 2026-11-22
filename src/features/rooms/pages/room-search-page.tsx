@@ -19,6 +19,7 @@ export const RoomSearchPage = () => {
     activeFilterCount,
     activeChips,
     currentSort,
+    favorites,
     rooms,
     totalCount,
     totalPages,
@@ -39,6 +40,9 @@ export const RoomSearchPage = () => {
     handleSortChange,
     handlePageChange,
     handleBack,
+    canFavorite,
+    handleSelectAllRooms,
+    handleSelectFavorites,
   } = useRoomSearch();
 
   return (
@@ -66,7 +70,15 @@ export const RoomSearchPage = () => {
       <ActiveFilterChips chips={activeChips} onClearAll={handleResetFilters} />
 
       {/* 4. Results Summary & Sort Dropdown */}
-      <SearchSummarySortBar totalCount={totalCount} currentSort={currentSort} onSortChange={handleSortChange} />
+      <SearchSummarySortBar
+        totalCount={totalCount}
+        currentSort={currentSort}
+        onSortChange={handleSortChange}
+        isFavorites={favorites}
+        canFavorite={canFavorite}
+        onSelectAllRooms={handleSelectAllRooms}
+        onSelectFavorites={handleSelectFavorites}
+      />
 
       {/* 5. Room Grid with Pagination (Always shows all rooms paginated when no filter) */}
       <RoomSearchGrid
@@ -77,6 +89,7 @@ export const RoomSearchPage = () => {
         pageNo={pageNo}
         totalPages={totalPages}
         hasActiveFilters={hasActiveFilters}
+        isFavorites={favorites}
         onPageChange={handlePageChange}
         onRetry={() => void refetch()}
         onResetFilters={handleResetFilters}

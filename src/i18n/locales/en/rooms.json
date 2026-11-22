@@ -26,6 +26,8 @@
     "contractVerifiedNotice": "Digital contract is signed and legally effective.",
     "viewContract": "View contract details",
     "viewInvoices": "View room invoices",
+    "viewRoomDetail": "View room details",
+    "backToRooms": "Back to my rooms",
     "quickInvoicesTitle": "Invoices & Expenses",
     "quickInvoicesDesc": "Track detailed rent, electricity, water, and monthly service fees.",
     "quickIssuesTitle": "Issues & Maintenance",
@@ -114,7 +116,22 @@
     "chipGender": "Gender: {{gender}}",
     "chipKeyword": "Keyword: \"{{keyword}}\"",
     "clearAllFilters": "Clear all filters",
-    "copiedLink": "Room link copied to clipboard!"
+    "copiedLink": "Room link copied to clipboard!",
+    "chipFavorites": "Saved rooms",
+    "saveFavorite": "Save to favorites",
+    "savedFavorite": "Saved to favorites",
+    "allRoomsTab": "All rooms",
+    "savedRoomsTab": "Saved rooms",
+    "favoriteRoomsCount": "{{count}} saved rooms"
+  },
+  "favorite": {
+    "emptyTitle": "No favorite rooms yet",
+    "emptyDesc": "Click the heart icon on any room you like to save and review it here later.",
+    "findRooms": "Find rooms now",
+    "roomNoLongerAvailable": "Room is no longer available for rent",
+    "saveSuccess": "Room saved to your favorites",
+    "removeSuccess": "Room removed from favorites",
+    "chipLabel": "Saved rooms"
   },
   "status": {
     "available": "Available",
@@ -303,11 +320,13 @@
   "apiSuccess": {
     "ROOM_CREATED": "Room created successfully.",
     "ROOM_UPDATED": "Room updated successfully.",
-    "ROOM_MARKED_READY": "Room marked as ready for rent."
+    "ROOM_MARKED_READY": "Room marked as ready for rent.",
+    "ROOM_FAVORITED": "Room saved to your favorites."
   },
   "apiErrors": {
     "DUPLICATE_ROOM": "A room with this name already exists in this property.",
     "BUILDING_NOT_APPROVED": "Cannot add rooms to an unapproved property.",
-    "INVALID_ROOM_TRANSITION": "Can only mark room as ready from cleaning or maintenance status."
+    "INVALID_ROOM_TRANSITION": "Can only mark room as ready from cleaning or maintenance status.",
+    "ALREADY_FAVORITED": "This room is already in your favorites."
   }
 }

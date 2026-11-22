@@ -17,6 +17,8 @@ export const TenantHeaderNav = ({ unreadChatCount = 0 }: TenantHeaderNavProps) =
     location.pathname === ROUTES.ROOMS_SEARCH;
   const isChatActive = location.pathname.startsWith('/chat');
   const isRoomsActive = location.pathname.startsWith('/rooms') && location.pathname !== ROUTES.ROOMS_SEARCH;
+  const isContractsActive = location.pathname.startsWith('/contracts');
+  const isIssuesActive = location.pathname.startsWith('/issues');
   const isRoommatesActive = location.pathname.startsWith('/roommates');
 
   return (
@@ -57,6 +59,30 @@ export const TenantHeaderNav = ({ unreadChatCount = 0 }: TenantHeaderNavProps) =
       >
         <span>{t('navigation.myRoom')}</span>
         {isRoomsActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />}
+      </Link>
+
+      <Link
+        to={ROUTES.TENANT.CONTRACTS}
+        className={cn(
+          'h-full flex items-center relative transition-colors',
+          isContractsActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
+        )}
+      >
+        <span>{t('navigation.contracts')}</span>
+        {isContractsActive && (
+          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
+        )}
+      </Link>
+
+      <Link
+        to={ROUTES.TENANT.ISSUES}
+        className={cn(
+          'h-full flex items-center relative transition-colors',
+          isIssuesActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
+        )}
+      >
+        <span>{t('navigation.issues')}</span>
+        {isIssuesActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />}
       </Link>
 
       <Link

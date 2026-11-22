@@ -27,7 +27,8 @@
   "actions": {
     "cancel": "Hủy",
     "checkout": "Trả phòng",
-    "contractChat": "Nhóm chat hợp đồng"
+    "contractChat": "Nhóm chat hợp đồng",
+    "viewRoomDetail": "Xem chi tiết phòng"
   },
   "status": {
     "draft": "Bản nháp",

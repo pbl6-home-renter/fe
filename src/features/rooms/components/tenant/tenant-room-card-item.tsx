@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Building2, Calendar, CheckCircle2, Home, Receipt, ShieldCheck, Wrench } from 'lucide-react';
+import { ArrowRight, Building2, Calendar, CheckCircle2, Eye, Home, Receipt, ShieldCheck, Wrench } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/config/routes.config';
@@ -28,7 +28,10 @@ export const TenantRoomCardItem = ({ contract }: TenantRoomCardItemProps) => {
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-rentify-text-primary">
+              <h2
+                onClick={() => navigate(ROUTES.ROOM_DETAIL(contract.roomId), { state: { from: ROUTES.TENANT.ROOMS } })}
+                className="text-xl sm:text-2xl font-bold tracking-tight text-rentify-text-primary hover:text-rentify-primary cursor-pointer transition-colors"
+              >
                 {contract.roomName}
               </h2>
               <ContractStatusBadge status={contract.status} variant="pill" />
@@ -151,7 +154,17 @@ export const TenantRoomCardItem = ({ contract }: TenantRoomCardItemProps) => {
           <span>{t('tenantRoom.contractVerifiedNotice')}</span>
         </div>
 
-        <div className="flex items-center gap-2.5 w-full sm:w-auto">
+        <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(ROUTES.ROOM_DETAIL(contract.roomId), { state: { from: ROUTES.TENANT.ROOMS } })}
+            className="gap-1.5 w-full sm:w-auto text-xs"
+          >
+            <Eye className="h-3.5 w-3.5" />
+            <span>{t('tenantRoom.viewRoomDetail')}</span>
+          </Button>
+
           <Button
             variant="outline"
             size="sm"
