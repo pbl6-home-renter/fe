@@ -9,14 +9,20 @@ export const tenantApi = {
       return http.getPage<ContractTenantListItemDto, ContractTenantListFilter>('/contracts/tenants', params);
     }
 
-    // When scope is 'all' or omitted, query both current and history to combine results (as required by acceptance criteria)
+    // When scope is 'all' or omitted, query both current and history with full capacity (pageSize 100)
+    // to properly combine, sort, and paginate in memory.
+    const pageNo = params?.pageNo ?? 1;
+    const pageSize = params?.pageSize ?? 10;
+
     const [currentRes, historyRes] = await Promise.all([
       http.getPage<ContractTenantListItemDto, ContractTenantListFilter>('/contracts/tenants', {
-        ...params,
+        pageNo: 1,
+        pageSize: 100,
         filter: { scope: 'current' },
       }),
       http.getPage<ContractTenantListItemDto, ContractTenantListFilter>('/contracts/tenants', {
-        ...params,
+        pageNo: 1,
+        pageSize: 100,
         filter: { scope: 'history' },
       }),
     ]);
@@ -29,8 +35,8 @@ export const tenantApi = {
       return isDesc ? nameB.localeCompare(nameA, 'vi') : nameA.localeCompare(nameB, 'vi');
     });
 
-    const pageNo = params?.pageNo ?? 1;
-    const pageSize = params?.pageSize ?? 10;
+    const totalItems = combined.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
     const startIndex = (pageNo - 1) * pageSize;
     const paginatedItems = combined.slice(startIndex, startIndex + pageSize);
 
@@ -40,9 +46,9 @@ export const tenantApi = {
         type: 'offset',
         pageNo,
         pageSize,
-        totalItems: combined.length,
-        totalPages: Math.max(1, Math.ceil(combined.length / pageSize)),
-        hasNextPage: startIndex + pageSize < combined.length,
+        totalItems,
+        totalPages,
+        hasNextPage: startIndex + pageSize < totalItems,
         hasPreviousPage: pageNo > 1,
       },
     };

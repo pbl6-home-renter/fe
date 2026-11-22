@@ -1,25 +1,49 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Receipt, Search, Wrench } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/config/routes.config';
 import type { MyContractListItemDto } from '@/features/contracts/types/contract.dto';
+import type { RoomHubItemDto } from '../../types/room.dto';
 import { TenantRoomCardItem } from './tenant-room-card-item';
 
 export interface TenantRoomCardsProps {
-  contracts: MyContractListItemDto[];
+  rooms?: RoomHubItemDto[];
+  contracts?: MyContractListItemDto[];
 }
 
-export const TenantRoomCards = ({ contracts }: TenantRoomCardsProps) => {
+export const TenantRoomCards = ({ rooms, contracts }: TenantRoomCardsProps) => {
   const { t } = useTranslation('rooms');
   const navigate = useNavigate();
+
+  const displayRooms: RoomHubItemDto[] = useMemo(() => {
+    if (rooms) return rooms;
+    if (contracts) {
+      return contracts.map((c) => ({
+        contractId: c.id,
+        roomId: c.roomId,
+        roomName: c.roomName,
+        area: null,
+        buildingId: '',
+        buildingName: c.buildingName,
+        address: '',
+        ward: '',
+        province: '',
+        rentPrice: c.rentPrice,
+        startDate: c.startDate,
+        endDate: c.endDate,
+      }));
+    }
+    return [];
+  }, [rooms, contracts]);
 
   return (
     <div className="space-y-8">
       {/* Active Room Hub Cards */}
       <div className="space-y-6">
-        {contracts.map((contract) => (
-          <TenantRoomCardItem key={contract.id} contract={contract} />
+        {displayRooms.map((room) => (
+          <TenantRoomCardItem key={room.contractId} room={room} />
         ))}
       </div>
 

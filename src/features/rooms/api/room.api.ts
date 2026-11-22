@@ -5,6 +5,7 @@ import type {
   RoomCreateRequestDto,
   RoomDetailDto,
   RoomFilter,
+  RoomHubItemDto,
   RoomMarkReadyResponseDto,
   RoomMyListItemDto,
   RoomPublicFilter,
@@ -18,6 +19,9 @@ export const roomApi = {
 
   getFavoriteRooms: (params?: ListParams): Promise<Paginated<RoomPublicListItemDto>> =>
     http.getPage<RoomPublicListItemDto>('/me/favorite-rooms', params),
+
+  getRoomHub: (params?: ListParams): Promise<Paginated<RoomHubItemDto>> =>
+    http.getPage<RoomHubItemDto>('/me/room-hub', params),
 
   addFavoriteRoom: (roomId: string): Promise<FavoriteRoomToggleResponseDto> =>
     http.post<FavoriteRoomToggleResponseDto>(
