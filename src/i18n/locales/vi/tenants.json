@@ -1,0 +1,58 @@
+{
+  "title": "Quản lý khách thuê",
+  "subtitle": "Theo dõi danh sách khách đang ở và lịch sử lưu trú tại các phòng trọ của bạn",
+  "viewDetail": "Xem chi tiết",
+  "columns": {
+    "tenantName": "Tên khách thuê",
+    "scope": "Trạng thái ở",
+    "isLinked": "Tài khoản hệ thống",
+    "contractCount": "Số hợp đồng",
+    "actions": "Thao tác"
+  },
+  "filter": {
+    "all": "Tất cả",
+    "current": "Đang ở",
+    "history": "Đã rời",
+    "clearFilter": "Xóa bộ lọc"
+  },
+  "scope": {
+    "current": "Đang ở",
+    "history": "Đã rời"
+  },
+  "account": {
+    "linked": "Đã liên kết",
+    "notLinked": "Chưa có tài khoản"
+  },
+  "searchPlaceholder": "Tìm theo tên khách thuê...",
+  "empty": {
+    "title": "Chưa có khách thuê nào",
+    "description": "Danh sách khách thuê sẽ xuất hiện khi các hợp đồng thuê phòng được tạo và kích hoạt.",
+    "createContract": "Tạo hợp đồng ngay",
+    "filteredTitle": "Không tìm thấy khách thuê phù hợp",
+    "filteredDescription": "Thử thay đổi từ khóa tìm kiếm hoặc bỏ chọn bộ lọc trạng thái để xem thêm kết quả."
+  },
+  "detail": {
+    "back": "Quay lại danh sách khách thuê",
+    "notFoundTitle": "Không tìm thấy khách thuê",
+    "notFoundDesc": "Khách thuê này không tồn tại hoặc bạn không có quyền truy cập thông tin của khách thuê này.",
+    "unnamedTenant": "Chưa cập nhật tên",
+    "callAction": "Gọi điện",
+    "copyPhone": "Sao chép số điện thoại",
+    "copiedPhone": "Đã sao chép số điện thoại!",
+    "noPhone": "Chưa có số điện thoại",
+    "totalContracts": "{{count}} hợp đồng",
+    "historyTitle": "Lịch sử thuê phòng & Hợp đồng",
+    "historyDesc": "Chi tiết các phòng, hợp đồng và thời gian lưu trú (sắp xếp mới nhất trước)",
+    "roomLabel": "Phòng",
+    "currentStayBadge": "Đang lưu trú",
+    "pastStayBadge": "Đã rời đi",
+    "contractCodeLabel": "Mã hợp đồng",
+    "viewContractAction": "Xem chi tiết hợp đồng",
+    "periodLabel": "Thời gian ở",
+    "from": "Từ",
+    "to": "Đến",
+    "present": "Hiện tại",
+    "phoneInContract": "SĐT ghi nhận: {{phone}}",
+    "noMemberships": "Chưa có dữ liệu lịch sử lưu trú"
+  }
+}

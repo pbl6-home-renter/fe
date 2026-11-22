@@ -1,0 +1,58 @@
+{
+  "title": "Tenant Management",
+  "subtitle": "Track current tenants and stay history across your rental rooms",
+  "viewDetail": "View details",
+  "columns": {
+    "tenantName": "Tenant Name",
+    "scope": "Stay Status",
+    "isLinked": "Account Status",
+    "contractCount": "Contracts",
+    "actions": "Actions"
+  },
+  "filter": {
+    "all": "All",
+    "current": "Current",
+    "history": "Past",
+    "clearFilter": "Clear filter"
+  },
+  "scope": {
+    "current": "Current",
+    "history": "Past"
+  },
+  "account": {
+    "linked": "Linked Account",
+    "notLinked": "No Account"
+  },
+  "searchPlaceholder": "Search by tenant name...",
+  "empty": {
+    "title": "No tenants yet",
+    "description": "Tenants will appear here once rental contracts are created and activated.",
+    "createContract": "Create contract now",
+    "filteredTitle": "No matching tenants found",
+    "filteredDescription": "Try adjusting your search keyword or clearing filters to see more results."
+  },
+  "detail": {
+    "back": "Back to tenants list",
+    "notFoundTitle": "Tenant Not Found",
+    "notFoundDesc": "This tenant does not exist or you do not have permission to view their details.",
+    "unnamedTenant": "Unnamed Tenant",
+    "callAction": "Call",
+    "copyPhone": "Copy phone",
+    "copiedPhone": "Phone number copied!",
+    "noPhone": "No phone number",
+    "totalContracts": "{{count}} contracts",
+    "historyTitle": "Stay & Contract History",
+    "historyDesc": "Details of rooms, contracts, and stay periods (newest first)",
+    "roomLabel": "Room",
+    "currentStayBadge": "Current Stay",
+    "pastStayBadge": "Past Stay",
+    "contractCodeLabel": "Contract Code",
+    "viewContractAction": "View contract",
+    "periodLabel": "Stay Period",
+    "from": "From",
+    "to": "To",
+    "present": "Present",
+    "phoneInContract": "Recorded phone: {{phone}}",
+    "noMemberships": "No stay history available"
+  }
+}

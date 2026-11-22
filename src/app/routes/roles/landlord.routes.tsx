@@ -1,6 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
-import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { Role } from '@/types/role';
 import { ROUTES } from '@/config/routes.config';
 import { BuildingListPage } from '@/features/buildings/pages/building-list-page';
@@ -8,6 +7,8 @@ import { BuildingDetailPage } from '@/features/buildings/pages/building-detail-p
 import { RoomListPage } from '@/features/rooms/pages/room-list-page';
 import { RoomDetailPage } from '@/features/rooms/pages/room-detail-page';
 import { MeterReadingPage } from '@/features/meter-readings/pages/meter-reading-page';
+import { TenantListPage } from '@/features/tenants/pages/tenant-list-page';
+import { TenantDetailPage } from '@/features/tenants/pages/tenant-detail-page';
 
 export const landlordRoutes: RouteObject[] = [
   {
@@ -45,16 +46,16 @@ export const landlordRoutes: RouteObject[] = [
   {
     path: ROUTES.LANDLORD.TENANTS,
     element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
-        <DashboardOverview titleKey="routes.tenants.title" descKey="routes.tenants.desc" />
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <TenantListPage />
       </ProtectedRoute>
     ),
   },
   {
     path: ROUTES.LANDLORD.TENANT_DETAIL(':id'),
     element: (
-      <ProtectedRoute allowedRoles={[Role.LANDLORD, Role.ADMIN]}>
-        <DashboardOverview titleKey="routes.tenants.detailTitle" descKey="routes.tenants.detailDesc" />
+      <ProtectedRoute allowedRoles={[Role.LANDLORD]}>
+        <TenantDetailPage />
       </ProtectedRoute>
     ),
   },
