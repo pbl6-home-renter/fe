@@ -24,7 +24,7 @@ export const BusinessNotificationToast = ({ category, title, body }: BusinessNot
           {t(`categories.${category}`)}
         </span>
         <span className="block truncate text-sm font-semibold">{title}</span>
-        <span className="mt-1 block line-clamp-3 whitespace-pre-wrap break-words text-sm text-rentify-text-secondary">
+        <span className="mt-1 block line-clamp-3 whitespace-pre-wrap wrap-break-word text-sm text-rentify-text-secondary">
           {body}
         </span>
       </span>

@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/feedback/skeleton';
 import { ErrorState } from '@/components/feedback/error-state';
 import { NotificationPreferencesDialog } from '../components/notification-preferences-dialog';
 import { useNotificationsPage } from '../hooks/use-notifications-page';
-import { getNotificationContent } from '../utils/notification-content';
+import { getNotificationContent } from '../utils/notification-registry';
 
 export const NotificationsPage = () => {
   const { t, i18n } = useTranslation('notifications');
