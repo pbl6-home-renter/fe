@@ -11,7 +11,8 @@ import { isNotificationCreatedEvent } from '../utils/notification-event.guard';
 import { ROUTES } from '@/config/routes.config';
 import { ISSUE_QUERY_KEYS } from '@/features/issues/constants/issue.constants';
 import { useTranslation } from 'react-i18next';
-import { getNotificationContent } from '../utils/notification-content';
+import { getNotificationContent, getNotificationDestination } from '../utils/notification-registry';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 
 export const NotificationRealtimeBridge = () => {
   const { socket } = useSocket();
@@ -19,6 +20,7 @@ export const NotificationRealtimeBridge = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const { t } = useTranslation('notifications');
+  const { role } = useAuth();
   const preferences = useNotificationPreferencesQuery();
   const { mutate: markRead } = useMarkNotificationReadMutation();
   const seenIds = useRef(new Set<string>());
@@ -43,17 +45,7 @@ export const NotificationRealtimeBridge = () => {
 
       const content = getNotificationContent(payload, t);
 
-      let destination: string = ROUTES.NOTIFICATIONS;
-      if (payload.deepLink) {
-        try {
-          const url = new URL(payload.deepLink, window.location.origin);
-          if (url.origin === window.location.origin) {
-            destination = `${url.pathname}${url.search}${url.hash}`;
-          }
-        } catch {
-          // Invalid deep links fall back to the notification inbox.
-        }
-      }
+      const destination = getNotificationDestination(payload, role) ?? ROUTES.NOTIFICATIONS;
       notify.custom(
         () =>
           createElement(BusinessNotificationToast, {
@@ -77,7 +69,7 @@ export const NotificationRealtimeBridge = () => {
       socket.off(NOTIFICATION_SOCKET_EVENTS.CREATED, onCreated);
       socket.off(NOTIFICATION_SOCKET_EVENTS.READ_STATE_UPDATED, sync);
     };
-  }, [client, enabledCategories, markRead, navigate, notify, socket, t]);
+  }, [client, enabledCategories, markRead, navigate, notify, role, socket, t]);
 
   return null;
 };

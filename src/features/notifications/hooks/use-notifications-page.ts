@@ -5,9 +5,12 @@ import { useMarkNotificationReadMutation } from './use-mark-notification-read-mu
 import { useUnreadNotificationsQuery } from './use-unread-notifications-query';
 import { useNotificationsQuery } from './use-notifications-query';
 import type { NotificationItem } from '../types/notification.dto';
+import { useAuth } from '@/features/auth/hooks/use-auth';
+import { getNotificationDestination } from '../utils/notification-registry';
 
 export const useNotificationsPage = () => {
   const navigate = useNavigate();
+  const { role } = useAuth();
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const query = useNotificationsQuery(unreadOnly);
@@ -18,13 +21,8 @@ export const useNotificationsPage = () => {
 
   const handleOpenNotification = (item: NotificationItem) => {
     if (!item.readAt) markRead.mutate(item.id);
-    if (!item.deepLink) return;
-    try {
-      const url = new URL(item.deepLink, window.location.origin);
-      if (url.origin === window.location.origin) navigate(`${url.pathname}${url.search}${url.hash}`);
-    } catch {
-      // Deep links are supplied by service events; ignore malformed or external URLs.
-    }
+    const destination = getNotificationDestination(item, role);
+    if (destination) navigate(destination);
   };
 
   return {
