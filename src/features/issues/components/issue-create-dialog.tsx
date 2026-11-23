@@ -40,10 +40,7 @@ export const IssueCreateDialog = ({ tenant, onClose, onCreated }: Props) => {
               options={state.options}
               disabled={contracts.isLoading || state.isSubmitting}
               error={form.formState.errors.roomId ? t('required') : undefined}
-              onSelectOption={(option) => {
-                field.onChange(String(option.value));
-                state.setSelectedRoom({ value: String(option.value), label: option.label });
-              }}
+              onSelectOption={(option) => field.onChange(String(option.value))}
             />
           )}
         />
@@ -56,27 +53,6 @@ export const IssueCreateDialog = ({ tenant, onClose, onCreated }: Props) => {
           </div>
         )}
         {!contracts.isLoading && !contracts.isError && !contracts.data?.items.length && <p>{t('noRooms')}</p>}
-        {contracts.data && (
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              type="button"
-              disabled={!contracts.data.pagination.hasPreviousPage}
-              onClick={() => state.setPageNo(state.pageNo - 1)}
-            >
-              {t('previous')}
-            </Button>
-            <span>{t('page', { page: state.pageNo, total: Math.max(1, contracts.data.pagination.totalPages) })}</span>
-            <Button
-              variant="outline"
-              type="button"
-              disabled={!contracts.data.pagination.hasNextPage}
-              onClick={() => state.setPageNo(state.pageNo + 1)}
-            >
-              {t('next')}
-            </Button>
-          </div>
-        )}
         <Input
           label={t('titleField')}
           maxLength={255}

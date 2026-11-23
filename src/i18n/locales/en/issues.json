@@ -9,9 +9,6 @@
   "loadError": "Couldn't load issues.",
   "retry": "Try again",
   "back": "Back to issues",
-  "previous": "Previous",
-  "next": "Next",
-  "page": "Page {{page}} / {{total}}",
   "room": "Room",
   "roomPlaceholder": "Choose a room",
   "roomsError": "Couldn't load rooms.",
@@ -43,7 +40,12 @@
   "photoError": "Couldn't load photo.",
   "uploading": "Uploading: {{progress}}%",
   "cancelUpload": "Cancel upload",
-  "statuses": { "open": "Open", "in_progress": "In progress", "resolved": "Resolved", "cancelled": "Cancelled" },
+  "statuses": {
+    "open": "Open",
+    "in_progress": "In progress",
+    "resolved": "Resolved",
+    "cancelled": "Cancelled"
+  },
   "categories": {
     "PLUMBING": "Plumbing",
     "ELECTRICAL": "Electrical",
@@ -52,7 +54,12 @@
     "SECURITY": "Security",
     "OTHER": "Other"
   },
-  "urgencies": { "LOW": "Low", "MEDIUM": "Medium", "HIGH": "High", "EMERGENCY": "Emergency" },
+  "urgencies": {
+    "LOW": "Low",
+    "MEDIUM": "Medium",
+    "HIGH": "High",
+    "EMERGENCY": "Emergency"
+  },
   "apiErrors": {
     "INVALID_ISSUE_TRANSITION": "The issue status has changed. Refresh and try again.",
     "CANNOT_CANCEL_RESOLVED_ISSUE": "A resolved issue cannot be cancelled."
@@ -61,5 +68,7 @@
     "ISSUE_CREATED": "Issue report created.",
     "ISSUE_UPDATED": "Issue updated.",
     "ISSUE_CANCELLED": "Issue report cancelled."
-  }
+  },
+  "filteredEmptyDescription": "No issues match the status filter.",
+  "clearFilter": "Clear filter"
 }

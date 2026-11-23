@@ -1,25 +1,32 @@
-import { useSearchParams } from 'react-router-dom';
+import { useDataTableState } from '@/hooks/use-data-table-state';
+import {
+  DEFAULT_TENANT_CONTRACT_COLUMN_PINNING,
+  DEFAULT_TENANT_CONTRACT_FILTERS,
+  REQUIRED_TENANT_CONTRACT_COLUMN_IDS,
+  TENANT_CONTRACT_COLUMN_IDS,
+} from '../constants/contract.constants';
 import { ContractStatus } from '../enums/contract-status.enum';
 import { useMyContractsQuery } from './use-my-contracts-query';
 
 export const useTenantContractList = () => {
-  const [params, setParams] = useSearchParams();
-  const rawPage = params.get('page') ?? '';
-  const parsedPage = /^\d+$/.test(rawPage) ? Number(rawPage) : 1;
-  const pageNo = Number.isSafeInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
-  const rawStatus = params.get('status') ?? '';
-  const status = Object.values(ContractStatus).find((value) => value === rawStatus);
-  const query = useMyContractsQuery({ pageNo, filter: status ? { status } : undefined });
-  const setPage = (page: number) => setParams((current) => {
-    const next = new URLSearchParams(current);
-    next.set('page', String(page));
-    return next;
+  const tableState = useDataTableState({
+    tableId: 'tenant-contracts',
+    columnIds: TENANT_CONTRACT_COLUMN_IDS,
+    allowedSorts: [],
+    defaultFilters: DEFAULT_TENANT_CONTRACT_FILTERS,
+    defaultColumnPinning: DEFAULT_TENANT_CONTRACT_COLUMN_PINNING,
+    requiredColumnIds: REQUIRED_TENANT_CONTRACT_COLUMN_IDS,
   });
-  const setStatus = (value: string) => setParams((current) => {
-    const next = new URLSearchParams(current);
-    if (value) next.set('status', value); else next.delete('status');
-    next.delete('page');
-    return next;
+  const status = Object.values(ContractStatus).find((value) => value === tableState.filters.status);
+  const query = useMyContractsQuery({
+    pageNo: tableState.pageNo,
+    pageSize: tableState.pageSize,
+    filter: status ? { status } : undefined,
   });
-  return { ...query, pageNo, status: status ?? '', setPage, setStatus };
+  return {
+    query,
+    tableState,
+    status: status ?? '',
+    setStatus: (value: string) => tableState.setFilter('status', value),
+  };
 };

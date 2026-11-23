@@ -12,9 +12,6 @@
     "tenantValue": "Người thuê: {{value}}",
     "phoneValue": "Số điện thoại: {{value}}",
     "descriptionValue": "Ghi chú: {{value}}",
-    "page": "Trang {{page}} / {{total}}",
-    "previous": "Trang trước",
-    "next": "Trang sau",
     "back": "Quay lại hợp đồng của tôi",
     "detailTitle": "Chi tiết hợp đồng",
     "detailUnavailable": "Không thể xem hợp đồng"

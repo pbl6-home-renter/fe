@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { ContractStatus } from '@/features/contracts/enums/contract-status.enum';
@@ -8,9 +7,8 @@ import { issueCreateSchema, type IssueCreateFormValues } from '../forms/issue-cr
 import { useIssueCreateMutation } from './use-issue-create-mutation';
 
 export const useIssueCreateForm = (tenant: boolean, onCreated: (id: string) => void) => {
-  const [pageNo, setPageNo] = useState(1);
-  const [selectedRoom, setSelectedRoom] = useState<{ value: string; label: string } | null>(null);
-  const params = { pageNo, filter: { status: ContractStatus.ACTIVE } };
+  // Room picker loads all active contracts at once (same as other option lists), so it needs no pagination.
+  const params = { pageSize: 100, filter: { status: ContractStatus.ACTIVE } };
   const landlordContracts = useContractsQuery(params, !tenant);
   const tenantContracts = useMyContractsQuery(params, { enabled: tenant });
   const contracts = tenant ? tenantContracts : landlordContracts;
@@ -23,7 +21,6 @@ export const useIssueCreateForm = (tenant: boolean, onCreated: (id: string) => v
     value: item.roomId,
     label: 'buildingName' in item ? `${item.buildingName} · ${item.roomName}` : item.roomName,
   }));
-  if (selectedRoom && !options.some((option) => option.value === selectedRoom.value)) options.unshift(selectedRoom);
   const onSubmit = form.handleSubmit((values) =>
     mutation.mutate(
       { ...values, description: values.description || null },
@@ -32,5 +29,5 @@ export const useIssueCreateForm = (tenant: boolean, onCreated: (id: string) => v
       },
     ),
   );
-  return { form, contracts, options, pageNo, setPageNo, setSelectedRoom, onSubmit, isSubmitting: mutation.isPending };
+  return { form, contracts, options, onSubmit, isSubmitting: mutation.isPending };
 };
