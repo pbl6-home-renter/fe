@@ -238,7 +238,8 @@
     "CONTRACT_MEMBER_ADDED": "Member added successfully",
     "CONTRACT_MEMBER_LEFT": "Member departure recorded successfully",
     "CONTRACT_CHECKOUT_COMPLETED": "Checkout completed successfully",
-    "ROOM_MARKED_READY": "Room marked ready successfully"
+    "ROOM_MARKED_READY": "Room marked ready successfully",
+    "CONTRACT_LOCK_DECISION_RECORDED": "Contract lock decision recorded successfully"
   },
   "apiErrors": {
     "CONTRACT_TEMPLATE_NOT_APPLIED": "Apply a template before generating the draft.",
@@ -255,6 +256,39 @@
     "CONTRACT_NOT_ACTIVE": "Actions can only be performed when contract is active",
     "SETTLEMENT_NOT_READY": "Checkout period invoice has not been issued yet",
     "CONTRACT_ID_REQUIRED": "Contract ID is required",
-    "INVALID_ROOM_TRANSITION": "Invalid room status transition"
+    "INVALID_ROOM_TRANSITION": "Invalid room status transition",
+    "CONTRACT_LOCK_DECISION_CONFLICT": "A different decision was already made for this contract",
+    "LANDLORD_LOCK_CYCLE_STALE": "This request has expired due to a newer lock cycle",
+    "LANDLORD_LOCK_CYCLE_NOT_AWAITING_DECISION": "This request has expired or is no longer awaiting decision",
+    "CONTRACT_LOCK_DECISION_INVALID": "Invalid contract lock decision",
+    "CONTRACT_RESTORE_ROOM_UNAVAILABLE": "Cannot restore contract because room is no longer available",
+    "LANDLORD_LOCK_CYCLE_NOT_FOUND": "Landlord lock cycle not found"
+  },
+  "lockDecision": {
+    "dialogTitle": "Handle suspended contracts",
+    "dialogDescription": "Your account has been unlocked. Please choose to restore or terminate each contract below.",
+    "contractList": "Contracts ({{count}})",
+    "loading": "Loading contract details...",
+    "loadError": "Could not load details for some contracts.",
+    "room": "Room {{roomNumber}}",
+    "representativeTenant": "Representative tenant: {{name}}",
+    "startDate": "Start date: {{date}}",
+    "restore": "Restore",
+    "terminate": "Terminate",
+    "restoring": "Restoring...",
+    "terminating": "Terminating...",
+    "restoredStatus": "Restored (Active)",
+    "terminatedStatus": "Terminated",
+    "handoverRequiredNote": "Room checkout and handover required",
+    "viewContract": "View contract",
+    "confirmTerminateTitle": "Confirm contract termination",
+    "confirmTerminateDesc": "Are you sure you want to terminate this contract? The contract will be terminated and checkout / room handover will be required.",
+    "confirmTerminateBtn": "Confirm termination",
+    "cancelBtn": "Close",
+    "bannerTitle": "Contract is suspended",
+    "bannerDescWaiting": "Your account has been unlocked. Please choose to restore or terminate this contract.",
+    "bannerDescSuspended": "This contract was suspended because the landlord account was locked during the resolution period.",
+    "restoreSuccess": "Contract restored successfully.",
+    "terminateSuccess": "Contract terminated."
   }
 }

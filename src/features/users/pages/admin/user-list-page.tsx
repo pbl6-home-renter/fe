@@ -6,7 +6,6 @@ import { PageHeader } from '@/components/ui/page-header';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/config/routes.config';
 import { useDisclosure } from '@/hooks/use-disclosure';
-import { UserDeleteDialog } from '../../components/admin/user-delete-dialog';
 import { UserDetailDialog } from '../../components/admin/user-detail-dialog';
 import { UserEditDialog } from '../../components/admin/user-edit-dialog';
 import { UserListTable } from '../../components/admin/user-list-table';
@@ -26,7 +25,6 @@ export const UserListPage = () => {
   const editDisclosure = useDisclosure(false);
   const lockDisclosure = useDisclosure(false);
   const unlockDisclosure = useDisclosure(false);
-  const deleteDisclosure = useDisclosure(false);
 
   const handleViewDetail = (user: UserListAdminItemDto) => {
     setActiveUser(user);
@@ -48,11 +46,6 @@ export const UserListPage = () => {
     unlockDisclosure.open();
   };
 
-  const handleDelete = (user: UserListAdminItemDto) => {
-    setActiveUser(user);
-    deleteDisclosure.open();
-  };
-
   return (
     <div className="space-y-6">
       <PageHeader
@@ -71,7 +64,6 @@ export const UserListPage = () => {
         onEdit={handleEdit}
         onLock={handleLock}
         onUnlock={handleUnlock}
-        onDelete={handleDelete}
       />
 
       <UserDetailDialog
@@ -81,7 +73,6 @@ export const UserListPage = () => {
         onEdit={handleEdit}
         onLock={handleLock}
         onUnlock={handleUnlock}
-        onDelete={handleDelete}
         onOpenFullPage={(user) => navigate(ROUTES.ADMIN.USER_DETAIL(user.id))}
       />
 
@@ -90,8 +81,6 @@ export const UserListPage = () => {
       <UserLockDialog open={lockDisclosure.isOpen} onClose={lockDisclosure.close} user={activeUser} />
 
       <UserUnlockDialog open={unlockDisclosure.isOpen} onClose={unlockDisclosure.close} user={activeUser} />
-
-      <UserDeleteDialog open={deleteDisclosure.isOpen} onClose={deleteDisclosure.close} user={activeUser} />
     </div>
   );
 };

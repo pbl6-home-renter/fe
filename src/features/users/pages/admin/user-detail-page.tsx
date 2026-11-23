@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Lock, Pencil, Trash2, Unlock } from 'lucide-react';
+import { ArrowLeft, Lock, Pencil, Unlock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BackLink } from '@/components/ui/back-link';
 import { Skeleton } from '@/components/feedback/skeleton';
@@ -9,7 +9,6 @@ import { ROUTES } from '@/config/routes.config';
 import { useDisclosure } from '@/hooks/use-disclosure';
 import { UserStatus } from '@/types/user';
 import { UserActivityCard } from '../../components/admin/user-activity-card';
-import { UserDeleteDialog } from '../../components/admin/user-delete-dialog';
 import { UserEditDialog } from '../../components/admin/user-edit-dialog';
 import { UserInfoCard } from '../../components/admin/user-info-card';
 import { UserLockDialog } from '../../components/admin/user-lock-dialog';
@@ -27,7 +26,6 @@ export const UserDetailPage = () => {
   const editDisclosure = useDisclosure(false);
   const lockDisclosure = useDisclosure(false);
   const unlockDisclosure = useDisclosure(false);
-  const deleteDisclosure = useDisclosure(false);
 
   if (query.isLoading) {
     return (
@@ -93,11 +91,6 @@ export const UserDetailPage = () => {
               <span>{t('actions.lock')}</span>
             </Button>
           )}
-
-          <Button variant="danger" size="sm" onClick={deleteDisclosure.open} className="gap-1.5">
-            <Trash2 className="h-3.5 w-3.5" />
-            <span>{t('actions.delete')}</span>
-          </Button>
         </div>
       </div>
 
@@ -111,13 +104,6 @@ export const UserDetailPage = () => {
       <UserLockDialog open={lockDisclosure.isOpen} onClose={lockDisclosure.close} user={user} />
 
       <UserUnlockDialog open={unlockDisclosure.isOpen} onClose={unlockDisclosure.close} user={user} />
-
-      <UserDeleteDialog
-        open={deleteDisclosure.isOpen}
-        onClose={deleteDisclosure.close}
-        user={user}
-        onSuccess={() => navigate(ROUTES.ADMIN.USERS)}
-      />
     </div>
   );
 };

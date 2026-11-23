@@ -93,3 +93,18 @@ export interface ContractTemplateDetailDto {
 export interface ContractApplyTemplateRequestDto {
   templateKey: string;
 }
+
+export type ContractLockDecisionAction = 'restore' | 'terminate';
+
+export interface ContractLockDecisionRequestDto {
+  action: ContractLockDecisionAction;
+}
+
+export interface ContractLockDecisionResponseDto {
+  contractId: string;
+  lockCycleId: string;
+  action: ContractLockDecisionAction;
+  status: ContractStatus;
+  decidedAt: string;
+  handoverRequired: boolean;
+}
