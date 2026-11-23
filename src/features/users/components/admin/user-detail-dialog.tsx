@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ExternalLink, Lock, Pencil, Trash2, Unlock } from 'lucide-react';
+import { ExternalLink, Lock, Pencil, Unlock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
 import { ErrorState } from '@/components/feedback/error-state';
@@ -17,7 +17,6 @@ export interface UserDetailDialogProps {
   onEdit: (user: UserListAdminItemDto) => void;
   onLock: (user: UserListAdminItemDto) => void;
   onUnlock: (user: UserListAdminItemDto) => void;
-  onDelete: (user: UserListAdminItemDto) => void;
   onOpenFullPage: (user: UserListAdminItemDto) => void;
 }
 
@@ -28,7 +27,6 @@ export const UserDetailDialog = ({
   onEdit,
   onLock,
   onUnlock,
-  onDelete,
   onOpenFullPage,
 }: UserDetailDialogProps) => {
   const { t } = useTranslation('users');
@@ -107,19 +105,6 @@ export const UserDetailDialog = ({
                 <span>{t('actions.lock')}</span>
               </Button>
             )}
-
-            <Button
-              variant="danger"
-              size="sm"
-              onClick={() => {
-                onClose();
-                onDelete(targetUser);
-              }}
-              className="gap-1.5"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-              <span>{t('actions.delete')}</span>
-            </Button>
 
             <Button variant="outline" size="sm" onClick={onClose}>
               {t('actions.close')}

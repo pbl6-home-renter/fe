@@ -34,7 +34,6 @@ export interface UserListTableProps {
   onEdit: (user: UserListAdminItemDto) => void;
   onLock: (user: UserListAdminItemDto) => void;
   onUnlock: (user: UserListAdminItemDto) => void;
-  onDelete: (user: UserListAdminItemDto) => void;
 }
 
 export const UserListTable = ({
@@ -60,7 +59,6 @@ export const UserListTable = ({
   onEdit,
   onLock,
   onUnlock,
-  onDelete,
 }: UserListTableProps) => {
   const { t } = useTranslation('users');
 
@@ -69,7 +67,6 @@ export const UserListTable = ({
     onEdit,
     onLock,
     onUnlock,
-    onDelete,
   });
 
   const table = useDataTable({

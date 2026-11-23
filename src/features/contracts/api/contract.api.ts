@@ -7,6 +7,8 @@ import type {
   ContractDetailDto,
   ContractFilter,
   ContractListItemDto,
+  ContractLockDecisionRequestDto,
+  ContractLockDecisionResponseDto,
   MyContractFilter,
   MyContractListItemDto,
   ContractTemplateDetailDto,
@@ -49,8 +51,7 @@ export const contractApi = {
   applyTemplate: (id: string, payload: ContractApplyTemplateRequestDto): Promise<ContractDetailDto> =>
     http.put<ContractDetailDto>(`/contracts/${id}/apply-template`, payload),
 
-  generateDraftDocument: (id: string): Promise<Blob> =>
-    http.postBlob(`/contracts/${id}/generate-draft-document`),
+  generateDraftDocument: (id: string): Promise<Blob> => http.postBlob(`/contracts/${id}/generate-draft-document`),
 
   getContractMembers: (contractId: string, params?: ListParams): Promise<Paginated<ContractMemberListItemDto>> =>
     http.getPage<ContractMemberListItemDto, ContractMemberListFilter>('/contract-members', {
@@ -72,4 +73,11 @@ export const contractApi = {
     payload: CompleteContractCheckoutRequestDto,
   ): Promise<ContractCheckoutCompleteResponseDto> =>
     http.post<ContractCheckoutCompleteResponseDto>(`/contracts/${contractId}/complete-checkout`, payload),
+
+  decideLockCycle: (
+    contractId: string,
+    lockCycleId: string,
+    payload: ContractLockDecisionRequestDto,
+  ): Promise<ContractLockDecisionResponseDto> =>
+    http.put<ContractLockDecisionResponseDto>(`/contracts/${contractId}/lock-cycles/${lockCycleId}/decision`, payload),
 };

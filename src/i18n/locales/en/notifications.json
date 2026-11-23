@@ -26,6 +26,24 @@
       "body": "{{actorName}} withdrew the roommate invitation sent to you."
     }
   },
+  "contractLockEvents": {
+    "decisionRequired": {
+      "title": "Action required on suspended contracts",
+      "body": "Your account has been unlocked. Please choose to restore or terminate suspended contracts."
+    },
+    "restored": {
+      "title": "Contract restored",
+      "body": "The lease contract has been restored to active status."
+    },
+    "terminated": {
+      "title": "Contract terminated",
+      "body": "The lease contract has been terminated following suspension."
+    },
+    "suspended": {
+      "title": "Contract suspended",
+      "body": "The contract has been suspended due to landlord account lock."
+    }
+  },
   "preferences": {
     "button": "Notification settings",
     "title": "Notification settings",

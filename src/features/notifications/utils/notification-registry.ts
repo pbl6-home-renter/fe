@@ -40,6 +40,31 @@ const matchRequestParams = (data: NotificationData, t: TFunction<'notifications'
   actorName: readString(data, 'actorDisplayName') ?? t('matchRequestEvents.unknownActor'),
 });
 
+const contractLockDecisionRoute = (data: NotificationData) => {
+  const lockCycleId = readString(data, 'lockCycleId');
+  const rawContractIds = data.contractIds;
+  const contractIds = Array.isArray(rawContractIds)
+    ? rawContractIds.filter((id): id is string => typeof id === 'string').join(',')
+    : readString(data, 'contractIds');
+
+  const searchParams = new URLSearchParams();
+  if (lockCycleId) searchParams.set('lockCycleId', lockCycleId);
+  if (contractIds) searchParams.set('contractIds', contractIds);
+  const qs = searchParams.toString();
+  return qs ? `${ROUTES.LANDLORD.CONTRACTS}?${qs}` : ROUTES.LANDLORD.CONTRACTS;
+};
+
+const contractSingleRoute = (data: NotificationData) => {
+  const contractId = readString(data, 'contractId');
+  if (contractId) return ROUTES.LANDLORD.CONTRACT_DETAIL(contractId);
+  const rawContractIds = data.contractIds;
+  if (Array.isArray(rawContractIds) && rawContractIds.length > 0) {
+    const firstId = String(rawContractIds[0]);
+    if (firstId) return ROUTES.LANDLORD.CONTRACT_DETAIL(firstId);
+  }
+  return ROUTES.LANDLORD.CONTRACTS;
+};
+
 /**
  * One entry per `data.messageKey` (see community-service `docs/notifications.md`).
  * Adding a notification = add an entry here + its `vi`/`en` keys in `notifications.json`.
@@ -84,12 +109,48 @@ export const NOTIFICATION_REGISTRY: Record<string, NotificationDefinition> = {
     params: matchRequestParams,
     route: matchRequestRoute,
   },
+  'contract_lock.decision_required': {
+    titleKey: 'contractLockEvents.decisionRequired.title',
+    bodyKey: 'contractLockEvents.decisionRequired.body',
+    route: contractLockDecisionRoute,
+  },
+  'contract_lock.restore': {
+    titleKey: 'contractLockEvents.restored.title',
+    bodyKey: 'contractLockEvents.restored.body',
+    route: contractSingleRoute,
+  },
+  'contract_lock.terminate': {
+    titleKey: 'contractLockEvents.terminated.title',
+    bodyKey: 'contractLockEvents.terminated.body',
+    route: contractSingleRoute,
+  },
+  'contract_lock.suspended': {
+    titleKey: 'contractLockEvents.suspended.title',
+    bodyKey: 'contractLockEvents.suspended.body',
+    route: contractSingleRoute,
+  },
 };
 
 const resolveDefinition = (notification: RenderableNotification) => {
   const data = notification.data ?? {};
   const messageKey = readString(data, 'messageKey');
-  return messageKey ? NOTIFICATION_REGISTRY[messageKey] : undefined;
+  if (messageKey && NOTIFICATION_REGISTRY[messageKey]) {
+    return NOTIFICATION_REGISTRY[messageKey];
+  }
+  const action = readString(data, 'action');
+  if (action === 'decision_required' || notification.title === 'CONTRACT_LOCK_DECISION_REQUIRED_TITLE') {
+    return NOTIFICATION_REGISTRY['contract_lock.decision_required'];
+  }
+  if (action === 'restore' || notification.title === 'CONTRACT_RESTORED_TITLE') {
+    return NOTIFICATION_REGISTRY['contract_lock.restore'];
+  }
+  if (action === 'terminate' || notification.title === 'CONTRACT_TERMINATED_TITLE') {
+    return NOTIFICATION_REGISTRY['contract_lock.terminate'];
+  }
+  if (action === 'suspended' || notification.title === 'CONTRACT_SUSPENDED_TITLE') {
+    return NOTIFICATION_REGISTRY['contract_lock.suspended'];
+  }
+  return undefined;
 };
 
 const toInterpolationValues = (data: NotificationData) =>

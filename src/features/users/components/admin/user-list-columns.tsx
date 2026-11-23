@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Eye, Lock, MoreHorizontal, Pencil, Trash2, Unlock } from 'lucide-react';
+import { Eye, Lock, MoreHorizontal, Pencil, Unlock } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
 import { UserAvatar } from '../user-avatar';
 import { IconButton } from '@/components/ui/icon-button';
@@ -20,10 +20,9 @@ export interface UseUserListColumnsOptions {
   onEdit: (user: UserListAdminItemDto) => void;
   onLock: (user: UserListAdminItemDto) => void;
   onUnlock: (user: UserListAdminItemDto) => void;
-  onDelete: (user: UserListAdminItemDto) => void;
 }
 
-export const useUserListColumns = ({ onViewDetail, onEdit, onLock, onUnlock, onDelete }: UseUserListColumnsOptions) => {
+export const useUserListColumns = ({ onViewDetail, onEdit, onLock, onUnlock }: UseUserListColumnsOptions) => {
   const { t } = useTranslation('users');
 
   return useMemo<ColumnDef<UserListAdminItemDto, unknown>[]>(
@@ -132,15 +131,6 @@ export const useUserListColumns = ({ onViewDetail, onEdit, onLock, onUnlock, onD
                       <span>{t('actions.lock')}</span>
                     </DropdownMenuItem>
                   )}
-
-                  <DropdownMenuItem
-                    onSelect={() => onDelete(user)}
-                    onClick={() => onDelete(user)}
-                    className="gap-2 text-rentify-error focus:text-rentify-error"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    <span>{t('actions.delete')}</span>
-                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -148,6 +138,6 @@ export const useUserListColumns = ({ onViewDetail, onEdit, onLock, onUnlock, onD
         },
       },
     ],
-    [t, onViewDetail, onEdit, onLock, onUnlock, onDelete],
+    [t, onViewDetail, onEdit, onLock, onUnlock],
   );
 };
