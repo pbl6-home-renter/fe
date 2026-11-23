@@ -86,15 +86,9 @@ export const NOTIFICATION_REGISTRY: Record<string, NotificationDefinition> = {
   },
 };
 
-/**
- * Older notifications were stored with a code as `title` (e.g. `USER_ACCOUNT_LOCKED_TITLE`) and no
- * `messageKey`. Map such title codes to a registry key so history renders translated text.
- */
-export const LEGACY_NOTIFICATION_CODES: Record<string, string> = {};
-
 const resolveDefinition = (notification: RenderableNotification) => {
   const data = notification.data ?? {};
-  const messageKey = readString(data, 'messageKey') ?? LEGACY_NOTIFICATION_CODES[notification.title];
+  const messageKey = readString(data, 'messageKey');
   return messageKey ? NOTIFICATION_REGISTRY[messageKey] : undefined;
 };
 
