@@ -1,3 +1,4 @@
+import type { ColumnPinningState } from '@tanstack/react-table';
 import { ContractStatus } from '../enums/contract-status.enum';
 import type { ListParams } from '@/types/api';
 import type { ContractFilter, MyContractFilter } from '../types/contract.dto';
@@ -55,3 +56,11 @@ export const CONTRACT_STATUS_CONFIG: Record<
     pillClass: 'bg-rentify-error/10 text-rentify-error border-rentify-error/20',
   },
 };
+
+export const TENANT_CONTRACT_COLUMN_IDS = ['contractCode', 'room', 'period', 'rentPrice', 'status'];
+
+export const REQUIRED_TENANT_CONTRACT_COLUMN_IDS = ['contractCode'];
+
+export const DEFAULT_TENANT_CONTRACT_COLUMN_PINNING: ColumnPinningState = { left: ['contractCode'], right: [] };
+
+export const DEFAULT_TENANT_CONTRACT_FILTERS = { status: '' };

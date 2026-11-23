@@ -12,9 +12,6 @@
     "tenantValue": "Tenant: {{value}}",
     "phoneValue": "Phone: {{value}}",
     "descriptionValue": "Note: {{value}}",
-    "page": "Page {{page}} / {{total}}",
-    "previous": "Previous",
-    "next": "Next",
     "back": "Back to my contracts",
     "detailTitle": "Contract details",
     "detailUnavailable": "Unable to view this contract"

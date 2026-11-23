@@ -9,9 +9,6 @@
   "loadError": "Không thể tải sự cố.",
   "retry": "Thử lại",
   "back": "Quay lại danh sách",
-  "previous": "Trang trước",
-  "next": "Trang sau",
-  "page": "Trang {{page}} / {{total}}",
   "room": "Phòng",
   "roomPlaceholder": "Chọn phòng",
   "roomsError": "Không thể tải danh sách phòng.",
@@ -43,7 +40,12 @@
   "photoError": "Không thể tải ảnh.",
   "uploading": "Đang tải ảnh: {{progress}}%",
   "cancelUpload": "Hủy tải ảnh",
-  "statuses": { "open": "Mới", "in_progress": "Đang xử lý", "resolved": "Đã xử lý", "cancelled": "Đã hủy" },
+  "statuses": {
+    "open": "Mới",
+    "in_progress": "Đang xử lý",
+    "resolved": "Đã xử lý",
+    "cancelled": "Đã hủy"
+  },
   "categories": {
     "PLUMBING": "Nước",
     "ELECTRICAL": "Điện",
@@ -52,7 +54,12 @@
     "SECURITY": "An ninh",
     "OTHER": "Khác"
   },
-  "urgencies": { "LOW": "Thấp", "MEDIUM": "Bình thường", "HIGH": "Cao", "EMERGENCY": "Khẩn cấp" },
+  "urgencies": {
+    "LOW": "Thấp",
+    "MEDIUM": "Bình thường",
+    "HIGH": "Cao",
+    "EMERGENCY": "Khẩn cấp"
+  },
   "apiErrors": {
     "INVALID_ISSUE_TRANSITION": "Trạng thái sự cố đã thay đổi. Vui lòng tải lại và thử lại.",
     "CANNOT_CANCEL_RESOLVED_ISSUE": "Không thể hủy sự cố đã xử lý."
@@ -61,5 +68,7 @@
     "ISSUE_CREATED": "Đã tạo báo cáo sự cố.",
     "ISSUE_UPDATED": "Đã cập nhật sự cố.",
     "ISSUE_CANCELLED": "Đã hủy báo cáo sự cố."
-  }
+  },
+  "filteredEmptyDescription": "Không có sự cố nào khớp với bộ lọc trạng thái.",
+  "clearFilter": "Xóa bộ lọc"
 }
