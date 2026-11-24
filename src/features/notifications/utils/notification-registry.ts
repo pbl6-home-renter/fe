@@ -70,6 +70,14 @@ const contractSingleRoute = (data: NotificationData) => {
  * Adding a notification = add an entry here + its `vi`/`en` keys in `notifications.json`.
  */
 export const NOTIFICATION_REGISTRY: Record<string, NotificationDefinition> = {
+  'user.locked': {
+    titleKey: 'userEvents.locked.title',
+    bodyKey: 'userEvents.locked.body',
+  },
+  'user.unlocked': {
+    titleKey: 'userEvents.unlocked.title',
+    bodyKey: 'userEvents.unlocked.body',
+  },
   'issue.created': {
     titleKey: 'issueEvents.created.title',
     bodyKey: 'issueEvents.created.body',
