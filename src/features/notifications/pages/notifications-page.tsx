@@ -23,10 +23,12 @@ export const NotificationsPage = () => {
         description={t('description')}
         actions={
           <>
-            <Button variant="outline" size="md" onClick={page.onOpenPreferences}>
-              <Settings2 className="h-4 w-4" aria-hidden="true" />
-              {t('preferences.button')}
-            </Button>
+            {!page.isLocked && (
+              <Button variant="outline" size="md" onClick={page.onOpenPreferences}>
+                <Settings2 className="h-4 w-4" aria-hidden="true" />
+                {t('preferences.button')}
+              </Button>
+            )}
             <Button
               variant="outline"
               size="md"

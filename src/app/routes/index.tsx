@@ -14,12 +14,22 @@ import { landlordRoutes } from './roles/landlord.routes';
 import { tenantRoutes } from './roles/tenant.routes';
 import { adminRoutes } from './roles/admin.routes';
 import { errorRoutes } from './roles/error.routes';
+import { NotificationsPage } from '@/features/notifications/pages/notifications-page';
 
 export const routes: RouteObject[] = [
   {
     element: <AppRouterLayout />,
     children: [
       ...authRoutes,
+      {
+        element: <ProtectedRoute allowLocked />,
+        children: [
+          {
+            element: <DashboardLayout />,
+            children: [{ path: ROUTES.NOTIFICATIONS, element: <NotificationsPage /> }],
+          },
+        ],
+      },
       {
         path: ROUTES.ROOMS_SEARCH,
         element: <RoomSearchDispatcher />,

@@ -7,10 +7,11 @@ import { useNotificationsQuery } from './use-notifications-query';
 import type { NotificationItem } from '../types/notification.dto';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { getNotificationDestination } from '../utils/notification-registry';
+import { UserStatus } from '@/types/user';
 
 export const useNotificationsPage = () => {
   const navigate = useNavigate();
-  const { role } = useAuth();
+  const { role, user } = useAuth();
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const query = useNotificationsQuery(unreadOnly);
@@ -28,6 +29,7 @@ export const useNotificationsPage = () => {
   return {
     unreadOnly,
     preferencesOpen,
+    isLocked: user?.status === UserStatus.LOCKED,
     items,
     query,
     hasUnread: unreadIndicator.data ?? false,

@@ -30,11 +30,12 @@ export const useSocketSession = (): SocketSession => {
   const accessToken = useAuthStore((state) => state.accessToken);
   const userId = useAuthStore((state) => state.user?.id);
   const userStatus = useAuthStore((state) => state.user?.status);
+  const canConnect = userStatus === UserStatus.ACTIVE || userStatus === UserStatus.LOCKED;
   const [session, setSession] = useState<{ token: string; socket: Socket } | null>(null);
   const [statusSession, setStatusSession] = useState<{ token: string; status: SocketConnectionStatus } | null>(null);
 
   useEffect(() => {
-    if (!accessToken || !userId || userStatus !== UserStatus.ACTIVE) {
+    if (!accessToken || !userId || !canConnect) {
       return;
     }
 
@@ -90,11 +91,11 @@ export const useSocketSession = (): SocketSession => {
       if (refreshTimer !== null) window.clearTimeout(refreshTimer);
       connection.disconnect();
     };
-  }, [accessToken, userId, userStatus]);
+  }, [accessToken, userId, canConnect]);
 
   const socket =
-    accessToken && userStatus === UserStatus.ACTIVE && session?.token === accessToken ? session.socket : null;
-  const isSessionActive = Boolean(accessToken && userStatus === UserStatus.ACTIVE);
+    accessToken && canConnect && session?.token === accessToken ? session.socket : null;
+  const isSessionActive = Boolean(accessToken && canConnect);
   const status = !isSessionActive ? 'idle' : statusSession?.token === accessToken ? statusSession.status : 'connecting';
   return { socket, status };
 };

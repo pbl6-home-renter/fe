@@ -7,7 +7,7 @@ import { AUTH_QUERY_KEYS } from '../constants/auth.constants';
 /**
  * Loads `/me` into the auth store when only the tokens were persisted, or when the
  * stored user came from the login response, which omits `status` (the realtime
- * socket only connects for an `active` user).
+ * socket needs the status to distinguish active and notification-only sessions).
  */
 export const useCurrentUserQuery = () => {
   const queryClient = useQueryClient();

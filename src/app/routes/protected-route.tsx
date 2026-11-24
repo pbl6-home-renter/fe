@@ -10,12 +10,14 @@ import { UserStatus } from '@/types/user';
 export interface ProtectedRouteProps {
   allowedRoles?: Role[];
   roles?: Role[];
+  allowLocked?: boolean;
   children?: ReactNode;
 }
 
 export const ProtectedRoute = ({
   allowedRoles,
   roles,
+  allowLocked = false,
   children,
 }: ProtectedRouteProps) => {
   const { t } = useTranslation('common');
@@ -37,7 +39,7 @@ export const ProtectedRoute = ({
     return <Navigate to={`${ROUTES.LOGIN}?redirect=${returnUrl}`} state={{ from: location }} replace />;
   }
 
-  if (user.status === UserStatus.LOCKED) {
+  if (user.status === UserStatus.LOCKED && !allowLocked) {
     return <Navigate to={ROUTES.FORBIDDEN} replace />;
   }
 

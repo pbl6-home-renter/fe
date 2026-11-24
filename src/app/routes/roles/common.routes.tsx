@@ -4,7 +4,6 @@ import { DesignSystemShowcasePage } from '@/app/pages/design-system-showcase-pag
 import { ROUTES } from '@/config/routes.config';
 import { ChatRoute } from '@/app/routes/chat-route';
 import { InvoiceDetailRoute, InvoiceListRoute } from '@/app/routes/invoice-route';
-import { NotificationsPage } from '@/features/notifications/pages/notifications-page';
 import { ProfilePage } from '@/features/users/pages/profile-page';
 import { ContractDetailRoute, ContractListRoute } from '@/app/routes/contract-route';
 import { SecuritySettingsPage } from '@/features/auth/pages/security-settings-page';
@@ -46,10 +45,6 @@ export const commonRoutes: RouteObject[] = [
   {
     path: ROUTES.CHAT_DETAIL(':id'),
     element: <ChatRoute />,
-  },
-  {
-    path: ROUTES.NOTIFICATIONS,
-    element: <NotificationsPage />,
   },
   {
     path: ROUTES.PROFILE,
