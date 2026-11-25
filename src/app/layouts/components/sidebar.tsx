@@ -97,8 +97,7 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
         data-open={open}
         className={cn(
           'fixed inset-y-0 left-0 z-50 w-64 bg-rentify-surface border-r border-rentify-divider',
-          'ui-mobile-drawer flex flex-col md:static',
-          (role === Role.TENANT || role === Role.LANDLORD) && 'md:hidden',
+          'ui-mobile-drawer flex flex-col md:hidden',
           open && 'shadow-2xl',
         )}
       >

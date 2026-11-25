@@ -1,6 +1,6 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Menu, Bell, Globe, Search, ChevronRight } from 'lucide-react';
+import { Menu, Bell, Globe, Search } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Role } from '@/types/role';
 import { ROUTES } from '@/config/routes.config';
@@ -11,7 +11,7 @@ import { RentifyLogo } from '@/components/ui/rentify-logo';
 import { UserMenuDropdown } from './user-menu-dropdown';
 import { TenantHeaderNav } from './tenant-header-nav';
 import { LandlordHeaderNav } from './landlord-header-nav';
-import { getNavigationByRole, getPortalMetaByRole } from '@/config/navigation.config';
+import { AdminHeaderNav } from './admin-header-nav';
 import { useUnreadNotificationsQuery } from '@/features/notifications/hooks/use-unread-notifications-query';
 import { useUnreadSummaryQuery } from '@/features/chat/hooks/use-chat-queries';
 
@@ -24,13 +24,10 @@ export interface HeaderProps {
 export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
   const { role } = useAuth();
   const { t, i18n } = useTranslation();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const isTenant = role === Role.TENANT;
   const isLandlord = role === Role.LANDLORD;
-  const portalMeta = getPortalMetaByRole(role);
-  const menuItems = getNavigationByRole(role);
   const hasUnreadNotifications = useUnreadNotificationsQuery().data ?? false;
   const unreadChat = useUnreadSummaryQuery(isTenant || isLandlord);
 
@@ -40,19 +37,6 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
     const nextLang = currentLanguage === 'vi' ? 'en' : 'vi';
     changeLanguage(nextLang);
   };
-
-  // Determine breadcrumb title for Admin
-  const matchedMenuItem = menuItems.find((item) => {
-    if (item.exact) return item.path === location.pathname;
-    return location.pathname.startsWith(item.path);
-  });
-
-  const pathSegments = location.pathname.split('/').filter(Boolean);
-  const breadcrumbTitle = matchedMenuItem
-    ? t(matchedMenuItem.titleKey)
-    : pathSegments.length > 0
-      ? pathSegments[pathSegments.length - 1].toUpperCase()
-      : t('navigation.overview');
 
   const unreadChatCount = unreadChat.data?.totalUnreadCount ?? 0;
 
@@ -95,14 +79,15 @@ export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: Head
               <LandlordHeaderNav unreadChatCount={unreadChatCount} />
             </>
           ) : (
-            /* Breadcrumbs for Admin */
-            <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs sm:text-sm">
-              <span className="text-rentify-text-secondary font-medium hidden sm:inline">
-                {t(portalMeta.portalNameKey, portalMeta.fallbackPortalName)}
-              </span>
-              <ChevronRight className="w-3.5 h-3.5 text-rentify-neutral hidden sm:inline" />
-              <span className="font-bold text-rentify-text-primary tracking-tight">{breadcrumbTitle}</span>
-            </nav>
+            <>
+              <Link
+                to={ROUTES.ADMIN.DASHBOARD}
+                className="flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-rentify-primary rounded-lg shrink-0"
+              >
+                <RentifyLogo role={Role.ADMIN} size="md" />
+              </Link>
+              <AdminHeaderNav />
+            </>
           )}
         </div>
 

@@ -3,6 +3,7 @@ import { ProtectedRoute } from '../protected-route';
 import { DashboardOverview } from '@/app/pages/dashboard-overview';
 import { Role } from '@/types/role';
 import { ROUTES } from '@/config/routes.config';
+import { AdminDashboardPage } from '@/features/dashboard/pages/admin/admin-dashboard-page';
 import { BuildingApprovalListPage } from '@/features/buildings/pages/admin/building-approval-list-page';
 import { BuildingApprovalDetailPage } from '@/features/buildings/pages/admin/building-approval-detail-page';
 import { UserListPage } from '@/features/users/pages/admin/user-list-page';
@@ -14,7 +15,7 @@ export const adminRoutes: RouteObject[] = [
     path: ROUTES.ADMIN.DASHBOARD,
     element: (
       <ProtectedRoute allowedRoles={[Role.ADMIN]}>
-        <DashboardOverview titleKey="routes.admin.systemStatsTitle" descKey="routes.admin.systemStatsDesc" />
+        <AdminDashboardPage />
       </ProtectedRoute>
     ),
   },
