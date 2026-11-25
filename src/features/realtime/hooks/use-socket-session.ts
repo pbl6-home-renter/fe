@@ -4,7 +4,6 @@ import { SOCKET_PATH } from '@/config/routes.config';
 import { API_BASE_URL } from '@/lib/api/client';
 import { refreshSession } from '@/lib/api/refresh-token';
 import { useAuthStore } from '@/stores/auth-store';
-import { UserStatus } from '@/types/user';
 import type { SocketConnectionStatus, SocketSession } from '../context/socket-session.context';
 import { REALTIME_SOCKET_EVENTS } from '../constants/realtime.constants';
 import { logRealtimeDebug } from '../utils/realtime-debug';
@@ -29,13 +28,11 @@ const tokenExpiresAt = (token: string): number | null => {
 export const useSocketSession = (): SocketSession => {
   const accessToken = useAuthStore((state) => state.accessToken);
   const userId = useAuthStore((state) => state.user?.id);
-  const userStatus = useAuthStore((state) => state.user?.status);
-  const canConnect = userStatus === UserStatus.ACTIVE || userStatus === UserStatus.LOCKED;
   const [session, setSession] = useState<{ token: string; socket: Socket } | null>(null);
   const [statusSession, setStatusSession] = useState<{ token: string; status: SocketConnectionStatus } | null>(null);
 
   useEffect(() => {
-    if (!accessToken || !userId || !canConnect) {
+    if (!accessToken || !userId) {
       return;
     }
 
@@ -91,11 +88,10 @@ export const useSocketSession = (): SocketSession => {
       if (refreshTimer !== null) window.clearTimeout(refreshTimer);
       connection.disconnect();
     };
-  }, [accessToken, userId, canConnect]);
+  }, [accessToken, userId]);
 
-  const socket =
-    accessToken && canConnect && session?.token === accessToken ? session.socket : null;
-  const isSessionActive = Boolean(accessToken && canConnect);
+  const socket = accessToken && userId && session?.token === accessToken ? session.socket : null;
+  const isSessionActive = Boolean(accessToken && userId);
   const status = !isSessionActive ? 'idle' : statusSession?.token === accessToken ? statusSession.status : 'connecting';
   return { socket, status };
 };
