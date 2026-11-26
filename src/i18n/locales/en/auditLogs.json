@@ -1,0 +1,76 @@
+{
+  "list": {
+    "title": "Admin audit logs",
+    "subtitle": "Track account locks, user updates, and building review actions across the system",
+    "totalBadge": "{{count}} logs",
+    "viewDetail": "View audit log details",
+    "refresh": "Refresh"
+  },
+  "columns": {
+    "createdAt": "Timestamp",
+    "actor": "Actor",
+    "action": "Action",
+    "entity": "Target",
+    "actions": "Details"
+  },
+  "actor": {
+    "deleted": "Deleted account"
+  },
+  "actions": {
+    "user": {
+      "locked": "Lock account",
+      "unlocked": "Unlock account",
+      "updated": "Update account",
+      "deleted": "Delete account"
+    },
+    "building": {
+      "approved": "Approve building",
+      "rejected": "Reject building"
+    }
+  },
+  "entityTypes": {
+    "user": "User",
+    "building": "Building"
+  },
+  "filters": {
+    "actionLabel": "Action",
+    "allActions": "All actions",
+    "entityTypeLabel": "Target type",
+    "allEntityTypes": "All targets",
+    "fromDateLabel": "From date",
+    "toDateLabel": "To date",
+    "reset": "Clear filters",
+    "dateRangeError": "Start date cannot be after end date"
+  },
+  "empty": {
+    "title": "No audit logs yet",
+    "description": "Administrative actions such as locking accounts or reviewing buildings will appear here.",
+    "filteredTitle": "No matching audit logs",
+    "filteredDescription": "Try adjusting your filters or date range to see more results."
+  },
+  "detail": {
+    "title": "Audit log details",
+    "close": "Close",
+    "errorTitle": "Unable to load audit log details",
+    "errorDescription": "Something went wrong while fetching this record. Please try again.",
+    "retry": "Retry",
+    "metadataTitle": "Additional details",
+    "noMetadata": "No additional details recorded for this action."
+  },
+  "metadata": {
+    "changedFields": "Updated",
+    "lockReason": "Lock reason",
+    "note": "Note",
+    "fields": {
+      "name": "Full name",
+      "phone": "Phone number",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "avatarUrl": "Avatar"
+    }
+  },
+  "apiErrors": {
+    "AUDIT_LOG_NOT_FOUND": "Audit log record not found."
+  }
+}

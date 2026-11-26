@@ -17,6 +17,7 @@ const API_CODE_NAMESPACES = [
   'billing',
   'invoices',
   'issues',
+  'auditLogs',
   'common',
 ] as const;
 
