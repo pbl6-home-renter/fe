@@ -15,6 +15,7 @@ import viInvoices from '@/i18n/locales/vi/invoices.json';
 import viIssues from '@/i18n/locales/vi/issues.json';
 import viRoommates from '@/i18n/locales/vi/roommates.json';
 import viTenants from '@/i18n/locales/vi/tenants.json';
+import viAuditLogs from '@/i18n/locales/vi/auditLogs.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -36,6 +37,7 @@ declare module 'i18next' {
       issues: typeof viIssues;
       roommates: typeof viRoommates;
       tenants: typeof viTenants;
+      auditLogs: typeof viAuditLogs;
     };
   }
 }

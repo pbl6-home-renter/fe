@@ -1,0 +1,76 @@
+{
+  "list": {
+    "title": "Nhật ký thao tác quản trị",
+    "subtitle": "Theo dõi lịch sử khóa tài khoản, cập nhật người dùng và duyệt tòa nhà trong hệ thống",
+    "totalBadge": "{{count}} bản ghi",
+    "viewDetail": "Xem chi tiết nhật ký",
+    "refresh": "Làm mới"
+  },
+  "columns": {
+    "createdAt": "Thời gian",
+    "actor": "Người thực hiện",
+    "action": "Thao tác",
+    "entity": "Đối tượng",
+    "actions": "Chi tiết"
+  },
+  "actor": {
+    "deleted": "Tài khoản đã xóa"
+  },
+  "actions": {
+    "user": {
+      "locked": "Khóa tài khoản",
+      "unlocked": "Mở khóa tài khoản",
+      "updated": "Sửa thông tin tài khoản",
+      "deleted": "Xóa tài khoản"
+    },
+    "building": {
+      "approved": "Duyệt tòa nhà",
+      "rejected": "Từ chối tòa nhà"
+    }
+  },
+  "entityTypes": {
+    "user": "Người dùng",
+    "building": "Tòa nhà"
+  },
+  "filters": {
+    "actionLabel": "Thao tác",
+    "allActions": "Tất cả thao tác",
+    "entityTypeLabel": "Loại đối tượng",
+    "allEntityTypes": "Tất cả đối tượng",
+    "fromDateLabel": "Từ ngày",
+    "toDateLabel": "Đến ngày",
+    "reset": "Xóa bộ lọc",
+    "dateRangeError": "Ngày bắt đầu không được sau ngày kết thúc"
+  },
+  "empty": {
+    "title": "Chưa có nhật ký thao tác",
+    "description": "Các thao tác quản trị như khóa tài khoản hoặc duyệt tòa nhà sẽ hiển thị tại đây.",
+    "filteredTitle": "Không tìm thấy nhật ký phù hợp",
+    "filteredDescription": "Thử thay đổi điều kiện lọc hoặc khoảng thời gian để xem thêm kết quả."
+  },
+  "detail": {
+    "title": "Chi tiết nhật ký thao tác",
+    "close": "Đóng",
+    "errorTitle": "Không thể tải chi tiết nhật ký",
+    "errorDescription": "Đã xảy ra lỗi khi lấy thông tin bản ghi. Vui lòng thử lại.",
+    "retry": "Thử lại",
+    "metadataTitle": "Thông tin bổ sung",
+    "noMetadata": "Không có thông tin bổ sung cho thao tác này."
+  },
+  "metadata": {
+    "changedFields": "Đã sửa",
+    "lockReason": "Lý do khóa",
+    "note": "Ghi chú",
+    "fields": {
+      "name": "Họ tên",
+      "phone": "Số điện thoại",
+      "email": "Email",
+      "role": "Vai trò",
+      "status": "Trạng thái",
+      "avatarUrl": "Ảnh đại diện"
+    }
+  },
+  "apiErrors": {
+    "AUDIT_LOG_NOT_FOUND": "Không tìm thấy bản ghi nhật ký này."
+  }
+}
