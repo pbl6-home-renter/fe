@@ -22,10 +22,12 @@ export const LandlordDashboardEmptyState = ({ onOpenCreateModal }: LandlordDashb
           <p className="text-sm text-rentify-text-secondary leading-relaxed">{t('empty.welcomeDesc')}</p>
         </div>
 
-        <Button variant="primary" size="md" onClick={onOpenCreateModal} className="gap-2 shadow-xs mt-2">
-          <Plus className="w-4 h-4" />
-          <span>{t('empty.addFirstBuilding')}</span>
-        </Button>
+        {onOpenCreateModal && (
+          <Button variant="primary" size="md" onClick={onOpenCreateModal} className="gap-2 shadow-xs mt-2">
+            <Plus className="w-4 h-4" />
+            <span>{t('empty.addFirstBuilding')}</span>
+          </Button>
+        )}
       </Card>
     </div>
   );

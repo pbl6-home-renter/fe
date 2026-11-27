@@ -16,7 +16,7 @@ const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0
 export const useRoomPublicDetail = (roomId?: string) => {
   const { t } = useTranslation('rooms');
   const navigate = useNavigate();
-  const { isAuthenticated, role } = useAuth();
+  const { isAuthenticated, role, isActiveUser } = useAuth();
 
   const isTenantOrGuest = !isAuthenticated || role === Role.TENANT;
 
@@ -27,7 +27,7 @@ export const useRoomPublicDetail = (roomId?: string) => {
 
   const { data: favoriteData } = useFavoriteRoomsQuery(
     { pageSize: 100 },
-    { enabled: isAuthenticated && role === Role.TENANT },
+    { enabled: isAuthenticated && isActiveUser && role === Role.TENANT },
   );
 
   const isFav = Boolean(roomId && favoriteData?.items?.some((fav) => fav.id === roomId));

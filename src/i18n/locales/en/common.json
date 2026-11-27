@@ -256,6 +256,7 @@
     }
   },
   "apiErrors": {
+    "ACCOUNT_LOCKED": "Your account is currently locked and cannot perform this action.",
     "BAD_REQUEST": "Invalid request. Please check the provided information.",
     "UNAUTHORIZED": "Your session has expired or is invalid. Please sign in again.",
     "FORBIDDEN": "You do not have permission to access or perform this action.",

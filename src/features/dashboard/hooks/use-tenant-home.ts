@@ -16,7 +16,7 @@ export { POPULAR_AREAS, type PopularAreaItem };
 
 export const useTenantHome = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isLocked, isActiveUser } = useAuth();
   const { data: hasUnreadNotifications = false } = useUnreadNotificationsQuery();
 
   // Active contracts for logged-in tenant
@@ -37,14 +37,14 @@ export const useTenantHome = () => {
     return invoices.filter((inv) => inv.invoiceStatus === InvoiceStatus.ISSUED).length;
   }, [invoices]);
 
-  // Recommended rooms for everyone (guest or logged-in)
+  // Recommended rooms for guest or active user (BE blocks GET /rooms for locked tokens)
   const [recommendedPage, setRecommendedPage] = useState(1);
   const {
     data: recommendedData,
     isLoading: isRecommendedLoading,
     isError: isRecommendedError,
     refetch: refetchRecommended,
-  } = usePublicRoomsQuery({ pageNo: recommendedPage, pageSize: 8 });
+  } = usePublicRoomsQuery({ pageNo: recommendedPage, pageSize: 8 }, { enabled: !isAuthenticated || isActiveUser });
 
   const recommendedRooms = useMemo(() => recommendedData?.items ?? [], [recommendedData]);
 
@@ -145,6 +145,7 @@ export const useTenantHome = () => {
   return {
     user,
     isAuthenticated,
+    isLocked,
     userDisplayName,
     hasUnreadNotifications,
     contracts,

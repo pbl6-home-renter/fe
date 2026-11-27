@@ -35,13 +35,17 @@ export const LandlordQuickActions = ({ layout = 'vertical', onOpenCreateModal }:
       iconBg: 'bg-primary-container text-rentify-primary',
       onClick: () => navigate(ROUTES.LANDLORD.CONTRACTS),
     },
-    {
-      title: t('full.addNewBuilding'),
-      description: t('empty.addFirstBuilding'),
-      icon: Plus,
-      iconBg: 'bg-primary-container text-rentify-primary',
-      onClick: onOpenCreateModal,
-    },
+    ...(onOpenCreateModal
+      ? [
+          {
+            title: t('full.addNewBuilding'),
+            description: t('empty.addFirstBuilding'),
+            icon: Plus,
+            iconBg: 'bg-primary-container text-rentify-primary',
+            onClick: onOpenCreateModal,
+          },
+        ]
+      : []),
   ];
 
   if (layout === 'vertical') {

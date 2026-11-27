@@ -23,12 +23,12 @@ export interface SidebarProps {
 export const Sidebar = ({ open, onClose }: SidebarProps) => {
   const sidebarRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const { role } = useAuth();
+  const { role, isActiveUser } = useAuth();
   const { t } = useTranslation('common');
 
   const isNavAllowed = useLockedNavFilter();
   const menuItems = getNavigationByRole(role).filter((item) => isNavAllowed(item.path));
-  const unread = useUnreadSummaryQuery(role === Role.LANDLORD || role === Role.TENANT);
+  const unread = useUnreadSummaryQuery(isActiveUser && (role === Role.LANDLORD || role === Role.TENANT));
 
   useEffect(() => {
     if (!open || window.matchMedia('(min-width: 768px)').matches) return;

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
 import { useDisclosure } from '@/hooks/use-disclosure';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { useRatePoliciesQuery } from '@/features/billing/hooks/use-rate-policies-query';
 import { useBillingSettingsQuery } from '@/features/billing/hooks/use-billing-settings-query';
 import { useDeactivateRatePolicyMutation } from '@/features/billing/hooks/use-deactivate-rate-policy-mutation';
@@ -32,6 +33,7 @@ export const RoomDetailPage = () => {
 
   const { t } = useTranslation('rooms');
   const navigate = useNavigate();
+  const { isLocked } = useAuth();
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -47,7 +49,7 @@ export const RoomDetailPage = () => {
     isLoading: isRateLoading,
     refetch: refetchRate,
   } = useRatePoliciesQuery(room?.id ? { 'filter[scope]': 'room', 'filter[roomId]': room.id } : undefined, {
-    enabled: Boolean(room?.id),
+    enabled: !isLocked && Boolean(room?.id),
   });
 
   const {
@@ -55,7 +57,7 @@ export const RoomDetailPage = () => {
     isLoading: isBillingLoading,
     refetch: refetchBilling,
   } = useBillingSettingsQuery(room?.id ? { 'filter[scope]': 'room', 'filter[roomId]': room.id } : undefined, {
-    enabled: Boolean(room?.id),
+    enabled: !isLocked && Boolean(room?.id),
   });
 
   const activeRatePolicy = ratePoliciesData?.items?.[0] ?? null;
@@ -98,9 +100,9 @@ export const RoomDetailPage = () => {
     <div className="space-y-6">
       <RoomHeader
         room={room}
-        onEdit={() => setIsEditOpen(true)}
-        onDelete={() => setIsDeleteOpen(true)}
-        onMarkReady={handleMarkReady}
+        onEdit={isLocked ? undefined : () => setIsEditOpen(true)}
+        onDelete={isLocked ? undefined : () => setIsDeleteOpen(true)}
+        onMarkReady={isLocked ? undefined : handleMarkReady}
         isMarkingReady={markReadyMutation.isPending}
       />
 
@@ -109,26 +111,30 @@ export const RoomDetailPage = () => {
         <div className="lg:col-span-7 space-y-6">
           <RoomPhotosCard photos={room.photoUrls} />
           <RoomSpecsCard room={room} />
-          <RatePolicyCard
-            scope="room"
-            policy={activeRatePolicy}
-            isLoading={isRateLoading}
-            onConfigure={rateDialog.open}
-            onDeactivate={handleDeactivateRate}
-            isDeactivating={deactivateRateMutation.isPending}
-          />
-          <BillingSettingCard
-            scope="room"
-            setting={activeBillingSetting}
-            isLoading={isBillingLoading}
-            onConfigure={billingDialog.open}
-          />
+          {!isLocked && (
+            <>
+              <RatePolicyCard
+                scope="room"
+                policy={activeRatePolicy}
+                isLoading={isRateLoading}
+                onConfigure={rateDialog.open}
+                onDeactivate={handleDeactivateRate}
+                isDeactivating={deactivateRateMutation.isPending}
+              />
+              <BillingSettingCard
+                scope="room"
+                setting={activeBillingSetting}
+                isLoading={isBillingLoading}
+                onConfigure={billingDialog.open}
+              />
+            </>
+          )}
         </div>
 
         {/* Right Column: Contract & Tenant info + Meter readings */}
         <div className="lg:col-span-5 space-y-6">
           <RoomTenantContractCard roomId={room.id} />
-          <RoomMeterReadingsCard roomId={room.id} />
+          {!isLocked && <RoomMeterReadingsCard roomId={room.id} />}
         </div>
       </div>
 

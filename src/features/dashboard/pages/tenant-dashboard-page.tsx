@@ -10,6 +10,7 @@ import { LoginPromptModal } from '@/features/rooms/components/search/login-promp
 export const TenantDashboardPage = () => {
   const {
     isAuthenticated,
+    isLocked,
     userDisplayName,
     hasUnreadNotifications,
     contracts,
@@ -90,15 +91,17 @@ export const TenantDashboardPage = () => {
       <TenantPopularAreas onSelectArea={handleSelectArea} />
 
       {/* Khối 5: Danh sách "Dành cho bạn" / "Phòng nổi bật" */}
-      <TenantRecommendedRooms
-        isAuthenticated={isAuthenticated}
-        rooms={recommendedRooms}
-        isLoading={isRecommendedLoading}
-        isError={isRecommendedError}
-        onRetry={() => void refetchRecommended()}
-        onFavoriteClick={handleFavoriteClick}
-        onRoomClick={handleRoomClick}
-      />
+      {!isLocked && (
+        <TenantRecommendedRooms
+          isAuthenticated={isAuthenticated}
+          rooms={recommendedRooms}
+          isLoading={isRecommendedLoading}
+          isError={isRecommendedError}
+          onRetry={() => void refetchRecommended()}
+          onFavoriteClick={handleFavoriteClick}
+          onRoomClick={handleRoomClick}
+        />
+      )}
 
       {/* Modals & Dialogs */}
       <LoginPromptModal open={authPromptOpen} onClose={() => setAuthPromptOpen(false)} />

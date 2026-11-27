@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table/data-table';
 import { DataTableToolbar } from '@/components/ui/data-table/data-table-toolbar';
@@ -42,6 +43,7 @@ interface ContractListTableProps {
 
 export const ContractListTable = (props: ContractListTableProps) => {
   const { t } = useTranslation('contracts');
+  const { isLocked } = useAuth();
   const navigate = useNavigate();
   const columns = useContractListColumns();
 
@@ -89,8 +91,8 @@ export const ContractListTable = (props: ContractListTableProps) => {
       emptyState={{
         title: t('empty.title'),
         description: t('empty.description'),
-        actionText: t('empty.createAction'),
-        onAction: props.onCreate,
+        actionText: !isLocked ? t('empty.createAction') : undefined,
+        onAction: !isLocked ? props.onCreate : undefined,
       }}
       filteredEmptyState={{
         title: t('empty.filteredTitle'),

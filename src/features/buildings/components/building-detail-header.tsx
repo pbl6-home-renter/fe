@@ -8,8 +8,8 @@ import { useBuildingFloors } from '../hooks/use-building-floors';
 
 interface BuildingDetailHeaderProps {
   building: BuildingMyDetailDto;
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
   onOpenChat?: () => void;
   isChatLoading?: boolean;
 }
@@ -57,25 +57,29 @@ export const BuildingDetailHeader = ({
             </Button>
           )}
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onEdit}
-            className="gap-2 h-10 px-4 rounded-xl font-semibold text-xs"
-          >
-            <Pencil className="w-3.5 h-3.5 text-rentify-text-secondary" />
-            <span>{t('edit.title')}</span>
-          </Button>
+          {onEdit && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onEdit}
+              className="gap-2 h-10 px-4 rounded-xl font-semibold text-xs"
+            >
+              <Pencil className="w-3.5 h-3.5 text-rentify-text-secondary" />
+              <span>{t('edit.title')}</span>
+            </Button>
+          )}
 
-          <Button
-            variant="danger"
-            size="sm"
-            onClick={onDelete}
-            className="gap-2 h-10 px-4 rounded-xl font-semibold text-xs"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-            <span>{t('delete.title')}</span>
-          </Button>
+          {onDelete && (
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={onDelete}
+              className="gap-2 h-10 px-4 rounded-xl font-semibold text-xs"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>{t('delete.title')}</span>
+            </Button>
+          )}
         </div>
       </div>
 

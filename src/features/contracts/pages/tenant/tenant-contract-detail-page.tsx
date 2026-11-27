@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/config/routes.config';
 import { formatDate, formatVnd } from '@/lib/utils/format';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { ContractStatusBadge } from '../../components/contract-status-badge';
 import { useContractQuery } from '../../hooks/use-contract-query';
 import { useContractChat } from '../../hooks/use-contract-chat';
@@ -15,6 +16,7 @@ import { useContractChat } from '../../hooks/use-contract-chat';
 export const TenantContractDetailPage = () => {
   const { t } = useTranslation('contracts');
   const navigate = useNavigate();
+  const { isLocked } = useAuth();
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError, refetch } = useContractQuery(id);
   const { openContractChat, isChatLoading } = useContractChat(data);
@@ -53,17 +55,19 @@ export const TenantContractDetailPage = () => {
                 </Button>
               )}
 
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={openContractChat}
-                isLoading={isChatLoading}
-                className="gap-1.5 text-rentify-primary border-rentify-primary/30 hover:bg-rentify-primary/5"
-              >
-                <MessageSquare className="h-4 w-4" />
-                <span>{t('actions.contractChat')}</span>
-              </Button>
+              {!isLocked && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={openContractChat}
+                  isLoading={isChatLoading}
+                  className="gap-1.5 text-rentify-primary border-rentify-primary/30 hover:bg-rentify-primary/5"
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  <span>{t('actions.contractChat')}</span>
+                </Button>
+              )}
             </div>
           </div>
           <Card className="max-w-2xl space-y-4 text-sm">

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table/data-table';
@@ -37,6 +38,7 @@ interface BuildingListTableProps {
 
 export const BuildingListTable = (props: BuildingListTableProps) => {
   const { t } = useTranslation('buildings');
+  const { isLocked } = useAuth();
   const navigate = useNavigate();
   const columns = useBuildingListColumns();
   const table = useDataTable({
@@ -71,8 +73,8 @@ export const BuildingListTable = (props: BuildingListTableProps) => {
       emptyState={{
         title: t('empty.title'),
         description: t('empty.description'),
-        actionText: t('empty.createAction'),
-        onAction: props.onCreate,
+        actionText: !isLocked ? t('empty.createAction') : undefined,
+        onAction: !isLocked ? props.onCreate : undefined,
       }}
       filteredEmptyState={{
         title: t('empty.filteredTitle'),
@@ -80,12 +82,12 @@ export const BuildingListTable = (props: BuildingListTableProps) => {
         actionText: t('filter.clearFilter'),
         onAction: props.onClearFilters,
       }}
-      toolbar={(
+      toolbar={
         <DataTableToolbar
           searchValue={props.searchValue}
           onSearchChange={props.onSearchChange}
           searchPlaceholder={t('list.searchPlaceholder')}
-          filters={(
+          filters={
             <div className="inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-xl bg-surface-container-low p-1">
               {statusOptions.map((option) => (
                 <Button
@@ -99,9 +101,9 @@ export const BuildingListTable = (props: BuildingListTableProps) => {
                 </Button>
               ))}
             </div>
-          )}
+          }
         />
-      )}
+      }
       onRowClick={(building) => navigate(ROUTES.LANDLORD.BUILDING_DETAIL(building.id))}
       renderMobileRow={(row) => <BuildingListMobileRow row={row} />}
     />

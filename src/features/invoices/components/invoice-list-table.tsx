@@ -36,6 +36,7 @@ export interface InvoiceListTableProps {
   onStatusChange: (status: string) => void;
   selectedInvoiceCount: number;
   onOpenIssueDialog: () => void;
+  isReadOnly?: boolean;
   isFiltered: boolean;
   onClearFilters: () => void;
   isLoading: boolean;
@@ -58,7 +59,7 @@ export const InvoiceListTable = (props: InvoiceListTableProps) => {
     state: props.state,
     handlers: props.handlers,
     features: {
-      selection: (row) => row.original.invoiceStatus === InvoiceStatus.PENDING,
+      selection: props.isReadOnly ? false : (row) => row.original.invoiceStatus === InvoiceStatus.PENDING,
       columnVisibility: true,
       columnOrder: true,
       columnResize: true,

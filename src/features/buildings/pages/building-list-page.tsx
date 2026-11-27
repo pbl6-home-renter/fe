@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react';
 import { ROUTES } from '@/config/routes.config';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { BuildingCreateModal } from '../components/building-create-modal';
 import { BuildingMetricsMosaic } from '../components/building-metrics-mosaic';
 import { BuildingListTable } from '../components/building-list-table';
@@ -12,6 +13,7 @@ import { useBuildingList } from '../hooks/use-building-list';
 export const BuildingListPage = () => {
   const { t } = useTranslation('buildings');
   const navigate = useNavigate();
+  const { isLocked } = useAuth();
   const { metrics, isCreateModalOpen, setIsCreateModalOpen, tableProps, refetch } = useBuildingList();
 
   return (
@@ -20,24 +22,28 @@ export const BuildingListPage = () => {
         title={t('title')}
         description={t('subtitle')}
         actions={
-          <Button variant="primary" size="md" onClick={() => setIsCreateModalOpen(true)} className="gap-2 shadow-xs">
-            <Plus className="h-4 w-4" />
-            <span>{t('createBuilding')}</span>
-          </Button>
+          !isLocked ? (
+            <Button variant="primary" size="md" onClick={() => setIsCreateModalOpen(true)} className="gap-2 shadow-xs">
+              <Plus className="h-4 w-4" />
+              <span>{t('createBuilding')}</span>
+            </Button>
+          ) : undefined
         }
       />
 
       <BuildingMetricsMosaic metrics={metrics} />
       <BuildingListTable {...tableProps} />
 
-      <BuildingCreateModal
-        open={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onSuccess={(id) => {
-          void refetch();
-          navigate(ROUTES.LANDLORD.BUILDING_DETAIL(id));
-        }}
-      />
+      {!isLocked && (
+        <BuildingCreateModal
+          open={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          onSuccess={(id) => {
+            void refetch();
+            navigate(ROUTES.LANDLORD.BUILDING_DETAIL(id));
+          }}
+        />
+      )}
     </div>
   );
 };

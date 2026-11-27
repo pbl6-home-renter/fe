@@ -256,6 +256,7 @@
     }
   },
   "apiErrors": {
+    "ACCOUNT_LOCKED": "Tài khoản của bạn đang bị khóa nên không thể thực hiện thao tác này.",
     "BAD_REQUEST": "Yêu cầu không hợp lệ. Vui lòng kiểm tra lại thông tin.",
     "UNAUTHORIZED": "Phiên đăng nhập đã hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại.",
     "FORBIDDEN": "Bạn không có quyền thực hiện hành động này.",
