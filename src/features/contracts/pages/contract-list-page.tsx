@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { ContractListTable } from '../components/contract-list-table';
 import { ContractCreateModal } from '../components/contract-create-modal';
 import { ContractLockDecisionDialog } from '../components/decision/contract-lock-decision-dialog';
@@ -11,6 +12,7 @@ import { useContractList } from '../hooks/use-contract-list';
 
 export const ContractListPage = () => {
   const { t } = useTranslation('contracts');
+  const { isLocked } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const {
     isCreateModalOpen,
@@ -54,10 +56,12 @@ export const ContractListPage = () => {
         title={t('title')}
         description={t('subtitle')}
         actions={
-          <Button variant="primary" size="md" onClick={() => setIsCreateModalOpen(true)} className="gap-2 shadow-xs">
-            <Plus className="h-4 w-4" />
-            <span>{t('createContract')}</span>
-          </Button>
+          !isLocked ? (
+            <Button variant="primary" size="md" onClick={() => setIsCreateModalOpen(true)} className="gap-2 shadow-xs">
+              <Plus className="h-4 w-4" />
+              <span>{t('createContract')}</span>
+            </Button>
+          ) : undefined
         }
       />
 
@@ -68,12 +72,14 @@ export const ContractListPage = () => {
         onBuildingChange={onBuildingChange}
       />
 
-      <ContractCreateModal
-        open={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        defaultBuildingId={selectedBuildingId !== 'all' ? selectedBuildingId : undefined}
-        onSuccess={() => void refetch()}
-      />
+      {!isLocked && (
+        <ContractCreateModal
+          open={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          defaultBuildingId={selectedBuildingId !== 'all' ? selectedBuildingId : undefined}
+          onSuccess={() => void refetch()}
+        />
+      )}
 
       <ContractLockDecisionDialog
         open={isDecisionDialogOpen}

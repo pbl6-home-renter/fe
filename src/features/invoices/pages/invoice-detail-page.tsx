@@ -6,6 +6,7 @@ import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/config/routes.config';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { InvoiceBreakdownCard } from '../components/invoice-breakdown-card';
 import { InvoiceCancelDialog } from '../components/invoice-cancel-dialog';
 import { InvoiceDetailHeader } from '../components/invoice-detail-header';
@@ -19,6 +20,7 @@ import { useInvoiceDetail } from '../hooks/use-invoice-detail';
 export const InvoiceDetailPage = () => {
   const { t } = useTranslation('invoices');
   const navigate = useNavigate();
+  const { isLocked } = useAuth();
   const {
     invoice,
     buildingId,
@@ -74,25 +76,31 @@ export const InvoiceDetailPage = () => {
 
   return (
     <div className="space-y-6">
-      <InvoiceDetailHeader invoice={invoice} onIssue={handleOpenIssueDialog} onCancel={cancelDialog.open} />
+      <InvoiceDetailHeader
+        invoice={invoice}
+        onIssue={isLocked ? undefined : handleOpenIssueDialog}
+        onCancel={isLocked ? undefined : cancelDialog.open}
+      />
 
       {isVoid && (
         <AlertBanner
           variant="warning"
           title={t('detail.voidBannerTitle')}
           action={
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={handleRegenerate}
-              disabled={!buildingId || isLoadingRoom || isRegenerating}
-              isLoading={isRegenerating}
-              className="gap-1.5"
-            >
-              <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>{t('actions.regeneratePeriod')}</span>
-            </Button>
+            !isLocked ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleRegenerate}
+                disabled={!buildingId || isLoadingRoom || isRegenerating}
+                isLoading={isRegenerating}
+                className="gap-1.5"
+              >
+                <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
+                <span>{t('actions.regeneratePeriod')}</span>
+              </Button>
+            ) : undefined
           }
         >
           <span className="text-sm">{invoice.voidReason || t('detail.noVoidReason')}</span>
@@ -118,7 +126,7 @@ export const InvoiceDetailPage = () => {
           <InvoiceBreakdownCard invoice={invoice} />
         </div>
         <div className="lg:col-span-1">
-          <InvoiceOtherFeesCard invoice={invoice} onEdit={otherFeesDialog.open} />
+          <InvoiceOtherFeesCard invoice={invoice} onEdit={isLocked ? undefined : otherFeesDialog.open} />
         </div>
       </div>
 

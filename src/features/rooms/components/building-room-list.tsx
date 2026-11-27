@@ -11,6 +11,7 @@ import { RoomCard } from './room-card';
 import { RoomCreateModal } from './room-create-modal';
 import { RoomFilterBar } from './room-filter-bar';
 import { useBuildingRoomList } from '../hooks/use-building-room-list';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { BuildingStatus } from '@/features/buildings/enums/building-status.enum';
 
 interface BuildingRoomListProps {
@@ -21,6 +22,7 @@ interface BuildingRoomListProps {
 
 export const BuildingRoomList = ({ buildingId, buildingName, buildingStatus }: BuildingRoomListProps) => {
   const { t } = useTranslation('rooms');
+  const { isLocked } = useAuth();
   const {
     rooms,
     totalRooms,
@@ -60,17 +62,19 @@ export const BuildingRoomList = ({ buildingId, buildingName, buildingStatus }: B
           <p className="text-xs text-rentify-text-secondary">{t('list.subtitle')}</p>
         </div>
 
-        <Button
-          type="button"
-          variant="primary"
-          size="md"
-          disabled={!isBuildingApproved}
-          onClick={() => setIsCreateOpen(true)}
-          className="flex items-center gap-1.5 self-start sm:self-auto"
-        >
-          <Plus className="w-4 h-4" />
-          <span>{t('list.addRoom')}</span>
-        </Button>
+        {!isLocked && (
+          <Button
+            type="button"
+            variant="primary"
+            size="md"
+            disabled={!isBuildingApproved}
+            onClick={() => setIsCreateOpen(true)}
+            className="flex items-center gap-1.5 self-start sm:self-auto"
+          >
+            <Plus className="w-4 h-4" />
+            <span>{t('list.addRoom')}</span>
+          </Button>
+        )}
       </Card>
 
       {/* Filters (Floor & Status) */}

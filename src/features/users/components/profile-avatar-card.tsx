@@ -49,54 +49,58 @@ export const ProfileAvatarCard = ({ user }: ProfileAvatarCardProps) => {
           <UserStatusBadge status={user.status} />
         </div>
 
-        <Divider className="my-1" />
+        {!isLocked && (
+          <>
+            <Divider className="my-1" />
 
-        <div className="w-full space-y-3">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept={getMediaAccept(MediaPurpose.AVATAR)}
-            onChange={handleFileChange}
-            className="hidden"
-            aria-label={t('profile.avatar.uploadAction')}
-          />
-
-          <Button
-            type="button"
-            variant="outline"
-            onClick={openFilePicker}
-            disabled={isUploading}
-            isLoading={isUploading}
-            className="w-full gap-2"
-          >
-            <Camera className="h-4 w-4" aria-hidden="true" />
-            <span>{user.avatarUrl ? t('profile.avatar.changeAction') : t('profile.avatar.uploadAction')}</span>
-          </Button>
-
-          {isUploading && (
-            <div className="flex items-center gap-2">
-              <ProgressMeterTrack
-                value={progress}
-                label={t('profile.avatar.uploading')}
-                showValue
-                size="sm"
-                className="flex-1"
+            <div className="w-full space-y-3">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept={getMediaAccept(MediaPurpose.AVATAR)}
+                onChange={handleFileChange}
+                className="hidden"
+                aria-label={t('profile.avatar.uploadAction')}
               />
+
               <Button
                 type="button"
-                variant="ghost"
-                size="sm"
-                onClick={cancelUpload}
-                aria-label={t('profile.avatar.cancelUpload')}
-                className="shrink-0"
+                variant="outline"
+                onClick={openFilePicker}
+                disabled={isUploading}
+                isLoading={isUploading}
+                className="w-full gap-2"
               >
-                <X className="h-4 w-4" />
+                <Camera className="h-4 w-4" aria-hidden="true" />
+                <span>{user.avatarUrl ? t('profile.avatar.changeAction') : t('profile.avatar.uploadAction')}</span>
               </Button>
-            </div>
-          )}
 
-          <p className="text-xs text-rentify-text-secondary">{t('profile.avatar.hint')}</p>
-        </div>
+              {isUploading && (
+                <div className="flex items-center gap-2">
+                  <ProgressMeterTrack
+                    value={progress}
+                    label={t('profile.avatar.uploading')}
+                    showValue
+                    size="sm"
+                    className="flex-1"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={cancelUpload}
+                    aria-label={t('profile.avatar.cancelUpload')}
+                    className="shrink-0"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+
+              <p className="text-xs text-rentify-text-secondary">{t('profile.avatar.hint')}</p>
+            </div>
+          </>
+        )}
 
         {isLocked && (
           <AlertBanner variant="warning" title={t('profile.lockedNotice.title')}>

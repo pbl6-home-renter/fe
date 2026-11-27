@@ -22,14 +22,14 @@ export interface HeaderProps {
 }
 
 export const Header = ({ sidebarOpen, onToggleSidebar, onOpenLogoutModal }: HeaderProps) => {
-  const { role } = useAuth();
+  const { role, isActiveUser } = useAuth();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const isTenant = role === Role.TENANT;
   const isLandlord = role === Role.LANDLORD;
   const hasUnreadNotifications = useUnreadNotificationsQuery().data ?? false;
-  const unreadChat = useUnreadSummaryQuery(isTenant || isLandlord);
+  const unreadChat = useUnreadSummaryQuery(isActiveUser && (isTenant || isLandlord));
 
   const currentLanguage = i18n.language || 'vi';
 

@@ -12,11 +12,13 @@ import { RoomPublicInfo } from '../../components/public-detail/room-public-info'
 import { RoomPublicPricingCard } from '../../components/public-detail/room-public-pricing-card';
 import { LoginPromptModal } from '@/features/rooms/components/search/login-prompt-modal';
 import { useRoomPublicDetail } from '../../hooks/use-room-public-detail';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 
 export const RoomPublicDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const { t } = useTranslation('rooms');
+  const { isLocked } = useAuth();
 
   const {
     room,
@@ -75,7 +77,7 @@ export const RoomPublicDetailPage = () => {
           <IconButton variant="outline" size="sm" onClick={handleShareClick} aria-label={t('search.pageTitle')}>
             <Share2 className="h-4 w-4" />
           </IconButton>
-          {isTenantOrGuest && !isMyRentedRoom && (
+          {isTenantOrGuest && !isMyRentedRoom && !isLocked && (
             <IconButton
               variant="outline"
               size="sm"
@@ -138,7 +140,7 @@ export const RoomPublicDetailPage = () => {
             room={room}
             isFav={isFav}
             isTenantOrGuest={isTenantOrGuest}
-            onChatClick={handleChatClick}
+            onChatClick={isLocked ? undefined : handleChatClick}
             onFavoriteClick={handleFavoriteClick}
             myContract={myContract}
           />

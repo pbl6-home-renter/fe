@@ -7,6 +7,7 @@ import { Divider } from '@/components/ui/divider';
 import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
 import { getFieldError } from '@/lib/form';
+import { UserStatus } from '@/types/user';
 import { useProfileForm } from '../hooks/use-profile-form';
 import type { UserMeResponseDto } from '../types/users.dto';
 
@@ -16,6 +17,7 @@ export interface ProfileFormCardProps {
 
 export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
   const { t } = useTranslation('users');
+  const isLocked = user.status === UserStatus.LOCKED;
   const {
     form,
     isLandlord,
@@ -26,6 +28,8 @@ export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
     handleClearPayout,
     onSubmit,
   } = useProfileForm(user);
+
+  const isFieldDisabled = isSubmitting || isLocked;
 
   const {
     register,
@@ -74,7 +78,7 @@ export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
               <Input
                 id="profile-name"
                 placeholder={t('profile.placeholders.name')}
-                disabled={isSubmitting}
+                disabled={isFieldDisabled}
                 {...register('name')}
               />
             </FormField>
@@ -88,7 +92,7 @@ export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
               <Input
                 id="profile-phone"
                 placeholder={t('profile.placeholders.phone')}
-                disabled={isSubmitting}
+                disabled={isFieldDisabled}
                 {...register('phone')}
               />
             </FormField>
@@ -108,7 +112,7 @@ export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
                     <p className="text-xs text-rentify-text-secondary">{t('profile.sections.payoutAccountDesc')}</p>
                   </div>
 
-                  {hasPayoutInput && (
+                  {!isLocked && hasPayoutInput && (
                     <Button
                       type="button"
                       variant="ghost"
@@ -132,7 +136,7 @@ export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
                     <Input
                       id="profile-bank-code"
                       placeholder={t('profile.placeholders.bankCode')}
-                      disabled={isSubmitting}
+                      disabled={isFieldDisabled}
                       {...register('bankCode')}
                     />
                   </FormField>
@@ -147,7 +151,7 @@ export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
                       inputMode="numeric"
                       className="tabular-nums"
                       placeholder={t('profile.placeholders.accountNumber')}
-                      disabled={isSubmitting}
+                      disabled={isFieldDisabled}
                       {...register('accountNumber')}
                     />
                   </FormField>
@@ -160,7 +164,7 @@ export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
                     <Input
                       id="profile-account-name"
                       placeholder={t('profile.placeholders.accountName')}
-                      disabled={isSubmitting}
+                      disabled={isFieldDisabled}
                       {...register('accountName')}
                     />
                   </FormField>
@@ -169,23 +173,31 @@ export const ProfileFormCard = ({ user }: ProfileFormCardProps) => {
             </>
           )}
 
-          <div className="flex flex-col-reverse gap-3 border-t border-rentify-divider pt-4 sm:flex-row sm:items-center sm:justify-end">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleResetToServer}
-              disabled={!isDirty || isSubmitting}
-              className="gap-2"
-            >
-              <RotateCcw className="h-4 w-4" aria-hidden="true" />
-              <span>{t('profile.actions.discardChanges')}</span>
-            </Button>
+          {!isLocked && (
+            <div className="flex flex-col-reverse gap-3 border-t border-rentify-divider pt-4 sm:flex-row sm:items-center sm:justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleResetToServer}
+                disabled={!isDirty || isSubmitting}
+                className="gap-2"
+              >
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
+                <span>{t('profile.actions.discardChanges')}</span>
+              </Button>
 
-            <Button type="submit" variant="primary" isLoading={isSubmitting} disabled={isSubmitting} className="gap-2">
-              <Save className="h-4 w-4" aria-hidden="true" />
-              <span>{t('profile.actions.saveChanges')}</span>
-            </Button>
-          </div>
+              <Button
+                type="submit"
+                variant="primary"
+                isLoading={isSubmitting}
+                disabled={isSubmitting}
+                className="gap-2"
+              >
+                <Save className="h-4 w-4" aria-hidden="true" />
+                <span>{t('profile.actions.saveChanges')}</span>
+              </Button>
+            </div>
+          )}
         </form>
       </CardContent>
     </Card>

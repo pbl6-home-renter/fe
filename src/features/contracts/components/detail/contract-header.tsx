@@ -10,7 +10,7 @@ import type { ContractDetailDto } from '../../types/contract.dto';
 
 interface ContractHeaderProps {
   contract: ContractDetailDto;
-  onEdit: () => void;
+  onEdit?: () => void;
   onCheckout?: () => void;
   onOpenChat?: () => void;
   isChatLoading?: boolean;
@@ -61,7 +61,7 @@ export const ContractHeader = ({
             </Button>
           )}
 
-          {isDraft && (
+          {isDraft && onEdit && (
             <Button variant="secondary" size="sm" onClick={onEdit} className="gap-1.5">
               <Edit3 className="h-4 w-4" />
               <span>{t('editContract')}</span>
@@ -70,10 +70,12 @@ export const ContractHeader = ({
 
           {isActive && (
             <>
-              <Button variant="secondary" size="sm" onClick={onEdit} className="gap-1.5">
-                <Edit3 className="h-4 w-4" />
-                <span>{t('editVehicleAndNotes')}</span>
-              </Button>
+              {onEdit && (
+                <Button variant="secondary" size="sm" onClick={onEdit} className="gap-1.5">
+                  <Edit3 className="h-4 w-4" />
+                  <span>{t('editVehicleAndNotes')}</span>
+                </Button>
+              )}
 
               {onCheckout && (
                 <Button

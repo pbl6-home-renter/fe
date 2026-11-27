@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { BuildingStatus } from '@/features/buildings/enums/building-status.enum';
 import { useMyBuildingsQuery } from '@/features/buildings/hooks/use-my-buildings-query';
 import { useContractsQuery } from '@/features/contracts/hooks/use-contracts-query';
@@ -7,6 +8,7 @@ import { useInvoicesQuery } from '@/features/invoices/hooks/use-invoices-query';
 import { useIssuesQuery } from '@/features/issues/hooks/use-issues-query';
 
 export const useLandlordDashboard = () => {
+  const { isLocked, isActiveUser } = useAuth();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Buildings data
@@ -17,7 +19,11 @@ export const useLandlordDashboard = () => {
   // Operational streams
   const contractsQuery = useContractsQuery({ pageNo: 1, pageSize: 1, filter: { status: ContractStatus.ACTIVE } });
   const invoicesQuery = useInvoicesQuery({ pageNo: 1, pageSize: 5 });
-  const issuesQuery = useIssuesQuery(false, { pageNo: 1, pageSize: 5, filter: { status: 'open' } });
+  const issuesQuery = useIssuesQuery(
+    false,
+    { pageNo: 1, pageSize: 5, filter: { status: 'open' } },
+    { enabled: isActiveUser },
+  );
 
   const isLoading = all.isLoading || approved.isLoading || pending.isLoading;
   const isError = all.isError || approved.isError || pending.isError;
@@ -29,7 +35,7 @@ export const useLandlordDashboard = () => {
       pending.refetch(),
       contractsQuery.refetch(),
       invoicesQuery.refetch(),
-      issuesQuery.refetch(),
+      ...(isActiveUser ? [issuesQuery.refetch()] : []),
     ]);
 
   const total = all.data?.pagination.totalItems;
@@ -60,6 +66,7 @@ export const useLandlordDashboard = () => {
       : undefined;
 
   return {
+    isLocked,
     isCreateModalOpen,
     setIsCreateModalOpen,
     isLoading,

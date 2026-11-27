@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getPortalMetaByRole } from '@/config/navigation.config';
 import { ROUTES } from '@/config/routes.config';
+import { useLockedNavFilter } from '@/app/routes/use-locked-nav-filter';
 
 export interface UserMenuDropdownProps {
   onOpenLogoutModal: () => void;
@@ -23,6 +24,7 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
   const { user, role } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const isNavAllowed = useLockedNavFilter();
   const [isOpen, setIsOpen] = useState(false);
   const logoutRequested = useRef(false);
   const portalMeta = getPortalMetaByRole(role);
@@ -88,13 +90,15 @@ export const UserMenuDropdown = ({ onOpenLogoutModal }: UserMenuDropdownProps) =
           <User className="h-4 w-4 shrink-0 text-rentify-primary" aria-hidden="true" />
           {t('profile')}
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="min-h-10 gap-2.5 rounded-xl px-3 text-xs font-medium text-rentify-text-secondary focus:text-rentify-text-primary"
-          onSelect={() => navigate(ROUTES.SETTINGS)}
-        >
-          <Settings className="h-4 w-4 shrink-0 text-rentify-primary" aria-hidden="true" />
-          {t('settings')}
-        </DropdownMenuItem>
+        {isNavAllowed(ROUTES.SETTINGS) && (
+          <DropdownMenuItem
+            className="min-h-10 gap-2.5 rounded-xl px-3 text-xs font-medium text-rentify-text-secondary focus:text-rentify-text-primary"
+            onSelect={() => navigate(ROUTES.SETTINGS)}
+          >
+            <Settings className="h-4 w-4 shrink-0 text-rentify-primary" aria-hidden="true" />
+            {t('settings')}
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuSeparator />
         <DropdownMenuItem

@@ -10,6 +10,7 @@ import { AlertBanner } from '@/components/feedback/alert-banner';
 import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { useDisclosure } from '@/hooks/use-disclosure';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { useRatePoliciesQuery } from '@/features/billing/hooks/use-rate-policies-query';
 import { useBillingSettingsQuery } from '@/features/billing/hooks/use-billing-settings-query';
 import { RatePolicyCard } from '@/features/billing/components/rate-policy-card';
@@ -33,6 +34,7 @@ export const BuildingDetailPage = () => {
   const { id = '' } = useParams<{ id: string }>();
   const { t } = useTranslation('buildings');
   const navigate = useNavigate();
+  const { isLocked } = useAuth();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -49,7 +51,7 @@ export const BuildingDetailPage = () => {
     refetch: refetchRate,
   } = useRatePoliciesQuery(
     building?.id ? { 'filter[scope]': 'building', 'filter[buildingId]': building.id } : undefined,
-    { enabled: Boolean(building?.id) },
+    { enabled: !isLocked && Boolean(building?.id) },
   );
 
   const {
@@ -58,7 +60,7 @@ export const BuildingDetailPage = () => {
     refetch: refetchBilling,
   } = useBillingSettingsQuery(
     building?.id ? { 'filter[scope]': 'building', 'filter[buildingId]': building.id } : undefined,
-    { enabled: Boolean(building?.id) },
+    { enabled: !isLocked && Boolean(building?.id) },
   );
 
   const activeRatePolicy = ratePoliciesData?.items?.[0] ?? null;
@@ -112,9 +114,9 @@ export const BuildingDetailPage = () => {
 
       <BuildingDetailHeader
         building={building}
-        onEdit={() => setIsEditModalOpen(true)}
-        onDelete={() => setIsDeleteDialogOpen(true)}
-        onOpenChat={openBuildingChat}
+        onEdit={isLocked ? undefined : () => setIsEditModalOpen(true)}
+        onDelete={isLocked ? undefined : () => setIsDeleteDialogOpen(true)}
+        onOpenChat={isLocked ? undefined : openBuildingChat}
         isChatLoading={isChatLoading}
       />
 
@@ -132,20 +134,24 @@ export const BuildingDetailPage = () => {
           <BuildingOverviewCard building={building} />
           <BuildingDocumentsCard
             certificateUrls={building.ownershipCertificateUrls}
-            onUpload={() => setIsUploadModalOpen(true)}
+            onUpload={isLocked ? undefined : () => setIsUploadModalOpen(true)}
           />
-          <RatePolicyCard
-            scope="building"
-            policy={activeRatePolicy}
-            isLoading={isRateLoading}
-            onConfigure={rateDialog.open}
-          />
-          <BillingSettingCard
-            scope="building"
-            setting={activeBillingSetting}
-            isLoading={isBillingLoading}
-            onConfigure={billingDialog.open}
-          />
+          {!isLocked && (
+            <>
+              <RatePolicyCard
+                scope="building"
+                policy={activeRatePolicy}
+                isLoading={isRateLoading}
+                onConfigure={rateDialog.open}
+              />
+              <BillingSettingCard
+                scope="building"
+                setting={activeBillingSetting}
+                isLoading={isBillingLoading}
+                onConfigure={billingDialog.open}
+              />
+            </>
+          )}
         </div>
 
         <div className="lg:col-span-4 flex flex-col gap-6">
@@ -158,44 +164,44 @@ export const BuildingDetailPage = () => {
         <BuildingRoomList buildingId={building.id} buildingName={building.name} buildingStatus={building.status} />
       </div>
 
-      <BuildingEditModal
-        open={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        building={building}
-        onSuccess={() => void refetch()}
-      />
-
-      <BuildingUploadDocumentsModal
-        open={isUploadModalOpen}
-        onClose={() => setIsUploadModalOpen(false)}
-        buildingId={building.id}
-        onSuccess={() => void refetch()}
-      />
-
-      <DeleteBuildingDialog
-        open={isDeleteDialogOpen}
-        onClose={() => setIsDeleteDialogOpen(false)}
-        buildingId={building.id}
-        buildingName={building.name}
-      />
-
-      <RatePolicyDialog
-        open={rateDialog.isOpen}
-        onClose={rateDialog.close}
-        scope="building"
-        buildingId={building.id}
-        existingPolicy={activeRatePolicy}
-        onSuccess={() => void refetchRate()}
-      />
-
-      <BillingSettingDialog
-        open={billingDialog.isOpen}
-        onClose={billingDialog.close}
-        scope="building"
-        buildingId={building.id}
-        existingSetting={activeBillingSetting}
-        onSuccess={() => void refetchBilling()}
-      />
+      {!isLocked && (
+        <>
+          <BuildingEditModal
+            open={isEditModalOpen}
+            onClose={() => setIsEditModalOpen(false)}
+            building={building}
+            onSuccess={() => void refetch()}
+          />
+          <BuildingUploadDocumentsModal
+            open={isUploadModalOpen}
+            onClose={() => setIsUploadModalOpen(false)}
+            buildingId={building.id}
+            onSuccess={() => void refetch()}
+          />
+          <DeleteBuildingDialog
+            open={isDeleteDialogOpen}
+            onClose={() => setIsDeleteDialogOpen(false)}
+            buildingId={building.id}
+            buildingName={building.name}
+          />
+          <RatePolicyDialog
+            open={rateDialog.isOpen}
+            onClose={rateDialog.close}
+            scope="building"
+            buildingId={building.id}
+            existingPolicy={activeRatePolicy}
+            onSuccess={() => void refetchRate()}
+          />
+          <BillingSettingDialog
+            open={billingDialog.isOpen}
+            onClose={billingDialog.close}
+            scope="building"
+            buildingId={building.id}
+            existingSetting={activeBillingSetting}
+            onSuccess={() => void refetchBilling()}
+          />
+        </>
+      )}
     </div>
   );
 };

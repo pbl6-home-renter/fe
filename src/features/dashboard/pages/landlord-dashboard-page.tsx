@@ -11,6 +11,7 @@ import { useLandlordDashboard } from '../hooks/use-landlord-dashboard';
 export const LandlordDashboardPage = () => {
   const navigate = useNavigate();
   const {
+    isLocked,
     isCreateModalOpen,
     setIsCreateModalOpen,
     isLoading,
@@ -92,10 +93,12 @@ export const LandlordDashboardPage = () => {
     return <ErrorState onRetry={() => void refetch()} />;
   }
 
+  const handleOpenCreateModal = isLocked ? undefined : () => setIsCreateModalOpen(true);
+
   return (
     <>
       {metrics.total === 0 ? (
-        <LandlordDashboardEmptyState onOpenCreateModal={() => setIsCreateModalOpen(true)} />
+        <LandlordDashboardEmptyState onOpenCreateModal={handleOpenCreateModal} />
       ) : (
         <LandlordDashboardFullState
           buildings={buildings}
@@ -104,18 +107,20 @@ export const LandlordDashboardPage = () => {
           recentIssues={recentIssues}
           isInvoicesLoading={isInvoicesLoading}
           isIssuesLoading={isIssuesLoading}
-          onOpenCreateModal={() => setIsCreateModalOpen(true)}
+          onOpenCreateModal={handleOpenCreateModal}
         />
       )}
 
-      <BuildingCreateModal
-        open={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onSuccess={(id) => {
-          void refetch();
-          navigate(ROUTES.LANDLORD.BUILDING_DETAIL(id));
-        }}
-      />
+      {!isLocked && (
+        <BuildingCreateModal
+          open={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          onSuccess={(id) => {
+            void refetch();
+            navigate(ROUTES.LANDLORD.BUILDING_DETAIL(id));
+          }}
+        />
+      )}
     </>
   );
 };

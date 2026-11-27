@@ -9,12 +9,14 @@ import { ContractEditModal } from '../components/contract-edit-modal';
 import { ContractCheckoutDialog } from '../components/detail/contract-checkout-dialog';
 import { useContractDetail } from '../hooks/use-contract-detail';
 import { useContractChat } from '../hooks/use-contract-chat';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Skeleton } from '@/components/feedback/skeleton';
 import { ErrorState } from '@/components/feedback/error-state';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 
 export const ContractDetailPage = () => {
   const { t } = useTranslation('contracts');
+  const { isLocked } = useAuth();
   const {
     contract,
     isLoading,
@@ -58,9 +60,9 @@ export const ContractDetailPage = () => {
     <div className="space-y-6">
       <ContractHeader
         contract={contract}
-        onEdit={handleOpenEditModal}
-        onCheckout={checkoutModal.handleOpen}
-        onOpenChat={openContractChat}
+        onEdit={isLocked ? undefined : handleOpenEditModal}
+        onCheckout={isLocked ? undefined : checkoutModal.handleOpen}
+        onOpenChat={isLocked ? undefined : openContractChat}
         isChatLoading={isChatLoading}
       />
 

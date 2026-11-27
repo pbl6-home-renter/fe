@@ -10,6 +10,7 @@ import { ErrorState } from '@/components/feedback/error-state';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import { EmptyState } from '@/components/feedback/empty-state';
 import { formatDate } from '@/lib/utils/format';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { UserAvatar } from '@/features/users/components/user-avatar';
 import { ContractMemberRow } from './contract-member-row';
 import { ContractStatus } from '../../enums/contract-status.enum';
@@ -25,6 +26,7 @@ interface ContractMembersCardProps {
 
 export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
   const { t } = useTranslation('contracts');
+  const { isLocked } = useAuth();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const { data, isLoading, isFetching, isError, refetch } = useContractMembersQuery(contract.id);
@@ -36,6 +38,7 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
   });
 
   const isActiveContract = contract.status === ContractStatus.ACTIVE;
+  const canManageMembers = isActiveContract && !isLocked;
   const activeMembers = members.filter((m) => m.status === 'active');
   const leftMembers = members.filter((m) => m.status === 'left');
 
@@ -52,7 +55,7 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
           </div>
         </div>
 
-        {isActiveContract && (
+        {canManageMembers && (
           <Button type="button" variant="primary" size="sm" onClick={() => setIsAddModalOpen(true)} className="gap-1.5">
             <UserPlus className="h-4 w-4" />
             <span>{t('members.addBtn')}</span>
@@ -93,8 +96,8 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
                 icon={Users}
                 title={t('members.emptyActiveTitle')}
                 description={t('members.emptyActiveDesc')}
-                actionText={isActiveContract ? t('members.addBtn') : undefined}
-                onAction={isActiveContract ? () => setIsAddModalOpen(true) : undefined}
+                actionText={canManageMembers ? t('members.addBtn') : undefined}
+                onAction={canManageMembers ? () => setIsAddModalOpen(true) : undefined}
               />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -102,7 +105,7 @@ export const ContractMembersCard = ({ contract }: ContractMembersCardProps) => {
                   <ContractMemberRow
                     key={member.id}
                     member={member}
-                    isActiveContract={isActiveContract}
+                    isActiveContract={canManageMembers}
                     onLeave={leaveModal.handleOpen}
                   />
                 ))}

@@ -10,8 +10,8 @@ import { InvoiceStatusBadge } from './invoice-status-badge';
 
 export interface InvoiceDetailHeaderProps {
   invoice: InvoiceDetailDto;
-  onIssue: () => void;
-  onCancel: () => void;
+  onIssue?: () => void;
+  onCancel?: () => void;
 }
 
 export const InvoiceDetailHeader = ({ invoice, onIssue, onCancel }: InvoiceDetailHeaderProps) => {
@@ -54,13 +54,13 @@ export const InvoiceDetailHeader = ({ invoice, onIssue, onCancel }: InvoiceDetai
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {isPending && (
+          {isPending && onIssue && (
             <Button type="button" variant="primary" onClick={onIssue} className="gap-2">
               <Send className="h-4 w-4" aria-hidden="true" />
               <span>{t('actions.issueOne')}</span>
             </Button>
           )}
-          {isIssued && (
+          {isIssued && onCancel && (
             <Button type="button" variant="danger" onClick={onCancel} className="gap-2">
               <Ban className="h-4 w-4" aria-hidden="true" />
               <span>{t('actions.cancelInvoice')}</span>

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { CheckCircle2, FileSignature, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { useContractActivateStep } from '../../hooks/use-contract-activate-step';
 import { ContractActivateDialog } from './contract-activate-dialog';
 import type { ContractDetailDto } from '../../types/contract.dto';
@@ -12,6 +13,7 @@ interface ContractStep3ActivateProps {
 
 export const ContractStep3Activate = ({ contract, onRefresh }: ContractStep3ActivateProps) => {
   const { t } = useTranslation('contracts');
+  const { isLocked } = useAuth();
   const {
     signedMediaId,
     isActivateDialogOpen,
@@ -85,11 +87,13 @@ export const ContractStep3Activate = ({ contract, onRefresh }: ContractStep3Acti
                   {t('detail.step3ViewSigned')}
                 </a>
               )}
-              <Button variant="ghost" size="sm" onClick={() => fileInputRef.current?.click()}>
-                {t('detail.step3Reupload')}
-              </Button>
+              {!isLocked && (
+                <Button variant="ghost" size="sm" onClick={() => fileInputRef.current?.click()}>
+                  {t('detail.step3Reupload')}
+                </Button>
+              )}
             </div>
-          ) : (
+          ) : !isLocked ? (
             <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-rentify-divider p-6 text-center">
               <Upload className="mb-2 h-8 w-8 text-rentify-outline" />
               <p className="text-xs text-rentify-text-secondary">{t('detail.step3UploadNotice')}</p>
@@ -104,23 +108,25 @@ export const ContractStep3Activate = ({ contract, onRefresh }: ContractStep3Acti
                 {isUploading ? t('detail.step3Uploading', { progress: uploadProgress }) : t('detail.step3SelectFile')}
               </Button>
             </div>
-          )}
+          ) : null}
 
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-rentify-divider pt-3">
-            <span className="text-xs text-rentify-text-secondary">
-              {!signedMediaId && t('detail.step3ActivateHint')}
-            </span>
-            <Button
-              variant="primary"
-              size="md"
-              disabled={!signedMediaId || isActivating}
-              onClick={() => setIsActivateDialogOpen(true)}
-              className="gap-2"
-            >
-              <CheckCircle2 className="h-4 w-4" />
-              <span>{t('detail.step3ActivateBtn')}</span>
-            </Button>
-          </div>
+          {!isLocked && (
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-rentify-divider pt-3">
+              <span className="text-xs text-rentify-text-secondary">
+                {!signedMediaId && t('detail.step3ActivateHint')}
+              </span>
+              <Button
+                variant="primary"
+                size="md"
+                disabled={!signedMediaId || isActivating}
+                onClick={() => setIsActivateDialogOpen(true)}
+                className="gap-2"
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                <span>{t('detail.step3ActivateBtn')}</span>
+              </Button>
+            </div>
+          )}
         </div>
       )}
 

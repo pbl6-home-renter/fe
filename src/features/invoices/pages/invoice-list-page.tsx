@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FilePlus2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { InvoiceGenerateDialog } from '../components/invoice-generate-dialog';
 import { InvoiceGenerateResultDialog } from '../components/invoice-generate-result-dialog';
 import { InvoiceIssueDialog } from '../components/invoice-issue-dialog';
@@ -11,6 +12,7 @@ import { useInvoiceList } from '../hooks/use-invoice-list';
 
 export const InvoiceListPage = () => {
   const { t } = useTranslation('invoices');
+  const { isLocked } = useAuth();
   const {
     tableState,
     invoices,
@@ -59,17 +61,19 @@ export const InvoiceListPage = () => {
         title={t('list.title')}
         description={t('list.subtitle')}
         actions={
-          <Button
-            type="button"
-            variant="primary"
-            onClick={handleGenerate}
-            disabled={buildings.length === 0 || isGenerating}
-            isLoading={isGenerating}
-            className="gap-2 shadow-xs"
-          >
-            <FilePlus2 className="h-4 w-4" aria-hidden="true" />
-            <span>{t('actions.generate')}</span>
-          </Button>
+          !isLocked ? (
+            <Button
+              type="button"
+              variant="primary"
+              onClick={handleGenerate}
+              disabled={buildings.length === 0 || isGenerating}
+              isLoading={isGenerating}
+              className="gap-2 shadow-xs"
+            >
+              <FilePlus2 className="h-4 w-4" aria-hidden="true" />
+              <span>{t('actions.generate')}</span>
+            </Button>
+          ) : undefined
         }
       />
 
@@ -87,8 +91,9 @@ export const InvoiceListPage = () => {
         onPeriodChange={handlePeriodChange}
         selectedStatus={selectedStatus}
         onStatusChange={handleStatusChange}
-        selectedInvoiceCount={selectedInvoiceIds.length}
+        selectedInvoiceCount={isLocked ? 0 : selectedInvoiceIds.length}
         onOpenIssueDialog={handleOpenIssueDialog}
+        isReadOnly={isLocked}
         isFiltered={isFiltered}
         onClearFilters={handleClearFilters}
         isLoading={isLoading}

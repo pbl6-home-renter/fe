@@ -10,13 +10,13 @@ import type { RoomDetailDto } from '../../types/room.dto';
 
 interface RoomHeaderProps {
   room: RoomDetailDto;
-  onEdit: () => void;
-  onDelete: () => void;
-  onMarkReady: () => void;
-  isMarkingReady: boolean;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  onMarkReady?: () => void;
+  isMarkingReady?: boolean;
 }
 
-export const RoomHeader = ({ room, onEdit, onDelete, onMarkReady, isMarkingReady }: RoomHeaderProps) => {
+export const RoomHeader = ({ room, onEdit, onDelete, onMarkReady, isMarkingReady = false }: RoomHeaderProps) => {
   const { t } = useTranslation('rooms');
 
   const canMarkReady =
@@ -47,37 +47,43 @@ export const RoomHeader = ({ room, onEdit, onDelete, onMarkReady, isMarkingReady
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center gap-2 flex-wrap self-start md:self-auto">
-          {canMarkReady && (
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={onMarkReady}
-              isLoading={isMarkingReady}
-              className="text-rentify-success border-rentify-success/30 hover:bg-rentify-success/10"
-            >
-              <CheckCircle2 className="w-4 h-4 mr-1 text-rentify-success" />
-              <span>{t('detail.markReadyAction')}</span>
-            </Button>
-          )}
+        {(onMarkReady || onEdit || onDelete) && (
+          <div className="flex items-center gap-2 flex-wrap self-start md:self-auto">
+            {canMarkReady && onMarkReady && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onMarkReady}
+                isLoading={isMarkingReady}
+                className="text-rentify-success border-rentify-success/30 hover:bg-rentify-success/10"
+              >
+                <CheckCircle2 className="w-4 h-4 mr-1 text-rentify-success" />
+                <span>{t('detail.markReadyAction')}</span>
+              </Button>
+            )}
 
-          <Button type="button" variant="outline" size="sm" onClick={onEdit} className="flex items-center gap-1.5">
-            <Edit3 className="w-4 h-4" />
-            <span>{t('detail.editAction')}</span>
-          </Button>
+            {onEdit && (
+              <Button type="button" variant="outline" size="sm" onClick={onEdit} className="flex items-center gap-1.5">
+                <Edit3 className="w-4 h-4" />
+                <span>{t('detail.editAction')}</span>
+              </Button>
+            )}
 
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={onDelete}
-            className="text-rentify-error border-rentify-error/30 hover:bg-rentify-error/10 flex items-center gap-1.5"
-          >
-            <Trash2 className="w-4 h-4" />
-            <span>{t('detail.deleteAction')}</span>
-          </Button>
-        </div>
+            {onDelete && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onDelete}
+                className="text-rentify-error border-rentify-error/30 hover:bg-rentify-error/10 flex items-center gap-1.5"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>{t('detail.deleteAction')}</span>
+              </Button>
+            )}
+          </div>
+        )}
       </Card>
     </div>
   );
