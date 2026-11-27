@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
 import { cn } from '@/lib/utils/cn';
+import { useLockedNavFilter } from '@/app/routes/use-locked-nav-filter';
 
 export interface TenantHeaderNavProps {
   unreadChatCount?: number;
@@ -9,6 +10,7 @@ export interface TenantHeaderNavProps {
 
 export const TenantHeaderNav = ({ unreadChatCount = 0 }: TenantHeaderNavProps) => {
   const { t } = useTranslation('common');
+  const isNavAllowed = useLockedNavFilter();
   const location = useLocation();
 
   const isExploreActive =
@@ -34,21 +36,23 @@ export const TenantHeaderNav = ({ unreadChatCount = 0 }: TenantHeaderNavProps) =
         {isExploreActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />}
       </Link>
 
-      <Link
-        to={ROUTES.TENANT.CHAT}
-        className={cn(
-          'h-full flex items-center relative gap-1.5 transition-colors',
-          isChatActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
-        )}
-      >
-        <span>{t('navigation.chat')}</span>
-        {unreadChatCount > 0 && (
-          <span className="rounded-full bg-rentify-primary-container text-rentify-primary px-1.5 py-0.5 text-[10px] font-bold leading-none">
-            {unreadChatCount > 99 ? '99+' : unreadChatCount}
-          </span>
-        )}
-        {isChatActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />}
-      </Link>
+      {isNavAllowed(ROUTES.TENANT.CHAT) && (
+        <Link
+          to={ROUTES.TENANT.CHAT}
+          className={cn(
+            'h-full flex items-center relative gap-1.5 transition-colors',
+            isChatActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
+          )}
+        >
+          <span>{t('navigation.chat')}</span>
+          {unreadChatCount > 0 && (
+            <span className="rounded-full bg-rentify-primary-container text-rentify-primary px-1.5 py-0.5 text-[10px] font-bold leading-none">
+              {unreadChatCount > 99 ? '99+' : unreadChatCount}
+            </span>
+          )}
+          {isChatActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />}
+        </Link>
+      )}
 
       <Link
         to={ROUTES.TENANT.ROOMS}
@@ -74,29 +78,35 @@ export const TenantHeaderNav = ({ unreadChatCount = 0 }: TenantHeaderNavProps) =
         )}
       </Link>
 
-      <Link
-        to={ROUTES.TENANT.ISSUES}
-        className={cn(
-          'h-full flex items-center relative transition-colors',
-          isIssuesActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
-        )}
-      >
-        <span>{t('navigation.issues')}</span>
-        {isIssuesActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />}
-      </Link>
+      {isNavAllowed(ROUTES.TENANT.ISSUES) && (
+        <Link
+          to={ROUTES.TENANT.ISSUES}
+          className={cn(
+            'h-full flex items-center relative transition-colors',
+            isIssuesActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
+          )}
+        >
+          <span>{t('navigation.issues')}</span>
+          {isIssuesActive && (
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
+          )}
+        </Link>
+      )}
 
-      <Link
-        to={ROUTES.TENANT.ROOMMATES}
-        className={cn(
-          'h-full flex items-center relative transition-colors',
-          isRoommatesActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
-        )}
-      >
-        <span>{t('navigation.roommatesShort')}</span>
-        {isRoommatesActive && (
-          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
-        )}
-      </Link>
+      {isNavAllowed(ROUTES.TENANT.ROOMMATES) && (
+        <Link
+          to={ROUTES.TENANT.ROOMMATES}
+          className={cn(
+            'h-full flex items-center relative transition-colors',
+            isRoommatesActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
+          )}
+        >
+          <span>{t('navigation.roommatesShort')}</span>
+          {isRoommatesActive && (
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
+          )}
+        </Link>
+      )}
     </nav>
   );
 };

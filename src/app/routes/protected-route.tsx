@@ -6,6 +6,7 @@ import { useAuth } from '@/features/auth/hooks/use-auth';
 import { LoadingSpinner } from '@/components/feedback/loading-spinner';
 import type { Role } from '@/types/role';
 import { UserStatus } from '@/types/user';
+import { getLockedHomePath, isPathAllowedWhileLocked } from './locked-access';
 
 export interface ProtectedRouteProps {
   allowedRoles?: Role[];
@@ -34,9 +35,9 @@ export const ProtectedRoute = ({ allowedRoles, roles, allowLocked = false, child
     return <Navigate to={`${ROUTES.LOGIN}?redirect=${returnUrl}`} state={{ from: location }} replace />;
   }
 
-  // Locked accounts only keep the routes opened with `allowLocked` (notifications, appeal page).
-  if (user.status === UserStatus.LOCKED && !allowLocked) {
-    return <Navigate to={ROUTES.ACCOUNT_LOCKED} replace />;
+  // Locked accounts keep read-only access to their own data (P12-D100, P13-D102).
+  if (user.status === UserStatus.LOCKED && !allowLocked && !isPathAllowedWhileLocked(location.pathname, user.role)) {
+    return <Navigate to={getLockedHomePath(user.role)} replace />;
   }
 
   if (requiredRoles && !requiredRoles.includes(user.role)) {

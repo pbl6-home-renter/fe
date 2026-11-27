@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes.config';
 import { cn } from '@/lib/utils/cn';
+import { useLockedNavFilter } from '@/app/routes/use-locked-nav-filter';
 
 export interface LandlordHeaderNavProps {
   unreadChatCount?: number;
@@ -10,6 +11,7 @@ export interface LandlordHeaderNavProps {
 export const LandlordHeaderNav = ({ unreadChatCount = 0 }: LandlordHeaderNavProps) => {
   const { t } = useTranslation('common');
   const location = useLocation();
+  const isNavAllowed = useLockedNavFilter();
 
   const navItems = [
     {
@@ -57,24 +59,28 @@ export const LandlordHeaderNav = ({ unreadChatCount = 0 }: LandlordHeaderNavProp
 
   return (
     <nav className="hidden md:flex items-center gap-1 lg:gap-3 xl:gap-5 text-xs lg:text-sm font-semibold h-16 overflow-x-auto no-scrollbar">
-      {navItems.map((item) => (
-        <Link
-          key={item.to}
-          to={item.to}
-          className={cn(
-            'h-full flex items-center relative gap-1 px-1.5 transition-colors shrink-0',
-            item.isActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
-          )}
-        >
-          <span>{item.label}</span>
-          {item.badge && (
-            <span className="rounded-full bg-rentify-primary-container text-rentify-primary px-1.5 py-0.5 text-[10px] font-bold leading-none">
-              {item.badge}
-            </span>
-          )}
-          {item.isActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />}
-        </Link>
-      ))}
+      {navItems
+        .filter((item) => isNavAllowed(item.to))
+        .map((item) => (
+          <Link
+            key={item.to}
+            to={item.to}
+            className={cn(
+              'h-full flex items-center relative gap-1 px-1.5 transition-colors shrink-0',
+              item.isActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
+            )}
+          >
+            <span>{item.label}</span>
+            {item.badge && (
+              <span className="rounded-full bg-rentify-primary-container text-rentify-primary px-1.5 py-0.5 text-[10px] font-bold leading-none">
+                {item.badge}
+              </span>
+            )}
+            {item.isActive && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
+            )}
+          </Link>
+        ))}
     </nav>
   );
 };

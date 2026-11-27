@@ -10,6 +10,7 @@ import { LogoutModal } from './components/logout-modal';
 import { AppFooter } from './components/app-footer';
 import { isChatPath } from '@/features/chat/constants/chat.constants';
 import { cn } from '@/lib/utils/cn';
+import { LockedAccountBanner } from '@/features/moderation/components/locked-account-banner';
 
 export interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -76,6 +77,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps = {}) => {
           disabled={isChatRoute}
           className={isChatRoute ? 'h-full min-h-0 w-full' : 'w-full'}
         >
+          {!isChatRoute && <LockedAccountBanner />}
           {children ?? <Outlet />}
         </RouteFade>
       </main>
