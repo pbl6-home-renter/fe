@@ -9,6 +9,8 @@ import { UserListPage } from '@/features/users/pages/admin/user-list-page';
 import { UserDetailPage } from '@/features/users/pages/admin/user-detail-page';
 import { SecuritySettingsPage } from '@/features/auth/pages/security-settings-page';
 import { AuditLogListPage } from '@/features/audit-logs/pages/admin/audit-log-list-page';
+import { AppealListPage } from '@/features/moderation/pages/admin/appeal-list-page';
+import { ReportListPage } from '@/features/moderation/pages/admin/report-list-page';
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -64,6 +66,22 @@ export const adminRoutes: RouteObject[] = [
     element: (
       <ProtectedRoute allowedRoles={[Role.ADMIN]}>
         <AuditLogListPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: ROUTES.ADMIN.APPEALS,
+    element: (
+      <ProtectedRoute allowedRoles={[Role.ADMIN]}>
+        <AppealListPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: ROUTES.ADMIN.REPORTS,
+    element: (
+      <ProtectedRoute allowedRoles={[Role.ADMIN]}>
+        <ReportListPage />
       </ProtectedRoute>
     ),
   },

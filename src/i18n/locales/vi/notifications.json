@@ -34,6 +34,12 @@
       "body": "{{landlordName}} vừa gửi tòa {{buildingName}} để duyệt."
     }
   },
+  "appealEvents": {
+    "rejected": {
+      "title": "Khiếu nại bị từ chối",
+      "body": "Khiếu nại mở khóa tài khoản của bạn đã bị từ chối. Lý do: {{rejectReason}}"
+    }
+  },
   "userEvents": {
     "locked": {
       "title": "Tài khoản đã bị khóa",

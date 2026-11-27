@@ -14,12 +14,7 @@ export interface ProtectedRouteProps {
   children?: ReactNode;
 }
 
-export const ProtectedRoute = ({
-  allowedRoles,
-  roles,
-  allowLocked = false,
-  children,
-}: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ allowedRoles, roles, allowLocked = false, children }: ProtectedRouteProps) => {
   const { t } = useTranslation('common');
   const { user, isAuthenticated, isHydrated, isRestoringSession } = useAuth();
   const location = useLocation();
@@ -39,8 +34,9 @@ export const ProtectedRoute = ({
     return <Navigate to={`${ROUTES.LOGIN}?redirect=${returnUrl}`} state={{ from: location }} replace />;
   }
 
+  // Locked accounts only keep the routes opened with `allowLocked` (notifications, appeal page).
   if (user.status === UserStatus.LOCKED && !allowLocked) {
-    return <Navigate to={ROUTES.FORBIDDEN} replace />;
+    return <Navigate to={ROUTES.ACCOUNT_LOCKED} replace />;
   }
 
   if (requiredRoles && !requiredRoles.includes(user.role)) {

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Copy, FileText, Phone } from 'lucide-react';
+import { Copy, FileText, Flag, Phone } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
@@ -11,9 +11,11 @@ export interface TenantDetailHeaderProps {
   tenant: ContractTenantDetailDto;
   phone: string | null;
   onCopyPhone: () => void;
+  /** Shown only when the tenant has a linked account that can be reported. */
+  onReport?: () => void;
 }
 
-export const TenantDetailHeader = ({ tenant, phone, onCopyPhone }: TenantDetailHeaderProps) => {
+export const TenantDetailHeader = ({ tenant, phone, onCopyPhone, onReport }: TenantDetailHeaderProps) => {
   const { t } = useTranslation('tenants');
   const displayName = tenant.tenantName || t('detail.unnamedTenant');
 
@@ -52,24 +54,40 @@ export const TenantDetailHeader = ({ tenant, phone, onCopyPhone }: TenantDetailH
           </div>
         </div>
 
-        {phone && (
-          <div className="flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onCopyPhone}
-              className="gap-1.5 flex-1 sm:flex-initial text-xs"
-            >
-              <Copy className="h-3.5 w-3.5" />
-              <span>{t('detail.copyPhone')}</span>
-            </Button>
-
-            <a href={`tel:${phone}`} className="flex-1 sm:flex-initial">
-              <Button variant="primary" size="sm" className="gap-1.5 w-full text-xs shadow-xs">
-                <Phone className="h-3.5 w-3.5" />
-                <span>{t('detail.callAction')}</span>
+        {(phone || onReport) && (
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0 w-full sm:w-auto">
+            {onReport && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onReport}
+                className="gap-1.5 flex-1 sm:flex-initial text-xs text-rentify-error"
+              >
+                <Flag className="h-3.5 w-3.5" />
+                <span>{t('detail.reportAction')}</span>
               </Button>
-            </a>
+            )}
+
+            {phone && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onCopyPhone}
+                  className="gap-1.5 flex-1 sm:flex-initial text-xs"
+                >
+                  <Copy className="h-3.5 w-3.5" />
+                  <span>{t('detail.copyPhone')}</span>
+                </Button>
+
+                <a href={`tel:${phone}`} className="flex-1 sm:flex-initial">
+                  <Button variant="primary" size="sm" className="gap-1.5 w-full text-xs shadow-xs">
+                    <Phone className="h-3.5 w-3.5" />
+                    <span>{t('detail.callAction')}</span>
+                  </Button>
+                </a>
+              </>
+            )}
           </div>
         )}
       </div>

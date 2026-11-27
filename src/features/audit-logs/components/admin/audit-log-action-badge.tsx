@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle2, Lock, Pencil, Trash2, Unlock, XCircle } from 'lucide-react';
+import { CheckCircle2, Lock, Pencil, Scale, Trash2, Unlock, XCircle } from 'lucide-react';
 import { Badge, type BadgeVariant } from '@/components/ui/badge';
 import { AuditLogAction } from '../../enums/audit-log-action.enum';
 
@@ -15,6 +15,7 @@ const ACTION_VARIANT_MAP: Record<AuditLogAction, BadgeVariant> = {
   [AuditLogAction.USER_DELETED]: 'error',
   [AuditLogAction.BUILDING_APPROVED]: 'success',
   [AuditLogAction.BUILDING_REJECTED]: 'error',
+  [AuditLogAction.APPEAL_REJECTED]: 'error',
 };
 
 const ACTION_ICON_MAP: Record<AuditLogAction, ReactNode> = {
@@ -24,6 +25,7 @@ const ACTION_ICON_MAP: Record<AuditLogAction, ReactNode> = {
   [AuditLogAction.USER_DELETED]: <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />,
   [AuditLogAction.BUILDING_APPROVED]: <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />,
   [AuditLogAction.BUILDING_REJECTED]: <XCircle className="h-3.5 w-3.5" aria-hidden="true" />,
+  [AuditLogAction.APPEAL_REJECTED]: <Scale className="h-3.5 w-3.5" aria-hidden="true" />,
 };
 
 export const AuditLogActionBadge = ({ action }: AuditLogActionBadgeProps) => {

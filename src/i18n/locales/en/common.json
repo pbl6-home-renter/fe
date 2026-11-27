@@ -132,7 +132,9 @@
       "approvals": "Landlord Approvals",
       "users": "User Management",
       "settings": "System Settings",
-      "auditLogs": "Audit Logs"
+      "auditLogs": "Audit Logs",
+      "appeals": "Appeals",
+      "reports": "Violation reports"
     }
   },
   "errors": {

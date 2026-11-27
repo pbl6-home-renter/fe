@@ -16,6 +16,8 @@ import {
   UserPlus,
   Gauge,
   Search,
+  Scale,
+  Flag,
 } from 'lucide-react';
 import type { ParseKeys } from 'i18next';
 import { Role } from '@/types/role';
@@ -91,6 +93,8 @@ export const ADMIN_NAVIGATION: readonly NavMenuItem[] = [
   },
   { id: 'admin-buildings', titleKey: 'navigation.admin.approvals', path: ROUTES.ADMIN.BUILDINGS, icon: CheckCircle2 },
   { id: 'admin-users', titleKey: 'navigation.admin.users', path: ROUTES.ADMIN.USERS, icon: UserCheck },
+  { id: 'admin-appeals', titleKey: 'navigation.admin.appeals', path: ROUTES.ADMIN.APPEALS, icon: Scale },
+  { id: 'admin-reports', titleKey: 'navigation.admin.reports', path: ROUTES.ADMIN.REPORTS, icon: Flag },
   { id: 'admin-audit', titleKey: 'navigation.admin.auditLogs', path: ROUTES.ADMIN.AUDIT_LOGS, icon: ShieldCheck },
   { id: 'admin-settings', titleKey: 'navigation.admin.settings', path: ROUTES.ADMIN.SETTINGS, icon: Settings },
 ] as const;

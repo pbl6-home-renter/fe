@@ -1,5 +1,10 @@
 export type ParsedAuditMetadataEntry =
-  { kind: 'changedFields'; fields: string[] } | { kind: 'lockReason'; value: string } | { kind: 'note'; value: string };
+  | { kind: 'changedFields'; fields: string[] }
+  | { kind: 'lockReason'; value: string }
+  | { kind: 'note'; value: string }
+  | { kind: 'rejectReason'; value: string }
+  | { kind: 'reportId'; value: string }
+  | { kind: 'appealId'; value: string };
 
 /**
  * Extracts known human-readable entries from audit log metadata without exposing raw JSON.
@@ -26,6 +31,17 @@ export const parseAuditLogMetadata = (
 
   if (typeof metadata.note === 'string' && metadata.note.trim().length > 0) {
     entries.push({ kind: 'note', value: metadata.note.trim() });
+  }
+
+  // P13-D109: appeal rejection reason, and the report/appeal that caused a lock/unlock.
+  if (typeof metadata.rejectReason === 'string' && metadata.rejectReason.trim().length > 0) {
+    entries.push({ kind: 'rejectReason', value: metadata.rejectReason.trim() });
+  }
+
+  if (typeof metadata.reportId === 'string' && metadata.reportId) {
+    entries.push({ kind: 'reportId', value: metadata.reportId });
+  } else if (typeof metadata.appealId === 'string' && metadata.appealId) {
+    entries.push({ kind: 'appealId', value: metadata.appealId });
   }
 
   return entries;

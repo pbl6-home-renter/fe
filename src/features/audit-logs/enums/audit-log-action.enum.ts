@@ -5,6 +5,7 @@ export const AuditLogAction = {
   USER_DELETED: 'user.deleted',
   BUILDING_APPROVED: 'building.approved',
   BUILDING_REJECTED: 'building.rejected',
+  APPEAL_REJECTED: 'appeal.rejected',
 } as const;
 
 export type AuditLogAction = (typeof AuditLogAction)[keyof typeof AuditLogAction];
