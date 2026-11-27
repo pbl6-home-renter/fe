@@ -11,9 +11,18 @@
   "markAllRead": "Mark all as read",
   "filters": { "label": "Filter notifications", "all": "All", "unread": "Unread" },
   "categories": { "chat": "Chat", "invoice": "Invoices", "issue": "Issues", "system": "System" },
+  "buildingEvents": {
+    "pendingReview": {
+      "title": "New building awaiting review",
+      "body": "{{landlordName}} submitted {{buildingName}} for review."
+    }
+  },
   "userEvents": {
     "locked": { "title": "Account locked", "body": "Your account has been locked. You can still view notifications." },
-    "unlocked": { "title": "Account unlocked", "body": "Your account has been unlocked. You can continue using the service." }
+    "unlocked": {
+      "title": "Account unlocked",
+      "body": "Your account has been unlocked. You can continue using the service."
+    }
   },
   "issueEvents": {
     "created": { "title": "New issue", "body": "A new issue is ready to review." },
