@@ -1,6 +1,8 @@
 import type { ParseKeys, TFunction } from 'i18next';
 import { ROUTES } from '@/config/routes.config';
 import type { Role } from '@/types/role';
+import { Role as UserRole } from '@/types/role';
+import { formatDate } from '@/lib/utils/format';
 
 type NotificationData = Record<string, unknown>;
 type NotificationI18nKey = ParseKeys<'notifications'>;
@@ -70,11 +72,44 @@ const contractSingleRoute = (data: NotificationData) => {
   return ROUTES.LANDLORD.CONTRACTS;
 };
 
+const contractMemberRoute = (data: NotificationData, role: Role | null) => {
+  const contractId = readString(data, 'contractId');
+  if (!contractId) return null;
+  return role === UserRole.TENANT
+    ? ROUTES.TENANT.CONTRACT_DETAIL(contractId)
+    : ROUTES.LANDLORD.CONTRACT_DETAIL(contractId);
+};
+
+const contractMemberParams = (data: NotificationData, t: TFunction<'notifications'>) => ({
+  memberName: readString(data, 'memberName') ?? t('contractMemberEvents.unknownMember'),
+  roomName: readString(data, 'roomName') ?? t('contractMemberEvents.unknownRoom'),
+  buildingName: readString(data, 'buildingName') ?? t('contractMemberEvents.unknownBuilding'),
+  leftOn: formatDate(readString(data, 'leftOn')),
+});
+
 /**
  * One entry per `data.messageKey` (see community-service `docs/notifications.md`).
  * Adding a notification = add an entry here + its `vi`/`en` keys in `notifications.json`.
  */
 export const NOTIFICATION_REGISTRY: Record<string, NotificationDefinition> = {
+  'contract.member_added': {
+    titleKey: 'contractMemberEvents.added.title',
+    bodyKey: 'contractMemberEvents.added.body',
+    params: contractMemberParams,
+    route: contractMemberRoute,
+  },
+  'contract.member_linked': {
+    titleKey: 'contractMemberEvents.linked.title',
+    bodyKey: 'contractMemberEvents.linked.body',
+    params: contractMemberParams,
+    route: contractMemberRoute,
+  },
+  'contract.member_left': {
+    titleKey: 'contractMemberEvents.left.title',
+    bodyKey: 'contractMemberEvents.left.body',
+    params: contractMemberParams,
+    route: contractMemberRoute,
+  },
   'building.pending_review': {
     titleKey: 'buildingEvents.pendingReview.title',
     bodyKey: 'buildingEvents.pendingReview.body',

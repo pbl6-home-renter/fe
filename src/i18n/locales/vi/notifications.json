@@ -11,6 +11,23 @@
   "markAllRead": "Đánh dấu tất cả đã đọc",
   "filters": { "label": "Lọc thông báo", "all": "Tất cả", "unread": "Chưa đọc" },
   "categories": { "chat": "Tin nhắn", "invoice": "Hóa đơn", "issue": "Sự cố", "system": "Hệ thống" },
+  "contractMemberEvents": {
+    "unknownMember": "Thành viên",
+    "unknownRoom": "phòng thuê",
+    "unknownBuilding": "tòa nhà",
+    "added": {
+      "title": "Bạn được thêm vào hợp đồng",
+      "body": "Bạn đã được thêm vào hợp đồng {{contractCode}} của phòng {{roomName}}, tòa {{buildingName}}."
+    },
+    "linked": {
+      "title": "Thành viên đã liên kết tài khoản",
+      "body": "{{memberName}} đã liên kết tài khoản với hợp đồng {{contractCode}}."
+    },
+    "left": {
+      "title": "Đã ghi nhận ngày rời hợp đồng",
+      "body": "Ngày rời hợp đồng {{contractCode}} của {{memberName}} đã được ghi nhận là {{leftOn}}."
+    }
+  },
   "buildingEvents": {
     "pendingReview": {
       "title": "Tòa nhà mới chờ duyệt",

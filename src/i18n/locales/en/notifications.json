@@ -11,6 +11,23 @@
   "markAllRead": "Mark all as read",
   "filters": { "label": "Filter notifications", "all": "All", "unread": "Unread" },
   "categories": { "chat": "Chat", "invoice": "Invoices", "issue": "Issues", "system": "System" },
+  "contractMemberEvents": {
+    "unknownMember": "A member",
+    "unknownRoom": "the rented room",
+    "unknownBuilding": "the building",
+    "added": {
+      "title": "Added to a contract",
+      "body": "You were added to contract {{contractCode}} for {{roomName}} in {{buildingName}}."
+    },
+    "linked": {
+      "title": "Member account linked",
+      "body": "{{memberName}} linked their account to contract {{contractCode}}."
+    },
+    "left": {
+      "title": "Contract leave date recorded",
+      "body": "The leave date for {{memberName}} on contract {{contractCode}} was recorded as {{leftOn}}."
+    }
+  },
   "buildingEvents": {
     "pendingReview": {
       "title": "New building awaiting review",
