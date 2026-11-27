@@ -1,0 +1,245 @@
+{
+  "actions": {
+    "cancel": "Cancel",
+    "close": "Close",
+    "retry": "Retry",
+    "viewDetail": "View details"
+  },
+  "columns": {
+    "actions": "Details"
+  },
+  "list": {
+    "totalBadge": "{{count}} items",
+    "refresh": "Refresh"
+  },
+  "filters": {
+    "statusLabel": "Status",
+    "categoryLabel": "Category",
+    "allStatuses": "All statuses",
+    "allCategories": "All categories",
+    "byUser": "User {{id}}",
+    "clearUser": "Clear user filter",
+    "reset": "Clear filters"
+  },
+  "empty": {
+    "filteredTitle": "Nothing matches",
+    "filteredDescription": "Try another status or remove some filters."
+  },
+  "detail": {
+    "errorTitle": "Couldn't load details",
+    "errorDescription": "Something went wrong while loading. Please try again.",
+    "reviewedBy": "Handled by",
+    "reviewedAt": "Handled at"
+  },
+  "user": {
+    "unknown": "Unknown account"
+  },
+  "appealStatus": {
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "rejected": "Rejected"
+  },
+  "reportStatus": {
+    "pending": "Pending",
+    "dismissed": "Dismissed",
+    "actioned": "Account locked"
+  },
+  "categories": {
+    "fraud": {
+      "label": "Fraud",
+      "lockReason": "Signs of defrauding other users"
+    },
+    "fake_listing": {
+      "label": "Fake listing",
+      "lockReason": "Posting fake or misleading rental listings"
+    },
+    "harassment": {
+      "label": "Harassment",
+      "lockReason": "Harassing other users"
+    },
+    "spam": {
+      "label": "Spam, advertising",
+      "lockReason": "Sending spam or unsolicited advertising"
+    },
+    "impersonation": {
+      "label": "Impersonation",
+      "lockReason": "Impersonating someone else"
+    },
+    "inappropriate_content": {
+      "label": "Inappropriate content",
+      "lockReason": "Posting inappropriate content"
+    },
+    "other": {
+      "label": "Other",
+      "lockReason": "Violating the Rentify terms of use"
+    }
+  },
+  "attachments": {
+    "add": "Choose files",
+    "uploading": "Uploading {{progress}}%",
+    "counter": "{{count}}/{{max}} files",
+    "limit": "You can attach up to {{count}} files.",
+    "remove": "Remove {{name}}",
+    "fileLabel": "File {{index}}",
+    "loadFailed": "Couldn't load",
+    "none": "No attachments."
+  },
+  "validations": {
+    "contentMin": "Please write at least 10 characters.",
+    "contentMax": "Up to 2000 characters.",
+    "emailInvalid": "Invalid email.",
+    "phoneInvalid": "Phone number must have 8–15 digits, optionally starting with +.",
+    "categoryRequired": "Please choose a category.",
+    "descriptionMin": "Please write at least 10 characters.",
+    "descriptionMax": "Up to 1000 characters.",
+    "reasonRequired": "Please enter a reason.",
+    "reasonMax": "Up to 500 characters."
+  },
+  "locked": {
+    "title": "Your account is locked",
+    "subtitle": "You can only view notifications and send an appeal. If you think this is a mistake, send an appeal below.",
+    "reasonLabel": "Lock reason",
+    "lockedAtLabel": "Locked at",
+    "noReason": "No specific reason",
+    "logout": "Log out",
+    "pendingTitle": "Pending review",
+    "pendingDescription": "Your appeal has been sent. It is usually handled within 3 business days.",
+    "sentAt": "Sent on {{date}}",
+    "rejectedTitle": "Your appeal was rejected",
+    "rejectReason": "Reason: {{reason}}",
+    "nextSubmitAt": "You can appeal again from {{date}}.",
+    "appealErrorTitle": "Couldn't load your appeal status",
+    "appealErrorDescription": "Please try again in a few minutes."
+  },
+  "appealForm": {
+    "title": "Send an appeal",
+    "subtitle": "Briefly explain why your account should be unlocked.",
+    "lockReasonLabel": "Lock reason",
+    "contentLabel": "Explanation",
+    "contentHelper": "10 to 2000 characters.",
+    "contentPlaceholder": "Describe what happened and why you ask to be unlocked...",
+    "attachmentsLabel": "Attachments",
+    "attachmentsHelper": "Up to 3 images (JPG, PNG, WEBP) or PDFs, 10 MB each.",
+    "contactEmailLabel": "Contact email",
+    "contactEmailPlaceholder": "you@example.com",
+    "contactPhoneLabel": "Contact phone",
+    "contactPhonePlaceholder": "0901234567",
+    "submit": "Send appeal"
+  },
+  "report": {
+    "open": "Report user",
+    "title": "Report user",
+    "description": "Report {{name}} to the admins. They won't know you reported them.",
+    "categoryLabel": "Category",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Describe what happened and when...",
+    "evidenceLabel": "Evidence images",
+    "evidenceHelper": "Up to 3 JPG, PNG or WEBP images.",
+    "submit": "Send report"
+  },
+  "appeals": {
+    "title": "Appeals",
+    "subtitle": "Unlock appeals from locked accounts, oldest first",
+    "columns": {
+      "user": "Sender",
+      "lockReason": "Lock reason",
+      "createdAt": "Sent at",
+      "status": "Status"
+    },
+    "empty": {
+      "title": "No appeals",
+      "description": "New appeals from locked users will show up here."
+    },
+    "detail": {
+      "title": "Appeal details",
+      "sentAt": "Sent on {{date}}",
+      "content": "Explanation",
+      "rejectReason": "Reject reason"
+    },
+    "actions": {
+      "accept": "Accept",
+      "reject": "Reject"
+    },
+    "accept": {
+      "title": "Accept this appeal?",
+      "description": "The account of {{name}} will be unlocked right away.",
+      "message": "The user will be notified and can use the app again.",
+      "confirm": "Accept and unlock"
+    },
+    "reject": {
+      "title": "Reject appeal",
+      "description": "The user will see this reason and can only appeal again after 7 days.",
+      "reasonLabel": "Reject reason",
+      "reasonPlaceholder": "E.g. The evidence is not enough to unlock",
+      "confirm": "Reject"
+    }
+  },
+  "reports": {
+    "title": "Violation reports",
+    "subtitle": "Reports from users about other accounts",
+    "columns": {
+      "reportedUser": "Reported user",
+      "category": "Category",
+      "reporter": "Reporter",
+      "createdAt": "Sent at",
+      "status": "Status"
+    },
+    "empty": {
+      "title": "No reports",
+      "description": "New reports from users will show up here."
+    },
+    "reportedBy": "Reported by {{name}}",
+    "detail": {
+      "title": "Report details",
+      "sentAt": "Sent on {{date}}",
+      "context": "Context",
+      "resolutionNote": "Resolution note"
+    },
+    "contextTypes": {
+      "conversation": "Conversation",
+      "contract": "Contract"
+    },
+    "actions": {
+      "dismiss": "Dismiss",
+      "close": "Close report",
+      "lock": "Lock account"
+    },
+    "dismiss": {
+      "title": "Dismiss report",
+      "description": "The report will be closed and the account is not affected.",
+      "noteLabel": "Note (optional)"
+    },
+    "close": {
+      "title": "Close report",
+      "description": "This account is already locked. The report will be closed without another lock."
+    },
+    "lock": {
+      "title": "Lock account",
+      "description": "Lock {{name}} and close every pending report about them.",
+      "reasonLabel": "Lock reason"
+    }
+  },
+  "userLinks": {
+    "pendingAppeal": "Pending appeal",
+    "pendingReports": "{{count}} pending reports"
+  },
+  "apiSuccess": {
+    "APPEAL_SUBMITTED": "Appeal sent.",
+    "APPEAL_ACCEPTED": "Appeal accepted and account unlocked.",
+    "APPEAL_REJECTED": "Appeal rejected.",
+    "REPORT_SUBMITTED": "Report sent. An admin will review it.",
+    "REPORT_RESOLVED": "Report handled."
+  },
+  "apiErrors": {
+    "ACCOUNT_NOT_LOCKED": "Your account is not locked.",
+    "APPEAL_ALREADY_PENDING": "You already have a pending appeal.",
+    "APPEAL_COOLDOWN": "Your appeal was just rejected. Please wait until you can appeal again.",
+    "APPEAL_NOT_FOUND": "Appeal not found.",
+    "APPEAL_NOT_PENDING": "This appeal has already been handled.",
+    "MODERATION_ATTACHMENT_INVALID": "An attachment is invalid. Please upload it again.",
+    "REPORT_ALREADY_PENDING": "You already reported this person; it is pending review.",
+    "REPORT_SELF": "You can't report yourself.",
+    "REPORT_NOT_FOUND": "Report not found.",
+    "REPORT_NOT_PENDING": "This report has already been handled."
+  }
+}

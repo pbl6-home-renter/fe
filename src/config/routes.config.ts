@@ -5,6 +5,7 @@ export const ROUTES = {
   PROFILE: '/profile',
   SETTINGS: '/settings',
   DESIGN_SYSTEM: '/design-system',
+  ACCOUNT_LOCKED: '/account-locked',
   FORBIDDEN: '/403',
   FORBIDDEN_ALT: '/forbidden',
   NOT_FOUND: '/404',
@@ -85,6 +86,8 @@ export const ROUTES = {
     SETTINGS: '/admin/settings',
     NOTIFICATIONS: '/admin/notifications',
     AUDIT_LOGS: '/admin/audit-logs',
+    APPEALS: '/admin/appeals',
+    REPORTS: '/admin/reports',
   },
 } as const;
 

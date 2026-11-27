@@ -26,6 +26,9 @@
     "building": {
       "approved": "Duyệt tòa nhà",
       "rejected": "Từ chối tòa nhà"
+    },
+    "appeal": {
+      "rejected": "Từ chối khiếu nại"
     }
   },
   "entityTypes": {
@@ -61,6 +64,10 @@
     "changedFields": "Đã sửa",
     "lockReason": "Lý do khóa",
     "note": "Ghi chú",
+    "rejectReason": "Lý do từ chối",
+    "source": "Nguồn",
+    "fromReport": "Báo cáo vi phạm ({{id}})",
+    "fromAppeal": "Khiếu nại ({{id}})",
     "fields": {
       "name": "Họ tên",
       "phone": "Số điện thoại",

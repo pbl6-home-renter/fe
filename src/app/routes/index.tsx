@@ -15,6 +15,7 @@ import { tenantRoutes } from './roles/tenant.routes';
 import { adminRoutes } from './roles/admin.routes';
 import { errorRoutes } from './roles/error.routes';
 import { NotificationsPage } from '@/features/notifications/pages/notifications-page';
+import { AccountLockedPage } from '@/features/moderation/pages/account-locked-page';
 
 export const routes: RouteObject[] = [
   {
@@ -28,6 +29,7 @@ export const routes: RouteObject[] = [
             element: <DashboardLayout />,
             children: [{ path: ROUTES.NOTIFICATIONS, element: <NotificationsPage /> }],
           },
+          { path: ROUTES.ACCOUNT_LOCKED, element: <AccountLockedPage /> },
         ],
       },
       {

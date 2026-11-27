@@ -19,6 +19,8 @@ import { ChatWindowError } from './chat-window-error';
 import { ChatTypingIndicator } from './chat-typing-indicator';
 import { BotReminderDialog } from './bot-reminder-dialog';
 import { useAuthStore } from '@/stores/auth-store';
+import { UserReportDialog } from '@/features/moderation/components/user-report-dialog';
+import { ReportContextType } from '@/features/moderation/enums/moderation.enum';
 
 interface ChatWindowProps {
   conversationId?: string;
@@ -61,6 +63,7 @@ export const ChatWindow = ({
   const notify = useNotify();
   const [manageOpen, setManageOpen] = useState(false);
   const [reminderOpen, setReminderOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
   const role = useAuthStore((state) => state.user?.role);
   const enhancements = useChatEnhancements(conversationId);
   const window = useChatWindow({
@@ -108,6 +111,13 @@ export const ChatWindow = ({
       .length ?? 0;
   const isReadOnly = Boolean(conversationId && (!window.currentMember || window.currentMember.status !== 'active'));
   const canSendReminder = Boolean(conversationId && contractId && role === 'landlord' && !isReadOnly);
+  // Only 1-1 chats with a real person: bot members have participantType 'system' and no userId.
+  const reportTarget =
+    conversationId && window.detail.data?.kind === 'direct' && (role === 'landlord' || role === 'tenant')
+      ? window.detail.data.members.find(
+          (member) => member.participantType === 'user' && member.userId && member.userId !== window.currentUserId,
+        )
+      : undefined;
   const typingNames = enhancements.typingUserIds
     .map(
       (id) =>
@@ -131,11 +141,13 @@ export const ChatWindow = ({
           canSearch={Boolean(conversationId)}
           canManage={canManage}
           canSendReminder={canSendReminder}
+          canReport={Boolean(reportTarget)}
           isManageOpen={manageOpen}
           onBack={onBack}
           onSearch={() => enhancements.setSearchOpen(true)}
           onManage={() => setManageOpen((open) => !open)}
           onReminder={() => setReminderOpen(true)}
+          onReport={() => setReportOpen(true)}
         />
         <div className="relative flex min-h-0 flex-1 flex-col">
           <ChatMessageFeed
@@ -233,6 +245,14 @@ export const ChatWindow = ({
           contractId={contractId}
           open={reminderOpen}
           onClose={() => setReminderOpen(false)}
+        />
+      )}
+      {reportTarget?.userId && conversationId && (
+        <UserReportDialog
+          open={reportOpen}
+          onClose={() => setReportOpen(false)}
+          reportedUser={{ id: reportTarget.userId, name: reportTarget.displayName }}
+          context={{ type: ReportContextType.CONVERSATION, id: conversationId }}
         />
       )}
     </section>

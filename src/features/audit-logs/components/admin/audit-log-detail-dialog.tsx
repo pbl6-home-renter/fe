@@ -140,6 +140,20 @@ export const AuditLogDetailDialog = ({ open, onClose, auditLog }: AuditLogDetail
                         {entry.value}
                       </span>
                     )}
+                    {entry.kind === 'rejectReason' && (
+                      <span>
+                        <span className="font-medium text-rentify-text-secondary">{t('metadata.rejectReason')}: </span>
+                        {entry.value}
+                      </span>
+                    )}
+                    {(entry.kind === 'reportId' || entry.kind === 'appealId') && (
+                      <span>
+                        <span className="font-medium text-rentify-text-secondary">{t('metadata.source')}: </span>
+                        {entry.kind === 'reportId'
+                          ? t('metadata.fromReport', { id: entry.value.slice(0, 8) })
+                          : t('metadata.fromAppeal', { id: entry.value.slice(0, 8) })}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>

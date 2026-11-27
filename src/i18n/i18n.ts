@@ -17,6 +17,7 @@ import viIssues from './locales/vi/issues.json';
 import viRoommates from './locales/vi/roommates.json';
 import viTenants from './locales/vi/tenants.json';
 import viAuditLogs from './locales/vi/auditLogs.json';
+import viModeration from './locales/vi/moderation.json';
 import enCommon from './locales/en/common.json';
 import enAuth from './locales/en/auth.json';
 import enMedia from './locales/en/media.json';
@@ -34,6 +35,7 @@ import enIssues from './locales/en/issues.json';
 import enRoommates from './locales/en/roommates.json';
 import enTenants from './locales/en/tenants.json';
 import enAuditLogs from './locales/en/auditLogs.json';
+import enModeration from './locales/en/moderation.json';
 
 export const defaultNS = 'common';
 export const resources = {
@@ -55,6 +57,7 @@ export const resources = {
     roommates: viRoommates,
     tenants: viTenants,
     auditLogs: viAuditLogs,
+    moderation: viModeration,
   },
   en: {
     common: enCommon,
@@ -74,6 +77,7 @@ export const resources = {
     roommates: enRoommates,
     tenants: enTenants,
     auditLogs: enAuditLogs,
+    moderation: enModeration,
   },
 } as const;
 

@@ -26,6 +26,9 @@
     "building": {
       "approved": "Approve building",
       "rejected": "Reject building"
+    },
+    "appeal": {
+      "rejected": "Reject appeal"
     }
   },
   "entityTypes": {
@@ -61,6 +64,10 @@
     "changedFields": "Updated",
     "lockReason": "Lock reason",
     "note": "Note",
+    "rejectReason": "Reject reason",
+    "source": "Source",
+    "fromReport": "Violation report ({{id}})",
+    "fromAppeal": "Appeal ({{id}})",
     "fields": {
       "name": "Full name",
       "phone": "Phone number",

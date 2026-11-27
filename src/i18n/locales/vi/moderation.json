@@ -1,0 +1,245 @@
+{
+  "actions": {
+    "cancel": "Hủy",
+    "close": "Đóng",
+    "retry": "Thử lại",
+    "viewDetail": "Xem chi tiết"
+  },
+  "columns": {
+    "actions": "Chi tiết"
+  },
+  "list": {
+    "totalBadge": "{{count}} mục",
+    "refresh": "Làm mới"
+  },
+  "filters": {
+    "statusLabel": "Trạng thái",
+    "categoryLabel": "Loại vi phạm",
+    "allStatuses": "Tất cả trạng thái",
+    "allCategories": "Tất cả loại",
+    "byUser": "Người dùng {{id}}",
+    "clearUser": "Bỏ lọc theo người dùng",
+    "reset": "Xóa bộ lọc"
+  },
+  "empty": {
+    "filteredTitle": "Không có mục phù hợp",
+    "filteredDescription": "Thử đổi trạng thái hoặc bỏ bớt bộ lọc."
+  },
+  "detail": {
+    "errorTitle": "Không tải được chi tiết",
+    "errorDescription": "Đã có lỗi khi tải dữ liệu. Vui lòng thử lại.",
+    "reviewedBy": "Người xử lý",
+    "reviewedAt": "Thời điểm xử lý"
+  },
+  "user": {
+    "unknown": "Tài khoản không xác định"
+  },
+  "appealStatus": {
+    "pending": "Đang chờ",
+    "accepted": "Đã chấp nhận",
+    "rejected": "Đã từ chối"
+  },
+  "reportStatus": {
+    "pending": "Đang chờ",
+    "dismissed": "Đã bỏ qua",
+    "actioned": "Đã khóa tài khoản"
+  },
+  "categories": {
+    "fraud": {
+      "label": "Lừa đảo",
+      "lockReason": "Có dấu hiệu lừa đảo người dùng khác"
+    },
+    "fake_listing": {
+      "label": "Tin đăng giả",
+      "lockReason": "Đăng tin cho thuê giả hoặc sai sự thật"
+    },
+    "harassment": {
+      "label": "Quấy rối",
+      "lockReason": "Quấy rối người dùng khác"
+    },
+    "spam": {
+      "label": "Spam, quảng cáo",
+      "lockReason": "Gửi spam hoặc quảng cáo trái phép"
+    },
+    "impersonation": {
+      "label": "Mạo danh",
+      "lockReason": "Mạo danh người khác"
+    },
+    "inappropriate_content": {
+      "label": "Nội dung không phù hợp",
+      "lockReason": "Đăng nội dung không phù hợp"
+    },
+    "other": {
+      "label": "Khác",
+      "lockReason": "Vi phạm quy định sử dụng Rentify"
+    }
+  },
+  "attachments": {
+    "add": "Chọn tệp",
+    "uploading": "Đang tải lên {{progress}}%",
+    "counter": "{{count}}/{{max}} tệp",
+    "limit": "Chỉ được đính kèm tối đa {{count}} tệp.",
+    "remove": "Xóa tệp {{name}}",
+    "fileLabel": "Tệp {{index}}",
+    "loadFailed": "Không tải được",
+    "none": "Không có tệp đính kèm."
+  },
+  "validations": {
+    "contentMin": "Nội dung cần ít nhất 10 ký tự.",
+    "contentMax": "Nội dung tối đa 2000 ký tự.",
+    "emailInvalid": "Email không hợp lệ.",
+    "phoneInvalid": "Số điện thoại gồm 8–15 chữ số, có thể bắt đầu bằng +.",
+    "categoryRequired": "Vui lòng chọn loại vi phạm.",
+    "descriptionMin": "Mô tả cần ít nhất 10 ký tự.",
+    "descriptionMax": "Mô tả tối đa 1000 ký tự.",
+    "reasonRequired": "Vui lòng nhập lý do.",
+    "reasonMax": "Tối đa 500 ký tự."
+  },
+  "locked": {
+    "title": "Tài khoản của bạn đang bị khóa",
+    "subtitle": "Bạn chỉ có thể xem thông báo và gửi khiếu nại. Nếu cho rằng đây là nhầm lẫn, hãy gửi khiếu nại bên dưới.",
+    "reasonLabel": "Lý do khóa",
+    "lockedAtLabel": "Thời điểm khóa",
+    "noReason": "Không có lý do cụ thể",
+    "logout": "Đăng xuất",
+    "pendingTitle": "Đang chờ xử lý",
+    "pendingDescription": "Khiếu nại của bạn đã được gửi. Thường xử lý trong 3 ngày làm việc.",
+    "sentAt": "Gửi lúc {{date}}",
+    "rejectedTitle": "Khiếu nại đã bị từ chối",
+    "rejectReason": "Lý do: {{reason}}",
+    "nextSubmitAt": "Bạn có thể gửi lại từ ngày {{date}}.",
+    "appealErrorTitle": "Không tải được trạng thái khiếu nại",
+    "appealErrorDescription": "Vui lòng thử lại sau ít phút."
+  },
+  "appealForm": {
+    "title": "Gửi khiếu nại",
+    "subtitle": "Giải thích ngắn gọn vì sao tài khoản nên được mở khóa.",
+    "lockReasonLabel": "Lý do khóa",
+    "contentLabel": "Nội dung giải trình",
+    "contentHelper": "Từ 10 đến 2000 ký tự.",
+    "contentPlaceholder": "Trình bày sự việc và lý do bạn đề nghị mở khóa...",
+    "attachmentsLabel": "Tệp đính kèm",
+    "attachmentsHelper": "Tối đa 3 tệp ảnh (JPG, PNG, WEBP) hoặc PDF, mỗi tệp tối đa 10 MB.",
+    "contactEmailLabel": "Email liên hệ",
+    "contactEmailPlaceholder": "ban@example.com",
+    "contactPhoneLabel": "Số điện thoại liên hệ",
+    "contactPhonePlaceholder": "0901234567",
+    "submit": "Gửi khiếu nại"
+  },
+  "report": {
+    "open": "Báo cáo vi phạm",
+    "title": "Báo cáo vi phạm",
+    "description": "Báo cáo {{name}} cho quản trị viên. Người bị báo cáo sẽ không biết bạn đã báo cáo.",
+    "categoryLabel": "Loại vi phạm",
+    "descriptionLabel": "Mô tả",
+    "descriptionPlaceholder": "Mô tả sự việc: chuyện gì đã xảy ra, khi nào...",
+    "evidenceLabel": "Ảnh bằng chứng",
+    "evidenceHelper": "Tối đa 3 ảnh JPG, PNG hoặc WEBP.",
+    "submit": "Gửi báo cáo"
+  },
+  "appeals": {
+    "title": "Khiếu nại",
+    "subtitle": "Khiếu nại mở khóa của tài khoản bị khóa, cũ nhất xếp trước",
+    "columns": {
+      "user": "Người gửi",
+      "lockReason": "Lý do khóa",
+      "createdAt": "Thời gian gửi",
+      "status": "Trạng thái"
+    },
+    "empty": {
+      "title": "Không có khiếu nại nào",
+      "description": "Khiếu nại mới của người dùng bị khóa sẽ hiện ở đây."
+    },
+    "detail": {
+      "title": "Chi tiết khiếu nại",
+      "sentAt": "Gửi lúc {{date}}",
+      "content": "Nội dung giải trình",
+      "rejectReason": "Lý do từ chối"
+    },
+    "actions": {
+      "accept": "Chấp nhận",
+      "reject": "Từ chối"
+    },
+    "accept": {
+      "title": "Chấp nhận khiếu nại?",
+      "description": "Tài khoản {{name}} sẽ được mở khóa ngay.",
+      "message": "Người dùng sẽ nhận thông báo và có thể dùng lại ứng dụng.",
+      "confirm": "Chấp nhận và mở khóa"
+    },
+    "reject": {
+      "title": "Từ chối khiếu nại",
+      "description": "Người dùng sẽ thấy lý do này và chỉ gửi lại được sau 7 ngày.",
+      "reasonLabel": "Lý do từ chối",
+      "reasonPlaceholder": "Ví dụ: Bằng chứng chưa đủ để mở khóa",
+      "confirm": "Từ chối"
+    }
+  },
+  "reports": {
+    "title": "Báo cáo vi phạm",
+    "subtitle": "Báo cáo của người dùng về tài khoản khác",
+    "columns": {
+      "reportedUser": "Người bị báo cáo",
+      "category": "Loại vi phạm",
+      "reporter": "Người báo cáo",
+      "createdAt": "Thời gian gửi",
+      "status": "Trạng thái"
+    },
+    "empty": {
+      "title": "Không có báo cáo nào",
+      "description": "Báo cáo mới của người dùng sẽ hiện ở đây."
+    },
+    "reportedBy": "Báo cáo bởi {{name}}",
+    "detail": {
+      "title": "Chi tiết báo cáo",
+      "sentAt": "Gửi lúc {{date}}",
+      "context": "Ngữ cảnh",
+      "resolutionNote": "Ghi chú xử lý"
+    },
+    "contextTypes": {
+      "conversation": "Cuộc trò chuyện",
+      "contract": "Hợp đồng"
+    },
+    "actions": {
+      "dismiss": "Bỏ qua",
+      "close": "Đóng báo cáo",
+      "lock": "Khóa tài khoản"
+    },
+    "dismiss": {
+      "title": "Bỏ qua báo cáo",
+      "description": "Báo cáo sẽ được đóng, tài khoản không bị ảnh hưởng.",
+      "noteLabel": "Ghi chú (không bắt buộc)"
+    },
+    "close": {
+      "title": "Đóng báo cáo",
+      "description": "Tài khoản này đã bị khóa. Báo cáo sẽ được đóng mà không khóa thêm."
+    },
+    "lock": {
+      "title": "Khóa tài khoản",
+      "description": "Khóa {{name}} và đóng mọi báo cáo đang chờ về người này.",
+      "reasonLabel": "Lý do khóa"
+    }
+  },
+  "userLinks": {
+    "pendingAppeal": "Có khiếu nại đang chờ",
+    "pendingReports": "{{count}} báo cáo đang chờ"
+  },
+  "apiSuccess": {
+    "APPEAL_SUBMITTED": "Đã gửi khiếu nại.",
+    "APPEAL_ACCEPTED": "Đã chấp nhận khiếu nại và mở khóa tài khoản.",
+    "APPEAL_REJECTED": "Đã từ chối khiếu nại.",
+    "REPORT_SUBMITTED": "Đã gửi báo cáo. Admin sẽ xem xét.",
+    "REPORT_RESOLVED": "Đã xử lý báo cáo."
+  },
+  "apiErrors": {
+    "ACCOUNT_NOT_LOCKED": "Tài khoản của bạn không bị khóa.",
+    "APPEAL_ALREADY_PENDING": "Bạn đã có một khiếu nại đang chờ xử lý.",
+    "APPEAL_COOLDOWN": "Khiếu nại vừa bị từ chối. Vui lòng chờ đến ngày được gửi lại.",
+    "APPEAL_NOT_FOUND": "Không tìm thấy khiếu nại.",
+    "APPEAL_NOT_PENDING": "Khiếu nại này đã được xử lý.",
+    "MODERATION_ATTACHMENT_INVALID": "Tệp đính kèm không hợp lệ. Vui lòng tải lại tệp.",
+    "REPORT_ALREADY_PENDING": "Bạn đã báo cáo người này, đang chờ xử lý.",
+    "REPORT_SELF": "Bạn không thể tự báo cáo chính mình.",
+    "REPORT_NOT_FOUND": "Không tìm thấy báo cáo.",
+    "REPORT_NOT_PENDING": "Báo cáo này đã được xử lý."
+  }
+}

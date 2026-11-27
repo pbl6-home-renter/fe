@@ -38,6 +38,7 @@
     "unnamedTenant": "Unnamed Tenant",
     "callAction": "Call",
     "copyPhone": "Copy phone",
+    "reportAction": "Report user",
     "copiedPhone": "Phone number copied!",
     "noPhone": "No phone number",
     "totalContracts": "{{count}} contracts",

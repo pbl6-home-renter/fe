@@ -123,6 +123,11 @@ export const NOTIFICATION_REGISTRY: Record<string, NotificationDefinition> = {
     titleKey: 'userEvents.unlocked.title',
     bodyKey: 'userEvents.unlocked.body',
   },
+  'appeal.rejected': {
+    titleKey: 'appealEvents.rejected.title',
+    bodyKey: 'appealEvents.rejected.body',
+    route: () => ROUTES.ACCOUNT_LOCKED,
+  },
   'issue.created': {
     titleKey: 'issueEvents.created.title',
     bodyKey: 'issueEvents.created.body',

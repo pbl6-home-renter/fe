@@ -100,6 +100,17 @@ export const MEDIA_PURPOSE_RULES: Readonly<Record<MediaPurpose, MediaPurposeRule
     visibility: 'private',
     singlePerOwner: true,
   },
+  // Also allowed while the account is locked (P13-D109).
+  [MediaPurpose.APPEAL_ATTACHMENT]: {
+    ownerTypes: [MediaOwnerType.USER],
+    contentTypes: IMAGE_AND_PDF_CONTENT_TYPES,
+    visibility: 'private',
+  },
+  [MediaPurpose.REPORT_EVIDENCE]: {
+    ownerTypes: [MediaOwnerType.USER],
+    contentTypes: IMAGE_CONTENT_TYPES,
+    visibility: 'private',
+  },
 };
 
 /** Value for `<input type="file" accept>` of a purpose. */

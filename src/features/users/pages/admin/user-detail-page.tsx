@@ -14,6 +14,7 @@ import { UserInfoCard } from '../../components/admin/user-info-card';
 import { UserLockDialog } from '../../components/admin/user-lock-dialog';
 import { UserUnlockDialog } from '../../components/admin/user-unlock-dialog';
 import { useUserDetailAdminQuery } from '../../hooks/use-user-detail-admin-query';
+import { UserModerationLinks } from '@/features/moderation/components/admin/user-moderation-links';
 
 export const UserDetailPage = () => {
   const { t } = useTranslation('users');
@@ -67,6 +68,9 @@ export const UserDetailPage = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-rentify-text-primary">{user.name}</h1>
           <p className="mt-1 text-sm text-rentify-text-secondary">{user.email}</p>
+          <div className="mt-2 empty:hidden">
+            <UserModerationLinks userId={user.id} />
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { isAxiosError } from 'axios';
@@ -9,6 +10,9 @@ import { Skeleton } from '@/components/feedback/skeleton';
 import { TenantDetailHeader } from '../components/tenant-detail-header';
 import { TenantMembershipsCard } from '../components/tenant-memberships-card';
 import { useTenantDetail } from '../hooks/use-tenant-detail';
+import { useTenantReportTarget } from '../hooks/use-tenant-report-target';
+import { UserReportDialog } from '@/features/moderation/components/user-report-dialog';
+import { ReportContextType } from '@/features/moderation/enums/moderation.enum';
 
 export const TenantDetailPage = () => {
   const { id = '' } = useParams<{ id: string }>();
@@ -16,6 +20,8 @@ export const TenantDetailPage = () => {
   const navigate = useNavigate();
 
   const { tenant, phone, memberships, isLoading, isError, error, refetch, handleCopyPhone } = useTenantDetail(id);
+  const reportTarget = useTenantReportTarget(tenant, memberships);
+  const [reportOpen, setReportOpen] = useState(false);
 
   const errorStatus = isAxiosError(error) ? error.response?.status : undefined;
 
@@ -60,9 +66,23 @@ export const TenantDetailPage = () => {
     <div className="space-y-6">
       <BackLink to={ROUTES.LANDLORD.TENANTS}>{t('detail.back')}</BackLink>
 
-      <TenantDetailHeader tenant={tenant} phone={phone} onCopyPhone={handleCopyPhone} />
+      <TenantDetailHeader
+        tenant={tenant}
+        phone={phone}
+        onCopyPhone={handleCopyPhone}
+        onReport={reportTarget ? () => setReportOpen(true) : undefined}
+      />
 
       <TenantMembershipsCard memberships={memberships} />
+
+      {reportTarget && (
+        <UserReportDialog
+          open={reportOpen}
+          onClose={() => setReportOpen(false)}
+          reportedUser={{ id: reportTarget.userId, name: tenant.tenantName || t('detail.unnamedTenant') }}
+          context={{ type: ReportContextType.CONTRACT, id: reportTarget.contractId }}
+        />
+      )}
     </div>
   );
 };

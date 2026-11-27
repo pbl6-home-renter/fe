@@ -1,10 +1,16 @@
-import { ArrowLeft, Bell, PanelRight, Search } from 'lucide-react';
+import { ArrowLeft, Bell, Flag, MoreVertical, PanelRight, Search } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useTranslation } from 'react-i18next';
 import { ConversationAvatar } from './conversation-avatar';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
 import { Skeleton } from '@/components/feedback/skeleton';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import type { SocketConnectionStatus } from '@/features/realtime/context/socket-session.context';
 
 interface ChatWindowHeaderProps {
@@ -18,11 +24,14 @@ interface ChatWindowHeaderProps {
   canSearch: boolean;
   canManage: boolean;
   canSendReminder: boolean;
+  /** Direct conversations with another person only (not groups or the bot). */
+  canReport: boolean;
   isManageOpen: boolean;
   onBack: () => void;
   onSearch: () => void;
   onManage: () => void;
   onReminder: () => void;
+  onReport: () => void;
 }
 
 export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
@@ -75,7 +84,13 @@ export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
         </IconButton>
       )}
       {props.canSendReminder && (
-        <IconButton type="button" variant="ghost" aria-label={t('reminder.open')} title={t('reminder.open')} onClick={props.onReminder}>
+        <IconButton
+          type="button"
+          variant="ghost"
+          aria-label={t('reminder.open')}
+          title={t('reminder.open')}
+          onClick={props.onReminder}
+        >
           <Bell className="h-4 w-4" aria-hidden="true" />
         </IconButton>
       )}
@@ -105,6 +120,21 @@ export const ChatWindowHeader = (props: ChatWindowHeaderProps) => {
             {t('groupManagement.open')}
           </Button>
         </>
+      )}
+      {props.canReport && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <IconButton type="button" variant="ghost" aria-label={t('moreActions')} title={t('moreActions')}>
+              <MoreVertical className="h-4 w-4" aria-hidden="true" />
+            </IconButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="gap-2 text-rentify-error" onSelect={props.onReport}>
+              <Flag className="h-4 w-4" aria-hidden="true" />
+              {t('reportUser')}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </header>
   );

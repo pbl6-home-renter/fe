@@ -132,7 +132,9 @@
       "approvals": "Phê duyệt chủ nhà",
       "users": "Quản lý tài khoản",
       "settings": "Cài đặt",
-      "auditLogs": "Nhật ký kiểm toán"
+      "auditLogs": "Nhật ký kiểm toán",
+      "appeals": "Khiếu nại",
+      "reports": "Báo cáo vi phạm"
     }
   },
   "errors": {

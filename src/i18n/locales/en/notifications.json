@@ -34,6 +34,12 @@
       "body": "{{landlordName}} submitted {{buildingName}} for review."
     }
   },
+  "appealEvents": {
+    "rejected": {
+      "title": "Appeal rejected",
+      "body": "Your unlock appeal was rejected. Reason: {{rejectReason}}"
+    }
+  },
   "userEvents": {
     "locked": { "title": "Account locked", "body": "Your account has been locked. You can still view notifications." },
     "unlocked": {
