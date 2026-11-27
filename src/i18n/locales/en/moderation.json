@@ -97,7 +97,7 @@
   },
   "locked": {
     "title": "Your account is locked",
-    "subtitle": "You can only view notifications and send an appeal. If you think this is a mistake, send an appeal below.",
+    "subtitle": "You can still view your profile, rooms, contracts, invoices and notifications, but you cannot edit, create or pay. If you think this is a mistake, send an appeal below.",
     "reasonLabel": "Lock reason",
     "lockedAtLabel": "Locked at",
     "noReason": "No specific reason",
@@ -109,7 +109,8 @@
     "rejectReason": "Reason: {{reason}}",
     "nextSubmitAt": "You can appeal again from {{date}}.",
     "appealErrorTitle": "Couldn't load your appeal status",
-    "appealErrorDescription": "Please try again in a few minutes."
+    "appealErrorDescription": "Please try again in a few minutes.",
+    "backToApp": "Back to app"
   },
   "appealForm": {
     "title": "Send an appeal",
@@ -241,5 +242,10 @@
     "REPORT_SELF": "You can't report yourself.",
     "REPORT_NOT_FOUND": "Report not found.",
     "REPORT_NOT_PENDING": "This report has already been handled."
+  },
+  "lockedBanner": {
+    "title": "Your account is locked",
+    "description": "You can only view your own information. Editing, creating and payments are turned off.",
+    "action": "See reason and appeal"
   }
 }

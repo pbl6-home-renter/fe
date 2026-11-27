@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Clock, Lock, LogOut, XCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, Clock, Lock, LogOut, XCircle } from 'lucide-react';
 import { AlertBanner } from '@/components/feedback/alert-banner';
 import { ErrorState } from '@/components/feedback/error-state';
 import { Skeleton } from '@/components/feedback/skeleton';
@@ -10,10 +11,14 @@ import { formatDate, formatDateTime } from '@/lib/utils/format';
 import { AppealStatus } from '../enums/moderation.enum';
 import { AppealForm } from '../components/appeal-form';
 import { useAccountLockedPage } from '../hooks/use-account-locked-page';
+import { useAuth } from '@/features/auth/hooks/use-auth';
+import { getLockedHomePath } from '@/app/routes/locked-access';
 
 export const AccountLockedPage = () => {
   const { t } = useTranslation('moderation');
   const { lockReason, lockedAt, appealQuery, onLogout, isLoggingOut } = useAccountLockedPage();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const current = appealQuery.data;
   const appeal = current?.appeal ?? null;
 
@@ -70,16 +75,27 @@ export const AccountLockedPage = () => {
       <div className="mx-auto max-w-2xl space-y-6">
         <div className="flex items-center justify-between gap-4">
           <RentifyLogo size="sm" />
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => void onLogout()}
-            isLoading={isLoggingOut}
-            className="gap-1.5"
-          >
-            <LogOut className="h-4 w-4" aria-hidden="true" />
-            <span>{t('locked.logout')}</span>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(getLockedHomePath(user?.role))}
+              className="gap-1.5"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              <span>{t('locked.backToApp')}</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => void onLogout()}
+              isLoading={isLoggingOut}
+              className="gap-1.5"
+            >
+              <LogOut className="h-4 w-4" aria-hidden="true" />
+              <span>{t('locked.logout')}</span>
+            </Button>
+          </div>
         </div>
 
         <Card>

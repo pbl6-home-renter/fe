@@ -97,7 +97,7 @@
   },
   "locked": {
     "title": "Tài khoản của bạn đang bị khóa",
-    "subtitle": "Bạn chỉ có thể xem thông báo và gửi khiếu nại. Nếu cho rằng đây là nhầm lẫn, hãy gửi khiếu nại bên dưới.",
+    "subtitle": "Bạn vẫn xem được hồ sơ, phòng, hợp đồng, hóa đơn và thông báo của mình, nhưng không thể chỉnh sửa, tạo mới hay thanh toán. Nếu cho rằng đây là nhầm lẫn, hãy gửi khiếu nại bên dưới.",
     "reasonLabel": "Lý do khóa",
     "lockedAtLabel": "Thời điểm khóa",
     "noReason": "Không có lý do cụ thể",
@@ -109,7 +109,8 @@
     "rejectReason": "Lý do: {{reason}}",
     "nextSubmitAt": "Bạn có thể gửi lại từ ngày {{date}}.",
     "appealErrorTitle": "Không tải được trạng thái khiếu nại",
-    "appealErrorDescription": "Vui lòng thử lại sau ít phút."
+    "appealErrorDescription": "Vui lòng thử lại sau ít phút.",
+    "backToApp": "Về ứng dụng"
   },
   "appealForm": {
     "title": "Gửi khiếu nại",
@@ -241,5 +242,10 @@
     "REPORT_SELF": "Bạn không thể tự báo cáo chính mình.",
     "REPORT_NOT_FOUND": "Không tìm thấy báo cáo.",
     "REPORT_NOT_PENDING": "Báo cáo này đã được xử lý."
+  },
+  "lockedBanner": {
+    "title": "Tài khoản của bạn đang bị khóa",
+    "description": "Bạn chỉ xem được thông tin của mình. Các thao tác chỉnh sửa, tạo mới và thanh toán đã bị tắt.",
+    "action": "Xem lý do và khiếu nại"
   }
 }

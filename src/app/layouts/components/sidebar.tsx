@@ -11,6 +11,7 @@ import { MOTION_DURATION, MOTION_EASE, MOTION_EXIT_EASE } from '@/lib/motion';
 import { RentifyLogo } from '@/components/ui/rentify-logo';
 import { IconButton } from '@/components/ui/icon-button';
 import { getNavigationByRole } from '@/config/navigation.config';
+import { useLockedNavFilter } from '@/app/routes/use-locked-nav-filter';
 import { useUnreadSummaryQuery } from '@/features/chat/hooks/use-chat-queries';
 import { CHAT_UNREAD_BADGE_MAX } from '@/features/chat/constants/chat.constants';
 
@@ -25,7 +26,8 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
   const { role } = useAuth();
   const { t } = useTranslation('common');
 
-  const menuItems = getNavigationByRole(role);
+  const isNavAllowed = useLockedNavFilter();
+  const menuItems = getNavigationByRole(role).filter((item) => isNavAllowed(item.path));
   const unread = useUnreadSummaryQuery(role === Role.LANDLORD || role === Role.TENANT);
 
   useEffect(() => {
