@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useCallback, useEffect, useRef } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userLockSchema, type UserLockFormData } from '../forms/user-lock.schema';
 import { useLockUserMutation } from './use-lock-user-mutation';
@@ -23,6 +23,8 @@ export const useUserLockForm = ({ userId, isOpen = true, onSuccess, onCancel }: 
     mode: 'onTouched',
   });
 
+  const lockReason = useWatch({ control: form.control, name: 'lockReason' }) ?? '';
+
   useEffect(() => {
     const wasJustOpened = isOpen && !prevOpenRef.current;
     prevOpenRef.current = isOpen;
@@ -31,6 +33,17 @@ export const useUserLockForm = ({ userId, isOpen = true, onSuccess, onCancel }: 
       form.reset({ lockReason: '' });
     }
   }, [isOpen, form]);
+
+  const handleSelectSuggestion = useCallback(
+    (reason: string) => {
+      form.setValue('lockReason', reason, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+    },
+    [form],
+  );
 
   const onSubmit = form.handleSubmit((values) => {
     lockMutation.mutate(
@@ -51,6 +64,8 @@ export const useUserLockForm = ({ userId, isOpen = true, onSuccess, onCancel }: 
 
   return {
     form,
+    lockReason,
+    handleSelectSuggestion,
     onSubmit,
     onCancel,
     isSubmitting: lockMutation.isPending,

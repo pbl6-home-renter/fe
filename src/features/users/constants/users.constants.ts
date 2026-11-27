@@ -17,3 +17,12 @@ export const DEFAULT_USER_COLUMN_PINNING: ColumnPinningState = {
   left: ['name'],
   right: ['actions'],
 };
+
+export const USER_LOCK_REASON_SUGGESTION_KEYS = [
+  'fraudOrPaymentMisconduct',
+  'fakeListing',
+  'harassmentOrThreats',
+  'spamOrAdvertising',
+  'impersonation',
+  'inappropriateContent',
+] as const;
