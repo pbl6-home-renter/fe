@@ -31,6 +31,11 @@ const issueRoute = (data: NotificationData) => {
   return issueId ? ROUTES.ISSUE_DETAIL(issueId) : null;
 };
 
+const pendingBuildingRoute = (data: NotificationData) => {
+  const buildingId = readString(data, 'buildingId');
+  return buildingId ? ROUTES.ADMIN.BUILDING_DETAIL(buildingId) : null;
+};
+
 const matchRequestRoute = (data: NotificationData) => {
   const matchRequestId = readString(data, 'matchRequestId');
   return matchRequestId ? `${ROUTES.ROOMMATES}?matchRequestId=${encodeURIComponent(matchRequestId)}` : ROUTES.ROOMMATES;
@@ -70,6 +75,11 @@ const contractSingleRoute = (data: NotificationData) => {
  * Adding a notification = add an entry here + its `vi`/`en` keys in `notifications.json`.
  */
 export const NOTIFICATION_REGISTRY: Record<string, NotificationDefinition> = {
+  'building.pending_review': {
+    titleKey: 'buildingEvents.pendingReview.title',
+    bodyKey: 'buildingEvents.pendingReview.body',
+    route: pendingBuildingRoute,
+  },
   'user.locked': {
     titleKey: 'userEvents.locked.title',
     bodyKey: 'userEvents.locked.body',
