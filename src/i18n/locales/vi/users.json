@@ -91,6 +91,15 @@
       "description": "Bạn có chắc chắn muốn khóa tài khoản {{name}} ({{email}}) không?",
       "warningTitle": "Cảnh báo truy cập",
       "warningDescription": "Khi bị khóa, người dùng sẽ không thể đăng nhập hoặc thực hiện bất kỳ giao dịch nào trên hệ thống.",
+      "suggestionsLabel": "Gợi ý lý do nhanh",
+      "suggestions": {
+        "fraudOrPaymentMisconduct": "Lừa đảo hoặc thu tiền sai thỏa thuận",
+        "fakeListing": "Tin đăng giả, ảnh và thông tin phòng không đúng thực tế",
+        "harassmentOrThreats": "Quấy rối, đe dọa người dùng khác",
+        "spamOrAdvertising": "Spam tin nhắn hoặc quảng cáo",
+        "impersonation": "Giả mạo danh tính",
+        "inappropriateContent": "Nội dung không phù hợp"
+      },
       "confirmButton": "Khóa tài khoản"
     },
     "unlock": {

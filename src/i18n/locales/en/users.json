@@ -91,6 +91,15 @@
       "description": "Are you sure you want to lock account {{name}} ({{email}})?",
       "warningTitle": "Access Warning",
       "warningDescription": "Once locked, the user will not be able to log in or perform any actions.",
+      "suggestionsLabel": "Quick reason suggestions",
+      "suggestions": {
+        "fraudOrPaymentMisconduct": "Fraud or unauthorized payment collection",
+        "fakeListing": "Fake listing with inaccurate photos or room details",
+        "harassmentOrThreats": "Harassment or threats toward other users",
+        "spamOrAdvertising": "Spam messages or unauthorized advertising",
+        "impersonation": "Identity impersonation",
+        "inappropriateContent": "Inappropriate content"
+      },
       "confirmButton": "Lock Account"
     },
     "unlock": {
