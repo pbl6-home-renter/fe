@@ -65,24 +65,6 @@
     "rejected": { "title": "Lời mời ở ghép đã bị từ chối", "body": "{{actorName}} đã từ chối lời mời ở ghép của bạn." },
     "withdrawn": { "title": "Lời mời ở ghép đã được rút", "body": "{{actorName}} đã rút lời mời ở ghép gửi cho bạn." }
   },
-  "contractLockEvents": {
-    "decisionRequired": {
-      "title": "Cần quyết định hợp đồng bị tạm ngưng",
-      "body": "Tài khoản của bạn đã được mở khóa. Vui lòng chọn khôi phục hoặc chấm dứt các hợp đồng bị tạm ngưng."
-    },
-    "restored": {
-      "title": "Hợp đồng đã được khôi phục",
-      "body": "Hợp đồng thuê đã được khôi phục trạng thái hoạt động bình thường."
-    },
-    "terminated": {
-      "title": "Hợp đồng đã chấm dứt",
-      "body": "Hợp đồng thuê đã được chấm dứt sau thời gian tạm ngưng."
-    },
-    "suspended": {
-      "title": "Hợp đồng bị tạm ngưng",
-      "body": "Hợp đồng đã bị tạm ngưng do tài khoản chủ trọ bị khóa."
-    }
-  },
   "preferences": {
     "button": "Cài đặt thông báo",
     "title": "Cài đặt thông báo",

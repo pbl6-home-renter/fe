@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { FileText, Users } from 'lucide-react';
 import { ContractHeader } from '../components/detail/contract-header';
-import { ContractSuspendedBanner } from '../components/detail/contract-suspended-banner';
 import { ContractInfoCard } from '../components/detail/contract-info-card';
 import { ContractDocumentsCard } from '../components/detail/contract-documents-card';
 import { ContractMembersCard } from '../components/members/contract-members-card';
@@ -65,8 +64,6 @@ export const ContractDetailPage = () => {
         onOpenChat={isLocked ? undefined : openContractChat}
         isChatLoading={isChatLoading}
       />
-
-      <ContractSuspendedBanner contract={contract} onRefresh={() => void refetch()} />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-1">

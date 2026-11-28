@@ -15,7 +15,7 @@ export const CONTRACT_QUERY_KEYS = {
 };
 
 export type ContractStatusLabelKey =
-  'status.draft' | 'status.signed' | 'status.active' | 'status.suspended' | 'status.expired' | 'status.terminated';
+  'status.draft' | 'status.signed' | 'status.active' | 'status.expired' | 'status.terminated';
 
 export const CONTRACT_STATUS_CONFIG: Record<
   ContractStatus,
@@ -39,11 +39,6 @@ export const CONTRACT_STATUS_CONFIG: Record<
     labelKey: 'status.active',
     dotClass: 'bg-rentify-success',
     pillClass: 'bg-rentify-success/10 text-rentify-success border-rentify-success/20',
-  },
-  [ContractStatus.SUSPENDED]: {
-    labelKey: 'status.suspended',
-    dotClass: 'bg-rentify-warning',
-    pillClass: 'bg-rentify-warning/10 text-rentify-warning border-rentify-warning/20',
   },
   [ContractStatus.EXPIRED]: {
     labelKey: 'status.expired',
