@@ -51,8 +51,30 @@ export const MeterReadingTable = ({
     requiredColumnIds: REQUIRED_COLUMNS,
   });
 
-  const columns = useMemo<ColumnDef<RoomReadingRowState, unknown>[]>(
-    () => [
+  const columns = useMemo<ColumnDef<RoomReadingRowState, unknown>[]>(() => {
+    const renderMeterCell = (row: RoomReadingRowState, type: MeterType) => {
+      const cell = type === MeterType.ELECTRICITY ? row.electricity : row.water;
+      return (
+        <MeterReadingCellInput
+          roomId={row.roomId}
+          type={type}
+          previousReading={cell.previousReading}
+          currentReading={cell.currentReading}
+          consumption={cell.consumption}
+          evidenceMediaId={cell.evidenceMediaId}
+          evidencePreviewUrl={cell.evidencePreviewUrl}
+          source={cell.source}
+          ocrValue={cell.ocrValue}
+          ocrConfidence={cell.ocrConfidence}
+          isSaved={cell.isSaved}
+          onReadingChange={(val) => onReadingChange(row.roomId, type, val)}
+          onOcrSuccess={(data) => onCellOcrSuccess(row.roomId, type, data)}
+          onViewImage={onViewImage}
+        />
+      );
+    };
+
+    return [
       {
         accessorKey: 'roomName',
         header: t('columns.room'),
@@ -62,9 +84,7 @@ export const MeterReadingTable = ({
         cell: ({ row }) => (
           <TextLink
             to={ROUTES.LANDLORD.ROOM_DETAIL(row.original.roomId)}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
+            onClick={(e) => e.stopPropagation()}
             className="font-bold"
           >
             {row.original.roomName}
@@ -82,24 +102,7 @@ export const MeterReadingTable = ({
         size: 380,
         minSize: 300,
         meta: { label: t('types.electricity') },
-        cell: ({ row }) => (
-          <MeterReadingCellInput
-            roomId={row.original.roomId}
-            type={MeterType.ELECTRICITY}
-            previousReading={row.original.electricity.previousReading}
-            currentReading={row.original.electricity.currentReading}
-            consumption={row.original.electricity.consumption}
-            evidenceMediaId={row.original.electricity.evidenceMediaId}
-            evidencePreviewUrl={row.original.electricity.evidencePreviewUrl}
-            source={row.original.electricity.source}
-            ocrValue={row.original.electricity.ocrValue}
-            ocrConfidence={row.original.electricity.ocrConfidence}
-            isSaved={row.original.electricity.isSaved}
-            onReadingChange={(val) => onReadingChange(row.original.roomId, MeterType.ELECTRICITY, val)}
-            onOcrSuccess={(data) => onCellOcrSuccess(row.original.roomId, MeterType.ELECTRICITY, data)}
-            onViewImage={onViewImage}
-          />
-        ),
+        cell: ({ row }) => renderMeterCell(row.original, MeterType.ELECTRICITY),
       },
       {
         id: 'water',
@@ -112,24 +115,7 @@ export const MeterReadingTable = ({
         size: 380,
         minSize: 300,
         meta: { label: t('types.water') },
-        cell: ({ row }) => (
-          <MeterReadingCellInput
-            roomId={row.original.roomId}
-            type={MeterType.WATER}
-            previousReading={row.original.water.previousReading}
-            currentReading={row.original.water.currentReading}
-            consumption={row.original.water.consumption}
-            evidenceMediaId={row.original.water.evidenceMediaId}
-            evidencePreviewUrl={row.original.water.evidencePreviewUrl}
-            source={row.original.water.source}
-            ocrValue={row.original.water.ocrValue}
-            ocrConfidence={row.original.water.ocrConfidence}
-            isSaved={row.original.water.isSaved}
-            onReadingChange={(val) => onReadingChange(row.original.roomId, MeterType.WATER, val)}
-            onOcrSuccess={(data) => onCellOcrSuccess(row.original.roomId, MeterType.WATER, data)}
-            onViewImage={onViewImage}
-          />
-        ),
+        cell: ({ row }) => renderMeterCell(row.original, MeterType.WATER),
       },
       {
         id: 'actions',
@@ -166,9 +152,8 @@ export const MeterReadingTable = ({
           );
         },
       },
-    ],
-    [t, onReadingChange, onCellOcrSuccess, onOpenSingleModal, onViewImage],
-  );
+    ];
+  }, [t, onReadingChange, onCellOcrSuccess, onOpenSingleModal, onViewImage]);
 
   const table = useDataTable({
     data: rows,
@@ -191,7 +176,6 @@ export const MeterReadingTable = ({
       isFetching={isFetching}
       error={isError}
       onRetry={onRetry}
-      onRowClick={(row) => onOpenSingleModal(row, MeterType.ELECTRICITY)}
       emptyState={{ title: t('warnings.noRoomsInBuilding') }}
       renderMobileRow={(row) => (
         <MeterReadingMobileCard

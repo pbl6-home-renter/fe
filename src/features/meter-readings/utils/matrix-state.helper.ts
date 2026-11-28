@@ -14,6 +14,7 @@ const resolveCell = (
   prevServer?: MeterReadingDto,
   edit?: Partial<MeterCellState>,
 ): MeterCellState => {
+  const hasPreviousReading = Boolean(prevServer);
   const previousReading = currentServer?.previousReading || prevServer?.currentReading || '0';
   const currentReading = edit?.currentReading !== undefined ? edit.currentReading : currentServer?.currentReading || '';
 
@@ -22,18 +23,25 @@ const resolveCell = (
     currentServer?.evidenceMediaUrls?.[0] || (serverMediaId ? `/api/v1/media/${serverMediaId}` : null);
 
   const evidenceMediaId = edit?.evidenceMediaId !== undefined ? edit.evidenceMediaId : serverMediaId;
+  const evidenceFile = edit?.evidenceFile ?? null;
   const evidencePreviewUrl = edit?.evidencePreviewUrl !== undefined ? edit.evidencePreviewUrl : serverMediaUrl;
 
-  const isSaved = Boolean(currentServer?.id) && edit?.currentReading === undefined;
+  const hasPendingEdit =
+    (edit?.currentReading !== undefined && edit.currentReading !== (currentServer?.currentReading || '')) ||
+    Boolean(edit?.evidenceFile);
+  const isSaved = Boolean(currentServer?.id) && !hasPendingEdit;
 
   return {
     existingId: currentServer?.id || null,
+    hasPreviousReading,
+    isBaseline: Boolean(currentServer?.isBaseline),
     previousReading,
     currentReading,
     consumption: calculateConsumption(currentReading, previousReading),
     evidenceMediaId,
+    evidenceFile,
     evidencePreviewUrl,
-    source: edit?.source || (currentServer?.id ? 'manual' : 'manual'),
+    source: edit?.source || 'manual',
     ocrValue: edit?.ocrValue,
     ocrConfidence: edit?.ocrConfidence,
     isUploading: edit?.isUploading || false,

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils/cn';
 import { useMeterReadingOcr } from '../hooks/use-meter-reading-ocr';
 import { MeterType } from '../enums/meter-type.enum';
+import type { CellOcrSuccessData } from '../types/meter-reading.dto';
 
 interface MeterReadingCellInputProps {
   roomId: string;
@@ -20,14 +21,7 @@ interface MeterReadingCellInputProps {
   ocrConfidence?: number;
   isSaved: boolean;
   onReadingChange: (val: string) => void;
-  onOcrSuccess: (data: {
-    currentReading?: string;
-    evidenceMediaId: string;
-    previewUrl: string;
-    source: 'manual' | 'ocr';
-    ocrValue?: string | null;
-    ocrConfidence?: number;
-  }) => void;
+  onOcrSuccess: (data: CellOcrSuccessData) => void;
   onViewImage: (url: string) => void;
 }
 
@@ -87,12 +81,10 @@ export const MeterReadingCellInput = ({
           value={currentReading}
           onChange={handleInputChange}
           placeholder={previousReading || '0'}
-          disabled={isSaved}
           containerClassName="w-full flex-1 min-w-0"
           className={cn(
             'h-9 min-h-9 px-2.5 py-1 text-xs rounded-xl',
             isLessThanPrev && 'border-rentify-warning focus:border-rentify-warning focus:ring-rentify-warning/20',
-            isSaved && 'opacity-80 bg-rentify-background',
           )}
         />
 
@@ -105,7 +97,7 @@ export const MeterReadingCellInput = ({
           className="hidden"
         />
 
-        {previewSource ? (
+        {previewSource && (
           <IconButton
             type="button"
             variant="secondary"
@@ -116,20 +108,19 @@ export const MeterReadingCellInput = ({
           >
             <ImageIcon className="w-4 h-4" />
           </IconButton>
-        ) : (
-          <IconButton
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={openCameraPicker}
-            disabled={isSaved}
-            isLoading={isProcessing}
-            aria-label={t('actions.capturePhoto')}
-            className="h-9 w-9 rounded-xl"
-          >
-            <Camera className="w-4 h-4" />
-          </IconButton>
         )}
+
+        <IconButton
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={openCameraPicker}
+          isLoading={isProcessing}
+          aria-label={previewSource ? t('actions.retake') : t('actions.capturePhoto')}
+          className="h-9 w-9 rounded-xl"
+        >
+          <Camera className="w-4 h-4" />
+        </IconButton>
       </div>
 
       <div className="flex flex-wrap items-center gap-1 text-[10px]">

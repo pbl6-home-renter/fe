@@ -5,11 +5,15 @@ import { useNotify } from '@/lib/notifications/use-notify';
 import { useMyBuildingsQuery } from '@/features/buildings/hooks/use-my-buildings-query';
 import { useMyRoomsQuery } from '@/features/rooms/hooks/use-my-rooms-query';
 import { useMeterReadingsQuery } from './use-meter-readings-query';
-import { useBulkCreateMeterReadingsMutation } from './use-bulk-create-meter-readings-mutation';
+import {
+  useBulkCreateMeterReadingsMutation,
+  type BaselineReadingBatchItem,
+  type UpdateReadingBatchItem,
+} from './use-bulk-create-meter-readings-mutation';
 import { getCurrentPeriod, getPreviousPeriod } from '../utils/meter-reading.helper';
 import { MeterType } from '../enums/meter-type.enum';
 import { buildMatrixState, type UserEditsMap } from '../utils/matrix-state.helper';
-import type { BulkMeterReadingItemRequestDto } from '../types/meter-reading.dto';
+import type { BulkMeterReadingItemRequestDto, CellOcrSuccessData } from '../types/meter-reading.dto';
 
 export const useMeterReadingMatrix = () => {
   const { t } = useTranslation('meterReadings');
@@ -116,38 +120,25 @@ export const useMeterReadingMatrix = () => {
     }));
   }, []);
 
-  const handleCellOcrSuccess = useCallback(
-    (
-      roomId: string,
-      type: MeterType,
-      data: {
-        currentReading?: string;
-        evidenceMediaId: string;
-        previewUrl: string;
-        source: 'manual' | 'ocr';
-        ocrValue?: string | null;
-        ocrConfidence?: number;
-      },
-    ) => {
-      setUserEdits((prev) => ({
-        ...prev,
-        [roomId]: {
-          ...prev[roomId],
-          [type]: {
-            ...prev[roomId]?.[type],
-            currentReading: data.currentReading ?? prev[roomId]?.[type]?.currentReading,
-            evidenceMediaId: data.evidenceMediaId,
-            evidencePreviewUrl: data.previewUrl,
-            source: data.source,
-            ocrValue: data.ocrValue,
-            ocrConfidence: data.ocrConfidence,
-            error: undefined,
-          },
+  const handleCellOcrSuccess = useCallback((roomId: string, type: MeterType, data: CellOcrSuccessData) => {
+    setUserEdits((prev) => ({
+      ...prev,
+      [roomId]: {
+        ...prev[roomId],
+        [type]: {
+          ...prev[roomId]?.[type],
+          currentReading: data.currentReading ?? prev[roomId]?.[type]?.currentReading,
+          evidenceMediaId: data.evidenceMediaId ?? prev[roomId]?.[type]?.evidenceMediaId ?? null,
+          evidenceFile: data.evidenceFile ?? prev[roomId]?.[type]?.evidenceFile ?? null,
+          evidencePreviewUrl: data.previewUrl,
+          source: data.source,
+          ocrValue: data.ocrValue,
+          ocrConfidence: data.ocrConfidence,
+          error: undefined,
         },
-      }));
-    },
-    [],
-  );
+      },
+    }));
+  }, []);
 
   const bulkCreateMutation = useBulkCreateMeterReadingsMutation({
     onSuccess: () => {
@@ -155,8 +146,21 @@ export const useMeterReadingMatrix = () => {
     },
   });
 
+  const clearCellEdit = useCallback((roomId: string, type: MeterType) => {
+    setUserEdits((prev) => {
+      const roomEdits = prev[roomId];
+      if (!roomEdits?.[type]) return prev;
+      const nextRoomEdits = { ...roomEdits };
+      delete nextRoomEdits[type];
+      return { ...prev, [roomId]: nextRoomEdits };
+    });
+  }, []);
+
   const handleSaveBulk = useCallback(() => {
     const payloadItems: BulkMeterReadingItemRequestDto[] = [];
+    const evidenceFiles: Record<string, File> = {};
+    const baselineItems: BaselineReadingBatchItem[] = [];
+    const updateItems: UpdateReadingBatchItem[] = [];
     const types = [
       { key: 'electricity' as const, type: MeterType.ELECTRICITY },
       { key: 'water' as const, type: MeterType.WATER },
@@ -165,29 +169,59 @@ export const useMeterReadingMatrix = () => {
       for (const { key, type } of types) {
         const cell = row[key];
         if (cell.currentReading.trim() && !cell.isSaved) {
-          if (!cell.evidenceMediaId) {
+          if (!cell.evidenceFile && !cell.evidenceMediaId) {
             notify.error(t('errors.missingPhotoForRoom', { room: row.roomName, type: t(`types.${key}`) }));
             return;
           }
-          payloadItems.push({
-            roomId: row.roomId,
-            type,
-            currentReading: cell.currentReading.trim(),
-            evidenceMediaId: cell.evidenceMediaId,
-          });
+          if (cell.existingId) {
+            updateItems.push({
+              readingId: cell.existingId,
+              currentReading: cell.currentReading.trim(),
+              evidenceFile: cell.evidenceFile,
+            });
+          } else if (!cell.hasPreviousReading) {
+            baselineItems.push({
+              payload: {
+                roomId: row.roomId,
+                type,
+                period: selectedPeriod,
+                currentReading: cell.currentReading.trim(),
+                previousReading: '0',
+                isBaseline: true,
+              },
+              evidenceFile: cell.evidenceFile,
+            });
+          } else {
+            payloadItems.push({
+              roomId: row.roomId,
+              type,
+              currentReading: cell.currentReading.trim(),
+            });
+            if (cell.evidenceFile) {
+              evidenceFiles[`${row.roomId}:${type}`] = cell.evidenceFile;
+            }
+          }
         }
       }
     }
 
-    if (payloadItems.length === 0) {
+    if (payloadItems.length === 0 && baselineItems.length === 0 && updateItems.length === 0) {
       notify.info(t('warnings.noUnsavedChanges'));
       return;
     }
 
     bulkCreateMutation.mutate({
-      buildingId: selectedBuildingId,
-      recordedMonth: selectedPeriod,
-      readings: payloadItems,
+      payload:
+        payloadItems.length > 0
+          ? {
+              buildingId: selectedBuildingId,
+              recordedMonth: selectedPeriod,
+              readings: payloadItems,
+            }
+          : undefined,
+      evidenceFiles,
+      baselineItems,
+      updateItems,
     });
   }, [matrixState, selectedBuildingId, selectedPeriod, bulkCreateMutation, notify, t]);
 
@@ -229,5 +263,6 @@ export const useMeterReadingMatrix = () => {
     handleReadingChange,
     handleCellOcrSuccess,
     handleSaveBulk,
+    clearCellEdit,
   };
 };

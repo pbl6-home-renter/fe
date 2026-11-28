@@ -28,14 +28,12 @@ export interface CreateMeterReadingRequestDto {
   currentReading: string;
   previousReading?: string;
   isBaseline: boolean;
-  evidenceMediaId: string;
 }
 
 export interface BulkMeterReadingItemRequestDto {
   roomId: string;
   type: MeterType;
   currentReading: string;
-  evidenceMediaId: string;
 }
 
 export interface BulkCreateMeterReadingsRequestDto {
@@ -77,7 +75,8 @@ export interface AiMeterReadingOcrResponseDto {
 
 export interface CellOcrSuccessData {
   currentReading?: string;
-  evidenceMediaId: string;
+  evidenceMediaId?: string;
+  evidenceFile?: File;
   previewUrl: string;
   source: 'manual' | 'ocr';
   ocrValue?: string | null;
@@ -86,10 +85,13 @@ export interface CellOcrSuccessData {
 
 export interface MeterCellState {
   existingId: string | null;
+  hasPreviousReading: boolean;
+  isBaseline: boolean;
   previousReading: string;
   currentReading: string;
   consumption: string;
   evidenceMediaId: string | null;
+  evidenceFile?: File | null;
   evidencePreviewUrl: string | null;
   source: 'manual' | 'ocr';
   ocrValue?: string | null;
