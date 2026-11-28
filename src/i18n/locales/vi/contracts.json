@@ -31,7 +31,6 @@
     "draft": "Bản nháp",
     "signed": "Đã ký",
     "active": "Đang hiệu lực",
-    "suspended": "Tạm dừng",
     "expired": "Hết hạn",
     "terminated": "Đã chấm dứt"
   },
@@ -238,8 +237,7 @@
     "CONTRACT_MEMBER_ADDED": "Thêm thành viên thành công",
     "CONTRACT_MEMBER_LEFT": "Ghi nhận thành viên rời đi thành công",
     "CONTRACT_CHECKOUT_COMPLETED": "Hoàn tất thủ tục trả phòng thành công",
-    "ROOM_MARKED_READY": "Chuyển trạng thái phòng sang sẵn sàng thành công",
-    "CONTRACT_LOCK_DECISION_RECORDED": "Đã ghi nhận quyết định xử lý hợp đồng"
+    "ROOM_MARKED_READY": "Chuyển trạng thái phòng sang sẵn sàng thành công"
   },
   "apiErrors": {
     "CONTRACT_TEMPLATE_NOT_APPLIED": "Hãy áp dụng mẫu trước khi tạo bản nháp.",
@@ -256,39 +254,6 @@
     "CONTRACT_NOT_ACTIVE": "Chỉ có thể thao tác khi hợp đồng đang hiệu lực",
     "SETTLEMENT_NOT_READY": "Hóa đơn kỳ trả phòng chưa được phát hành",
     "CONTRACT_ID_REQUIRED": "Thiếu mã hợp đồng",
-    "INVALID_ROOM_TRANSITION": "Không thể chuyển trạng thái phòng",
-    "CONTRACT_LOCK_DECISION_CONFLICT": "Hợp đồng đã có quyết định khác trước đó",
-    "LANDLORD_LOCK_CYCLE_STALE": "Yêu cầu này đã hết hiệu lực do có chu kỳ khóa mới",
-    "LANDLORD_LOCK_CYCLE_NOT_AWAITING_DECISION": "Yêu cầu này đã hết hiệu lực hoặc không còn chờ quyết định",
-    "CONTRACT_LOCK_DECISION_INVALID": "Quyết định xử lý hợp đồng không hợp lệ",
-    "CONTRACT_RESTORE_ROOM_UNAVAILABLE": "Không thể khôi phục vì phòng hiện không còn khả dụng",
-    "LANDLORD_LOCK_CYCLE_NOT_FOUND": "Không tìm thấy phiên khóa tài khoản"
-  },
-  "lockDecision": {
-    "dialogTitle": "Xử lý hợp đồng bị tạm ngưng",
-    "dialogDescription": "Tài khoản của bạn đã được mở khóa. Hãy chọn khôi phục hoặc chấm dứt từng hợp đồng dưới đây.",
-    "contractList": "Danh sách hợp đồng ({{count}})",
-    "loading": "Đang tải danh sách hợp đồng...",
-    "loadError": "Không thể tải thông tin một số hợp đồng.",
-    "room": "Phòng {{roomNumber}}",
-    "representativeTenant": "Khách đại diện: {{name}}",
-    "startDate": "Ngày bắt đầu: {{date}}",
-    "restore": "Khôi phục",
-    "terminate": "Chấm dứt",
-    "restoring": "Đang khôi phục...",
-    "terminating": "Đang chấm dứt...",
-    "restoredStatus": "Đã khôi phục (Đang hiệu lực)",
-    "terminatedStatus": "Đã chấm dứt",
-    "handoverRequiredNote": "Cần hoàn tất trả phòng và bàn giao",
-    "viewContract": "Xem hợp đồng",
-    "confirmTerminateTitle": "Xác nhận chấm dứt hợp đồng",
-    "confirmTerminateDesc": "Bạn có chắc chắn muốn chấm dứt hợp đồng này? Hợp đồng sẽ kết thúc và cần thực hiện thủ tục bàn giao, trả phòng.",
-    "confirmTerminateBtn": "Xác nhận chấm dứt",
-    "cancelBtn": "Đóng",
-    "bannerTitle": "Hợp đồng đang bị tạm ngưng",
-    "bannerDescWaiting": "Tài khoản của bạn đã được mở khóa. Vui lòng chọn khôi phục hợp đồng hoặc chấm dứt hợp đồng.",
-    "bannerDescSuspended": "Hợp đồng này bị tạm ngưng do tài khoản chủ trọ bị khóa trong thời gian giải quyết.",
-    "restoreSuccess": "Đã khôi phục hợp đồng thành công.",
-    "terminateSuccess": "Đã chấm dứt hợp đồng."
+    "INVALID_ROOM_TRANSITION": "Không thể chuyển trạng thái phòng"
   }
 }
