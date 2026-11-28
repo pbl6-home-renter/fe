@@ -20,11 +20,12 @@ export const TenantHeaderNav = ({ unreadChatCount = 0 }: TenantHeaderNavProps) =
   const isChatActive = location.pathname.startsWith('/chat');
   const isRoomsActive = location.pathname.startsWith('/rooms') && location.pathname !== ROUTES.ROOMS_SEARCH;
   const isContractsActive = location.pathname.startsWith('/contracts');
+  const isInvoicesActive = location.pathname.startsWith(ROUTES.TENANT.INVOICES);
   const isIssuesActive = location.pathname.startsWith('/issues');
   const isRoommatesActive = location.pathname.startsWith('/roommates');
 
   return (
-    <nav className="hidden md:flex items-center gap-6 text-sm font-semibold h-16">
+    <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-semibold h-16">
       <Link
         to={ROUTES.TENANT.DASHBOARD}
         className={cn(
@@ -77,6 +78,21 @@ export const TenantHeaderNav = ({ unreadChatCount = 0 }: TenantHeaderNavProps) =
           <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
         )}
       </Link>
+
+      {isNavAllowed(ROUTES.TENANT.INVOICES) && (
+        <Link
+          to={ROUTES.TENANT.INVOICES}
+          className={cn(
+            'h-full flex items-center relative transition-colors',
+            isInvoicesActive ? 'text-rentify-primary' : 'text-rentify-text-secondary hover:text-rentify-text-primary',
+          )}
+        >
+          <span>{t('navigation.invoices')}</span>
+          {isInvoicesActive && (
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rentify-primary rounded-full" />
+          )}
+        </Link>
+      )}
 
       {isNavAllowed(ROUTES.TENANT.ISSUES) && (
         <Link

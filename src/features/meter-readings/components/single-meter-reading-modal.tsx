@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 import { useMeterReadingOcr } from '../hooks/use-meter-reading-ocr';
 import { MeterType } from '../enums/meter-type.enum';
+import type { CellOcrSuccessData } from '../types/meter-reading.dto';
 import type { SingleMeterReadingModalTarget } from '../hooks/use-single-meter-reading-modal';
 
 interface SingleMeterReadingModalProps {
@@ -18,16 +19,10 @@ interface SingleMeterReadingModalProps {
   onCurrentReadingChange: (val: string) => void;
   isBaseline: boolean;
   onIsBaselineChange: (val: boolean) => void;
+  isEditing?: boolean;
   evidenceMediaId: string | null;
   previewUrl: string | null;
-  onOcrSuccess: (data: {
-    currentReading?: string;
-    evidenceMediaId: string;
-    previewUrl: string;
-    source: 'manual' | 'ocr';
-    ocrValue?: string | null;
-    ocrConfidence?: number;
-  }) => void;
+  onOcrSuccess: (data: CellOcrSuccessData) => void;
   onSubmit: () => void;
   isSubmitting: boolean;
   formError?: string | null;
@@ -43,6 +38,7 @@ export const SingleMeterReadingModal = ({
   onCurrentReadingChange,
   isBaseline,
   onIsBaselineChange,
+  isEditing = false,
   evidenceMediaId,
   previewUrl,
   onOcrSuccess,
@@ -131,15 +127,17 @@ export const SingleMeterReadingModal = ({
           )}
         </div>
 
-        <div className="pt-1">
-          <Checkbox
-            id="isBaseline"
-            checked={isBaseline}
-            onChange={(e) => onIsBaselineChange(e.target.checked)}
-            label={t('modal.isBaselineLabel')}
-            helperText={t('modal.isBaselineDesc')}
-          />
-        </div>
+        {!isEditing && (
+          <div className="pt-1">
+            <Checkbox
+              id="isBaseline"
+              checked={isBaseline}
+              onChange={(e) => onIsBaselineChange(e.target.checked)}
+              label={t('modal.isBaselineLabel')}
+              helperText={t('modal.isBaselineDesc')}
+            />
+          </div>
+        )}
 
         <div className="space-y-1.5 pt-1">
           <label className="text-xs font-semibold text-rentify-text-primary">
@@ -150,13 +148,9 @@ export const SingleMeterReadingModal = ({
             type="file"
             accept="image/jpeg,image/png,image/webp"
             capture="environment"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) void handleProcessFile(file);
-            }}
+            onChange={(e) => e.target.files?.[0] && void handleProcessFile(e.target.files[0])}
             className="hidden"
           />
-
           <div className="flex items-center gap-3">
             {previewUrl ? (
               <div className="relative group">
@@ -189,15 +183,13 @@ export const SingleMeterReadingModal = ({
                 <span>{t('actions.capturePhoto')}</span>
               </Button>
             )}
-
-            {evidenceMediaId && (
+            {(evidenceMediaId || previewUrl) && (
               <span className="text-[11px] text-rentify-success font-medium inline-flex items-center gap-1">
                 <ImageIcon className="w-3.5 h-3.5" />
                 <span>{t('status.photoAttached')}</span>
               </span>
             )}
           </div>
-
           {ocrWarning && <p className="text-[11px] text-rentify-warning font-medium">{ocrWarning}</p>}
           {formError && <p className="text-[11px] text-rentify-error font-semibold">{formError}</p>}
         </div>

@@ -7,7 +7,7 @@ import type { RoomReadingRowState } from '../types/meter-reading.dto';
 
 export const useMeterReadingPage = () => {
   const matrix = useMeterReadingMatrix();
-  const singleModal = useSingleMeterReadingModal();
+  const singleModal = useSingleMeterReadingModal(matrix.clearCellEdit);
 
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
   const { isOpen: isPreviewOpen, open: openPreviewDialog, close: closePreviewDialog } = useDisclosure(false);

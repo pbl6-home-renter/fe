@@ -110,13 +110,10 @@ export const MeterReadingPage = () => {
         onCurrentReadingChange={singleModal.setCurrentReading}
         isBaseline={singleModal.isBaseline}
         onIsBaselineChange={singleModal.setIsBaseline}
+        isEditing={singleModal.isEditing}
         evidenceMediaId={singleModal.evidenceMediaId}
         previewUrl={singleModal.previewUrl}
-        onOcrSuccess={(data) => {
-          if (data.currentReading) singleModal.setCurrentReading(data.currentReading);
-          if (data.evidenceMediaId) singleModal.setEvidenceMediaId(data.evidenceMediaId);
-          if (data.previewUrl) singleModal.setPreviewUrl(data.previewUrl);
-        }}
+        onOcrSuccess={singleModal.handleOcrSuccess}
         onSubmit={singleModal.handleSubmit}
         isSubmitting={singleModal.isSubmitting}
         formError={singleModal.formError}

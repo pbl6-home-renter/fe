@@ -6,23 +6,12 @@ import { ROUTES } from '@/config/routes.config';
 import { TextLink } from '@/components/ui/text-link';
 import { MeterReadingCellInput } from './meter-reading-cell-input';
 import { MeterType } from '../enums/meter-type.enum';
-import type { RoomReadingRowState } from '../types/meter-reading.dto';
+import type { CellOcrSuccessData, RoomReadingRowState } from '../types/meter-reading.dto';
 
 interface MeterReadingMobileCardProps {
   row: RoomReadingRowState;
   onReadingChange: (roomId: string, type: MeterType, val: string) => void;
-  onCellOcrSuccess: (
-    roomId: string,
-    type: MeterType,
-    data: {
-      currentReading?: string;
-      evidenceMediaId: string;
-      previewUrl: string;
-      source: 'manual' | 'ocr';
-      ocrValue?: string | null;
-      ocrConfidence?: number;
-    },
-  ) => void;
+  onCellOcrSuccess: (roomId: string, type: MeterType, data: CellOcrSuccessData) => void;
   onOpenSingleModal: (row: RoomReadingRowState, type: MeterType) => void;
   onViewImage: (url: string) => void;
 }
